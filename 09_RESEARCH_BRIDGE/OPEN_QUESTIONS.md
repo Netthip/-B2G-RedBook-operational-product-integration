@@ -20,6 +20,8 @@
 | `Q-05` | `DECISION REQUIRED FROM GIFT` | งาน Mode A / Mode B จะเป็น **product track อย่างเดียว** หรือจะตั้งเป็น **study ใหม่** ในเล่มด้วย | 🔴 รอ |
 | `Q-06` | `RISK` | `INC-2569-08-27-01` ยังเปิดอยู่ — งานพัฒนาผลิตภัณฑ์นับเป็นการแก้ deployment/engine ที่ติดข้อห้ามหรือไม่ | 🔴 รอ |
 | `Q-07` | `PROPOSAL` | ต้องมีคำตัดสินเลข `RES-D-54` / `SYS-D-33` รับรองกรอบทำงานสามฝ่ายนี้หรือไม่ | 🔴 รอ |
+| `Q-08` | `PRODUCT REQUIREMENT` · `DECISION REQUIRED FROM GIFT` | ไฟล์ `T1B` สาธารณะทั้ง 6 เป็น **value-only ไม่มีสูตรเหลือเลย** — จะทดสอบ formula-residue preflight ด้วยไฟล์ใด | 🔴 รอ |
+| `Q-09` | `PROPOSAL` | คีย์ผสมของ `T1B` ตามที่เสนอใน `T1B_STRUCTURAL_MAP.md` ข้อ 9 — กระทบ `RES-Q-03` ที่วางไว้เดิม | 🔴 รอ |
 
 ---
 
@@ -170,3 +172,33 @@ Evidence Index ระบุว่า incident **ยังเปิด ไม่�
 **เลขว่างถัดไป:** `RES-D-54` (สายเล่ม) · `SYS-D-33` (สายระบบ)
 
 > Giho ไม่ออกเลขคำตัดสินเอง — เสนอเป็นตัวเลือกให้ Gift
+
+---
+
+### `Q-08` — ไม่มีไฟล์ที่มีสูตรให้ทดสอบ preflight
+
+**ข้อเท็จจริงที่ตรวจแล้ว:** ไฟล์ `T1B` สาธารณะทั้ง 6 มี `formulas = 0` ทุกชีต
+⇒ เป็นไฟล์ที่แปลงเป็น value-only เรียบร้อยแล้ว
+
+**ผลที่ตามมา:** requirement ข้อ **formula residue preflight** และ **value-only conversion validation**
+ของ Mode B **ทดสอบด้วยชุดข้อมูลสาธารณะชุดนี้ไม่ได้เลย**
+
+**ทางเลือก**
+
+| ทาง | ข้อสังเกต |
+|---|---|
+| (ก) สร้าง synthetic fixture ที่มีสูตรตามแบบฟอร์มจริง | ปลอดภัยที่สุด · ใช้ใน public repo ได้ |
+| (ข) ใช้ไฟล์ทำงานจริงของกิ๊ฟ | 🔴 เป็นไฟล์ชั้น `T2` `PROVENANCE UNCONFIRMED — DEVELOPMENT ONLY` · ห้ามเข้าผลหลัก · ห้าม commit |
+| (ค) เลื่อน requirement นี้ออกจาก MVP 7 วัน | ลด scope |
+
+> **ข้อเสนอของ Giho: ทาง (ก)** — แต่เป็นการตัด scope จึงรอกิ๊ฟ
+
+---
+
+### `Q-09` — คีย์ผสมของ `T1B`
+
+`RES-Q-03` เดิมวางคีย์ไว้ว่า `agency + canonical sheet role + hierarchy path + anchor code`
+ผลสำรวจจริงชี้ว่าต้องเพิ่ม **`document_level`** (กระทรวง/หน่วยงาน) และต้องแยก
+**`year_column`** กับ **`declared_unit`** ออกมาเป็นมิติที่ resolve ก่อนเทียบ ไม่ใช่ส่วนของคีย์
+
+รายละเอียดใน `T1B_STRUCTURAL_MAP.md` ข้อ 9 — **Giho ไม่ตัดสินเอง** เพราะกระทบกรอบที่อนุมัติแล้ว

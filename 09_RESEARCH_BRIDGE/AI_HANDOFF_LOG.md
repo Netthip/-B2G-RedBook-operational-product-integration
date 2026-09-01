@@ -131,3 +131,59 @@ frozen Evidence Index · Human Review workbooks · raw results · Chapter 4 · p
 ### สถานะเมื่อจบรายการนี้
 
 > ### `COORDINATION LAYER PUBLISHED — Q-03 TO Q-07 STILL OPEN`
+
+---
+
+## `HL-003` — ส่งงาน `BRIDGE-001` ให้ Bo · structural map + reuse matrix
+
+| | |
+|---|---|
+| **วันที่** | 1 กันยายน 2569 |
+| **ผู้ทำ** | Giho (Claude) |
+| **สั่งโดย** | Bo ผ่าน issue `BRIDGE-001` — First engineering task |
+| **ป้าย** | `ENGINEERING OBSERVATION` · `EVIDENCE` · `RISK` · `DECISION REQUIRED FROM GIFT` |
+
+### สิ่งที่รันเอง — อ่านอย่างเดียวทั้งหมด
+
+| คำสั่ง | ผล |
+|---|---|
+| สำรวจ workbook 6 ไฟล์ด้วย `openpyxl` (`data_only` ทั้งสองโหมด) | ได้ชีต · merged · formula · unit · dims ครบทุกชีต |
+| เทียบชื่อชีตข้ามปีรายหน่วยงาน | พบชื่อและลำดับไม่คงที่ |
+| ดึงหัวตารางชีตบทบาท `5.` ทั้ง 6 ไฟล์ | พบคอลัมน์ปีเลื่อนหนึ่งปี |
+| ตรวจทศนิยมของค่าที่เก็บจริง | พบ 8 เซลล์เกิน 4 ตำแหน่งใน 16 แถวที่สุ่ม |
+| `wc -l` โมดูลใน `redbook/` | ได้ขนาดจริงทุกโมดูลที่ลงใน matrix |
+
+**ไม่มีการเขียนทับ ไม่มีการ save ไฟล์ต้นทาง ไม่มีการแก้โค้ดแม้บรรทัดเดียว**
+สคริปต์สำรวจอยู่ใน scratchpad ของ session **ไม่ได้ commit เข้า repo**
+
+### สิ่งที่สร้าง
+
+| ไฟล์ | เนื้อหา |
+|---|---|
+| `T1B_STRUCTURAL_MAP.md` | โครงสร้างจริง 11 หัวข้อ + silent failure 3 แบบ + คีย์ที่เสนอ |
+| `T1B_REUSE_ADAPT_BUILD_MATRIX.md` | matrix 4 กลุ่ม · `REUSE` 9 · `ADAPT` 10 · `BUILD NEW` 10 · `DO NOT TOUCH` 7 |
+| `OPEN_QUESTIONS.md` | เพิ่ม `Q-08` · `Q-09` |
+
+### ข้อค้นพบที่ต้องแจ้ง
+
+1. 🔴 **ชื่อชีตและตำแหน่งชีตใช้เป็นคีย์ไม่ได้** — 21016 มี 17 ชีตปี 2569 แต่ 19 ชีตปี 2570 · ชื่อเปลี่ยนทั้งข้ามปีและข้ามหน่วยงาน
+2. ✅ **`A1` ใช้ยึดบทบาทชีตได้** — เลขข้อคงที่ทั้ง 6 ไฟล์
+3. 🔴 **SILENT FAILURE #1** คอลัมน์ปีเลื่อนหนึ่งปี (`ปี 2568..2572` → `ปี 2569..2573`)
+4. 🔴 **SILENT FAILURE #2** หน่วยอยู่ระดับแถว — `ล้านบาท` ปนกับ `ร้อยละ` ในชีตเดียว
+5. 🔴 **SILENT FAILURE #3** ค่าที่เก็บมีเศษ float เกินทศนิยมที่ประกาศ
+6. ⚠️ **defect ใน skeleton** — `supporting_sheet_prefixes = ("b","B")` จับ `บุค` (บ ไทย · 837 แถว) ไม่ได้
+7. **`AOWorkbookAdapter` = skeleton ล้วน** `inspect()`/`extract()` `raise NotImplementedError`
+
+### สิ่งที่ **ไม่ได้แตะ**
+
+frozen Evidence Index · Human Review workbooks · raw results · Chapter 4 · production engine
+· `docs/` ของ Bo · ไฟล์ต้นทาง `T1B` (อ่านอย่างเดียว) · Audit Trail (ยัง BLOCKED ตาม `RES-D-41`)
+
+### `DECISION REQUIRED FROM GIFT`
+
+`Q-06` (incident boundary — **บล็อกการเริ่มเขียนโค้ด**) · `Q-08` (ไฟล์ทดสอบ preflight)
+· `Q-09` (คีย์ผสม `T1B`) · `Q-05` (ผล `T1B` เข้าเล่มหรือไม่)
+
+### สถานะเมื่อจบรายการนี้
+
+> ### `HANDOFF READY FOR BO — CODING BLOCKED PENDING Q-06`
