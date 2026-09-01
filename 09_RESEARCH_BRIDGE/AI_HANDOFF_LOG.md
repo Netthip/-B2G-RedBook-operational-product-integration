@@ -333,3 +333,87 @@ frozen Evidence Index · Human Review workbooks · raw results · Chapter 4 · p
 ### สถานะเมื่อจบรายการนี้
 
 > ### `HANDOFF READY FOR BO — EXTRACT MILESTONE COMPLETE`
+
+---
+
+## `HL-006` — remote สำหรับโค้ด · key stability audit · `RES-D-54`/`SYS-D-33` · FM-12
+
+| | |
+|---|---|
+| **วันที่** | 1 กันยายน 2569 |
+| **ผู้ทำ** | Giho (Claude) |
+| **สั่งโดย** | Gift — คำตัดสิน 4 ข้อ |
+| **ป้าย** | `EVIDENCE` · `ENGINEERING OBSERVATION` · `RISK` · `DECISION REQUIRED FROM GIFT` |
+
+### ① `Q-03` — สร้าง private remote แล้ว ✅
+
+| repo | URL | visibility |
+|---|---|---|
+| System SSOT | `github.com/Netthip/redbook-verify` | **PRIVATE** |
+| Research SSOT | `github.com/Netthip/redbook-verify-is` | **PRIVATE** |
+
+**ตรวจก่อน push:** ไม่มีไฟล์ข้อมูลอยู่ในประวัติของทั้งสอง repo แม้แต่ commit เดียว
+· `.gitignore` ทำงานตามเดิม · ขนาด `.git` = 1.7 MB ต่อ repo
+
+**ตรวจหลัง push**
+
+| รายการ | ผล |
+|---|---|
+| `redbook-verify` main | ✅ `6dc63d2b…` ตรงกัน |
+| `redbook-verify` `t1b/fy2570-mvp` | ✅ ตรงกัน |
+| tag `t1-frozen-1.0.0` → commit | ✅ **`49fbb2e0c1d6…`** ตรงกับ Evidence Index |
+| tag `phase-0-1-baseline` | ✅ ตรงกัน |
+| `redbook-verify-is` main + 4 branch (incident/integration) | ✅ ตรงกันทุก branch |
+| tag `is-v3-redbook-baseline` | ✅ ตรงกัน |
+| ไฟล์ข้อมูลบน remote | ✅ **ไม่มี** (ตรวจ 121 + 76 รายการ) |
+
+**ไม่ squash ไม่ rewrite history** — push ด้วย `--all` และ `--tags` ตามที่มีจริง
+
+### ② key stability audit — ผ่านหลังแก้ bug จริงสองจุด
+
+> ### ✅ `NO UNRESOLVED COLLISION AFFECTING IDENTITY`
+
+**รอบแรก audit ล้ม** — collision 100 · collapse 1 · supporting/main ชน 19
+ตรวจแล้วพบว่าเป็น **bug จริงในโค้ดสองจุด** และเกณฑ์ตรวจของ audit เองผิดสองข้อ
+
+| # | bug จริง | ผลก่อนแก้ |
+|---|---|---|
+| 1 | `parse_hierarchy` ใช้ **การย่อหน้า** เป็นเงื่อนไขความเป็นลูก แต่แฟ้ม**ระดับกระทรวงไม่ย่อหน้า** | `เงินงบประมาณ` ใต้หัวข้อ `1.` กับ `2.` ได้คีย์เดียวกัน — **100 collision** |
+| 2 | `classify_sheet` ใช้ `merged_count` เป็นเกณฑ์ `COVER` | ชีต `bพฐ` ถูกจัดคนละ class ในคนละแฟ้ม |
+
+ผลหลังแก้: collision **0** · collapse **0** · `document_level` **0** · supporting/main **0**
+เหลือ **false-split candidate 2 คู่** ที่ต้องให้ Gift ตัดสิน (ไม่ใช่ collision ของ identity)
+
+รายงานเต็ม: `09_RESEARCH_BRIDGE/T1B_KEY_STABILITY_AUDIT.md`
+
+### ③ `RES-D-54` / `SYS-D-33` — บันทึกแล้วแบบ forward-only
+
+> ### `T1B PRODUCT TRACK AUTHORIZED — POST-FREEZE AND ISOLATED FROM FROZEN T1A EVALUATION`
+
+ขอบเขตบังคับ 8 ข้อ ครบตามที่ Gift กำหนด · ผูก test ฝั่งระบบ 6 จุดใน `SYS-D-33`
+· **เลขว่างถัดไป `RES-D-55` / `SYS-D-34`**
+
+### ④ `FM-12` — เพิ่มเข้า baseline แล้ว (รวม **12 failure modes**)
+
+regression 5 ข้อ ครบสามแบบที่ Gift กำหนด — เลขข้อเหมือนแต่คนละแผน (ห้าม match)
+· เลขข้อต่างแต่แผนเดียวกัน (match ได้) · title ที่ฝังปีงบประมาณ (ตัดปีออกโดยไม่ทำลาย identity)
+
+### commit
+
+| repo | commit |
+|---|---|
+| `redbook-verify` branch `t1b/fy2570-mvp` | `c50321b` |
+| `redbook-verify-is` main | `34092ff` |
+
+**tests: 246 → 251 ผ่านทั้งหมด**
+
+### สิ่งที่ **ไม่ได้แตะ**
+
+`redbook/t1/` · `FlatDataTableAdapter` · `MinistryPdfAdapter` · raw results · Evidence Index
+· Chapter 4 · Human Review workbooks · Audit Trail · `docs/` ของ Bo · ไฟล์ต้นทาง `T1B`
+· ไฟล์ค้างของสายอื่นใน `reviewpack/` — **ไม่ใช้ `git add -A`**
+· **ไม่ squash หรือ rewrite git history เพื่อทำ remote**
+
+### สถานะเมื่อจบรายการนี้
+
+> ### `HANDOFF READY FOR BO — CODE REMOTE AVAILABLE`
