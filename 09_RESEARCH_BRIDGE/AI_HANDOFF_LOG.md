@@ -265,3 +265,71 @@ frozen Evidence Index · Human Review workbooks · raw results · Chapter 4 · p
 ### สถานะเมื่อจบรายการนี้
 
 > ### `HANDOFF READY FOR BO — CRITICAL PATH 1-2 COMPLETE`
+
+---
+
+## `HL-005` — `AOWorkbookAdapter.extract()` + invariant tests กับไฟล์จริง
+
+| | |
+|---|---|
+| **วันที่** | 1 กันยายน 2569 |
+| **ผู้ทำ** | Giho (Claude) |
+| **สั่งโดย** | Gift — คำสั่ง A · B · C |
+| **ป้าย** | `ENGINEERING OBSERVATION` · `EVIDENCE` · `RISK` · `DECISION REQUIRED FROM GIFT` |
+
+### สถานะที่ใช้
+
+> ### `T1B INSPECTION LAYER IMPLEMENTED — EXTRACTION / VERIFICATION PIPELINE NOT YET COMPLETE`
+
+**ยังห้ามเรียกว่า** `T1B-E1 complete` · `operational verifier complete`
+· `RedBook system complete` · หรือผลของ frozen `T1A` study
+
+### โค้ด — `redbook-verify` branch `t1b/fy2570-mvp` commit `7eb7b46`
+
+`redbook/t1b/records.py` ใหม่ · `redbook/adapters/ao_workbook.py` implement `extract()`
+· `tests/test_t1b_extract.py` ใหม่ · ปรับ test ล้าสมัย 2 ข้อ
+
+**tests: 211 → 246 ผ่านทั้งหมด**
+
+### 🔴 bug ที่พบจากไฟล์จริงระหว่างทำ และแก้แล้ว
+
+| # | อาการ | ผลกระทบก่อนแก้ |
+|---|---|---|
+| 1 | **หัวตารางสองแถว** ของบทบาท `8.` (`B3` กับ `C4..G4`) | อ่านได้ปี 2567 ปีเดียว · record ถูกติดป้ายปีผิดทั้งหมด · ค่าอีกห้าปี**หายเงียบ** — **26 → 156 record** |
+| 2 | ชีตที่ไม่มีคอลัมน์หน่วยรายแถว | หน่วยเป็น `UNRESOLVED` ทั้งชีต · แก้ด้วยการประกาศระดับชีต **แต่ห้ามใช้กับชีตที่มีคอลัมน์หน่วยจริง** มิฉะนั้นจะกลบ defect ของแถวที่หน่วยผิด |
+| 3 | `agency_name` ถูกเขียนทับโดยชีตหลัง | แฟ้ม 21016 ได้ชื่อหน่วยงานเป็น *"โครงการ : โครงการพัฒนาบุคลากร…"* ⇒ provenance ของทุก record ในแฟ้มผิด |
+| 4 | `raw_unit_cell` ชี้คอลัมน์ `B` ที่เป็น**ค่าเงิน** | ผู้ตรวจย้อนกลับเห็นตัวเลข `820.1643` แทนข้อความประกาศหน่วย |
+
+ทุกข้อมี regression test กำกับแล้ว
+
+### 🔴 silent failure ใหม่ — `FM-12` เลขข้อชีตแผนงานเปลี่ยนความหมายระหว่างปี
+
+| | FY2569 | FY2570 |
+|---|---|---|
+| 21016 `7.3` | แผนงานยุทธศาสตร์**ส่งเสริมความสัมพันธ์ระหว่างประเทศ** | แผนงานยุทธศาสตร์**เสริมสร้างให้คนมีสุขภาวะที่ดี** |
+| 21016 `7.4` | แผนงานยุทธศาสตร์**เสริมสร้างให้คนมีสุขภาวะที่ดี** | แผนงาน**บูรณาการรัฐบาลดิจิทัล** |
+
+หน่วยงาน 21011 เกิดอาการเดียวกันที่ `7.3`
+
+⇒ จับคู่ด้วยเลขข้อจะเทียบ **คนละแผนงาน** เข้าด้วยกันโดยไม่มีสัญญาณผิดพลาดใด
+และจะพลาดคู่ที่เป็นแผนงานเดียวกันแต่ถูกเรียงเลขใหม่
+
+**วิธีแก้:** ยุบเลขข้อของกลุ่ม `7.x` ทิ้ง ใช้ **ชื่อแผนงาน/โครงการ** เป็นตัวระบุ
+โดยแยกชั้นแผนงาน (`SECTION_07_PLAN`) จากชั้นโครงการ (`SECTION_07_PROJECT`)
+⇒ เพิ่มฟิลด์ **`section_title_norm`** เข้า `T1BKey` · **รอ Gift อนุมัติก่อน freeze**
+
+### เอกสารที่สร้าง
+
+`09_RESEARCH_BRIDGE/T1B_EXTRACT_SAMPLE_RECORDS.md` — จำนวน record ต่อไฟล์/ต่อบทบาท
++ ตัวอย่าง canonical record 9 รายการครบทุกประเภทที่ Gift ขอ + ผลตรวจกับ key spec
+
+### สิ่งที่ **ไม่ได้แตะ**
+
+`redbook/t1/` · `FlatDataTableAdapter` · `MinistryPdfAdapter` · raw results
+· Evidence Index · Chapter 4 · Human Review workbooks · Audit Trail · `docs/` ของ Bo
+· ไฟล์ต้นทาง `T1B` (มี test ตรวจแฮชก่อน/หลัง `extract()`)
+· ไฟล์ค้างของสายอื่นใน `reviewpack/` — **ไม่ใช้ `git add -A`**
+
+### สถานะเมื่อจบรายการนี้
+
+> ### `HANDOFF READY FOR BO — EXTRACT MILESTONE COMPLETE`
