@@ -595,3 +595,57 @@ accounting ตรงทุกคู่ · audit ผ่านครบ 8 ข้�
 ### สถานะเมื่อจบรายการนี้
 
 > ### `HANDOFF READY FOR BO — BUDGET CATEGORY MAPPING COMPLETE`
+
+---
+
+## `HL-010` — explicit `comparison_axis` + canonical category + unknown fail-safe
+
+| | |
+|---|---|
+| **วันที่** | 1 กันยายน 2569 |
+| **ผู้ทำ** | Giho (Claude) · **ตอบ** `BO REVIEW COMPLETE — CONDITIONAL PASS` |
+| **commit** | `redbook-verify` branch `t1b/fy2570-mvp` → **`048419d`** |
+
+### ① `comparison_axis` เป็น explicit แล้ว
+
+```
+comparison_axis = FISCAL_YEAR | BUDGET_CATEGORY | UNRESOLVED
+match signature = (T1BKey, comparison_axis, fiscal_year, budget_category)
+```
+
+บังคับ **XOR** ผ่าน `T1BRecord.axis_valid` — แกนไม่ถูกต้อง ⇒ `UNRESOLVED / HUMAN REVIEW`
+🔒 **`T1BKey` ที่ freeze แล้วไม่ถูกเปลี่ยน**
+
+### ② canonical category + raw provenance
+
+โมดูลใหม่ `redbook/t1b/categories.py` — `PERSONNEL` · `OPERATING` · `INVESTMENT`
+· `SUBSIDY` · `OTHER_EXPENDITURE` · `TOTAL` · `UNRESOLVED`
+เก็บ `budget_category_raw` ไว้เสมอ
+
+### ③ 🔴 fail-safe — bug ที่ Bo จับได้ และยืนยันแล้วว่าเป็นจริง
+
+เดิม `find_category_tables()` เก็บเฉพาะคอลัมน์ที่ resolve สำเร็จ
+extractor จึง iterate เฉพาะคอลัมน์นั้น ⇒ **คอลัมน์หมวดใหม่ถูกข้ามโดยไม่สร้าง HUMAN REVIEW**
+
+ยืนยันด้วยกรณีจำลอง — คอลัมน์ `งบชดใช้เงินคงคลัง` ค่า `99.0` **หายเงียบจริง**
+
+แก้เป็น `CategoryColumn` เก็บ **ทุกคอลัมน์ที่มีหัวข้อความ** ตั้งแต่หมวดที่รู้จักคอลัมน์แรก
+หมวดที่ resolve ไม่ได้ → `UNRESOLVED` + raw header + `HUMAN REVIEW` · **ห้ามเดาหมวดใกล้เคียง**
+
+### ④ ผล rerun 6 workbook
+
+| ตัวชี้วัด | ค่า |
+|---|---|
+| unresolved-category | **0 ทุกแฟ้ม** (ทุกหมวดในไฟล์จริงรู้จักหมด) |
+| category counts | `PERSONNEL` 28 · `OPERATING` 79 · `INVESTMENT` 64 · `SUBSIDY` 84 · `OTHER_EXPENDITURE` 68 · `TOTAL` 69 |
+| matched | 255 / 332 / 115 · accounting **ตรงทุกคู่** |
+| `PROJECT_ORDINAL_CHANGED` | **2** สำหรับ 21016 (ตามที่ Bo กำหนด) |
+| audit | ผ่านครบ **8 ข้อ** · ปรับ signature ให้รวม `comparison_axis` |
+| tests | 291 → **306 passed** |
+
+regression 9 ข้อที่ Bo กำหนด — **ครบทั้งหมด** รวม test end-to-end ที่พิสูจน์ว่า
+คอลัมน์หมวดไม่รู้จักไม่หายจริง
+
+### สถานะเมื่อจบรายการนี้
+
+> ### `HANDOFF READY FOR BO — CATEGORY AXIS / PROVENANCE PATCH COMPLETE`
