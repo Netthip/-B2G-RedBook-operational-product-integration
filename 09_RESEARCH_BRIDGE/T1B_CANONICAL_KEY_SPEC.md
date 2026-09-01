@@ -1,27 +1,46 @@
 # T1B CANONICAL KEY SPEC — ข้อเสนอก่อน freeze
 
 **ตอบ:** `GIFT_MASTER_DIRECTIVE_T1B.md` ข้อ 9 (`Q-09`) — ทั้ง 6 รายการที่ Gift สั่งให้ส่งกลับ
-**จัดทำ:** 1 กันยายน 2569 · **ผู้ร่าง:** Giho · **สถานะ:** `PROPOSAL — NOT FROZEN`
+**จัดทำ:** 1 กันยายน 2569 · **ผู้ร่าง:** Giho · **สถานะ:** 🔒 **`t1b-key-0.1.0` — FROZEN 1 กันยายน 2569**
 **ป้ายกำกับ:** `PRODUCT EVIDENCE — POST-FREEZE`
 
-> 🔴 **ยังไม่ freeze** — Giho ไม่ตัดสินเอง ต้องรอ Gift อนุมัติก่อนนำไป implement เป็น canonical
+> 🔒 **FROZEN แล้ว** ตามคำตัดสิน Gift (ทาง (ค) · 1 ก.ย. 2569) หลัง
+> `KEY STABILITY / COLLISION AUDIT` ผ่านครบทุกเงื่อนไข
+>
+> **การเปลี่ยนแปลงหลังจากนี้ต้องขึ้นเวอร์ชันใหม่และรัน audit ก่อนเสมอ**
+>
+> **สิ่งที่เพิ่มจากร่างเดิมตามคำตัดสินทาง (ค):**
+> `section_title_norm` ของ `SECTION_07_PROJECT` = **ชื่อโครงการหลัง `:`** ·
+> `parent_plan_norm` เข้า identity (กันโครงการชื่อซ้ำข้ามแผน) ·
+> `project_ordinal_raw` เป็น comparison/provenance **ไม่ใช่ identity**
 
 ---
 
 ## ① Exact key schema
 
 ```python
+KEY_VERSION   = "t1b-key-0.1.0"     # 🔒 FROZEN
+KEY_FROZEN_ON = "2569-09-01"
+
 @dataclass(frozen=True)
 class T1BKey:
-    # ---------- IDENTITY (6 ฟิลด์ · เข้า hash ของคีย์) ----------
+    # ---------- IDENTITY (7 ฟิลด์ · เข้า hash ของคีย์) ----------
     agency_code:        str   # "21000" | "21011" | "21016"
     document_level:     str   # "ministry" | "agency"      ← ห้ามจับคู่ข้ามค่า
-    sheet_role:         str   # "SECTION_05" ... จาก A1     ← ไม่ใช่ชื่อชีต
+    sheet_role:         str   # "SECTION_05" · "SECTION_07_PLAN" · "SECTION_07_PROJECT"
+                              # ← จากหัวเรื่อง ไม่ใช่ชื่อชีตหรือ index
+    section_title_norm: str   # ชื่อแผนงาน/โครงการ — ใช้เฉพาะกลุ่ม 7.x
+                              # โครงการ = ชื่อหลัง ":" (ตัด "โครงการที่ N" ออก)
+    parent_plan_norm:   str   # ชื่อแผนงานแม่ของชีตโครงการ
+                              # ← กันโครงการชื่อซ้ำที่อยู่คนละแผนงาน
     plan_role:          str   # PLAN_PERSONNEL | PLAN_FUNDAMENTAL
                               # | PLAN_STRATEGIC | PLAN_INTEGRATED | NOT_APPLICABLE
-    hierarchy_path:     tuple[str, ...]   # ("2", "เงินงบประมาณ") ลำดับชั้นจากเลขนำหน้า + indent
+    hierarchy_path:     tuple[str, ...]   # ("2", "เงินงบประมาณ") จากเลขนำหน้า
     row_label_norm:     str   # ข้อความคอลัมน์ A หลัง normalize
 ```
+
+> 🔴 **การจับคู่ใช้ความเท่ากันแบบตรงตัวของคีย์เท่านั้น — ห้ามใช้ fuzzy similarity เป็น auto-match**
+> ค่า similarity ใช้ได้เฉพาะเป็น *candidate ให้มนุษย์ตรวจ* ในรายงาน audit
 
 ```python
 @dataclass(frozen=True)

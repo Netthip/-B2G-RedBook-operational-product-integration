@@ -417,3 +417,83 @@ regression 5 ข้อ ครบสามแบบที่ Gift กำหนด
 ### สถานะเมื่อจบรายการนี้
 
 > ### `HANDOFF READY FOR BO — CODE REMOTE AVAILABLE`
+
+---
+
+## `HL-007` — ทาง (ค) · freeze `t1b-key-0.1.0` · matching + compare
+
+| | |
+|---|---|
+| **วันที่** | 1 กันยายน 2569 |
+| **ผู้ทำ** | Giho (Claude) |
+| **สั่งโดย** | Gift (ยืนยันตาม `BO REVIEW COMPLETE`) |
+| **commit** | `redbook-verify` branch `t1b/fy2570-mvp` → **`572c2ee`** |
+
+### ① ทาง (ค) — semantics ของเลขลำดับโครงการ
+
+| ข้อกำหนด | สถานะ |
+|---|---|
+| ใช้ชื่อหลัง `:` เป็น semantic identity เฉพาะ `SECTION_07_PROJECT` | ✅ |
+| `project_ordinal_raw` แยกเป็น comparison/provenance ไม่ใช่ identity | ✅ |
+| ชื่อตรงแต่เลขลำดับเปลี่ยน → จับคู่ได้ **และออก finding** | ✅ `PROJECT_ORDINAL_CHANGED` |
+| **ห้ามใช้ fuzzy similarity เป็น auto-match** | ✅ คีย์ใช้ความเท่ากันตรงตัว · มี test บังคับ |
+| ชื่อซ้ำภายใน plan เดียวกัน → `AMBIGUOUS / HUMAN REVIEW` ห้าม collapse | ✅ `_flag_ambiguous_projects()` |
+
+**เพิ่มเติมที่จำเป็นต่อความถูกต้อง:** `parent_plan_norm` เข้า identity —
+โครงการชื่อเดียวกันอาจอยู่ใต้คนละแผนงาน และเลขข้อของแผนแม่ก็เปลี่ยนข้ามปี
+
+### ② audit rerun — ผ่านครบ 8 ข้อ
+
+collision **0** · false-split **0** (จาก 2) · collapse **0** · `document_level` **0**
+· supporting/main **0** · ambiguous collapse **0** · จับคู่ข้ามเลขลำดับ **2 คู่**
+
+**เงื่อนไข freeze ที่ Gift กำหนด ครบทั้ง 4** ⇒ 🔒 **`t1b-key-0.1.0` FROZEN 2569-09-01**
+
+### ③ `classify_sheet` — `DATASET-BOUNDED HEURISTIC` + fail-safe
+
+ระบุชัดในโค้ดว่าเกณฑ์ `index == 0` ยืนยันกับ **6 แฟ้มปัจจุบันเท่านั้น**
+และเพิ่ม fail-safe: หลักฐานไม่พอ → `UNKNOWN` **ไม่เดา**
+
+### ④ `FOCUSED DOCUMENTATION FIX`
+
+แก้ path `.data\review\...` ที่แตกบรรทัดใน `docs/DECISIONS_LOG.md`
+🔴 **บันทึกไว้ว่า defect มาจาก commit `397f293` (27 ส.ค.) อยู่บน `main` ก่อนสาย T1B แตก branch**
+(merge-base `6dc63d2b`) ⇒ **ไม่ใช่ผลจาก T1B implementation**
+แก้เฉพาะตำแหน่งตัดบรรทัด · ไม่เปลี่ยนถ้อยคำ path แฮช หรือเลขรุ่น
+
+### ⑤ matching → compare
+
+| โมดูล | สาระ |
+|---|---|
+| `redbook/t1b/matching.py` | จับคู่ด้วย `(T1BKey, fiscal_year)` แบบตรงตัว · ปีที่มีข้างเดียวรายงานแยก · record กำกวมเข้าคิวมนุษย์ · **`accounted()` พิสูจน์ว่าไม่มี record หายเงียบ** |
+| `redbook/t1b/compare.py` | finding 13 ชนิด · ทุก finding ชี้กลับชีต/เซลล์/ค่าดิบทั้งสองฝั่ง · **ห้ามเทียบข้ามหน่วย** |
+
+**ผลกับไฟล์จริง 3 คู่ — accounting ตรงทุกคู่**
+
+| คู่ | matched | baseline only | current only | human | unmapped | accounting |
+|---|---:|---:|---:|---:|---:|---|
+| 21011 | 195 | 60 | 50 | 10 | 236 | ✅ 746 = 746 |
+| 21016 | 202 | 52 | 54 | 15 | 509 | ✅ ตรง |
+| 21000 (กระทรวง) | 115 | 105 | 115 | 25 | 409 | ✅ ตรง |
+
+**🔑 หลักฐานว่าออกแบบถูก**
+
+```
+AMOUNT_DECREASED · ปี 2570 · 'รวมทั้งสิ้น' (SECTION_05)
+   55.0612 → 53.3934   ผลต่าง −1.6678 ล้านบาท
+   baseline Sheet5!E6   ·   current Sheet5!D6
+```
+
+ปีเดียวกันแต่ **คนละเซลล์** — ถ้าเทียบตามตำแหน่งจะได้ `E6↔E6` คือ ปี 2570 เทียบ ปี 2571 ⇒ ตัวเลขผิดทั้งฉบับ
+
+### tests: 251 → **274 ผ่านทั้งหมด**
+
+### สิ่งที่ **ไม่ได้แตะ**
+
+`redbook/t1/` · `FlatDataTableAdapter` · `MinistryPdfAdapter` · raw results · Evidence Index
+· Chapter 4 · Human Review workbooks · Audit Trail · `docs/` ของ Bo · ไฟล์ต้นทาง `T1B`
+· ไฟล์ค้างของสายอื่นใน `reviewpack/` · **ยังไม่เริ่ม roll-up/reconciliation ตามที่สั่ง**
+
+### สถานะเมื่อจบรายการนี้
+
+> ### `HANDOFF READY FOR BO — MATCHING AND COMPARE COMPLETE`
