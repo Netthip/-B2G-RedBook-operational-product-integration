@@ -187,3 +187,81 @@ frozen Evidence Index · Human Review workbooks · raw results · Chapter 4 · p
 ### สถานะเมื่อจบรายการนี้
 
 > ### `HANDOFF READY FOR BO — CODING BLOCKED PENDING Q-06`
+
+---
+
+## `HL-004` — คำสั่งหลักของ Gift · ตรวจ incident · เผยแพร่ข้อมูล · implementation รอบแรก
+
+| | |
+|---|---|
+| **วันที่** | 1 กันยายน 2569 |
+| **ผู้ทำ** | Giho (Claude) |
+| **สั่งโดย** | Gift — คำสั่งหลัก 14 ข้อ |
+| **ป้าย** | `EVIDENCE` · `ENGINEERING OBSERVATION` · `RISK` · `DECISION REQUIRED FROM GIFT` |
+
+### ① ตรวจ verbatim ของ `INC-2569-08-27-01` (คำสั่งข้อ 5)
+
+อ่านครบ 11 เอกสารในโฟลเดอร์ incident + `DECISIONS_LOG.md`
+ยกข้อความห้ามที่พบมาไว้ใน `GIFT_MASTER_DIRECTIVE_T1B.md` หัวข้อ 7 ครบทุกฉบับ
+
+> ### ✅ `NO VERBATIM PROHIBITION FOUND AGAINST CREATING A NEW T1B PATH`
+
+ข้อความจริงคือ **"ห้ามแก้โค้ด deployment"** ซึ่ง `RES-D-31` นิยามขอบเขต deployment
+ไว้ชัดว่าเป็น private cloud · health check · TLS · backup/restore · ZAP
+— `T1B` adapter ไม่อยู่ในขอบเขตนั้น
+
+⚠️ **สิ่งที่ต้องแจ้ง:** ลำดับงาน 10 ขั้นของ `RES-D-32` **ไม่มีงาน `T1B` / FY2570 MVP อยู่เลย**
+เพราะตอนออกคำตัดสิน (27 ส.ค.) ยังไม่มีสายงานผลิตภัณฑ์แยก
+⇒ ไม่ขัดคำสั่งใด แต่เป็นสายงานใหม่นอกลำดับที่เคยตัดสิน — เสนอออก `RES-D-54` / `SYS-D-33` รับรอง
+
+### ② เอกสารที่สร้าง
+
+| ไฟล์ | เนื้อหา |
+|---|---|
+| `09_RESEARCH_BRIDGE/GIFT_MASTER_DIRECTIVE_T1B.md` | คำสั่งหลัก 14 ข้อ + ผลตรวจ incident |
+| `09_RESEARCH_BRIDGE/T1B_CANONICAL_KEY_SPEC.md` | ตอบ `Q-09` ครบ 6 รายการ + failure mode ที่พบเพิ่ม |
+| `10_T1B_DATASET/DATASET_REGISTER.md` | ทะเบียน 7 ฟิลด์ตามคำสั่งข้อ 10 |
+| `10_T1B_DATASET/ao_workbook/*.xlsx` | ไฟล์จริง 6 ไฟล์ · แฮชตรงกับต้นทางทั้งหมด |
+
+### ③ โค้ด — repo `redbook-verify` branch `t1b/fy2570-mvp` commit `8103268`
+
+| ไฟล์ | หน้าที่ |
+|---|---|
+| `redbook/t1b/normalize.py` | ปรับรูปป้ายแถว · ยุบช่องว่าง · แยกเลขนำหน้า |
+| `redbook/t1b/roles.py` | `sheet_role` · `document_level` · `plan_role` · `classify_sheet` |
+| `redbook/t1b/header.py` | `locate_header_row` · `align_years` ด้วยป้ายปี |
+| `redbook/t1b/units.py` | หน่วยระดับแถว · `Decimal` normalization |
+| `redbook/t1b/hierarchy.py` | แยกป้ายซ้ำใต้หัวข้อต่างกัน |
+| `redbook/t1b/keys.py` | `T1BKey` · ห้ามจับคู่ข้ามระดับเอกสาร |
+| `redbook/adapters/ao_workbook.py` | `inspect()` implement แล้ว · `extract()` ยังไม่ |
+| `tests/test_t1b_failure_modes.py` | 24 tests · failure mode 11 ข้อ |
+| `tests/test_t1b_adapter_inspect.py` | 8 tests · รวมการตรวจกับไฟล์จริง |
+
+**tests: 179 → 211 ผ่านทั้งหมด**
+
+### ④ ข้อค้นพบระหว่าง implement
+
+| # | เรื่อง |
+|---|---|
+| 1 | 🔴 **หัวเรื่องไม่ได้อยู่ที่ `A1` เสมอ** — ชีตปกของทุกแฟ้มมี `A1 = None` และหัวเรื่องอยู่ที่ `A2` |
+| 2 | 🔴 **ต้องเก็บเลขย่อยของบทบาท** — ในแฟ้มเดียวมีชีต `7.` · `7.2` · `7.3` ถ้าตัดเหลือ `SECTION_07` ทั้งสามจะกลายเป็นบทบาทเดียวกัน |
+| 3 | 🔴 **ห้ามจับคำว่า "กระทรวง" ลอย ๆ เพื่อระบุระดับเอกสาร** — ชีตปกของแฟ้ม*ระดับหน่วยงาน*เขียนว่า `กระทรวงสาธารณสุข` (ต้นสังกัด) การจับคำลอย ๆ จะระบุแฟ้มหน่วยงานทุกแฟ้มเป็นระดับกระทรวง |
+| 4 | ✅ พิสูจน์กับไฟล์จริงแล้วว่า `Sheet7_2 (2)` (FY2569) กับ `Sheet 7.2` (FY2570) — ชื่อต่างกันสิ้นเชิง — ได้ `SECTION_07_03` + `PLAN_STRATEGIC` ตรงกัน |
+
+### ⑤ สิ่งที่ **ไม่ได้แตะ**
+
+`redbook/t1/` ทั้งหมด · `FlatDataTableAdapter` · frozen canonical/schema/rules/version
+· raw results · Evidence Index · Chapter 4 · Human Review workbooks · Audit Trail
+· `docs/` ของ Bo · ไฟล์ต้นทาง `T1B` (มี test ตรวจแฮชก่อน/หลัง `inspect()`)
+· ไฟล์ค้างของสายอื่นใน `reviewpack/` — **ไม่ใช้ `git add -A`** ตามกติกา incident
+
+### ⑥ ข้อยกเว้นเดียวที่ต้องรายงาน
+
+แก้ `tests/test_adapter_isolation.py` **หนึ่งข้อ** — เดิมบังคับว่า `AOWorkbookAdapter`
+ต้องมี `supporting_sheet_prefixes` ซึ่งคำสั่ง Gift ข้อ 3 ระบุว่าเป็น defect
+ตรวจแล้วว่าไฟล์นี้ **ไม่อยู่ใน tag `t1-frozen-1.0.0`** (เพิ่มหลัง freeze ที่ `ba39589`)
+จึงไม่ใช่การแตะ frozen path
+
+### สถานะเมื่อจบรายการนี้
+
+> ### `HANDOFF READY FOR BO — CRITICAL PATH 1-2 COMPLETE`
