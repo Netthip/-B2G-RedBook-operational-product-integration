@@ -551,3 +551,47 @@ audit rerun ผ่านครบ 8 ข้อด้วยคีย์เดิ�
 ### สถานะเมื่อจบรายการนี้
 
 > ### `HANDOFF READY FOR BO — 7.X MAPPING COMPLETE`
+
+---
+
+## `HL-009` — แก้ ordinal overcount + map ตารางจำแนกตามงบรายจ่าย
+
+| | |
+|---|---|
+| **วันที่** | 1 กันยายน 2569 |
+| **ผู้ทำ** | Giho (Claude) · **สั่งโดย** Gift |
+| **commit** | `redbook-verify` branch `t1b/fy2570-mvp` → **`cbc08b0`** |
+
+### ① `PROJECT_ORDINAL_CHANGED` overcount — **15 → 2**
+
+dedupe เดิมใช้ `T1BKey` เต็ม (มี `row_label_norm`) ⇒ finding หนึ่งใบต่อหนึ่งแถว
+แก้เป็น dedupe ที่ตัวโครงการ · ผลตรงกับโครงการที่ถูกเรียงเลขใหม่จริง 2 รายการ
+
+### ② map ตารางจำแนกตามงบรายจ่าย
+
+`find_category_tables()` — หมวดต้องเรียง **แนวนอน** ≥ 2 หมวด
+เพื่อไม่จับผิดกับชีต `7.1` ที่มีหมวดเป็น **แถว**
+
+> 🔒 **`T1BKey` ไม่ถูกเปลี่ยน** — `budget_category` เป็น comparison attribute
+> เหมือน `fiscal_year` · match signature ขยายเป็น
+> `(T1BKey, fiscal_year, budget_category)`
+
+**ผลข้างเคียงที่ดี:** ปลดล็อกชีตบทบาท `6.` ซึ่งเดิม `UNMAPPED` ทั้งชีตเพราะไม่มีป้ายปี
+
+### ③ ผล rerun 6 workbook
+
+| ตัวชี้วัด | ก่อน → หลัง |
+|---|---|
+| `VALUE` (21016 FY70) | 434 → **556** |
+| `UNMAPPED` (21016 FY70) | 200 → **158** |
+| `matched` (21016) | 278 → **332** |
+| category records | **75 / 120 / 122** |
+| `PROJECT_ORDINAL_CHANGED` | 15 → **2** |
+| unique keys ต่อไฟล์ | 73–118 → **58–141** (collision ยัง **0**) |
+| tests | 283 → **291 passed** |
+
+accounting ตรงทุกคู่ · audit ผ่านครบ 8 ข้อด้วยคีย์ `t1b-key-0.1.0` เดิม
+
+### สถานะเมื่อจบรายการนี้
+
+> ### `HANDOFF READY FOR BO — BUDGET CATEGORY MAPPING COMPLETE`
