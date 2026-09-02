@@ -1,6 +1,6 @@
 # CURRENT_STATE — สถานะที่พิสูจน์แล้ว
 
-**ตัดยอด ณ:** 1 กันยายน 2569 · **ผู้ตรวจ:** Giho · **วิธีตรวจ:** เปิดไฟล์จริงในทั้งสอง repo + นับ test จริง
+**ตัดยอด ณ:** 2 กันยายน 2569 · **ผู้ตรวจ:** Giho · **วิธีตรวจ:** เปิดไฟล์จริงในทั้งสอง repo + นับ test จริง
 **ประเภทเอกสาร:** `COORDINATION LAYER ONLY — NOT AN AUTHORITY`
 **สถานะ:** `DRAFT — PENDING GIFT REVIEW`
 
@@ -13,8 +13,8 @@
 
 | ชั้น | ที่อยู่ | หมายเหตุ |
 |---|---|---|
-| **Research SSOT** | repo `redbook-verify-is` | 🔴 **ไม่มี git remote** |
-| **System SSOT** | repo `redbook-verify` | 🔴 **ไม่มี git remote** |
+| **Research SSOT** | repo `redbook-verify-is` | remote **PRIVATE** `github.com/Netthip/redbook-verify-is` |
+| **System SSOT** | repo `redbook-verify` | remote **PRIVATE** `github.com/Netthip/redbook-verify` |
 | **ข้อมูลและผลการรัน** | `redbook-verify-data` | อยู่นอก Git ตาม `SYS-D-05` |
 | **ชั้นประสานงาน** | repo นี้ (`09_RESEARCH_BRIDGE/`) | ไม่มีอำนาจ |
 
@@ -25,8 +25,11 @@
 | `redbook-verify` | `938d01f59207f5c868a13aea759f7375676af719` |
 | `redbook-verify-is` | `9ca028d464d471ec6908e65320023e07304e27c5` |
 
-> 🔴 **RISK ที่ต้องบันทึกไว้ตรงนี้:** authority ทั้งหมดที่เอกสารนี้ชี้ไปอยู่บนเครื่องเดียว **ไม่มี remote**
-> ⇒ pointer ในเอกสารนี้ตรวจสอบย้อนกลับได้เฉพาะบนเครื่องนั้น · ดู `OPEN_QUESTIONS.md` ข้อ `Q-03`
+> **`Q-03` คลี่คลายแล้ว** (คำสั่ง Gift · 1 ก.ย. 2569) — ทั้งสอง repo มี remote **PRIVATE** แล้ว
+> โดย **preserve full git history** ไม่ squash และไม่ rewrite
+>
+> 🔴 **ข้อจำกัดที่ยังอยู่:** สำเนาสำรองมีเฉพาะสิ่งที่ push แล้ว · ข้อมูลและผลการรันใน
+> `redbook-verify-data` **ยังอยู่นอก Git ตาม `SYS-D-05`** ⇒ ไม่มีสำเนาสำรองที่ใดเลย
 
 ---
 
@@ -132,7 +135,8 @@
 | web UI | `redbook/web/` · `redbook/templates/` · `redbook/static/` | มีอยู่จริง · **ยังไม่ตรวจ**ในรอบนี้ว่าครอบคลุมแค่ไหน |
 | review package | `reviewpack/` | ใช้สร้าง workbook ให้มนุษย์ตรวจ · schema ที่ acceptance test ชี้ = `v1.3.1` |
 | storage · report · rules | `redbook/storage/` `redbook/report/` `redbook/rules/` | มีอยู่จริง · **ยังไม่ตรวจ**รายละเอียดในรอบนี้ |
-| ชุดทดสอบ | `tests/` 17 ไฟล์ | **179 tests** |
+| ชุดทดสอบ | `tests/` | **330 tests** (สาย T1B เพิ่ม 151 ข้อจากฐาน 179) |
+| **สายงานผลิตภัณฑ์ T1B** | `redbook/t1b/` — `normalize` `roles` `header` `units` `hierarchy` `keys` `records` `categories` `matching` `compare` | 🔒 คีย์ `t1b-key-0.1.0` · matching `0.5.0` · compare `0.4.0` · อนุญาตโดย `RES-D-54`/`SYS-D-33` |
 
 ---
 
@@ -156,10 +160,12 @@
 
 | namespace | เลขว่างถัดไป |
 |---|---|
-| สายเล่ม | **`RES-D-54`** |
-| สายระบบ | **`SYS-D-33`** |
+| สายเล่ม | **`RES-D-55`** |
+| สายระบบ | **`SYS-D-34`** |
 
 เลขที่ถูกจอง/ยกเลิกถาวรแล้ว **ห้ามนำกลับมาใช้ซ้ำ**: `RES-D-34`–`RES-D-36` · `SYS-D-22`–`SYS-D-24` = `SUPERSEDED`
+
+`RES-D-54` / `SYS-D-33` **ถูกใช้แล้ว** โดยคำตัดสินอนุญาตสายงานผลิตภัณฑ์ T1B (1 ก.ย. 2569)
 
 ---
 
