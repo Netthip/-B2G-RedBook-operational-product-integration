@@ -135,7 +135,7 @@
 | web UI | `redbook/web/` · `redbook/templates/` · `redbook/static/` | มีอยู่จริง · **ยังไม่ตรวจ**ในรอบนี้ว่าครอบคลุมแค่ไหน |
 | review package | `reviewpack/` | ใช้สร้าง workbook ให้มนุษย์ตรวจ · schema ที่ acceptance test ชี้ = `v1.3.1` |
 | storage · report · rules | `redbook/storage/` `redbook/report/` `redbook/rules/` | มีอยู่จริง · **ยังไม่ตรวจ**รายละเอียดในรอบนี้ |
-| ชุดทดสอบ | `tests/` | **330 tests** (สาย T1B เพิ่ม 151 ข้อจากฐาน 179) |
+| ชุดทดสอบ | `tests/` | **340 tests** (สาย T1B เพิ่ม 161 ข้อจากฐาน 179) |
 | **สายงานผลิตภัณฑ์ T1B** | `redbook/t1b/` — `normalize` `roles` `header` `units` `hierarchy` `keys` `records` `categories` `matching` `compare` | 🔒 คีย์ `t1b-key-0.1.0` · matching `0.5.0` · compare `0.4.0` · อนุญาตโดย `RES-D-54`/`SYS-D-33` |
 
 ---

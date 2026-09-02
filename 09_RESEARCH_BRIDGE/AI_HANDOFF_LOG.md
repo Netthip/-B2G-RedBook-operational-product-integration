@@ -737,3 +737,85 @@ production engine · `FlatDataTableAdapter` · เส้นทาง T1A ทั�
 
 > ### `HANDOFF READY FOR BO — BOUNDARY CASES CLOSED`
 > ยังไม่เข้า roll-up / reconciliation จนกว่าจะได้ `FINAL PASS`
+
+---
+
+## `HL-012` — detector contract `known ≥ 1` ทุกชั้น + true end-to-end ถึง `Finding`
+
+**วันที่** 2 กันยายน 2569 · **ผู้ทำ** Giho · **commit** `50a97de` (สาขา `t1b/fy2570-mvp`)
+
+Bo ให้ `CONDITIONAL PASS` รอบสอง — รับรองงาน `HL-011` แล้ว แต่ชี้อีกสองจุด
+🔴 **ตรวจแล้วเป็นจริงทั้งคู่**
+
+### ① contract ไม่ตรงกันสองชั้นใน `header.py`
+
+`_category_columns()` รับ `known ≥ 1` แต่เส้นทางจริงต้องผ่าน
+`_category_header_rows()` ซึ่งบังคับ `MIN_CATEGORY_LABELS = 2`
+⇒ ตาราง `unknown | known ×1 | unknown` ถูกตัดทิ้ง **ทั้งตาราง**
+ก่อนถึงชั้นที่แก้ไว้ใน `HL-011` และค่าทุกคอลัมน์หายเงียบ
+
+**พิสูจน์ก่อนแก้**
+
+```
+หัวตาราง : ['กิจกรรม', 'งบภารกิจเฉพาะกิจ', 'งบลงทุน', 'งบชดใช้เงินคงคลัง']
+_category_header_rows() -> []          ← ตัดทิ้งตั้งแต่ชั้นแรก
+_category_columns()     -> [(1,'UNRESOLVED'), (2,'INVESTMENT'), (3,'UNRESOLVED')]
+find_category_tables()  -> 0 ตาราง     ← ค่า 77.0 / 99.0 หายเงียบ
+```
+
+ชั้นล่างทำถูกอยู่แล้ว แต่ไม่เคยถูกเรียก — นี่คือลักษณะเดียวกับ silent failure
+ที่ไล่จับมาตลอด เพียงแต่ครั้งนี้เกิดจาก **contract สองชั้นไม่ตรงกันเอง**
+
+**แก้:** `MIN_KNOWN_CATEGORIES = 1` พร้อมตัวกันความสับสนใหม่แทนการนับหมวด
+
+* หมวดที่รู้จักต้องอยู่ใน **เขตค่า** (คอลัมน์ ≥ 1) ไม่ใช่คอลัมน์ป้าย
+* เขตค่าต้องมีคอลัมน์หัวข้อความ ≥ `MIN_CATEGORY_HEADER_TEXTS` (2)
+* แถวที่เป็นหัวตาราง **รายปี** อยู่แล้ว ตัดออกที่ชั้นนี้เลย เพื่อให้ contract
+  เดียวกันไม่ว่าจะเรียกผ่าน adapter หรือเรียกตรง
+
+🔴 **ข้อค้นพบที่เปลี่ยนวิธีแก้** — ทางที่ตรงไปตรงมาที่สุดคือใช้เงื่อนไข
+*"แถวหัวตารางต้องไม่มีตัวเลข"* แต่ตรวจแฟ้มจริงก่อนแล้วพบว่า
+หัวตาราง **2 ใน 19 แถวมีตัวเลขปนในเขตค่า** (`Sheet7.2` คอลัมน์ 12 = `1`
+และ `Sheet7.3.1` คอลัมน์ 12 = `0` ของ FY2570 · 21016)
+เงื่อนไขนั้นจะ **ตัดตารางจริงทิ้ง** จึงไม่ใช้ และเขียน test กันไว้ถาวร
+
+**ตรวจหลังแก้:** แฟ้มจริงยังตรวจพบหัวตาราง **19 แถวเท่าเดิม**
+การกระจายจำนวนหมวดต่อหัวตารางเท่าเดิม (`5 หมวด` 15 แถว · `6 หมวด` 4 แถว)
+
+### ② ยังไม่มี test เดียวที่ไล่ครบ `extract → match → compare → Finding`
+
+ของเดิมแบ่งพิสูจน์เป็นช่วง — `extract` จบที่ record · การพิสูจน์ finding
+เริ่มจาก record ที่สร้างด้วยมือ ⇒ **ไม่มีหลักฐานว่าสายงานทั้งเส้นต่อกันจริง**
+
+เพิ่มสอง test ที่เริ่มจาก workbook จำลองไปจนถึง `Finding` ยืนยันว่า
+`77.0` กับ `99.0` ไม่หาย **ไม่สลับกัน** มี cell reference ของตัวเอง
+`requires_human_decision` เป็นจริง และไม่หลุดไปอยู่ใน `matched`/`baseline_only`/`current_only`
+
+### การตรวจสอบ
+
+| รายการ | ผล |
+|---|---|
+| tests | 330 → **340 passed** (ใหม่ 10 ข้อ) |
+| **พิสูจน์ว่า test กัดจริง** | เทียบ `45d858b` ⇒ ล้มเหลว **3 ข้อ** · เทียบ `048419d` ⇒ ล้มเหลว **11 ข้อ** |
+| หัวตารางในแฟ้มจริง | **19** เท่าเดิม |
+| `UNRESOLVED` | **0** ทุกแฟ้ม |
+| หมวด canonical | `SUBSIDY` 84 · `OPERATING` 79 · `TOTAL` 69 · `OTHER_EXPENDITURE` 68 · `INVESTMENT` 64 · `PERSONNEL` 28 — เท่าเดิมทุกตัว |
+| matched | 255 / 332 / 115 · accounting ตรงทุกคู่ |
+| `PROJECT_ORDINAL_CHANGED` | **2** (21016) |
+| key stability audit | ผ่าน **8/8** |
+| 🔒 `t1b-key-0.1.0` | **ไม่เปลี่ยน** |
+
+### ไฟล์ที่แก้ (`50a97de`)
+
+| ไฟล์ | สิ่งที่เปลี่ยน |
+|---|---|
+| `redbook/t1b/header.py` | `_is_category_header_row()` · `MIN_KNOWN_CATEGORIES` · `MIN_CATEGORY_HEADER_TEXTS` · ตัดหัวตารางรายปีออก |
+| `tests/test_t1b_bo_boundary.py` | +10 ข้อ (detector contract · negative cases · e2e ถึง `Finding`) |
+
+**ไม่ได้แตะ:** frozen Evidence Index · Human Review workbooks · raw results · Chapter 4 ·
+production engine · `FlatDataTableAdapter` · เส้นทาง T1A ทั้งหมด · `T1BKey`
+
+### สถานะเมื่อจบรายการนี้
+
+> ### `HANDOFF READY FOR BO — DETECTOR CONTRACT + TRUE E2E COMPLETE`
+> ยังไม่เข้า roll-up / reconciliation จนกว่าจะได้ `FINAL PASS`
