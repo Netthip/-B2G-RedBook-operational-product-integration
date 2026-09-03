@@ -135,8 +135,8 @@
 | web UI | `redbook/web/` · `redbook/templates/` · `redbook/static/` | มีอยู่จริง · **ยังไม่ตรวจ**ในรอบนี้ว่าครอบคลุมแค่ไหน |
 | review package | `reviewpack/` | ใช้สร้าง workbook ให้มนุษย์ตรวจ · schema ที่ acceptance test ชี้ = `v1.3.1` |
 | storage · report · rules | `redbook/storage/` `redbook/report/` `redbook/rules/` | มีอยู่จริง · **ยังไม่ตรวจ**รายละเอียดในรอบนี้ |
-| ชุดทดสอบ | `tests/` | **371 tests** (สาย T1B เพิ่ม 192 ข้อจากฐาน 179) · 🔴 รันในเครื่องผู้พัฒนา ไม่มี CI |
-| **สายงานผลิตภัณฑ์ T1B** | `redbook/t1b/` — `normalize` `roles` `header` `units` `hierarchy` `keys` `records` `categories` `matching` `compare` | 🔒 คีย์ `t1b-key-0.1.0` · matching `0.5.0` · compare `0.4.0` · rollup `0.3.0` · อนุญาตโดย `RES-D-54`/`SYS-D-33` |
+| ชุดทดสอบ | `tests/` | **382 tests** (สาย T1B เพิ่ม 203 ข้อจากฐาน 179) · 🔴 รันในเครื่องผู้พัฒนา ไม่มี CI |
+| **สายงานผลิตภัณฑ์ T1B** | `redbook/t1b/` — `normalize` `roles` `header` `units` `hierarchy` `keys` `records` `categories` `matching` `compare` | 🔒 คีย์ `t1b-key-0.1.0` · matching `0.5.0` · compare `0.4.0` · rollup `0.4.0` · อนุญาตโดย `RES-D-54`/`SYS-D-33` |
 | **gate ของสาย T1B** | `BRIDGE-001` · `AI_HANDOFF_LOG.md` `HL-013` | 🟢 `ROLL-UP / RECONCILIATION — UNBLOCKED` (`BO FINAL PASS` · 2 ก.ย. 2569 · ผูกกับ `50a97de`) |
 
 ---
