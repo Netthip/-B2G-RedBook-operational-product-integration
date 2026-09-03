@@ -137,6 +137,7 @@
 | storage · report · rules | `redbook/storage/` `redbook/report/` `redbook/rules/` | มีอยู่จริง · **ยังไม่ตรวจ**รายละเอียดในรอบนี้ |
 | ชุดทดสอบ | `tests/` | **340 tests** (สาย T1B เพิ่ม 161 ข้อจากฐาน 179) |
 | **สายงานผลิตภัณฑ์ T1B** | `redbook/t1b/` — `normalize` `roles` `header` `units` `hierarchy` `keys` `records` `categories` `matching` `compare` | 🔒 คีย์ `t1b-key-0.1.0` · matching `0.5.0` · compare `0.4.0` · อนุญาตโดย `RES-D-54`/`SYS-D-33` |
+| **gate ของสาย T1B** | `BRIDGE-001` · `AI_HANDOFF_LOG.md` `HL-013` | 🟢 `ROLL-UP / RECONCILIATION — UNBLOCKED` (`BO FINAL PASS` · 2 ก.ย. 2569 · ผูกกับ `50a97de`) |
 
 ---
 

@@ -819,3 +819,74 @@ production engine · `FlatDataTableAdapter` · เส้นทาง T1A ทั�
 
 > ### `HANDOFF READY FOR BO — DETECTOR CONTRACT + TRUE E2E COMPLETE`
 > ยังไม่เข้า roll-up / reconciliation จนกว่าจะได้ `FINAL PASS`
+
+---
+
+## `HL-013` — 🟢 `BO FINAL PASS` · ปลด roll-up / reconciliation
+
+**วันที่** 2 กันยายน 2569 · **บันทึกโดย** Giho ตามคำสั่งของ Bo ที่ Gift ถ่ายทอด
+**ประเภท** บันทึกคำตัดสินของ gate — **ไม่ใช่**คำตัดสินระดับทะเบียน
+
+> ### สถานะที่ได้รับ (ถ้อยคำที่บังคับ ห้ามย่อ ห้ามแปลง)
+>
+> ```
+> CATEGORY AXIS / PROVENANCE — FINAL PASS
+> DETECTOR CONTRACT — FINAL PASS
+> TRUE END-TO-END PROVENANCE — FINAL PASS
+> ROLL-UP / RECONCILIATION — UNBLOCKED
+> ```
+
+### จุดอ้างอิงที่คำตัดสินผูกไว้ — **ตรวจแล้วตรงทั้งคู่**
+
+| repo | commit ที่ Bo อ้าง | ตรวจจริง |
+|---|---|---|
+| `redbook-verify` (System SSOT) | `50a97de2fc57aacf1ceceb95c3eb8562172bba2c` | ✅ ตรงกับ `HEAD` ของ `t1b/fy2570-mvp` |
+| repo สะพาน | `d0d49ae` | ✅ ตรงกับ `HEAD` ของ `main` |
+
+### ข้อจำกัดที่ผูกกับคำตัดสินนี้ — บังคับตลอดขั้น roll-up / reconciliation
+
+1. รักษา `t1b-key-0.1.0` ไว้ · **ห้ามเปลี่ยนโครงสร้างคีย์**
+2. `UNRESOLVED` **ห้ามเข้า** automated match หรือ automated roll-up
+3. ต้องรักษา **raw provenance** และ **HUMAN REVIEW** ทุกชั้น
+4. ค่าทุก record ต้องถูก **accounted เสมอ** · ห้าม silent-drop
+5. ใช้ผล **6 workbook รอบนี้เป็น regression baseline**
+6. ยังไม่แตะ frozen Evidence Index · raw results · Human Review workbooks ·
+   Chapter 4 · production engine — นอกขอบเขต roll-up / reconciliation
+
+### `regression baseline` ที่ข้อ 5 อ้างถึง (ตรึงไว้ ณ `50a97de`)
+
+| ตัวชี้วัด | ค่าฐาน |
+|---|---|
+| หัวตารางหมวดที่ตรวจพบในแฟ้มจริง | **19** |
+| `UNRESOLVED` | **0** ทุกแฟ้ม |
+| หมวด canonical | `SUBSIDY` 84 · `OPERATING` 79 · `TOTAL` 69 · `OTHER_EXPENDITURE` 68 · `INVESTMENT` 64 · `PERSONNEL` 28 |
+| matched (21011 / 21016 / 21000) | **255 / 332 / 115** |
+| accounting | ตรงทุกคู่ — **972 · 1404 · 894** |
+| `PROJECT_ORDINAL_CHANGED` | **2** (21016) |
+| key stability audit | **8/8** |
+| ชุดทดสอบ | **340 passed** |
+
+### 🔴 ข้อจำกัดของหลักฐานที่ Bo บันทึกไว้เอง — ห้ามตัดทิ้ง
+
+> repo ไม่มี remote CI status/workflow สำหรับ commit นี้ ดังนั้น **`340 passed`
+> เป็นหลักฐานการรันในเครื่องของ Giho** แต่การตรวจโค้ดและ regression definitions
+> ตรงตาม gate ที่กำหนดครบแล้ว
+
+⇒ เวลาอ้างผลชุดนี้ต้องเขียนว่า **"ผลการรันในเครื่องผู้พัฒนา"** ไม่ใช่ *"CI ผ่าน"*
+
+### 🔴 ช่องว่างของ audit trail ที่ต้องบันทึกไว้
+
+`BO REVIEW — CONDITIONAL PASS` สองรอบ (รอบ boundary 3 ข้อ และรอบ detector 2 ข้อ)
+**ไม่ได้ถูกโพสต์ลง `BRIDGE-001`** — Gift ถ่ายทอดผ่านการสนทนาโดยตรง
+สาระของทั้งสองรอบสรุปไว้ที่ `HL-011` และ `HL-012` แล้ว แต่ **ถ้อยคำต้นฉบับยังไม่มีในระบบ**
+⇒ ผู้อ่านย้อนหลังจะเห็นเกณฑ์ที่ `FINAL PASS` อ้างถึงไม่ครบ · รอ Gift ตัดสินว่าจะเติมย้อนหลังหรือไม่
+
+### หมายเหตุเรื่องเลขทะเบียน
+
+คำตัดสินนี้เป็น **gate ของสายตรวจสอบ (Bo)** จึงบันทึกไว้ที่ชั้นสะพานและ `BRIDGE-001`
+**ไม่กิน** `RES-D-55` / `SYS-D-34` ซึ่งยังว่างอยู่
+ถ้า Gift ต้องการยกระดับเป็นคำตัดสินระดับทะเบียน ให้ออกเลขคู่ถัดไปได้
+
+### สถานะเมื่อจบรายการนี้
+
+> ### `ROLL-UP / RECONCILIATION — UNBLOCKED`
