@@ -1,0 +1,166 @@
+# LANES BACKLOG — เลน A–D · สถานะและตัวชี้หลักฐาน
+
+**ตอบ:** `GIFT DIRECTIVE — NON-BLOCKING MULTI-LANE EXECUTION` (5 กันยายน 2569) ข้อ 2
+**ผู้บันทึก:** Giho · **ป้ายกำกับ:** `PRODUCT EVIDENCE — POST-FREEZE`
+
+> **หลักการของเอกสารนี้** — decision gate ปิดได้ **เฉพาะเลนที่เกี่ยวข้อง**
+> ห้ามให้เลนหนึ่งที่ติดคำตัดสิน หยุดงานอีกสามเลนที่เดินต่อได้อย่างปลอดภัย
+
+> 🔴 **สถานะในเอกสารนี้เป็นสถานะของงาน ไม่ใช่คำรับรองคุณภาพ**
+> `DONE` แปลว่า *ทำเสร็จและมีหลักฐานชี้ได้* ไม่ได้แปลว่า *ผ่านการตรวจรับ*
+> การตรวจรับเป็นของ Bo และ Gift เท่านั้น
+
+---
+
+## 0. นิยามสถานะ — ใช้ค่าเดียวเท่านั้น ห้ามผสม
+
+| สถานะ | ความหมาย |
+|---|---|
+| `READY` | ทำต่อได้ทันที ไม่ต้องรอใคร |
+| `IN PROGRESS` | กำลังทำอยู่ |
+| `HANDOFF` | ทำเสร็จแล้ว ส่งตรวจแล้ว **รอผลตรวจ** |
+| `BLOCKED-GIFT` | 🔴 ต้องการคำตัดสินของ Gift — ระบุคำตัดสินและไฟล์ที่กระทบไว้ทุกครั้ง |
+| `BLOCKED-BO` | 🔴 ต้องการผลตรวจของ Bo |
+| `BLOCKED-DATA` | 🔴 ต้องการข้อมูลจริงที่ยังไม่มี |
+| `DONE` | เสร็จและมีหลักฐานชี้ได้ |
+| `NOT STARTED` | ยังไม่เริ่ม |
+
+---
+
+## 1. ภาพรวมสี่เลน
+
+| เลน | ขอบเขต | สถานะรวม | สิ่งที่ขวางอยู่ |
+|---|---|---|---|
+| **A** — verification engine | adapter · matching · roll-up · cross-sheet · formula residue · regression | `HANDOFF` | รอ Bo ตรวจ `bb399a0` · ห้ามแตะ 21016/UI/export/FY2571 ก่อนผลตรวจ |
+| **B** — operational web app | IA · component · finding detail · filter · evidence navigation · UI test | `READY` (เฉพาะสำรวจและออกแบบ) | 🔴 **ห้าม implement UI กว้าง** จนกว่า Bo ตรวจ gap matrix |
+| **C** — evaluation & security | threat model · data-flow · dependency · protocol · mutation catalogue · metric | `READY` | ห้ามประกาศ ground truth · ห้าม unblind · ห้ามแก้ protocol หลังเห็นผล |
+| **D** — thesis support | crosswalk บทที่ 3–4 · limitation register · แบบตารางผลว่าง | `READY` | ห้ามใส่ผลที่ยังไม่วัด · ห้ามแก้ frozen Evidence Index |
+
+---
+
+## 2. เลน A — Verification engine
+
+| # | งาน | สถานะ | หลักฐาน |
+|---|---|---|---|
+| A-01 | โครงสร้าง adapter สมุดงาน AO | `DONE` | `redbook/adapters/ao_workbook.py` · `T1B_STRUCTURAL_MAP.md` |
+| A-02 | คีย์ canonical + key stability audit | `DONE` | `t1b-key-0.2.0` · `T1B_KEY_STABILITY_AUDIT.md` (8/8) |
+| A-03 | matching / compare | `DONE` | `t1b-matching-0.6.0` · `t1b-compare-0.5.0` |
+| A-04 | roll-up / reconciliation ภายในแฟ้ม | `DONE` | `t1b-rollup-0.5.0` · 6 แฟ้ม 167 ชุด · exact OK 166 |
+| A-05 | blocker #4 ขอบเขตตารางหมวด | `DONE` | `95229e9` · `HL-019` |
+| A-06 | สาม blocker ที่เหลือจาก Shadow Run รอบ 1 | `HANDOFF` | `bb399a0` · `HL-020` · `test_t1b_shadow_blockers.py` 29 ข้อ |
+| A-07 | `T1B-SR-21011-02` | `DONE` | `docs/T1B_SHADOW_RUN_21011_02_RUN_RECORD.md` · manifest นอก git |
+| A-08 | map ชีตปก + ตารางจำแนกตามลักษณะรายจ่าย (หน่วย **บาท**) | `BLOCKED-BO` | ลำดับ 4 ของตาราง `D` · Bo สั่งหยุดที่ gate |
+| A-09 | แยกชั้นคิว `UNMAPPED` ตามเหตุผล | `BLOCKED-BO` | ลำดับ 5 · รอบนี้เพิ่ม **เหตุผล** แล้ว ยังไม่ **จัดชั้น** |
+| A-10 | cross-sheet reconciliation | `BLOCKED-BO` | ลำดับ 6 · ข้อจำกัด `A2` |
+| A-11 | formula residue / value-only preflight | `NOT STARTED` | ข้อจำกัด `A3` — `data_only=True` มองไม่เห็นสูตร |
+| A-12 | approved / consequential / corrective / unexpected / cannot-determine | `BLOCKED-DATA` | ข้อจำกัด `A4` · ต้องมีเอกสารมติ/หนังสืออนุมัติเป็นแหล่งคาดหมาย |
+| A-13 | หน่วยงาน 21016 | `BLOCKED-BO` | คำสั่ง Bo ข้อ 6 — ห้ามแตะก่อนผลตรวจ |
+| A-14 | เทียบ baseline กับ **final/post-reduction จริง** | `BLOCKED-DATA` | คู่ที่ใช้อยู่คือ FY2569 vs FY2570 = คนละปีเอกสาร ไม่ใช่ก่อน/หลังปรับลด |
+| A-15 | แถว/คอลัมน์ซ่อน · merged cell ที่คร่อมความหมาย | `NOT STARTED` | ข้อจำกัด `B10` |
+| A-16 | เทียบกับ PDF | `BLOCKED-GIFT` | Phase 3 ยัง blocked ตาม `RES-D-32` |
+
+**🔴 `BLOCKED-DATA` ของเลน A ต้องการอะไรบ้าง** — ตามลำดับที่ Gift ระบุใน directive
+
+1. FY2570 Draft-Bill baseline + final/post-reduction ของหน่วยงาน 21011
+2. เอกสารมติ/หนังสือปรับลดที่ใช้เป็น **แหล่งคาดหมายที่มีอำนาจ**
+3. ทั้งสามรายการข้างต้นของหน่วยงาน 21016
+4. สำเนา value-only หนึ่งชุด และ (ถ้าอนุญาต) สำเนาที่ยังมีสูตรหนึ่งชุด
+
+ทุกไฟล์ต้องบันทึก: ปีงบประมาณ · รหัสหน่วยงาน · ขั้นของเอกสาร · คาดว่ามีสูตรหรือไม่ ·
+สถานะความลับ/การเผยแพร่ · **commit ได้หรือไม่**
+🔴 **ห้าม commit ไฟล์ใดที่ไม่ได้ระบุชัดว่าเผยแพร่ได้**
+
+---
+
+## 3. เลน B — Operational web app
+
+| # | งาน | สถานะ | หลักฐาน / หมายเหตุ |
+|---|---|---|---|
+| B-01 | สำรวจเว็บแอปปัจจุบันแบบอ่านอย่างเดียว | `DONE` | `LANE_B_WEBAPP_GAP_MATRIX.md` |
+| B-02 | gap matrix หน้าจอ / component / test | `HANDOFF` | เอกสารเดียวกัน · รอ Bo ตรวจก่อนลงมือ |
+| B-03 | เชื่อมเว็บแอปเข้ากับเครื่องยนต์ T1B | `BLOCKED-BO` | 🔴 วันนี้เว็บแอป **ไม่เรียก `redbook/t1b/` เลย** |
+| B-04 | หน้าจอ roll-up / cross-sheet impact | `BLOCKED-BO` | ยังไม่มีในระบบ |
+| B-05 | หน้าจอ formula / preflight | `BLOCKED-BO` | ยังไม่มีในระบบ |
+| B-06 | evidence export + `READY` / `REVIEW REQUIRED` gate | `BLOCKED-BO` | ยังไม่มีในระบบ |
+| B-07 | ช่อง **ระดับความมั่นใจ** ในแบบบันทึกคำตัดสิน | `BLOCKED-BO` | ปัจจุบันมีแค่ `decision` / `note` / `reviewer` |
+| B-08 | accessibility + responsive audit | `NOT STARTED` | ยังไม่เคยตรวจ |
+| B-09 | deploy / เผยแพร่ | `BLOCKED-GIFT` | ต้องได้รับอนุญาตก่อนเสมอ |
+
+🔴 **ข้อห้ามของเลนนี้** — ใช้ Airbnb เป็น **แรงบันดาลใจเชิงการออกแบบ** เท่านั้น
+(ลำดับชั้นชัด · พื้นที่ว่างสงบ · ค้นหา/กรอง/นำทางแข็งแรง · การ์ดและป้ายสถานะเข้าใจง่าย)
+**ห้ามลอก** แบรนด์ สินทรัพย์ เลย์เอาต์ หรือ trade dress ของ Airbnb
+
+🔴 **ใช้ publication-safe fixture เท่านั้น** จนกว่า Gift จะส่งไฟล์ที่อนุญาต
+ห้ามมีเนื้อหาเอกสารภายในใน screenshot · commit · log หรือ preview ที่โฮสต์
+
+---
+
+## 4. เลน C — Evaluation & security
+
+| # | งาน | สถานะ | หลักฐาน |
+|---|---|---|---|
+| C-01 | ร่างระเบียบวิธีประเมินแบบปิดตา | `HANDOFF` | `LANE_C_BLIND_EVALUATION_PROTOCOL.md` |
+| C-02 | บัญชีชนิดข้อบกพร่องสังเคราะห์ | `HANDOFF` | เอกสารเดียวกัน หมวด 4 — 🔴 **ยังไม่สร้าง defect และยังไม่มี answer key** |
+| C-03 | นิยามตัวชี้วัดและตัวหาร | `HANDOFF` | เอกสารเดียวกัน หมวด 5 |
+| C-04 | clean negative control | `HANDOFF` | เอกสารเดียวกัน หมวด 6 |
+| C-05 | สร้าง generator + answer key | `BLOCKED-GIFT` | 🔴 ต้องแยกผู้ทำ · ดูข้อห้ามในโปรโตคอล ข้อ 10 |
+| C-06 | รัน + seal + unblind + ให้คะแนน | `BLOCKED-GIFT` | ต้องมี C-05 ก่อน |
+| C-07 | threat model + data-flow review | `HANDOFF` | `LANE_D_CHAPTER4_EVIDENCE_CROSSWALK.md` หมวด 6 |
+| C-08 | dependency / secret scan | `READY` | ยังไม่รัน |
+| C-09 | OWASP ZAP | `BLOCKED-GIFT` | ตาม `CURRENT_STATE.md` — ทำหลัง Phase 3 |
+
+🔴 **ข้อห้ามที่หนักที่สุดของเลนนี้** — ห้ามให้ตัวแทนเดียวกัน *สร้างข้อบกพร่อง* →
+*ดู answer key* → *ปรับ detector กับเคสนั้น* แล้วเรียกผลว่า **blind**
+และ **ห้ามรายงาน "ความแม่นยำ" จากการรันซ้ำที่ input เดิม** — การรันซ้ำวัด
+**ความคงเส้นคงวา/ทำซ้ำได้** ไม่ใช่ความถูกต้อง
+
+---
+
+## 5. เลน D — Thesis support
+
+| # | งาน | สถานะ | หลักฐาน |
+|---|---|---|---|
+| D-01 | crosswalk วัตถุประสงค์ → หลักฐาน | `HANDOFF` | `LANE_D_CHAPTER4_EVIDENCE_CROSSWALK.md` หมวด 2 |
+| D-02 | โครงบทที่ 4 ตามแบบ 8 ส่วน | `HANDOFF` | เอกสารเดียวกัน หมวด 3 |
+| D-03 | แบบตารางผล **ว่าง** ติดป้าย `NOT YET MEASURED` | `HANDOFF` | เอกสารเดียวกัน หมวด 4 |
+| D-04 | limitation register | `HANDOFF` | เอกสารเดียวกัน หมวด 5 |
+| D-05 | โครง security review | `HANDOFF` | เอกสารเดียวกัน หมวด 6 |
+| D-06 | รายการภาคผนวก | `HANDOFF` | เอกสารเดียวกัน หมวด 7 |
+| D-07 | แบบสอบถาม/แบบประเมินผู้เชี่ยวชาญ + IOC | `BLOCKED-GIFT` | 🔴 ร่างได้ แต่ **ห้ามนำไปใช้จริง** จนกว่า Gift ตัดสิน · ผูกกับมติ 18 ส.ค. เรื่องจริยธรรม |
+| D-08 | คู่มือผู้ใช้ที่เผยแพร่ได้ | `NOT STARTED` | ต้องรอ UI นิ่งก่อน |
+| D-09 | ใส่ผลจริงลงบทที่ 4 | `BLOCKED-DATA` | 🔴 ยังไม่มีผลที่วัดแล้ว — **ห้ามเขียนตัวเลขใด** |
+
+🔴 **ข้อห้าม** — ห้ามนำคะแนนความพึงพอใจมาแทนความถูกต้องของ detector ·
+ห้ามอ้างว่า "ระบบทำงานถูกต้อง" จาก screenshot หรือการเดินชมฟีเจอร์ ·
+ห้ามถือว่า ZAP อย่างเดียวคือหลักฐานความปลอดภัย ·
+ห้ามนำเลขบทของเล่มตัวอย่างมาใช้ถ้าขัดกับโครง DSRM ที่ Gift อนุมัติแล้ว
+
+---
+
+## 6. คำตัดสินที่ค้างอยู่ — เรียงตามผลกระทบ
+
+| # | คำตัดสินที่ต้องการ | ผู้ตัดสิน | เลนที่ถูกปิด | ไฟล์ที่กระทบ |
+|---|---|---|---|---|
+| 1 | ตรวจรับ `bb399a0` และยืนยันว่า "สาม blocker" ตรงกับที่ทำ | Bo | A-06 → A-08..A-10, A-13 | `redbook/t1b/**` · `HL-020` |
+| 2 | ตรวจรับ gap matrix ก่อนลงมือทำ UI | Bo | B-03..B-07 | `redbook/app.py` · `redbook/templates/**` |
+| 3 | ส่งคู่แฟ้ม baseline ↔ final/post-reduction จริง | Gift | A-12, A-14, C-05, D-09 | ยังไม่มีไฟล์ |
+| 4 | อนุมัติวิธีแยกผู้สร้าง defect ออกจากผู้พัฒนา detector | Gift | C-05, C-06 | `LANE_C_...` |
+| 5 | ตัดสินว่าจะใช้แบบประเมินผู้เชี่ยวชาญหรือไม่ | Gift | D-07 | `LANE_D_...` |
+| 6 | อนุญาตให้เผยแพร่/deploy เว็บแอป | Gift | B-09 | — |
+
+🔴 **ห้ามอนุมานคำตัดสินของ Gift เอง** — ถ้าเลนหนึ่งติด ให้ทำเลนถัดไปที่ `READY`
+
+---
+
+## 7. กติกาการเดินงานที่ผูกกับเอกสารนี้
+
+* ทุกครั้งที่เลนหนึ่งถึง `DECISION REQUIRED FROM GIFT` — บันทึกคำตัดสินให้ชัด
+  ระบุไฟล์ที่กระทบ ปิด **เฉพาะเลนนั้น** แล้วไปหยิบงาน `READY` ที่สำคัญที่สุดของเลนอื่น
+* commit เป็นก้อนเล็กและมีขอบเขต — **ห้าม `git add -A`**
+* ห้ามแตะ frozen Evidence Index · workbook วิจัยที่ตรึงแล้ว · raw results · ข้อกล่าวอ้างในอดีต
+* ครบสามรอบของการทำ/ตรวจ ให้ส่ง handoff รวบยอดหนึ่งฉบับ แล้ว **พักงานที่แก้โค้ด**
+  ส่วนเอกสาร บัญชีทดสอบ และการอ่านทบทวนแบบไม่แก้ไข ทำต่อได้
+
+---
+
+*ปรับปรุงล่าสุด 5 กันยายน 2569 · หลัง `HL-020` · 🔴 ผลรันทั้งหมดเป็นการรันในเครื่องผู้พัฒนา ไม่มี CI*
