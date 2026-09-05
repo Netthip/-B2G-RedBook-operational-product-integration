@@ -135,9 +135,9 @@
 | web UI | `redbook/web/` · `redbook/templates/` · `redbook/static/` | มีอยู่จริง · **ยังไม่ตรวจ**ในรอบนี้ว่าครอบคลุมแค่ไหน |
 | review package | `reviewpack/` | ใช้สร้าง workbook ให้มนุษย์ตรวจ · schema ที่ acceptance test ชี้ = `v1.3.1` |
 | storage · report · rules | `redbook/storage/` `redbook/report/` `redbook/rules/` | มีอยู่จริง · **ยังไม่ตรวจ**รายละเอียดในรอบนี้ |
-| ชุดทดสอบ | `tests/` | **416 tests** (สาย T1B เพิ่ม 237 ข้อจากฐาน 179) · 🔴 รันในเครื่องผู้พัฒนา ไม่มี CI |
-| **สายงานผลิตภัณฑ์ T1B** | `redbook/t1b/` — `normalize` `roles` `header` `units` `hierarchy` `keys` `records` `categories` `matching` `compare` | 🔒 คีย์ `t1b-key-0.1.0` · matching `0.5.0` · compare `0.4.0` · rollup `0.5.0` · อนุญาตโดย `RES-D-54`/`SYS-D-33` |
-| **gate ของสาย T1B** | `BRIDGE-001` · `AI_HANDOFF_LOG.md` `HL-013` | 🟢 `ROLL-UP / RECONCILIATION — UNBLOCKED` (`BO FINAL PASS` · 2 ก.ย. 2569 · ผูกกับ `50a97de`) |
+| ชุดทดสอบ | `tests/` | **445 tests** (สาย T1B เพิ่ม 266 ข้อจากฐาน 179) · 🔴 รันในเครื่องผู้พัฒนา ไม่มี CI |
+| **สายงานผลิตภัณฑ์ T1B** | `redbook/t1b/` — `normalize` `roles` `header` `units` `hierarchy` `keys` `records` `categories` `matching` `compare` | 🔒 คีย์ `t1b-key-0.2.0` (ตรึง 5 ก.ย. · เดิม `0.1.0`) · matching `0.6.0` · compare `0.5.0` · rollup `0.5.0` · อนุญาตโดย `RES-D-54`/`SYS-D-33` |
+| **gate ของสาย T1B** | `BRIDGE-001` · `AI_HANDOFF_LOG.md` `HL-020` | ⏸ `HANDOFF READY FOR BO — THREE SHADOW-RUN BLOCKERS CLOSED` (5 ก.ย. 2569 · ผูกกับ `bb399a0`) · 🔴 **หยุดรอ Bo ตรวจ ก่อนแตะ 21016 · UI · finding/evidence export · FY2571 builder** |
 
 ---
 
