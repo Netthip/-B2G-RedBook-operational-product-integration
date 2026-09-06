@@ -7,6 +7,30 @@
 
 **ผู้ร่าง:** Giho · **วันที่** 5 กันยายน 2569 · **ป้ายกำกับ:** `PRODUCT EVIDENCE — POST-FREEZE`
 
+---
+
+> # 🔴 `SUPERSEDED — 6 กันยายน 2569`
+>
+> **คำตัดสิน Bo (`BO REVIEW COMPLETE`):** *"the present O1–O7 crosswalk uses T1B code,
+> 445 tests, and `T1B-SR-21011-02` as if they may populate the thesis Chapter 4.
+> These are explicitly post-freeze product evidence."*
+>
+> เอกสารฉบับนี้ **ปนหลักฐานสองสายเข้าด้วยกัน** จึงถูกแทนที่ด้วยสองฉบับที่แยกขาดกัน
+>
+> | ใช้ฉบับไหน | เมื่อไร |
+> |---|---|
+> | [`LANE_D1R_THESIS_RESEARCH_CROSSWALK.md`](LANE_D1R_THESIS_RESEARCH_CROSSWALK.md) | ทุกเรื่องที่จะเขียนลง **เล่ม** — ยึด frozen Evidence Index `617ceac` เท่านั้น |
+> | [`LANE_D1P_PRODUCT_EXTENSION_CROSSWALK.md`](LANE_D1P_PRODUCT_EXTENSION_CROSSWALK.md) | ทุกเรื่องของ **สายผลิตภัณฑ์ T1B** — `PRODUCT EVIDENCE — POST-FREEZE` |
+>
+> 🔴 **ข้อสรุปที่ถูกยกเลิกโดยตรง** — ฉบับนี้เคยระบุว่า *"เลน D เขียนหมวด 4.1 และ 4.8
+> ต่อได้เลย"* · คำสั่ง Bo วันที่ 6 ก.ย. ระบุว่า **ห้าม**:
+> *"Do not write 4.1 or 4.8 into the authoritative chapter from this product crosswalk."*
+>
+> **ห้ามลบไฟล์นี้** — เก็บไว้เป็นร่องรอยว่าเคยตัดสินอย่างไรและถูกแก้เมื่อใด
+> (forward-only ตามแนวปฏิบัติของโครงการ) · **ห้ามใช้อ้างอิงต่อ**
+
+---
+
 > 🔴 **ทุกช่องผลในเอกสารนี้ว่างและติดป้าย `NOT YET MEASURED`**
 > ห้ามเติมตัวเลขใดจนกว่าจะมีการวัดจริงตามโปรโตคอลที่อนุมัติแล้ว
 
