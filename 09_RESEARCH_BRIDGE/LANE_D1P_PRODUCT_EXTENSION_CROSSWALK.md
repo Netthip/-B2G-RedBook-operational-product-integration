@@ -13,7 +13,9 @@ research objectives**."*
 > # `PRODUCT EVIDENCE — POST-FREEZE`
 >
 > 1. **ไม่ใช่** ผลของงานวิจัยที่ freeze แล้ว · **ไม่ใช่** production certification ·
+<!-- audit-allow-begin: ประโยคประกาศกฎ จำเป็นต้องพิมพ์คำนั้นจึงจะสื่อสารข้อห้ามได้ -->
 >    **ไม่ใช่** blind evaluation
+<!-- audit-allow-end -->
 > 2. 🔴 **ห้ามนำรายการใดในเอกสารนี้ไปเติมวัตถุประสงค์ของเล่มที่ freeze แล้ว**
 >    สายเล่มอยู่ที่ [`D1-R`](LANE_D1R_THESIS_RESEARCH_CROSSWALK.md)
 > 3. ใช้ได้กับ — แผนที่ผลิตภัณฑ์ · งานในอนาคต · ส่วนขยายเชิงปฏิบัติการ ·
