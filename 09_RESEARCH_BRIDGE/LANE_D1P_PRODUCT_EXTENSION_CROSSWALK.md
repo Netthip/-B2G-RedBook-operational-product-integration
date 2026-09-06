@@ -36,13 +36,27 @@ research objectives**."*
 | `O-P5` | กระทบยอดข้ามชีต | — | 🔴 `NOT IMPLEMENTED` (`A-10`) |
 | `O-P6` | ตรวจสูตรตกค้าง / preflight ค่าอย่างเดียว | — | 🔴 `NOT IMPLEMENTED` (`A-11`) |
 | `O-P7` | จำแนกการปรับตามมติ vs การแก้อื่น | — | 🔴 `NOT IMPLEMENTED` (`A-12`) · รอข้อมูลจากกิ๊ฟ |
-| `O-P8` | ด่านตัวตนหน่วยงานแบบ fail-closed | สาย Lane A รอบ 6 ก.ย. | ⏳ `IN PROGRESS` (อีก session) |
-| `O-P9` | เว็บแอปเชิงปฏิบัติการที่ต่อกับเครื่องยนต์ T1B | — | 🔴 `NOT IMPLEMENTED` — เว็บแอปยังไม่ต่อกับ `redbook/t1b/**` |
+| `O-P8` | ด่านตัวตนหน่วยงานแบบ fail-closed | `47814cd` · `tests/test_t1b_identity_gate.py` · probe before/after | 🟢 `IMPLEMENTED — REVIEWED` (Bo `ACCEPTED` 6 ก.ย.) |
+| `O-P9` | เว็บแอปเชิงปฏิบัติการที่ต่อกับเครื่องยนต์ T1B | `redbook/services/t1b.py` · `redbook/storage/t1b_repo.py` · routes `/t1b/*` + 4 เทมเพลต (`0c2bb6f` · `f2e046f`) | 🟠 **`PARTIAL`** — ชั้นบริการและหน้าจออ่านผลที่เก็บไว้มีแล้ว · 🔴 **ยังไม่มี upload-to-engine wiring** |
 | `O-P10` | ส่งออกชุดหลักฐาน + สถานะ `READY` / `REVIEW REQUIRED` | — | 🔴 `NOT IMPLEMENTED` |
 | `O-P11` | ประเมินความถูกต้องแบบปิดตา | โปรโตคอลร่างแล้ว ยังไม่รัน | 🔴 `NOT YET MEASURED` |
-| `O-P12` | ประเมินความปลอดภัย | ด่านอัปโหลด + CSRF + header มีแล้ว · ที่เหลือยังไม่ทำ | 🟠 `PARTIAL` |
+| `O-P12` | ประเมินความปลอดภัย | ด่านอัปโหลด + CSRF + header · `redbook/privacy.py` + leakage tests (`1b91353`) · `redbook/export/csv_safe.py` (`c7cfaf4`) · `SECURITY_SCAN_01` | 🟠 **`PARTIAL`** — 🔴 มี **privacy correction ที่ยังเปิดอยู่** สองข้อ (ดูหมวด 4.1) |
 
 🔴 **ยังห้ามรายงานว่า FY2570 MVP เสร็จ** — `MVP GAP REGISTER` ยังไม่ปิดแม้แต่ข้อเดียว
+
+> ### 🔁 `FORWARD STATUS UPDATE` — 6 กันยายน 2569 (หลัง `BO REVIEW COMPLETE`)
+>
+> ปรับสถานะ `O-P8` · `O-P9` · `O-P12` ตามที่ Bo สั่งใน `D — ACCEPTED WITH FORWARD UPDATE`
+>
+> | รายการ | ก่อน | หลัง |
+> |---|---|---|
+> | `O-P8` | `IN PROGRESS` | `IMPLEMENTED — REVIEWED` ที่ `47814cd` |
+> | `O-P9` | `NOT IMPLEMENTED` | **`PARTIAL`** — service + stored-run UI มีแล้ว · upload wiring ยังไม่มี |
+> | `O-P12` | `PARTIAL` | `PARTIAL` + ระบุ **privacy correction ที่ยังเปิด** |
+>
+> 🔴 **forward-only** — บันทึกนี้มีผลตั้งแต่ 6 ก.ย. เป็นต้นไป
+> **ห้ามอ่านว่าสถานะเหล่านี้มีอยู่แล้ว ณ commit ก่อนหน้า** · ข้อความเดิมของ
+> ตารางถูกแทนที่ แต่การเปลี่ยนถูกบันทึกไว้ที่นี่ให้ตรวจย้อนได้
 
 ---
 
@@ -104,6 +118,29 @@ research objectives**."*
 | S-6 | OWASP ZAP | 🔴 `BLOCKED` | อยู่ที่ gate ที่อนุมัติไว้ทีหลัง |
 
 🔴 **ZAP อย่างเดียวไม่เคยเป็นหลักฐานความปลอดภัยที่สมบูรณ์** (คำสั่ง Bo ย้ำสองรอบ)
+
+### 4.1 🔁 `FORWARD STATUS UPDATE` — งานความปลอดภัยที่เดินไปแล้ว (6 ก.ย.)
+
+| # | ก่อน | หลัง |
+|---|---|---|
+| S-1 | `READY` | 🟢 **ทำแล้ว** — `SECURITY_SCAN_01_...md` · secret ไม่พบ · 🔴 **CVE ยังไม่ตรวจ** |
+| S-2 | `BLOCKED-LANE` | 🟠 **มีโค้ดแล้ว** `redbook/privacy.py` (`1b91353`) — 🔴 **แต่ยังมีข้อบกพร่องเปิดอยู่** |
+| S-3 | `BLOCKED-LANE` | 🟢 **ทำแล้ว** `redbook/export/csv_safe.py` (`c7cfaf4`) |
+| S-4 | `BLOCKED-LANE` | 🟠 มี leakage tests แล้ว — 🔴 **ยังกัดไม่ครบ** (ดูด้านล่าง) |
+| S-5 | `READY` | 🟢 **ทำแล้ว** `docs/DATA_FLOW_AND_RETENTION.md` (`c7cfaf4`) |
+
+**🔴 privacy correction สองข้อที่ Bo ระบุว่ายังเปิดอยู่ — ต้องปิดก่อน upload wiring**
+
+1. `redact_text()` ใช้ regex ที่หยุดที่ช่องว่าง ⇒ path แบบ OneDrive/Windows ที่มี
+   ชื่อโฟลเดอร์หลายคำ จะกลบเฉพาะหัว path แต่ **ปล่อยหางไว้** ทั้งที่
+   `find_absolute_paths()` รายงานว่าสะอาดแล้ว — 🔴 **นี่คือ false assurance ของ privacy test**
+2. `view_from_storage()` ประกอบ `FindingView` ด้วย `str(...)` โดยไม่ผ่าน
+   `_text()`/`redact_text()` ⇒ แถวเก่าหรือแถวที่ seed/import ซึ่งมี path ใน `detail`
+   หรือ location **ย้อนออกหน้าเว็บได้**
+
+⇒ `O-P12` จึงยังเป็น `PARTIAL` · **เจ้าของงานคือเลน B/Security ไม่ใช่เอกสารฉบับนี้**
+
+🔴 **CVE scan** — Bo สั่งให้ใช้ **สภาพแวดล้อมชั่วคราวที่แยกต่างหาก** ห้ามแก้ `.venv` ของโครงการ
 
 ### ความเสี่ยงที่พบแล้วและยังเปิดอยู่
 
