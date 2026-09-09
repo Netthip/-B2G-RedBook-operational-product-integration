@@ -1,7 +1,7 @@
 # INDICATOR REGISTRY SCHEMA — ทะเบียนตัวชี้วัด + 8 สถานะการจับคู่ + การเปิดหลักฐาน PDF
 
 **ป้ายกำกับ:** `PRODUCT EVIDENCE — POST-FREEZE` · **ฐานอำนาจ:** `GIFT DECISION` (Issue #1 · `5595281027`) §2–§3 · Gate 1–3
-**ผู้บันทึก:** Giho · **สถานะ:** `DESIGN ACCEPTED (Bo 5597645315) · FREEZE BLOCKED PENDING A–D · backend ปริยาย = pdfplumber+pypdfium2 (pdftext-0.2.0)` · โค้ดจริงอยู่ที่ repo `redbook-verify` (`redbook/evidence/**` · `redbook/indicators/**`) · เอกสารเต็ม `docs/INDICATOR_REGISTRY_AND_PDF_TRACEABILITY.md` ใน repo นั้น
+**ผู้บันทึก:** Giho · **สถานะ:** `DESIGN ACCEPTED (Bo 5597645315) · PASS 1 PARTIALLY ACCEPTED (5598957701) · PASS 2 ส่งแล้ว รอ Bo ตรวจ` · ดูหมวด 7 ท้ายเอกสารสำหรับสิ่งที่เปลี่ยนใน Pass 2 · โค้ดจริงอยู่ที่ repo `redbook-verify` (`redbook/evidence/**` · `redbook/indicators/**`) · เอกสารเต็ม `docs/INDICATOR_REGISTRY_AND_PDF_TRACEABILITY.md` ใน repo นั้น
 
 > 🔴 ตัวอย่างทั้งหมดในเอกสารนี้มาจาก **ชุดสังเคราะห์** (`tests/fixtures/synthetic_pdf` · หน่วยงานสมมติ "สถาบันทดสอบสังเคราะห์") — เผยแพร่ได้ · **ไม่ใช่เฉลย** · ไม่ใช่ข้อค้นพบในเอกสารจริง
 
@@ -96,3 +96,56 @@
 | `NEW_INDICATOR` | — | ตัวชี้วัดที่ 8 : ร้อยละของระบบที่ผ่านการทดสอบความปลอดภัย ร้อยละ 95 (2) |
 
 บัญชี: เก่า 7 ข้อสังเกต (หน้า 4 ไม่มีชั้นข้อความ → ตัวชี้วัดในหน้านั้นไม่ถูกสกัด และถูกติดป้ายให้คนกรอก) · ใหม่ 8 · 9 แถว · accounted ปิด
+
+
+---
+
+## 7. สิ่งที่เปลี่ยนใน Corrective Pass 2 (append-only · 9 ก.ย. 2569)
+
+**ฐานอำนาจ:** `BO REVIEW — PRE-FREEZE CORRECTIONS PASS 1` (`5598957701`) · Lane B6.1 (`5598526148`)
+**commit ระบบ:** `d04f5d9` (บน `880c2e8` · branch `t1b/fy2570-mvp` · ยังไม่ merge `main`)
+
+### 7.1 ตัวตนของตัวชี้วัด (B1) — หมวด 2 ข้อ `indicator_id` ถูกแทนที่ด้วยของจริง
+
+| เดิม (Pass 1) | ตอนนี้ (Pass 2) |
+|---|---|
+| รหัสชั่วคราว `IND-xxxxxxxxxx` ต่อข้อสังเกต ผูกภายใน `run_id` | `identity_key` = `sha256(แฮชเอกสารเต็ม \| หน้า \| anchor \| ข้อความที่ปรากฏ)` — **ไม่มี `run_id` ในสูตร** ⇒ คงที่ข้าม run/เอกสาร/ปี |
+| ใช้คำนำหน้า `IND-` ทั้งที่ยังไม่ canonical | **`PROVISIONAL-…`** เมื่อยังไม่มีคำตัดสินผูก · **`IND-…`** เมื่อเป็น canonical แล้ว — แยกออกด้วยตาเปล่า |
+| — | canonical id **ถูกตรึง** ครั้งแรกที่ component เกิด (`ind_canonical_ids`) · component ที่รวมกันภายหลังใช้ id ที่ตรึงก่อน และบันทึกที่เหลือเป็น **alias** (`ind_identity_aliases`) ⇒ id ที่เผยแพร่ไปแล้วไม่ตาย |
+| — | schema **v2** + migration แบบเพิ่มคอลัมน์ (`anchor` · `identity_key` · `geometry_flags_json`) — แถวจาก v1 ที่ไม่มีกุญแจ **ผูกข้าม run ไม่ได้ และระบบไม่เดาให้** |
+
+### 7.2 การผูกเป็นผลของคำตัดสินล่าสุด (B2)
+
+* `ind_bindings` **ลดบทบาทเป็นประวัติ** — ผู้อ่านทุกคนต้องใช้ `resolve_identity()` / `indicator_ids()` ที่ derive จากคำตัดสินล่าสุด
+* ยอมรับ `SAME_*` แล้วภายหลังแก้เป็น non-SAME ⇒ **binding สิ้นผลทันที** (ประวัติยังครบ)
+* **transitive** A=B (รอบ 1) + B=C (รอบ 2) ⇒ canonical เดียวกันทั้งสาม (union-find · ผลไม่ขึ้นกับลำดับ)
+* **conflict gate** — ข้อสังเกตหนึ่งตัวถูกยืนยันคู่กับฝั่งตรงข้ามมากกว่าหนึ่งตัว **ในรอบเดียวกัน** ⇒ **ไม่ผูก** และรายงานเป็น `IdentityConflict` ให้คนตัดสิน 🔴 ไม่ใช่ "แถวสุดท้ายชนะ"
+
+### 7.3 บัญชีต้องปิดจริง (B3)
+
+`accounted()` ตรวจเจ็ดข้อจากยอด input ที่เป็นอิสระจากตัวแถว: id ที่ไม่รู้จัก · id ที่หายไป ·
+การนับซ้ำนอกสถานะที่ประกาศรูปไว้ · รูปทรงของแถวต่อสถานะ (`NEW` ห้ามมีฝั่งเก่า · `REMOVED` ห้ามมีฝั่งใหม่ ·
+สถานะคู่ต้องมีสองฝั่ง) · สถานะนอกบัญชี · `mapping_id` ซ้ำ · ยอดรายสถานะกับยอดรวม
+· `closed` เป็นจริงเมื่อผ่านครบ · มี mutation tests ที่จงใจทำให้ด่านล้มทุกตระกูล
+
+### 7.4 ข้อความชน/ล้นขอบหน้า (P1-2) — fail-visible
+
+ข้อสังเกตติดธง `TEXT_CLIPPED_AT_PAGE_EDGE` และ **คู่ของมันถูกบังคับเป็น `AMBIGUOUS_REVIEW_REQUIRED` เสมอ**
+🔴 ห้ามตัดข้อความเงียบแล้วเสนอ mapping เป็นผลปกติ · fixture ชุดขอบเขต (`synthetic_clipped_*.pdf`)
+**คงข้อความล้นขอบไว้โดยเจตนา ห้ามแก้ให้สั้นลง** · เทสต์ **ไม่บังคับ** ให้ตัวอ่านสองชนิดอ่านบรรทัดนั้นเท่ากัน
+(วัดจริงต่างกัน x1 876 vs 595 pt) แต่บังคับว่าผลปลายทางต้องไม่ถูกยืนยันอัตโนมัติ
+
+### 7.5 backend ของผลิตภัณฑ์ fail-closed (P1-1)
+
+`product_backend()` ลอง **เฉพาะ** `pdfplumber+pypdfium2` · ใช้ไม่ได้ ⇒ `NO_TEXT_BACKEND`
+🔴 **ไม่หล่นไปใช้ PyMuPDF แม้ติดตั้งอยู่** (มี negative test จำลองสถานการณ์นั้นตรง ๆ) ·
+PyMuPDF เรียกได้เฉพาะ `research_backend()` ซึ่งชั้นบริการ/route ไม่เรียก (เทสต์ AST บังคับ) ·
+ทุกรอบบันทึก `backend_report()` (mode · backend · เวอร์ชัน · `fallback_allowed: false`) ลงหลักฐาน
+
+### 7.6 ตัวตนของเอกสารและข้อสังเกตที่คนกรอก (H1 · H2)
+
+* **H1** — `document_id` (16 hex) เป็น **ฉลาก** · ตัวตนที่พิสูจน์คือ `content_sha256` เต็ม ·
+  ฉลากชนกันแต่แฮชเต็มต่าง ⇒ `DocumentIdCollision` **ปฏิเสธ** ไม่กลืนเป็นเอกสารเดียว ·
+  เพิ่ม `get_by_sha256()` / `verify_identity()`
+* **H2** — ข้อสังเกตที่คนกรอกใช้ `manual_anchor(occurrence, hint)` ⇒ ข้อความเดียวกันที่ปรากฏซ้ำ
+  ในหน้าเดียวกัน **ไม่ชน id** อีกต่อไป (เดิม `line_index=-1` คงที่)

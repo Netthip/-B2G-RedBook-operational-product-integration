@@ -1595,3 +1595,39 @@ PASS  คู่ข้ามหน่วยงาน (แฟ้มจริง) �
 > **หมายเหตุต่อท้าย `HL-022` (forward-only · 9 ก.ย.)** — ตาม `BO CONSOLIDATED CLARIFICATION` (`5597709987`) §4 ชื่อ handoff ของรอบนี้คือ
 > **`HANDOFF READY FOR BO — PRE-FREEZE CORRECTIONS PASS 1`** (session เจ้าของ = lane claim `5597683510`) · Pass 1 ปิดเฉพาะ **A · B6 · C · D · H3** ·
 > **ยังเปิด: B1 · B2 · B3 · B4 · B5 · H1 · H2** (union ของ `5595832792` + `5597645315`) — ห้ามอ่านว่า "freeze blockers closed" · Pass 2 (B1–B5 + H1–H2) จะ claim แยกหลัง Bo ตรวจ Pass 1
+
+
+---
+
+## `HL-023` — PRE-FREEZE CORRECTIONS PASS 2 (B1–B5 · H1–H2 · P1-1 · P1-2)
+
+**วันที่:** 9 กันยายน 2569 · **ผู้บันทึก:** Giho · **ฐานอำนาจ:** `BO REVIEW — PRE-FREEZE CORRECTIONS PASS 1`
+(`5598957701`) + `BO REVIEW COMPLETE` (`5598526148` Lane B6.1) + `BO CONSOLIDATED CLARIFICATION` (`5597709987`)
+· `LANE CLAIM` `5599445881` · **ป้ายกำกับ** `PRODUCT EVIDENCE — POST-FREEZE`
+
+| รายการ | ค่า |
+|---|---|
+| commit ระบบ (`redbook-verify` · `t1b/fy2570-mvp` · PRIVATE) | **`d04f5d9`** (บน `880c2e8` · push แล้ว · 27 ไฟล์ · +2,821/−213) · **ไม่ merge `main`** |
+| tests | **1005 passed · 0 failed · 0 skipped** (794 unit/synthetic + 211 private) — **developer-machine reported result · ไม่มี CI** · เริ่ม `09:41:28Z` จบ `09:42:39Z` |
+| P1-1 | `pdftext-0.2.0` product path ไม่มี fallback · PyMuPDF เฉพาะ `research_backend()` · negative test ครบ |
+| P1-2 | fixture ชุดขอบเขตแยกใหม่ (คงข้อความล้นขอบ) · ธง `TEXT_CLIPPED_AT_PAGE_EDGE` · บังคับ `AMBIGUOUS_REVIEW_REQUIRED` |
+| B1 | `indicators/identity.py` · `identity_key` ไม่มี `run_id` · canonical ตรึง+alias · `PROVISIONAL-` แยกจาก `IND-` · schema v2 + migration |
+| B2 | binding derive จากคำตัดสินล่าสุด · conflict gate · transitive · เทสต์สี่กรณีของ Bo ครบ |
+| B3 | conservation gate 7 ด่าน + mutation tests |
+| B4 | `/keybuild` (ไม่มีผลของ detector) · ผนึกเฉลย · `/verify`·`/compare`·package ล็อกจนกว่าผนึก |
+| B5 | `/evidence/{doc}?run=` พก **และตรวจ** run context · `RUN_CONTEXT_MISSING` / `MISMATCH` |
+| H1 · H2 | `DocumentIdCollision` ปฏิเสธฉลากชน · `manual_anchor(occurrence, hint)` |
+| dependency | lock **ไม่เปลี่ยน** จาก Pass 1 · `pip-audit` รันซ้ำ = `No known vulnerabilities` (exit 0) |
+
+**fixture หลักคงไบต์เดิม** (`b59b868b…` / `51153258…`) ตามคำสั่ง Bo ว่าไม่ต้องย้อน — ที่เพิ่มคือชุดขอบเขตสองไฟล์
+
+**frozen assets ที่ไม่แตะ:** `redbook/t1/**` · `redbook/t1b/**` core · `redbook/t1b_eval/**` · `redbook/adapters/**` ·
+`redbook/services/t1b.py` · tag `t1-frozen-1.0.0` · Evidence Index `617ceac` · raw results · Human Review workbook v1.3.1 ·
+`docs/T1B_SHADOW_RUN_*` · `docs/FORMATIVE_CASE_NVI_*` (**HOLD IN PLACE** — ไม่ commit ไม่ลบ ไม่ย้าย) ·
+`LANE_B_WEBAPP_GAP_MATRIX.md` · `LANE_C_*` / `LANE_D1*`
+
+🔴 **ห้ามอ่านว่า "freeze blockers closed"** — รายการทั้งหมดถูกแก้และทดสอบแล้วในฝั่งผู้พัฒนา
+แต่การรับรองเป็นของ Bo · สถานะทางการยังเป็น **`FREEZE BLOCKED`** · ยังไม่ tag · ไม่ merge · ไม่ใช้เอกสารจริง ·
+ไม่มีเฉลยของงานวิจัย · ไม่ scoring/unblind
+
+> ### `HANDOFF READY FOR BO — PRE-FREEZE CORRECTIONS PASS 2`
