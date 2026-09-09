@@ -1591,3 +1591,7 @@ PASS  คู่ข้ามหน่วยงาน (แฟ้มจริง) �
 **ยังเปิด (นอกขอบเขต A–D):** B1–B6 จาก `5595832792` — รอ Bo ยืนยันว่ายังมีผลหลัง `5597645315`
 
 > ### `HANDOFF READY FOR BO — PRE-FREEZE CORRECTIONS`
+
+> **หมายเหตุต่อท้าย `HL-022` (forward-only · 9 ก.ย.)** — ตาม `BO CONSOLIDATED CLARIFICATION` (`5597709987`) §4 ชื่อ handoff ของรอบนี้คือ
+> **`HANDOFF READY FOR BO — PRE-FREEZE CORRECTIONS PASS 1`** (session เจ้าของ = lane claim `5597683510`) · Pass 1 ปิดเฉพาะ **A · B6 · C · D · H3** ·
+> **ยังเปิด: B1 · B2 · B3 · B4 · B5 · H1 · H2** (union ของ `5595832792` + `5597645315`) — ห้ามอ่านว่า "freeze blockers closed" · Pass 2 (B1–B5 + H1–H2) จะ claim แยกหลัง Bo ตรวจ Pass 1
