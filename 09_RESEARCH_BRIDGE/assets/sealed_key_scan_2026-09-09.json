@@ -1,0 +1,21 @@
+{
+ "guard_version": "sealed-key-guard-0.1.0",
+ "entries_scanned": 2750,
+ "hits": [
+  {
+   "name": "sealed_key.py",
+   "reason": "sealed_key_filename_token"
+  },
+  {
+   "name": "test_sealed_key_guard.py",
+   "reason": "sealed_key_filename_token"
+  }
+ ],
+ "roots_missing": [],
+ "roots": [
+  "<USER_HOME>/dev (repo clones + data)",
+  "<ONEDRIVE>/Red Vertify Project (cloud-synced deliverables)",
+  "<ONEDRIVE>/IS (thesis working folder)"
+ ],
+ "scanned_at": "2026-09-09"
+}

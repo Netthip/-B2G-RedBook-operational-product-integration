@@ -1542,3 +1542,29 @@ PASS  คู่ข้ามหน่วยงาน (แฟ้มจริง) �
 ### สถานะเมื่อจบรายการนี้
 
 > ### `HANDOFF READY FOR BO — THREE SHADOW-RUN BLOCKERS CLOSED · t1b-key-0.2.0 · T1B-SR-21011-02 COMPLETE`
+
+---
+
+## `HL-021` — ทะเบียนตัวชี้วัด + เปิดหลักฐาน PDF เก่า/ใหม่ + ด่านกันเฉลย (Gate 0–4)
+
+**วันที่:** 9 กันยายน 2569 · **ผู้บันทึก:** Giho · **ฐานอำนาจ:** `GIFT DECISION — ANSWER-KEY CUSTODIAN + INDICATOR/PDF TRACEABILITY WORK ORDER` (Issue #1 · `5595281027`) + คำสั่งกิ๊ฟในแชท · `LANE CLAIM` `5595405342`
+**ป้ายกำกับ:** `PRODUCT EVIDENCE — POST-FREEZE` · **หยุดก่อน unblind/scoring**
+
+| รายการ | ค่า |
+|---|---|
+| commit ระบบ (`redbook-verify` · `t1b/fy2570-mvp` · PRIVATE) | `d251102` (push แล้ว · remote ตรง local) |
+| เอกสารสะพาน (ไฟล์ใหม่) | `INDICATOR_EVAL_ACCESS_MATRIX.md` · `INDICATOR_REGISTRY_SCHEMA.md` · `GIFT_VERIFICATION_PACKAGE_GUIDE.md` · `assets/` (ภาพสังเคราะห์ 2 · scan JSON 1) |
+| tests | **924 passed · 0 failed** (713 unit/synthetic + 211 private · skip 0) — ผลการรันในเครื่องผู้พัฒนา **ไม่มี CI** |
+| detector ที่เสนอตรึง | `indicator-observe-0.1.0` + `indicator-mapping-0.1.0` (`rules_hash 2279b48175707565`) + `indicator-normalize-0.1.0` + backend `pymupdf 1.27.2.3` — สถานะ **`FREEZE CANDIDATE`** (tag หลัง Bo รับ · ก่อนสร้างเฉลย) |
+| ด่านกันเฉลย | `redbook/sealed_key.py` ต่อเข้าทะเบียนเอกสาร · backend PDF · `services.t1b.read_workbook` · ไม่มีสวิตช์ · สแกน 3 ราก 2,750 รายการ **ไม่พบไฟล์ข้อมูลลักษณะเฉลย** (พบเฉพาะโค้ดของด่านเอง 2 ไฟล์) |
+| ผลบนชุดสังเคราะห์ (inventory) | เก่า 7 ข้อสังเกต (หน้า 4 ไม่มีชั้นข้อความ) · ใหม่ 8 · 9 แถว · `SAME_EXACT 1 · SAME_WORDING_VARIANT 1 · SAME_CONCEPT_REPHRASED 1 · DEFINITION_CHANGED 1 · AMBIGUOUS 3 · REMOVED 1 · NEW 1 · RELATED 0 (เครื่องไม่เสนอ)` · accounted ปิด |
+
+**แก้เกินขอบที่ประกาศใน LANE CLAIM 1 จุด (แจ้งก่อนมีใครทัก):** `redbook/services/t1b.py` +2 บรรทัด (เรียกด่าน sealed key ใน `read_workbook`) — เพื่อให้ทางเข้าสมุดงานผ่านด่านเดียวกับ PDF · ไม่แตะตรรกะอื่น
+
+**frozen assets ที่ไม่แตะ:** `redbook/t1/**` · `redbook/t1b/**` core · `redbook/t1b_eval/**` · `redbook/adapters/**` (รวม `ministry_pdf.py` skeleton Phase 3) · tag `t1-frozen-1.0.0` · Evidence Index `617ceac` · raw results · Human Review workbook v1.3.1 · `docs/T1B_SHADOW_RUN_*` · `docs/FORMATIVE_CASE_NVI_*` (untracked ของ session อื่น — ไม่ add) · `LANE_C_*` / `LANE_D1*`
+
+**ขอบเขตที่ต้องอ่านให้ถูก:** งาน PDF ในรอบนี้ = อ่านชั้นข้อความเพื่อชี้ตำแหน่งหลักฐานให้คนกดเปิด · **ไม่ใช่** การเปรียบเทียบ PDF ของสายวิจัย (Phase 3 · `RES-D-32` ยัง blocked) · ผลนับทั้งหมด = inventory ไม่ใช่ผลวิจัย · ไม่มีคะแนน precision/recall ใด ๆ
+
+**รอคำตัดสิน:** ดู `INDICATOR_EVAL_ACCESS_MATRIX.md` §5 และ `GIFT_VERIFICATION_PACKAGE_GUIDE.md` §3 (generator/scorer ที่แยกสิทธิ์ · ตำแหน่งเฉลย · เกณฑ์ 0.75/0.50/0.05 · OCR หรือกรอกด้วยคน · สัญญาอนุญาต PyMuPDF (AGPL) · ชั้นการเปิดเผยของเอกสารจริง)
+
+> ### `HANDOFF READY FOR BO — INDICATOR REGISTRY + PDF TRACEABILITY`
