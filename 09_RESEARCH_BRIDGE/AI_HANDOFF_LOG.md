@@ -1631,3 +1631,27 @@ PASS  คู่ข้ามหน่วยงาน (แฟ้มจริง) �
 ไม่มีเฉลยของงานวิจัย · ไม่ scoring/unblind
 
 > ### `HANDOFF READY FOR BO — PRE-FREEZE CORRECTIONS PASS 2`
+
+
+---
+
+### `HL-024` — Corrective Pass 3 (ตอบ Bo `5600162467`)
+
+| หัวข้อ | สาระ |
+|---|---|
+| B1 | `pick_canonical()` รับ `established_order` แล้วเลือก id ที่ตรึง **ก่อนตามเวลา** (`seq`) · เทสต์ที่ลำดับเวลากลับทางกับลำดับตัวอักษร |
+| B4-a | `indicators/keyuniverse.py` ใหม่ · จักรวาลของเฉลยมาจาก `ind_observations` เท่านั้น · `item_id` จาก `identity_key` · ลำดับกลาง · `record_key_entry()` เดิมถูกปิด |
+| B4-b | ด่านความครบถ้วน 9 ข้อ — ศูนย์/ไม่ครบ/ซ้ำ/ขาด/เกิน/จับคู่ทางเดียว ผนึกไม่ได้ |
+| B4-c | `seal_digest` ผูกตัวตน+การจับคู่+สถานะ+**แฮชเหตุผล**+แฮชเอกสารเต็ม+เวอร์ชัน+manifest ของจักรวาล |
+| B4-d | `ind_detector_snapshots` แยกจาก seal ของเฉลย · `adjudication_unlocked` = ผนึกครบทั้งสอง |
+| schema | **v3** — เพิ่มสี่ตาราง · ตาราง Pass 2 ยังอยู่ครบในฐานะประวัติ |
+| เทสต์ | `1031 passed · 0 failed · 0 skipped` (unit/synthetic 820 · private 211) · **developer-machine reported result · ไม่มี CI** |
+
+**ข้อจำกัดที่พบ:** เฉลยรองรับการจับคู่หนึ่งต่อหนึ่งเท่านั้น · แถว schema v1 ที่ไม่มี `identity_key`
+สร้างจักรวาลไม่ได้ (ล้มแบบเห็นชัด) · ระบบบังคับได้เฉพาะ **ลำดับ** ไม่ใช่ **ตัวบุคคล**
+
+🔴 **ห้ามอ่านว่า "freeze blockers closed"** — การรับรองเป็นของ Bo · สถานะทางการยังเป็น **`FREEZE BLOCKED`**
+ยังไม่ tag · ไม่ merge `main` · ไม่ใช้เอกสารจริง · ไม่มีเฉลยของงานวิจัย · ไม่ scoring/unblind ·
+`docs/FORMATIVE_CASE_NVI_*` ยัง **HOLD IN PLACE**
+
+> ### `HANDOFF READY FOR BO — PRE-FREEZE CORRECTIONS PASS 3`
