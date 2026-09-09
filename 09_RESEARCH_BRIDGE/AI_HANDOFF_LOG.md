@@ -1655,3 +1655,27 @@ PASS  คู่ข้ามหน่วยงาน (แฟ้มจริง) �
 `docs/FORMATIVE_CASE_NVI_*` ยัง **HOLD IN PLACE**
 
 > ### `HANDOFF READY FOR BO — PRE-FREEZE CORRECTIONS PASS 3`
+
+
+---
+
+### `HL-025` — Corrective Pass 4 (ตอบ Bo `5605652708`)
+
+| หัวข้อ | สาระ |
+|---|---|
+| P3-1 | `verify_universe_seal` / `verify_key_seal` / `verify_detector_snapshot` คำนวณใหม่แล้วเทียบด้วย `hmac.compare_digest` · `adjudication_unlocked()` = ผลการตรวจ ไม่ใช่การมีแถว · 12 รหัสเหตุผลแสดงบนหน้าจอ · ห้ามซ่อมทับ ต้องเปิดรอบใหม่ |
+| P3-2 | `indicators/sourceinventory.py` + `ind_source_inventory` — **คนอ่านเอกสารแล้วกรอกเอง** · จักรวาลของเฉลยตั้งต้นจากทะเบียนนี้ · ตัวชี้วัดที่เครื่องสกัดตกหล่นอยู่ในเฉลยและถูกนับเป็น `NO_MATCH` |
+| ลำดับ | ทะเบียนอิสระ → ตรึงจักรวาล → ผนึกผลเครื่อง → ตอบ+ผนึกเฉลย → ตรวจสามชั้น → เปิดขั้นตัดสิน |
+| schema | **v4** — สองตารางใหม่ + สองคอลัมน์ใน `ind_runs` + trigger ที่ Pass 3 ตกไป · ตารางเดิมอยู่ครบ |
+| เทสต์ | `1052 passed · 0 failed · 0 skipped` (unit/synthetic 841 · private 211) · **developer-machine reported result · ไม่มี CI** |
+
+**ข้อจำกัดที่พบ:** ต้นทุนแรงงานของการกรอกทะเบียนอิสระ (ไม่มีปุ่มนำเข้าจากเครื่องโดยเจตนา) ·
+กติกาเทียบใช้ (ฝั่ง·แฮชเอกสาร·หน้า·ข้อความรูปมาตรฐาน·ลำดับ) ไม่ใช่ `identity_key` ·
+`detector_coverage()` ไม่ใช่คะแนน · รอบก่อน v4 ต้องเปิดใหม่ · ระบบบังคับได้เฉพาะลำดับ ไม่ใช่ตัวบุคคล ·
+กรณีหนึ่งต่อหลายยังไม่มีความสัมพันธ์ split/merge (นอกขอบเขตที่ Bo bound ไว้)
+
+🔴 **ห้ามอ่านว่า "freeze blockers closed"** — การรับรองเป็นของ Bo · สถานะทางการยังเป็น **`FREEZE BLOCKED`**
+ยังไม่ tag · ไม่ merge `main` · ไม่ใช้เอกสารจริง · ไม่มีเฉลยของงานวิจัย · ไม่ scoring/unblind ·
+`docs/FORMATIVE_CASE_NVI_*` ยัง **HOLD IN PLACE** · หน้ารายงานผลตรวจ (lane ของกิ๊ฟ) **พักไว้ตามคำสั่ง Bo**
+
+> ### `HANDOFF READY FOR BO — PRE-FREEZE CORRECTIONS PASS 4`
