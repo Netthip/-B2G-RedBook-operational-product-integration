@@ -1568,3 +1568,26 @@ PASS  คู่ข้ามหน่วยงาน (แฟ้มจริง) �
 **รอคำตัดสิน:** ดู `INDICATOR_EVAL_ACCESS_MATRIX.md` §5 และ `GIFT_VERIFICATION_PACKAGE_GUIDE.md` §3 (generator/scorer ที่แยกสิทธิ์ · ตำแหน่งเฉลย · เกณฑ์ 0.75/0.50/0.05 · OCR หรือกรอกด้วยคน · สัญญาอนุญาต PyMuPDF (AGPL) · ชั้นการเปิดเผยของเอกสารจริง)
 
 > ### `HANDOFF READY FOR BO — INDICATOR REGISTRY + PDF TRACEABILITY`
+
+---
+
+## `HL-022` — PRE-FREEZE CORRECTIONS A–D (ตอบ Bo `5597645315` · CONDITIONAL PASS)
+
+**วันที่:** 9 กันยายน 2569 · **ผู้บันทึก:** Giho · **ฐานอำนาจ:** `BO REVIEW — GATE 0–4: CONDITIONAL PASS BEFORE FREEZE` (`5597645315`) + คำสั่งกิ๊ฟในแชท · `LANE CLAIM` `5597683510`
+**ป้ายกำกับ:** `PRODUCT EVIDENCE — POST-FREEZE` · **หนึ่ง bounded corrective pass** · ไม่ tag · ไม่ใช้เอกสารจริง · ไม่สร้างเฉลย · ไม่ scoring/unblind
+
+| รายการ | ค่า |
+|---|---|
+| commit ระบบ (`redbook-verify` · `t1b/fy2570-mvp`) | **`880c2e8`** (บน `d251102` · ไม่ rewrite/revert ตามคำตัดสิน P1 · push แล้ว) |
+| tests | **941 passed · 0 failed · 0 skipped** (730 unit/synthetic + 211 private) — **developer-machine reported result · ไม่มี CI** · manifest `docs/FREEZE_CANDIDATE_MANIFEST_indicator.md` |
+| A ถ้อยคำ | `sealed_key.py` = **accidental sealed-key ingestion guard** · `ACCIDENTAL_SEALED_KEY_INGESTION_GUARD_ENFORCED` · `sealed-key-ingestion-guard-0.1.1` · ข้อกล่าวอ้างเดียว: "The application rejects paths matching the declared sealed-key naming convention before opening them." · ไม่ใช่ access control · ไม่พิสูจน์ non-access · scan = `inventory_only` · เอกสารสะพาน 3 ฉบับปรับถ้อยคำแล้ว |
+| B backend | `pdftext-0.2.0` — ปริยาย `pdfplumber 0.11.9 + pypdfium2 5.8.0` · PyMuPDF → `requirements-research-pymupdf.txt` (`LICENSE REVIEW REQUIRED` · ไม่ใช่ปริยาย) · equivalence test: ข้อความทุกบรรทัดเท่ากัน 9/9 หน้า · bbox ≤ 4 pt · สถานะที่เสนอเท่ากันทั้งสอง backend · fixture สร้างใหม่ (ตัดบรรทัดล้นหน้า) |
+| C override | `tests/test_indicator_override_1267.py` — แถว 1/2/6/7 แสดงโดยปริยาย + ผู้ตรวจ override ได้ทุกสถานะ (6 ข้อ) |
+| D reproducibility | `requirements.lock.txt` (41 pkg) · `docs/DEPENDENCY_LICENSE_INVENTORY.md` (42 pkg · ไม่ใช่ legal clearance) · `pip-audit 2.10.1` = No known vulnerabilities (exit 0 · ผลดิบ `docs/pip_audit_lock_2026-09-09.txt`) · Python 3.12.9 · Windows 10.0.26200 · เวลารัน 07:19:01Z–07:22:02Z |
+| scope deviation | `redbook/services/t1b.py` +3 บรรทัด = **`REVIEWED — ACCEPTED`** (Bo `5597645315` ข้อ 8 · ห้าม revert) |
+
+**frozen assets ที่ไม่แตะ:** `redbook/t1/**` · `redbook/t1b/**` core · `redbook/t1b_eval/**` · `redbook/adapters/**` · tag `t1-frozen-1.0.0` · Evidence Index `617ceac` · raw results · Human Review workbook v1.3.1 · `docs/T1B_SHADOW_RUN_*` · `docs/FORMATIVE_CASE_NVI_*` (untracked · ไม่ commit ไม่ลบ ตามคำตัดสิน) · `LANE_B_WEBAPP_GAP_MATRIX.md` · `LANE_C_*` / `LANE_D1*`
+
+**ยังเปิด (นอกขอบเขต A–D):** B1–B6 จาก `5595832792` — รอ Bo ยืนยันว่ายังมีผลหลัง `5597645315`
+
+> ### `HANDOFF READY FOR BO — PRE-FREEZE CORRECTIONS`

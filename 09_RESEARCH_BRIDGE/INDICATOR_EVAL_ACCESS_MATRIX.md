@@ -1,12 +1,12 @@
 # ACCESS MATRIX — การประเมินทะเบียนตัวชี้วัด (Gate 0) · Gift / Giho / Generator / Scorer
 
 **ป้ายกำกับ:** `PRODUCT EVIDENCE — POST-FREEZE` · **ฐานอำนาจ:** `GIFT DECISION — ANSWER-KEY CUSTODIAN + INDICATOR/PDF TRACEABILITY WORK ORDER` (Issue #1 · `5595281027` · 9 ก.ย. 2569) §1 และ §4 Gate 0
-**ผู้บันทึก:** Giho (detector developer) · **สถานะ:** `PROPOSED — รอ Bo ตรวจ · รอกิ๊ฟยืนยันบทบาท`
+**ผู้บันทึก:** Giho (detector developer) · **สถานะ:** `REVISED 9 ก.ย. (ถ้อยคำตามข้อ A ของ Bo 5597645315) · รอ Bo ตรวจรอบแก้`
 
 > 🔴 เอกสารนี้ **ไม่ใช่** หลักฐานว่ามีเฉลยอยู่ที่ใด — เฉลยยังไม่ถูกสร้าง · สิ่งที่พิสูจน์ได้ตอนนี้คือ
-> (ก) เครื่องมือของผู้พัฒนาปฏิเสธไฟล์ลักษณะเฉลยก่อนแตะเนื้อไฟล์ (บังคับด้วยโค้ด + เทสต์)
-> (ข) ไม่มีไฟล์ลักษณะเฉลยในรากที่ผู้พัฒนาเข้าถึง ณ วันสแกน
-> (ค) ลำดับเวลาที่ต้องรักษา (temporal separation) เขียนไว้ชัดและตรวจย้อนได้จาก audit/commit
+> (ก) **accidental sealed-key ingestion guard** — แอปปฏิเสธ path ที่ตรงกับกติกาชื่อเฉลยที่ประกาศไว้ก่อนเปิดไฟล์ (บังคับด้วยโค้ด + เทสต์) · 🔴 **ไม่ใช่ access control · ไม่พิสูจน์ว่าผู้พัฒนาเข้าถึงเฉลยไม่ได้** (เลี่ยงได้ด้วยการเปลี่ยนชื่อไฟล์/แก้โค้ด) = defense in depth
+> (ข) ผลสแกนชื่อ 2,750 รายการ = **inventory evidence เท่านั้น** ไม่พิสูจน์ว่าไม่มีเฉลย
+> (ค) **การแยกบทบาทจริงอยู่นอก repo และนอกเครื่อง/บัญชีที่ผู้พัฒนาเข้าถึง** — กิ๊ฟเป็น custodian/verifier/adjudicator เลือกและควบคุมตำแหน่งเฉลย · Giho ได้รับเฉพาะ evaluation inputs และภายหลัง sealed detector output · บันทึก hash ของเฉลยในที่สาธารณะได้ แต่เนื้อเฉลยห้ามเข้ามาในรากที่ Giho เข้าถึงก่อน unblind ที่ได้รับอนุญาต · **ห้ามโพสต์ตำแหน่งจริงของเฉลยใน Issue**
 
 ---
 
@@ -44,11 +44,11 @@ T5  Gift สั่ง unblind  ──►  การแก้ detector ใด ๆ
 
 ---
 
-## 3. สิ่งที่บังคับด้วยโค้ดแล้ว (repo `redbook-verify` · branch `t1b/fy2570-mvp`)
+## 3. สิ่งที่บังคับด้วยโค้ดแล้ว — defense in depth เท่านั้น (repo `redbook-verify` · branch `t1b/fy2570-mvp`)
 
 | กลไก | ที่ | หลักฐาน |
 |---|---|---|
-| ด่านกันเฉลย — ปฏิเสธโฟลเดอร์ `SEALED_KEY/ answer_key/ gold_key/ …` และชื่อไฟล์มีโทเคน `ANSWER_KEY / SEALED_KEY / GOLD_KEY` **ก่อนแตะเนื้อไฟล์** | `redbook/sealed_key.py` | `tests/test_sealed_key_guard.py` — ดักทั้ง `builtins.open` และ `fitz.open` พร้อมเทสต์ที่พิสูจน์ว่าตัวดักทำงานจริง |
+| accidental sealed-key ingestion guard — ปฏิเสธโฟลเดอร์ `SEALED_KEY/ answer_key/ gold_key/ …` และชื่อไฟล์มีโทเคน `ANSWER_KEY / SEALED_KEY / GOLD_KEY` **ก่อนแตะเนื้อไฟล์** | `redbook/sealed_key.py` | `tests/test_sealed_key_guard.py` — ดักทั้ง `builtins.open` และ `fitz.open` พร้อมเทสต์ที่พิสูจน์ว่าตัวดักทำงานจริง |
 | ต่อด่านเข้าทุกทางเข้า: ทะเบียนเอกสาร · backend PDF · `services.t1b.read_workbook` | `evidence/documents.py` · `evidence/pdftext.py` · `services/t1b.py` | เทสต์ decoy ใน 3 ทาง · `opened == []` |
 | **ไม่มีสวิตช์** env/config ปิดด่าน | `sealed_key.py` | `test_guard_has_no_environment_switch` |
 | หน้าตรวจเฉลย/ชุด XLSX **ไม่มีคะแนนของเครื่อง** | `services/evidence.py` (`mappings()` คืนคะแนน 0.0 โดยปริยาย · `public_basis()` ถอดตัวเลข) | `test_internal_score_is_not_exposed_by_default` · `test_side_by_side_compare_shows_both_pages_and_no_score` · `test_verification_package_has_no_scores_paths_or_unpublished_text` |
@@ -56,7 +56,7 @@ T5  Gift สั่ง unblind  ──►  การแก้ detector ใด ๆ
 
 ---
 
-## 4. หลักฐานว่า ณ วันสแกน ไม่มีเฉลยในรากที่ผู้พัฒนาเข้าถึง
+## 4. inventory evidence — ผลสแกนชื่อ ณ วันสแกน (ไม่ใช่ข้อพิสูจน์ว่าไม่มีเฉลย / ไม่ใช่ข้อพิสูจน์การเข้าถึง)
 
 `sealed_key.scan_roots()` · 9 ก.ย. 2569 · ราก 3 แห่ง (`<USER_HOME>/dev` = repo clones + data · `<ONEDRIVE>/Red Vertify Project` · `<ONEDRIVE>/IS`)
 
@@ -67,13 +67,17 @@ T5  Gift สั่ง unblind  ──►  การแก้ detector ใด ๆ
 | ไฟล์ข้อมูลลักษณะเฉลย | **ไม่พบ** |
 | ไฟล์ดิบ | `assets/sealed_key_scan_2026-09-09.json` |
 
-⚠️ ถ้อยคำที่ถูกต้อง: *"ไม่พบชื่อที่เข้าข่ายตามกติกาของด่าน ณ วันสแกน"* — **ไม่ใช่** "พิสูจน์แล้วว่าไม่มีเฉลว" · เฉลยในรูปที่ไม่ตรงกติกาชื่อ (เช่น ตั้งชื่อธรรมดา) ด่านนี้มองไม่เห็น ⇒ **ตำแหน่งเฉลยจริงต้องอยู่นอกรากทั้งสามและนอก `REDBOOK_DATA_DIR`/`REDBOOK_DATA_ROOT`** ซึ่งเป็นคำตัดสินของกิ๊ฟ
+⚠️ ถ้อยคำที่ถูกต้อง: *"ไม่พบชื่อที่เข้าข่ายตามกติกาของด่าน ณ วันสแกน"* — **ไม่ใช่** "พิสูจน์แล้วว่าไม่มีเฉลย" และ **ไม่ใช่** "พิสูจน์ว่าผู้พัฒนาเข้าถึงไม่ได้" · เฉลยในรูปที่ไม่ตรงกติกาชื่อ (เช่น ตั้งชื่อธรรมดา) ด่านนี้มองไม่เห็น ⇒ **ตำแหน่งเฉลยจริงต้องอยู่นอกรากทั้งสามและนอก `REDBOOK_DATA_DIR`/`REDBOOK_DATA_ROOT`** ซึ่งเป็นคำตัดสินของกิ๊ฟ
 
 ---
 
-## 5. สิ่งที่ยังพิสูจน์ไม่ได้ / ต้องให้กิ๊ฟตัดสิน
+## 5. คำตัดสินที่บันทึกแล้ว (Bo `5597645315` · Gift decisions recorded now) และที่ยังรอ
 
-1. **ใครเป็น generator/key builder ที่แยกสิทธิ์จริง** — Giho ทำไม่ได้ (เป็นผู้พัฒนา detector) · Bo/กิ๊ฟ/อาจารย์ ต้องกำหนด
+**บันทึกแล้ว:** กิ๊ฟ = key custodian · key verifier · final adjudicator และทำ mechanical scoring หลัง output ถูกผนึกได้ · Giho = detector developer ห้ามสร้าง/ดูเฉลยก่อน unblind ที่ได้รับอนุญาต · หน้าสแกน: ground truth กรอก/ยืนยันโดยคน (OCR = product experiment แยกป้าย ไม่ใช่ ground truth) · การแก้ `services/t1b.py` = `REVIEWED — ACCEPTED` · PyMuPDF ไม่ใช่ dependency ปริยาย
+
+**ยังรอ (ก่อนรันเอกสารจริง):**
+
+1. **generator/key builder ที่แยกสิทธิ์จริง** — ต้องเป็นมนุษย์/ผู้ถือข้อมูลที่ไม่ใช่ Giho และไม่ใช่ Bo-as-same-system · ถ้ายังไม่มีชื่อ Gate 5 = `BLOCKED-ROLE`
 2. **ตำแหน่งเก็บเฉลย** — ต้องอยู่นอกรากที่ Giho เข้าถึงและนอกโฟลเดอร์ที่แอปอ่าน
 3. **ลำดับเวลา** — ยืนยันว่า FREEZE (T0→tag) เกิดหลัง Bo รับ handoff นี้ และก่อน T1
 4. **ผู้ให้คะแนน** — เป็นกิ๊ฟเอง หรือแยกคน · ถ้าเป็นกิ๊ฟต้องบันทึกว่าเห็น output ที่ผนึกเมื่อใด

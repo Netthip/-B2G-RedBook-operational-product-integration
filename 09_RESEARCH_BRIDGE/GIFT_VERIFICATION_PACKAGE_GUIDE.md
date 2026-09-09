@@ -5,7 +5,8 @@
 
 > 🔴 ชุดตรวจนี้ **ไม่แสดงคะแนนของเครื่อง** โดยเจตนา (คำสั่งกิ๊ฟ: *"Do not show detector scores in the
 > key-verification view if doing so could bias the key decision"*) — มีเทสต์กันทั้งหน้าเว็บและไฟล์ XLSX
-> · การกรอกคำตัดสินของกิ๊ฟ **ไม่ใช่** การ unblind หรือ scoring — เป็นการสร้าง/ยืนยันเฉลยฝั่ง custodian
+> · ⚠️ Bo (`5595832792` B4) ชี้ว่าหน้านี้แสดง *สถานะที่ detector เสนอ* จึงเหมาะกับ **post-run adjudication** มากกว่าการสร้าง/ยืนยันเฉลยอิสระ — การแยก artifact `KEY BUILD/VERIFY` (ไม่แสดง proposed status/basis) ออกจาก `POST-RUN ADJUDICATION` **ยังไม่ทำในรอบ A–D** · รอ Bo ยืนยันว่าจะให้ทำในรอบถัดไป
+> · ทุกแถวรวม 1/2/6/7 แสดงโดยปริยายและผู้ตรวจ override ได้ (เทสต์ `test_indicator_override_1267.py`)
 
 ---
 
@@ -52,5 +53,5 @@
 | 2 | ชั้นการเปิดเผยของแต่ละเอกสาร (`PUBLIC_PUBLISHED` / `INTERNAL_NOT_PUBLISHED`) — กำหนดว่าข้อความออกในไฟล์ได้หรือไม่ | กิ๊ฟ (ตาม `feedback_disclosure_by_document_stage`) |
 | 3 | เกณฑ์ตัวเลขของกติกาจับคู่ (0.75 / 0.50 / 0.05) — ตรึงพร้อม detector ก่อนสร้างเฉลย | Bo → กิ๊ฟ |
 | 4 | หน้าที่ไม่มีชั้นข้อความ: กรอกด้วยคน (`manual_observation` · `PAGE_ONLY`) หรือทำ OCR ในรอบถัดไป | กิ๊ฟ |
-| 5 | สัญญาอนุญาต backend PDF (PyMuPDF = AGPL-3.0) สำหรับสายผลิตภัณฑ์ | กิ๊ฟ/โบ |
+| 5 | ~~สัญญาอนุญาต backend PDF~~ — ตัดสินแล้ว (Bo `5597645315` ข้อ B): backend ปริยาย = pdfplumber+pypdfium2 · PyMuPDF = extra วิจัย `LICENSE REVIEW REQUIRED` | ปิด |
 | 6 | คำตัดสินของกิ๊ฟถือเป็น **เฉลย** ที่ต้องผนึกก่อน Giho รัน detector บนชุดจริง — ต้องกำหนดผู้ถือ hash และเวลาผนึก | กิ๊ฟ |
