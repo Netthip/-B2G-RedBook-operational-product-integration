@@ -1679,3 +1679,23 @@ PASS  คู่ข้ามหน่วยงาน (แฟ้มจริง) �
 `docs/FORMATIVE_CASE_NVI_*` ยัง **HOLD IN PLACE** · หน้ารายงานผลตรวจ (lane ของกิ๊ฟ) **พักไว้ตามคำสั่ง Bo**
 
 > ### `HANDOFF READY FOR BO — PRE-FREEZE CORRECTIONS PASS 4`
+
+
+---
+
+### `HL-026` — Hardening Pass 5 (ตอบ Bo `5606392284`)
+
+| หัวข้อ | สาระ |
+|---|---|
+| P4-1 | รายงาน · รายการรอบ (จำนวน) · หน้าข้อสังเกต `obs=` · เทียบข้างกัน · ขั้นตัดสิน · decide · package **ล็อกจนกว่าตรวจผนึกผ่าน** · เอาลิงก์รายงานออกจากขั้นเฉลย · ด่าน AST "ตรวจก่อนประกอบ" |
+| P4-2 | `ind_export_manifests` · ดาวน์โหลดแบบระบุรอบ ตรวจผนึก+digest+sha256 ทุกครั้ง · route เดิม 410 · ไฟล์เก่าไม่มีบันทึก ⇒ ปฏิเสธ · ไม่ลบไฟล์เดิม |
+| P4-3 | `detector-snapshot-0.2.0` ครอบคู่ + ข้อสังเกตทุกตัว + metadata 14 ฟิลด์ · digest แยกสามส่วน · พิธีการเก่า ⇒ ล็อก |
+| P4-4 | occurrence นิยามใหม่ (ครั้งที่ข้อความเดียวกันปรากฏในหน้า) · จับคู่ห้าองค์ประกอบตรงตัว · ลำดับเครื่องกำหนดได้ · ตรวจเลขหน้าเทียบจำนวนหน้าจริง |
+| schema | **v5** |
+| เทสต์ | `1099 passed · 0 failed · 0 skipped` (unit/synthetic 888 · private 211) · **developer-machine reported result · ไม่มี CI** · ยืนยันด้วยการทำลายโค้ดชั่วคราวว่าเทสต์ใหม่ล้มจริงเมื่อด่านหาย |
+
+🔴 **ห้ามอ่านว่า "freeze blockers closed"** — การรับรองเป็นของ Bo · สถานะทางการยังเป็น **`FREEZE BLOCKED`**
+ยังไม่ tag · ไม่ merge `main` · ไม่ใช้เอกสารจริง · ไม่มีเฉลยของงานวิจัย · ไม่ scoring/unblind ·
+`docs/FORMATIVE_CASE_NVI_*` ยัง **HOLD IN PLACE** · หน้ารายงานผลตรวจของกิ๊ฟ **ยังไม่เริ่ม** ตามคำสั่ง Bo
+
+> ### `HANDOFF READY FOR BO — PRE-FREEZE HARDENING PASS 5`
