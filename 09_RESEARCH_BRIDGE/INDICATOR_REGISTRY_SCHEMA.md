@@ -303,3 +303,25 @@ Pass 3 สร้างจักรวาลจาก `ind_observations` ซึ�
 append-only · ดาวน์โหลดผ่าน `/indicators/runs/{run}/exports/{name}` ซึ่งตรวจทุกข้อใหม่ก่อนส่ง ·
 รหัสปฏิเสธ `EXPORT_NOT_BOUND_TO_RUN` · `EXPORT_BELONGS_TO_ANOTHER_RUN` · `EXPORT_SEALS_NOT_VERIFIED` ·
 `EXPORT_SEAL_DIGEST_CHANGED_SINCE_EXPORT` · `EXPORT_FILE_CHANGED_SINCE_EXPORT` · `EXPORT_FILE_MISSING`
+
+
+---
+
+## 11. Pass 6 — projection มาตรฐานของผลเครื่อง (`detector-snapshot-0.3.0`)
+
+> append-only ตาม `BO REVIEW COMPLETE — PRE-FREEZE HARDENING PASS 5` (`5615776981`) · หัวข้อ 1–10 ไม่ถูกแก้
+
+§10.1 (Pass 5) ผูกผลเครื่องด้วย **รายการฟิลด์ที่เลือกเอง** ซึ่งตกหล่น `human_required` · `differences_json` ·
+`alternatives_json` และฟิลด์พิกัด/ขนาดหน้า/ความหมายของข้อสังเกต · Bo: *"Avoid another partial field list."*
+
+ตั้งแต่ Pass 6 artifact ผลเครื่องผูก **ทุกคอลัมน์** ของสี่ส่วน โดยอ่านรายชื่อคอลัมน์จาก schema จริงทุกครั้ง
+
+| ส่วน | ตาราง | ขอบเขตแถว |
+|---|---|---|
+| `mappings` | `ind_mappings` | ทุกแถวของรอบ |
+| `observations` | `ind_observations` | ทุกแถวของรอบ |
+| `metadata` | `ind_runs` | แถวของรอบ |
+| `documents` | `evd_documents` | สองแถวที่รอบอ้าง — ยกเว้น `local_path_private` (ข้อมูลส่วนตัว · ไม่ถูกแสดง/ส่งออก · เนื้อไฟล์ผูกด้วย `content_sha256` แล้ว) |
+
+รายชื่อคอลัมน์อยู่ในหัวของ digest ⇒ คอลัมน์ใหม่ในอนาคตถูกครอบอัตโนมัติ และทำให้ผนึกเดิมตรวจไม่ผ่าน ·
+ผนึกพิธีการ 0.2.0 ⇒ `DETECTOR_SNAPSHOT_PROTOCOL_OUTDATED` · รหัสเหตุผลใหม่ `DETECTOR_DOCUMENT_CONTEXT_MISMATCH`
