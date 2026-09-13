@@ -1719,3 +1719,29 @@ PASS  คู่ข้ามหน่วยงาน (แฟ้มจริง) �
 `docs/FORMATIVE_CASE_NVI_*` ยัง **HOLD IN PLACE** · หน้ารายงานผลตรวจของกิ๊ฟ **ยังไม่เริ่ม**
 
 > ### `HANDOFF READY FOR BO — PRE-FREEZE HARDENING PASS 6`
+
+
+---
+
+### `HL-028` — Technical freeze tag (ตอบ Bo `5628976929` §Next bounded directive ข้อ 1–2)
+
+| หัวข้อ | สาระ |
+|---|---|
+| tag | **`indicator-eval-frozen-1.0.0`** · annotated · tag object `4f84467def9dfd6515b49708d502bb524c36ce1a` · push แล้ว |
+| ชี้ไปที่ | **`55c0fc3a2ac88e2cce74724abe5af5625b920f4a` เท่านั้น** · tree `2017dd47b5826c6c7cab8815d968acf186244809` · parent `97be8b6` (หนึ่ง commit) · `origin/t1b/fy2570-mvp` = `55c0fc3` ขณะติด tag |
+| detector | `detector-snapshot-0.3.0` |
+| กติกาจับคู่ | `indicator-mapping-0.2.0` · **`rules_hash ca3cebc4a59e3f50`** — คำนวณจากโค้ดที่ tag (`rephrase_min 0.75 · ambiguous_min 0.50 · tie_margin 0.05`) |
+| dependency lock | `requirements.lock.txt` · git blob `af5e167607c18da83500d2ba4c18860ae98a3e3f` · sha256 (LF) `13a9aaf7248cf62e46ebf725bf18cd97f3f0f4dc52413d56401d69b158b114a2` · 41 แพ็กเกจ |
+| เทสต์ | handoff Pass 6: `1127 passed · 0 failed · 0 skipped` (unit/synthetic 916 · private 211) · **รันซ้ำตอนติด tag บน worktree ใหม่ของ commit นี้** (git status สะอาดก่อนและหลัง): `1123 passed · 4 skipped · 0 failed` — สี่ข้อคือการตรวจแบบฟอร์มจริงใน `tests/test_reviewpack_v2.py` ซึ่งไฟล์อยู่ใต้ `.data/` (gitignored) จึงไม่มีใน checkout ใหม่ · สองไฟล์เดียวกันใน working tree ของผู้พัฒนา (เนื้อหา tracked ตรงกับ commit นี้): `81 passed · 0 skipped` |
+| CI | **ไม่มี** — ไม่มีไฟล์ workflow ใน commit · GitHub: 0 check runs · 0 statuses · 0 workflow runs (ตรวจ 13 ก.ย. 2569) · ผลเทสต์ = **developer-machine regression evidence** ไม่ใช่ CI ไม่ใช่การทำซ้ำอิสระ ไม่ใช่ผลการวัด |
+
+**บันทึกไปข้างหน้า (forward-only)** — `docs/FREEZE_CANDIDATE_MANIFEST_indicator.md` §1 ใน repo ระบบเขียน `rules_hash 2279b48175707565`
+คู่กับ `indicator-mapping-0.2.0` · คำนวณซ้ำแล้ว `2279b48175707565` คือแฮชของเกณฑ์ชุดเดียวกันเมื่อ `version = indicator-mapping-0.1.0`
+(บันทึกเก่าในไฟล์นี้ที่คู่ค่านี้กับ 0.1.0 จึงถูกต้องอยู่แล้ว) · **ค่าที่ผูกกับ tag นี้คือ `ca3cebc4a59e3f50`** ·
+ไม่แก้ manifest เพราะเป็นส่วนของ evaluator ที่ tag แล้ว · ข้อความ tag บันทึกหมายเหตุเดียวกัน
+
+🔴 หลัง tag นี้ **ไม่เปลี่ยน evaluator ที่ tag แล้ว** — โค้ด · dependency · กติกา · schema ที่เปลี่ยน ต้องเป็นเวอร์ชันใหม่ · tag ใหม่ · รอบประเมินใหม่ ·
+ไม่ merge `main` · ไม่ deploy · ไม่โหลดเอกสารจริง · ไม่สร้าง/เก็บเฉลยจริง · ไม่ scoring/unblind · ไม่อ้างผลการวัด ·
+เลน custody ของ blind run จริง และเลนข้อมูลจริง/scoring ยัง **BLOCKED**
+
+> ### `HANDOFF READY FOR BO — TECHNICAL FREEZE TAG`
