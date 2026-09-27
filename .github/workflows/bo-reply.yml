@@ -1,0 +1,44 @@
+name: Bo reply
+
+# ปลุก Bo เมื่อเจ้าของรีโพโพสต์คอมเมนต์ที่บรรทัดแรกส่งถึง Bo  (… → Bo · ตอบ …)
+# คำตอบของ Bo โพสต์ด้วย github-actions[bot] จึงไม่ปลุกตัวเองซ้ำ
+on:
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: เลขใบที่ให้ Bo อ่านแล้วตอบคอมเมนต์ล่าสุด
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: bo-reply-${{ github.event.issue.number || inputs.issue }}
+  cancel-in-progress: false
+
+jobs:
+  reply:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.issue.pull_request == null &&
+       github.event.comment.user.login == github.repository_owner &&
+       contains(github.event.comment.body, '→ Bo') &&
+       !contains(github.event.comment.body, '<!-- bo-bot -->'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Bo reads the thread and replies
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          BO_MODEL: ${{ vars.BO_MODEL }}
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+        run: python 09_RESEARCH_BRIDGE/tools/bo_reply.py
