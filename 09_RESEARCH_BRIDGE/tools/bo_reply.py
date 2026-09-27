@@ -88,6 +88,16 @@ def ask_openai(system: str, user: str) -> str:
 def main() -> int:
     sys.stdout.reconfigure(encoding="utf-8")
     comments = gh_comments()
+    trigger_id = os.environ.get("COMMENT_ID") or ""
+    trigger = next((c for c in comments if str(c["id"]) == trigger_id), comments[-1] if comments else None)
+    # workflow กรองหยาบจากทั้งคอมเมนต์ — ที่นี่ตรวจละเอียดว่า "→ Bo" อยู่ในบรรทัดแรกจริง
+    if trigger_id and "→ Bo" not in trigger["body"].splitlines()[0]:
+        print("บรรทัดแรกไม่ได้ส่งถึง Bo — ข้าม")
+        return 0
+    if not os.environ.get("OPENAI_API_KEY") and not os.environ.get("DRY_RUN"):
+        print("ยังไม่ได้ตั้ง secret OPENAI_API_KEY — ข้าม")
+        return 0
+
     since = datetime.now(timezone.utc) - timedelta(days=1)
     recent_bot = [c for c in comments if MARKER in c["body"]
                   and datetime.fromisoformat(c["created_at"].replace("Z", "+00:00")) > since]
@@ -98,8 +108,6 @@ def main() -> int:
         return 0
 
     issue = gh_api(f"repos/{REPO}/issues/{ISSUE}")
-    trigger_id = os.environ.get("COMMENT_ID") or ""
-    trigger = next((c for c in comments if str(c["id"]) == trigger_id), comments[-1] if comments else None)
 
     history = "\n\n".join(
         f"=== comment {c['id']} · {c['user']['login']} · {c['created_at']} ===\n{c['body'][:PER_COMMENT_CHARS]}"
