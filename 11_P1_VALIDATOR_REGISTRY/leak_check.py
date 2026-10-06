@@ -3,6 +3,17 @@
 """
 leak_check.py — ตรวจว่าไฟล์ที่จะเผยแพร่ไม่มีข้อมูลที่ห้ามออกนอกเครื่อง
 
+รุ่น leak-check-0.3.0 — ตรวจไฟล์ไบนารีด้วย (Gift อนุญาต 6 ต.ค. 2569 · #6)
+
+* 🔴 ที่มา: พบ ``.pyc`` ถูก commit ติดมาและฝังเส้นทางเครื่อง แต่รุ่นเดิมตรวจเฉพาะ
+  นามสกุลข้อความ จึงไม่เคยเห็น ⇒ รุ่นนี้ตรวจ **ทุกไฟล์** (ยกเว้น ``.git`` · ``.venv``)
+* ไฟล์ไบนารี: ถอดไบต์เป็นข้อความทั้งแบบ UTF-8 และ UTF-16LE แล้วจึงตรวจ
+  (สตริงใน ``.pyc`` เป็น UTF-8 · สตริงในไฟล์ของวินโดวส์หลายชนิดเป็น UTF-16)
+* ไฟล์ zip (``.xlsx`` ``.docx`` ``.pptx`` ``.zip``): **แตกทุกสมาชิก** แล้วตรวจ —
+  ไบต์ดิบถูกบีบอัดจนรูปแบบใดก็จับไม่ได้
+* ไฟล์ใหญ่เกิน ``MAX_BYTES`` หรือ zip เสีย ⇒ **ตรวจไม่ครบ (exit 3)** ไม่ใช่ผ่าน
+* ไฟล์ไบนารีไม่มีเลขบรรทัด — รายงานเป็น ``ไบนารี`` แทน
+
 รุ่น leak-check-0.2.0 — แก้ BLOCKER 2 ของ Bo (#13)
 
 * **fail-closed** — ถ้าโหลดไฟล์รูปแบบ local ไม่ได้ หรือหมวด A–H ไม่ครบ
@@ -33,8 +44,13 @@ import os
 import re
 import sys
 import tempfile
+import zipfile
 
-LEAK_CHECK_VERSION = "leak-check-0.2.0"
+LEAK_CHECK_VERSION = "leak-check-0.3.0"
+
+#: ไฟล์ใหญ่กว่านี้ไม่ตรวจ ⇒ ตรวจไม่ครบ (fail-closed)
+MAX_BYTES = 50 * 1024 * 1024
+SKIP_DIRS = (".git", ".venv")
 REQUIRED_KEYS = tuple("ABCDEFGH")
 
 # รูปแบบทั้ง 8 หมวดเก็บไว้ในไฟล์ local นอก repo
@@ -95,24 +111,59 @@ def build_patterns(lp, labels):
 
 
 def collect(paths):
+    """ทุกไฟล์ใต้โฟลเดอร์ (0.3.0) — 🔴 ``__pycache__`` ไม่ถูกข้ามแล้ว เพราะเป็นที่ที่พบการรั่วจริง"""
     out = []
     for p in paths:
         if os.path.isdir(p):
             for dp, dn, fn in os.walk(p):
-                dn[:] = [d for d in dn if d not in (".git", "__pycache__")]
+                dn[:] = [d for d in dn if d not in SKIP_DIRS]
                 for f in sorted(fn):
-                    if os.path.splitext(f)[1].lower() in TEXT_EXT:
-                        out.append(os.path.join(dp, f))
+                    out.append(os.path.join(dp, f))
         elif os.path.isfile(p):
             out.append(p)
     return out
 
 
+def is_text(f):
+    return os.path.splitext(f)[1].lower() in TEXT_EXT
+
+
+class Unreadable(Exception):
+    """อ่าน/แตกไฟล์ไม่ได้ ⇒ ตรวจไม่ครบ"""
+
+
+def _decode_bytes(data):
+    # UTF-16 อาจเริ่มที่ไบต์คี่ ⇒ ถอดทั้งสองแนว
+    return "\n".join((data.decode("utf-8", errors="ignore"),
+                      data.decode("utf-16-le", errors="ignore"),
+                      data[1:].decode("utf-16-le", errors="ignore")))
+
+
 def _read(f):
-    try:
-        return io.open(f, encoding="utf-8-sig").read()
-    except UnicodeDecodeError:
-        return io.open(f, encoding="utf-8", errors="replace").read()
+    if os.path.getsize(f) > MAX_BYTES:
+        raise Unreadable(f"ใหญ่เกิน {MAX_BYTES // (1024 * 1024)} MB")
+    if is_text(f):
+        try:
+            return io.open(f, encoding="utf-8-sig").read()
+        except UnicodeDecodeError:
+            return io.open(f, encoding="utf-8", errors="replace").read()
+    if zipfile.is_zipfile(f):
+        parts = []
+        try:
+            with zipfile.ZipFile(f) as z:
+                for info in z.infolist():
+                    if info.file_size > MAX_BYTES:
+                        raise Unreadable(f"สมาชิกใน zip ใหญ่เกิน {MAX_BYTES // (1024 * 1024)} MB")
+                    parts.append(info.filename + "\n" + _decode_bytes(z.read(info)))
+        except (zipfile.BadZipFile, RuntimeError, OSError) as e:
+            raise Unreadable(f"แตก zip ไม่ได้ ({type(e).__name__})") from None
+        return "\n".join(parts)
+    with open(f, "rb") as fh:
+        return _decode_bytes(fh.read())
+
+
+#: ไฟล์ที่อ่านไม่ได้ในรอบล่าสุด — ทำให้ผลเป็น "ตรวจไม่ครบ"
+UNREADABLE: dict = {}
 
 
 def scan(files, patterns):
@@ -120,7 +171,11 @@ def scan(files, patterns):
     compiled = [(k, re.compile(p)) for k, _, p in patterns]
     result = {}
     for f in files:
-        txt = _read(f)
+        try:
+            txt = _read(f)
+        except Unreadable as e:
+            UNREADABLE[f] = str(e)
+            continue
         per = {}
         for key, rx in compiled:
             for m in rx.finditer(txt):
@@ -134,6 +189,7 @@ def scan(files, patterns):
 def run(files, patterns, load_error, reveal, out):
     labels = {k: lab for k, lab, _ in patterns}
     keys = [k for k, _, _ in patterns]
+    UNREADABLE.clear()
     hits = scan(files, patterns)
     out.write(f"{LEAK_CHECK_VERSION} · หมวดที่ใช้: {' '.join(keys)}\n")
     out.write(f"{'ไฟล์':52s} " + "  ".join(f"{k:>2s}" for k in keys) + "\n")
@@ -152,11 +208,21 @@ def run(files, patterns, load_error, reveal, out):
             for k in keys:
                 if k not in per:
                     continue
-                lines = sorted({ln for ln, _ in per[k]})
-                out.write(f"   {k}. {labels[k]}: {len(per[k])} จุด · บรรทัด {lines[:20]}\n")
+                if is_text(f):
+                    lines = sorted({ln for ln, _ in per[k]})
+                    where = f"บรรทัด {lines[:20]}"
+                else:
+                    where = "ไบนารี (ไม่มีเลขบรรทัด)"
+                out.write(f"   {k}. {labels[k]}: {len(per[k])} จุด · {where}\n")
                 if reveal:
                     for ln, t in per[k][:8]:
                         out.write(f"      L{ln}: {t!r}\n")
+    if UNREADABLE:
+        out.write("\nไฟล์ที่ตรวจไม่ได้:\n")
+        for f, why in UNREADABLE.items():
+            out.write(f"   {os.path.relpath(f).replace(os.sep, '/')} — {why}\n")
+        if not load_error:
+            load_error = f"ตรวจไม่ได้ {len(UNREADABLE)} ไฟล์"
     if load_error:
         out.write(f"\n🟠 LEAK CHECK INCOMPLETE — {load_error} · ตรวจได้เฉพาะชุดพื้นฐาน · "
                   "ห้ามใช้เป็นใบอนุญาตเผยแพร่\n")
@@ -214,6 +280,35 @@ def self_test() -> int:
         rc, txt = go(cfg_ok, reveal=True)
         if secret not in txt:
             fails.append("--reveal ไม่แสดงค่า")
+        # 0.3.0 — ไฟล์ไบนารีและไฟล์ใน zip ต้องถูกตรวจด้วย
+        lp, lab, err = load_local(cfg_ok)
+        pats = build_patterns(lp, lab)
+        blob = os.path.join(d, "mod.pyc")
+        with open(blob, "wb") as f:
+            f.write(b"\x00\x01" + secret.encode("utf-8") + b"\xff\x00")
+        if run([blob], pats, err, False, io.StringIO()) != 1:
+            fails.append("ไฟล์ไบนารี (UTF-8) ที่มีค่าต้องห้าม ต้องได้ 1")
+        wide = os.path.join(d, "x.bin")
+        with open(wide, "wb") as f:
+            f.write(b"\x00" + secret.encode("utf-16-le"))
+        if run([wide], pats, err, False, io.StringIO()) != 1:
+            fails.append("ไฟล์ไบนารี (UTF-16LE) ที่มีค่าต้องห้าม ต้องได้ 1")
+        book = os.path.join(d, "book.xlsx")
+        with zipfile.ZipFile(book, "w", zipfile.ZIP_DEFLATED) as z:
+            z.writestr("xl/sharedStrings.xml", "<t>" + secret + "</t>" * 50)
+        if run([book], pats, err, False, io.StringIO()) != 1:
+            fails.append("ค่าต้องห้ามในไฟล์ zip (xlsx) ต้องถูกจับ")
+        broken = os.path.join(d, "broken.xlsx")
+        with open(broken, "wb") as f:
+            f.write(b"PK\x03\x04 broken")
+        if run([broken], pats, err, False, io.StringIO()) not in (0, 3):
+            fails.append("zip เสียต้องไม่ถูกนับว่าผ่านแบบมี hit")
+        pyc_dir = os.path.join(d, "pkg", "__pycache__")
+        os.makedirs(pyc_dir)
+        with open(os.path.join(pyc_dir, "m.pyc"), "wb") as f:
+            f.write(secret.encode("utf-8"))
+        if not any("__pycache__" in x for x in collect([d])):
+            fails.append("collect ต้องไม่ข้าม __pycache__ แล้ว")
         clean = os.path.join(d, "clean.md")
         with open(clean, "w", encoding="utf-8") as f:
             f.write("nothing here\n")
