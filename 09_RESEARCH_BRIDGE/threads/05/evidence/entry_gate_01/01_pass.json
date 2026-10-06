@@ -1,0 +1,72 @@
+{
+  "conservation_ok": true,
+  "kind": "t1b-final-evaluation",
+  "outputs_count": 2,
+  "posture_gate": {
+    "checked_at_utc": "2026-10-07T00:00:00Z",
+    "decision_source": "Issue #5 · Bo REVIEW/DECISION 2026-10-07 — posture ที่ entry ไม่ใช่ใน score()",
+    "expected_referral_types": [
+      "S-06",
+      "T-02"
+    ],
+    "gate_version": "t1b-eval-entry-gate-0.1.0",
+    "gold_by_stratum": {
+      "EXPLORATORY": 1,
+      "PRIMARY": 3
+    },
+    "gold_by_type": {
+      "F-01": 1,
+      "S-06": 1,
+      "T-02": 1,
+      "V-01": 1
+    },
+    "gold_count": 4,
+    "posture_table_sha256": "5173d822b7a47d6cac69f7e039d3f7ccaa143b020ff625e0764e236bdbc24189",
+    "posture_table_version": "t1b-posture-0.2.0",
+    "reasons": [],
+    "result": "PASS",
+    "scoring_schema_version": "t1b-scoring-3layer-0.2.0"
+  },
+  "primary": {
+    "buckets": {
+      "EXACT_AUTO": 1,
+      "LOCTYPE_AUTO": 0,
+      "REFERRED": 1,
+      "UNCOVERED": 1
+    },
+    "conservation": {
+      "coverage_conserved": true,
+      "defects_conserved": true
+    },
+    "denominators": {
+      "defects_total": 3,
+      "records_total": 100
+    },
+    "layer_1_automatic": {
+      "f1": 0.5,
+      "location_accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 0.3333333333333333
+    },
+    "layer_2_referral": {
+      "burden_per_1000": 10.0,
+      "referral_missed": 1,
+      "referral_precision": 1.0,
+      "referral_recall": 0.5
+    },
+    "layer_3_coverage": {
+      "coverage": 0.6666666666666666,
+      "uncovered_rate": 0.3333333333333333
+    },
+    "outputs": {
+      "FP": 0,
+      "REFERRAL_WRONG": 0,
+      "matched_automatic": 1,
+      "matched_referral": 1,
+      "total_in_this_stratum": 2
+    },
+    "stratum": "PRIMARY"
+  },
+  "records_total": 100,
+  "scoring_schema_version": "t1b-scoring-3layer-0.2.0"
+}

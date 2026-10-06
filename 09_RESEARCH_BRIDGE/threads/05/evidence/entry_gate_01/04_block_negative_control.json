@@ -1,0 +1,36 @@
+{
+  "kind": "t1b-final-evaluation",
+  "posture_gate": {
+    "checked_at_utc": "2026-10-07T00:00:00Z",
+    "decision_source": "Issue #5 · Bo REVIEW/DECISION 2026-10-07 — posture ที่ entry ไม่ใช่ใน score()",
+    "expected_referral_types": [
+      "S-06",
+      "T-02"
+    ],
+    "gate_version": "t1b-eval-entry-gate-0.1.0",
+    "gold_by_stratum": {
+      "EXPLORATORY": 1,
+      "PRIMARY": 4
+    },
+    "gold_by_type": {
+      "F-01": 1,
+      "N-01": 1,
+      "S-06": 1,
+      "T-02": 1,
+      "V-01": 1
+    },
+    "gold_count": 5,
+    "posture_table_sha256": "5173d822b7a47d6cac69f7e039d3f7ccaa143b020ff625e0764e236bdbc24189",
+    "posture_table_version": "t1b-posture-0.2.0",
+    "reasons": [
+      {
+        "code": "NEGATIVE_CONTROL_MISUSE",
+        "defect_id": "x",
+        "detail": "ชนิด N-01 เป็นตัวล่อ — วัดด้วย false positive ห้ามอยู่ในเฉลย"
+      }
+    ],
+    "result": "BLOCKED",
+    "scoring_schema_version": "t1b-scoring-3layer-0.2.0"
+  },
+  "scored": false
+}
