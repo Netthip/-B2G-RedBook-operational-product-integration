@@ -1,0 +1,287 @@
+{
+  "H:headers.csp": {
+    "status": "PASS",
+    "detail": {
+      "required": [
+        "default-src 'none'",
+        "object-src 'none'",
+        "base-uri 'none'",
+        "frame-ancestors 'none'"
+      ],
+      "missing_on": [],
+      "checked": 18
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:headers.nosniff": {
+    "status": "PASS",
+    "detail": {
+      "missing_on": [],
+      "checked": 18
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:headers.frame": {
+    "status": "PASS",
+    "detail": {
+      "missing_on": [],
+      "checked": 9
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:headers.coop": {
+    "status": "PASS",
+    "detail": {
+      "missing_on": [],
+      "checked": 9
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:headers.cache": {
+    "status": "PASS",
+    "detail": {
+      "missing_on": [],
+      "checked": 18
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:headers.referrer": {
+    "status": "FAIL",
+    "detail": {
+      "header_not_restrictive": [],
+      "meta_mismatch": [
+        [
+          "/",
+          "same-origin",
+          "no-referrer"
+        ],
+        [
+          "/queue",
+          "same-origin",
+          "no-referrer"
+        ],
+        [
+          "/preflight",
+          "same-origin",
+          "no-referrer"
+        ],
+        [
+          "/export",
+          "same-origin",
+          "no-referrer"
+        ],
+        [
+          "/t1b/runs",
+          "same-origin",
+          "no-referrer"
+        ],
+        [
+          "/indicators/runs",
+          "same-origin",
+          "no-referrer"
+        ],
+        [
+          "/rules",
+          "same-origin",
+          "no-referrer"
+        ],
+        [
+          "/audit",
+          "same-origin",
+          "no-referrer"
+        ],
+        [
+          "/projects/new",
+          "same-origin",
+          "no-referrer"
+        ]
+      ],
+      "note": "meta referrer ที่ต่างจากหัว HTTP ทำให้เบราว์เซอร์ใช้นโยบายของ meta — ต้องสอดคล้องกันจึงจะอ้างได้ว่านโยบายที่ประกาศคือนโยบายที่ใช้จริง"
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:headers.cors": {
+    "status": "PASS",
+    "detail": {
+      "acao_present_on": []
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:headers.content_type": {
+    "status": "PASS",
+    "detail": {
+      "bad": []
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:headers.server": {
+    "status": "FAIL",
+    "detail": {
+      "server_values": [
+        "uvicorn"
+      ]
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:headers.hsts_recorded": {
+    "status": "RECORDED",
+    "detail": {
+      "present_on_first_page": false,
+      "value": ""
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:cookie.flags": {
+    "status": "PASS",
+    "detail": {
+      "set_cookie_attributes_only": "redbook_csrf=<redacted>; HttpOnly; Path=/; SameSite=strict",
+      "httponly": true,
+      "samesite_strict": true,
+      "path_root": true,
+      "secure": false,
+      "host_prefix": false
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:cookie.secure_recorded": {
+    "status": "RECORDED",
+    "detail": {
+      "secure": false,
+      "host_prefix": false
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:methods.blocked": {
+    "status": "PASS",
+    "detail": {
+      "bad": [],
+      "trace_echo": [],
+      "methods": [
+        "TRACE",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "OPTIONS"
+      ]
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:paths.traversal": {
+    "status": "PASS",
+    "detail": {
+      "paths": [
+        "/static/..%2f..%2fapp.py",
+        "/static/../../redbook/app.py",
+        "/static/..%5c..%5capp.py",
+        "/t1b/exports/..%5c..%5cx",
+        "/t1b/exports/%2e%2e/x",
+        "/t1b/exports/exp_..%2f..%2fx",
+        "/indicators/exports/..%2fx",
+        "/indicators/runs/x/exports/..%2fx",
+        "/evidence/..%2f..%2fx/file"
+      ],
+      "bad": []
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:paths.sourcecontrol": {
+    "status": "PASS",
+    "detail": {
+      "paths": [
+        "/.git/HEAD",
+        "/.git/config",
+        "/app.py",
+        "/redbook/app.py",
+        "/requirements.txt",
+        "/.env",
+        "/run_local.py",
+        "/config.py"
+      ],
+      "bad": []
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:paths.dirlisting": {
+    "status": "PASS",
+    "detail": {
+      "paths": [
+        "/static",
+        "/static/"
+      ],
+      "bad": []
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:paths.docs": {
+    "status": "PASS",
+    "detail": {
+      "paths": [
+        "/docs",
+        "/redoc",
+        "/openapi.json"
+      ],
+      "bad": []
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:error.safe": {
+    "status": "PASS",
+    "detail": {
+      "checked": 9,
+      "unsafe": []
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:csrf.no_token": {
+    "status": "PASS",
+    "detail": {
+      "status": 403
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:csrf.cross_origin": {
+    "status": "PASS",
+    "detail": {
+      "cross": [
+        [
+          "Origin",
+          403
+        ],
+        [
+          "Referer",
+          403
+        ]
+      ],
+      "json_body_status": 403
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:host.allowlist": {
+    "status": "FAIL",
+    "detail": {
+      "evil_host_status": 200,
+      "evil_host_port_status": 200
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:leak.pages": {
+    "status": "PASS",
+    "detail": {
+      "pages_checked": 10,
+      "leaks": []
+    },
+    "source": "steps/http_probes/probes.json"
+  },
+  "H:healthz.minimal": {
+    "status": "PASS",
+    "detail": {
+      "keys": [
+        "app",
+        "status",
+        "version"
+      ],
+      "extra": []
+    },
+    "source": "steps/http_probes/probes.json"
+  }
+}

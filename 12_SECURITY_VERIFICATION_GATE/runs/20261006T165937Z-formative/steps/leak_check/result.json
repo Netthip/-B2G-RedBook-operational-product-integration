@@ -1,0 +1,12 @@
+{
+  "L:evidence_leak_check": {
+    "status": "FAIL",
+    "detail": {
+      "exit_code": 1,
+      "scanned": "run-01-formative",
+      "meaning": "พบ hit",
+      "caveat": "0 hit ≠ ปลอดการเปิดเผย (fingerprint/การประกอบข้อมูลตัวตรวจมองไม่เห็น)"
+    },
+    "source": "steps/leak_check/stdout.txt"
+  }
+}

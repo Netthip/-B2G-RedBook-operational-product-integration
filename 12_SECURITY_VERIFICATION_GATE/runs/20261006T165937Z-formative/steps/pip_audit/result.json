@@ -1,0 +1,14 @@
+{
+  "D:pip_audit": {
+    "status": "PASS",
+    "detail": {
+      "input_packages": 42,
+      "audited": 40,
+      "skipped": [],
+      "vulnerabilities": [],
+      "exit_code": 0,
+      "wording": "ไม่พบช่องโหว่ที่ประกาศไว้ในฐานข้อมูล ณ วันที่รัน (เฉพาะรายการที่ตรวจได้)"
+    },
+    "source": "steps/pip_audit/raw.json"
+  }
+}

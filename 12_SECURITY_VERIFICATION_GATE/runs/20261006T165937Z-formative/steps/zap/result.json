@@ -1,0 +1,9 @@
+{
+  "Z:zap_baseline": {
+    "status": "INCOMPLETE",
+    "detail": {
+      "reason": "ZAP not configured/available (--zap-cmd)"
+    },
+    "source": "steps/zap/"
+  }
+}

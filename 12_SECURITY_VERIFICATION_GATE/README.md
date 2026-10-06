@@ -23,6 +23,18 @@
 4. `steps/<step>/` — raw ของเครื่องมือ + `command.txt` + `meta.json`
 5. `HASHES.sha256` — แฮชทุกไฟล์ในรอบ · manifest เก็บแฮชของไฟล์แฮชอีกชั้น
 
+## ความสัมพันธ์กับเอกสารเลนเดิม (forward status · 7 ต.ค. 2569)
+
+ตารางในเอกสารเลนเดิมคือ **ประวัติ** — ไม่ได้แก้ย้อนหลัง (ไฟล์เหล่านั้นมี leak-check hit เดิมหมวด D ที่รอคำตัดสินแยกใน #25 จึงไม่แตะในรอบนี้)
+
+| เอกสารเดิม | รายการ | สถานะเดิม | สถานะจริงตอนนี้ |
+|---|---|---|---|
+| `09_RESEARCH_BRIDGE/LANES_BACKLOG.md` | C-08 dependency/secret scan · C-09 OWASP ZAP | `READY` · `BLOCKED-GIFT` | ย้ายเข้า gate นี้ — C-08 = SG-48/SG-49 (รันแล้ว) · C-09 = SG-50 (ใบ #23 ปลด **เฉพาะ baseline/passive ต่อ target สังเคราะห์บน loopback** · ยัง INCOMPLETE จนกว่าจะติดตั้ง Java/ZAP) |
+| `09_RESEARCH_BRIDGE/LANE_D1P_PRODUCT_EXTENSION_CROSSWALK.md` | S-1..S-6 | หลายสถานะ | จัดเข้า matrix 51 control · ผลราย control ที่ `runs/<run_id>/` |
+| `09_RESEARCH_BRIDGE/LANE_D1R_THESIS_RESEARCH_CROSSWALK.md` | `O-R7` ประเมินความปลอดภัยของเว็บแอป | `NOT YET MEASURED` | มีเครื่องมือวัดและผลรอบ final แล้ว (ดู `EVIDENCE_MAP.md`) · ยังไม่อยู่ใน Evidence Index ที่ freeze · ZAP ส่วนเดียวยัง INCOMPLETE |
+
+active scan · Phase 3 PDF · Audit Trail import **ยัง BLOCKED ตามเดิม** — ใบ #23 ไม่ได้ปลด
+
 ## สิ่งที่หมวดนี้ไม่ใช่
 
 - ไม่ใช่ penetration test · ไม่รับรองว่า "แฮกไม่ได้" · ไม่ใช่หลักฐานว่าผ่าน ASVS ทั้งฉบับ

@@ -1,0 +1,8 @@
+{
+  "url": "http://127.0.0.1:49680",
+  "bind": "127.0.0.1",
+  "synthetic": true,
+  "ready": true,
+  "project_id": "prj_50a85c5f48894d3a",
+  "files_dir": "synthetic_files"
+}

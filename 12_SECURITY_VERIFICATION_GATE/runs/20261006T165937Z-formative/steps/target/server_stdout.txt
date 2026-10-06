@@ -1,0 +1,94 @@
+INFO:     Started server process [17360]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:49680 (Press CTRL+C to quit)
+INFO:     127.0.0.1:49681 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /queue HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /preflight HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /export HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /t1b/runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /indicators/runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /audit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /projects/new HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /static/favicon.svg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET /nope HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /projects/doesnotexist HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /runs/doesnotexist HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /t1b/runs/doesnotexist HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /files/doesnotexist/structure HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /indicators/runs/doesnotexist HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "TRACE / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "PUT / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "PATCH / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "DELETE / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "OPTIONS / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "TRACE /projects/new HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "PUT /projects/new HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "PATCH /projects/new HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "DELETE /projects/new HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "OPTIONS /projects/new HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "TRACE /healthz HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "PUT /healthz HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "PATCH /healthz HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "DELETE /healthz HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "OPTIONS /healthz HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:49684 - "GET /static/../../app.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /redbook/app.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /static/..%5C..%5Capp.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /t1b/exports/..%5C..%5Cx HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:49684 - "GET /t1b/exports/../x HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /t1b/exports/exp_../../x HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /indicators/exports/../x HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /indicators/runs/x/exports/../x HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /evidence/../../x/file HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /.git/HEAD HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /.git/config HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /app.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /redbook/app.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /requirements.txt HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /run_local.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /config.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /static HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49684 - "GET /static/ HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /docs HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /redoc HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "GET /openapi.json HTTP/1.1" 404 Not Found
+Expected boundary character 45, got 255 at index 2
+INFO:     127.0.0.1:49684 - "POST /projects/new HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:49684 - "POST /projects/new HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49684 - "GET /projects/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49684 - "POST /projects/new HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49684 - "POST /projects/new HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49684 - "POST /projects/new HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49684 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49684 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /projects/new HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "POST /projects/new HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:53995 - "GET /projects/prj_676ec485f27e46e9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /projects/prj_676ec485f27e46e9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "POST /projects/prj_676ec485f27e46e9/upload HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:53995 - "GET /projects/prj_676ec485f27e46e9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /projects/prj_676ec485f27e46e9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "POST /projects/prj_676ec485f27e46e9/upload HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:53995 - "GET /projects/prj_676ec485f27e46e9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /projects/prj_676ec485f27e46e9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "POST /projects/prj_676ec485f27e46e9/analyze HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:53995 - "GET /t1b/runs/t1b_63c8b9c9f1a2479d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53995 - "POST /projects/new HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53995 - "GET /static/app.css HTTP/1.1" 200 OK

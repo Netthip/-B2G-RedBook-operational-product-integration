@@ -64,10 +64,10 @@ leak_check คืน exit 3 · target เปิดไม่ขึ้น — ท�
 
 ## 5. ขั้นตอนการรันและสิ่งที่เก็บ (reproducible runner)
 
-runner อยู่ใน repo ระบบ (`redbook/security_gate/` · `security-gate-0.1.0`) · เรียกครั้งเดียว
+runner อยู่ใน repo ระบบ (แพ็กเกจ `security_gate/` ระดับบนสุด · **แยกจาก `redbook`** เพื่อคงกติกา local-first ของผลิตภัณฑ์ที่ห้ามมีไลบรารีเครือข่าย · `security-gate-0.1.0`) · เรียกครั้งเดียว
 
 ```
-python -m redbook.security_gate.runner --matrix SECURITY_CONTROL_MATRIX.csv --out <นอก git> \
+python -m security_gate.runner --matrix SECURITY_CONTROL_MATRIX.csv --out <นอก git> \
     --phase formative|final [--profile LOOPBACK_HTTP] --leak-check <leak_check.py> \
     --pip-audit <pip-audit.exe> --browser-python <python ที่มี playwright> [--zap-cmd "..."]
 ```

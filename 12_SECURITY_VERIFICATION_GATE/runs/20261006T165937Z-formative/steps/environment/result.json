@@ -1,0 +1,23 @@
+{
+  "D:inventory": {
+    "status": "PASS",
+    "detail": {
+      "frozen_count": 42,
+      "lock_file_present": true,
+      "locked_count": 41,
+      "in_lock_not_installed": [],
+      "installed_not_in_lock": [
+        "pymupdf"
+      ]
+    },
+    "source": "steps/environment/frozen.txt"
+  },
+  "D:defusedxml_present": {
+    "status": "FAIL",
+    "detail": {
+      "installed": false,
+      "note": "openpyxl ใช้ defusedxml อัตโนมัติเมื่อติดตั้ง — ไม่มี = parser มาตรฐาน"
+    },
+    "source": "steps/environment/frozen.txt"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "B:flow.forms_submit": {
+    "status": "PASS",
+    "detail": {
+      "steps": [
+        {
+          "step": "create_project",
+          "ok": true
+        },
+        {
+          "step": "upload_A",
+          "ok": true
+        },
+        {
+          "step": "upload_B",
+          "ok": true
+        },
+        {
+          "step": "analyze",
+          "ok": true
+        }
+      ]
+    },
+    "source": "steps/browser/result_raw.json"
+  },
+  "B:flow.console_clean": {
+    "status": "PASS",
+    "detail": {
+      "console_errors": 0,
+      "csp_violations": 0
+    },
+    "source": "steps/browser/result_raw.json"
+  },
+  "B:cookie.flags": {
+    "status": "PASS",
+    "detail": {
+      "httpOnly": true,
+      "sameSite": "Strict",
+      "secure": false,
+      "path": "/"
+    },
+    "source": "steps/browser/result_raw.json"
+  },
+  "B:csrf.cross_site_form": {
+    "status": "PASS",
+    "detail": {
+      "post_status": 403,
+      "attacker_origin": "http://127.0.0.1:49685"
+    },
+    "source": "steps/browser/result_raw.json"
+  }
+}
