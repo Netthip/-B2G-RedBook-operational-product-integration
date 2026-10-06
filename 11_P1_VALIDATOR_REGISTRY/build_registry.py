@@ -1,29 +1,41 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-build_registry.py — DRAFT v0.1 (รอ Gift อนุมัติ schema ก่อนถือเป็นทะเบียนจริง)
+build_registry.py — p1-registry-builder-0.2.0 (schema ยัง DRAFT · รอ Gift อนุมัติ)
 
-สร้าง dataset registry/manifest ของไฟล์ Excel ในโปรเจกต์ โดย
+สร้าง dataset registry/manifest ของไฟล์ Excel โดย
   * ไม่แก้ / ไม่ย้าย / ไม่ rename ไฟล์ต้นฉบับใด ๆ  (เปิดแบบ read_only เท่านั้น ไม่มี save())
   * ไม่ใช้ "ชื่อไฟล์" เป็นตัวตัดสิน identity — ชื่อไฟล์ถูกบันทึกไว้ในฟิลด์ *_from_filename
     ซึ่งถือเป็น "ค่าที่ประกาศ" (declared) เท่านั้น ส่วนค่าที่ใช้จริงมาจาก *_from_content
   * ทุกค่าที่ดึงจากเนื้อไฟล์ต้องมี evidence pointer (sheet + cell + ข้อความดิบ)
 
-ผลลัพธ์ 3 ไฟล์ใน ../registry/
-  registry.internal.json  — ครบทุกฟิลด์ (มี path + ชื่อหน่วยงาน) → LOCAL ONLY ห้ามขึ้น repo
-  registry.internal.csv   — มุมมองตารางของไฟล์ข้างบน            → LOCAL ONLY
-  registry.public.csv     — ฉบับ sanitized (pseudonym A1/A2…)   → เผยแพร่ได้
+🔴 รุ่น 0.2.0 แก้ BLOCKER 3 ของ Bo (#13) — ขอบเขตข้อมูลเข้าและที่มาของทะเบียน
+
+  1. **ต้องระบุราก (--root) เอง** · ไม่มีค่าตั้งต้นที่ไต่ขึ้นไปหาโฟลเดอร์แม่
+     ปฏิเสธรากที่เป็นรากไดรฟ์/โฮม/ครอบ repo นี้ · ไม่ไต่ลิงก์ · ข้ามโฟลเดอร์ซ่อน
+  2. **ต้องระบุที่เขียนผล (--out) เอง** และต้อง **อยู่นอก git work tree ใด ๆ**
+     ⇒ ผลลัพธ์ตกลงใน repo สาธารณะโดยไม่ตั้งใจไม่ได้
+     ทุกรอบเขียน ``build_manifest.json`` (คำสั่ง · รุ่น · เวลา · แฮชของผลทุกไฟล์)
+     ⇒ ไฟล์ผลใดก็ตรวจย้อนได้ว่ามาจากคำสั่งใด
+  3. **``read_only_verified`` ได้มาจากหลักฐาน ไม่ได้ตั้งไว้ก่อน** — เทียบแฮช ขนาด และเวลาแก้ไข
+     ก่อน–หลังเปิดไฟล์ · อ่านพลาดหรือค่าเปลี่ยน ⇒ ``False`` พร้อมเหตุผล
+
+🔴 BLOCKER 1 (Gift DECISION 6 ต.ค. 2569 · #13): ถอนทะเบียนฉบับ public ออกจาก HEAD แล้ว
+   รุ่นนี้ **ไม่สร้างไฟล์ public เป็นค่าตั้งต้น** · ``--emit-public-preview`` สร้างฉบับตัวอย่าง
+   ที่ (ก) กรองเฉพาะแถว ``publishable_to_github`` จริง (ข) ไม่มีคอลัมน์ที่เป็น fingerprint
+   และติดป้าย ``NOT CLEARED FOR PUBLICATION`` — **ไม่ใช่ใบอนุญาตเผยแพร่**
 
 อัตลักษณ์จริง (ตารางชื่อหน่วยงาน→รหัส · ชื่อไฟล์ mapping donor · รายชื่อหน่วยงานใน scope)
-ไม่ได้ฝังในโค้ด แต่อ่านจากไฟล์ local ที่ไม่อยู่ใน repo:
-    ตั้งค่าผ่าน env P1REG_LOCAL_CONFIG หรือวางไว้ที่ ../_local/local_identity.json
+ไม่ได้ฝังในโค้ด แต่อ่านจากไฟล์ local ที่ไม่อยู่ใน repo ผ่าน env ``P1REG_LOCAL_CONFIG``
 ถ้าไม่มีไฟล์นั้น สคริปต์ยังรันได้ แต่จะ resolve รหัสหน่วยงานไม่ได้ (unresolved)
 
 การใช้งาน:
-    python build_registry.py        (รันจาก project root)
+    python build_registry.py --root <โฟลเดอร์ข้อมูล> --out <โฟลเดอร์ผลนอก git>
+    python build_registry.py --root ... --out ... --emit-public-preview
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import hashlib
 import io
@@ -33,31 +45,43 @@ import re
 import sys
 from datetime import datetime, timezone
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
-
 from openpyxl import load_workbook
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-OUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "registry"))
+BUILDER_VERSION = "p1-registry-builder-0.2.0"
 SCHEMA_VERSION = "p1-dataset-registry/0.1-draft"
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_REPO_ROOT = os.path.abspath(os.path.join(_HERE, ".."))
 
 # ---------------------------------------------------------------------------
 # อัตลักษณ์จริงถูกแยกออกไปไว้ในไฟล์ local ที่ไม่อยู่ใน repo (ดู docstring)
 # ---------------------------------------------------------------------------
-_DEFAULT_LOCAL = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                              "..", "_local", "local_identity.json")
-_LOCAL_PATH = os.environ.get("P1REG_LOCAL_CONFIG", _DEFAULT_LOCAL)
-try:
-    with open(_LOCAL_PATH, encoding="utf-8") as _f:
-        _LOCAL = json.load(_f)
-except (OSError, ValueError):
-    _LOCAL = {}
-    print("[warn] ไม่พบไฟล์อัตลักษณ์ local — จะ resolve รหัสหน่วยงานไม่ได้", file=sys.stderr)
+_DEFAULT_LOCAL = os.path.join(_HERE, "..", "_local", "local_identity.json")
 
-IN_SCOPE_AGENCIES = set(_LOCAL.get("in_scope_agencies", []))
-MAPPING_DONOR_BASENAME = _LOCAL.get("mapping_donor_basename")
-MAPPING_DONOR_EVIDENCE = _LOCAL.get("mapping_donor_evidence", "")
-AGENCY_NAME_TO_CODE = _LOCAL.get("agency_name_to_code", {})
+
+def load_identity(path: str | None = None) -> dict:
+    path = path or os.environ.get("P1REG_LOCAL_CONFIG", _DEFAULT_LOCAL)
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        print("[warn] ไม่พบไฟล์อัตลักษณ์ local — จะ resolve รหัสหน่วยงานไม่ได้", file=sys.stderr)
+        return {}
+
+
+IN_SCOPE_AGENCIES: set = set()
+MAPPING_DONOR_BASENAME = None
+MAPPING_DONOR_EVIDENCE = ""
+AGENCY_NAME_TO_CODE: dict = {}
+
+
+def _apply_identity(cfg: dict) -> None:
+    global IN_SCOPE_AGENCIES, MAPPING_DONOR_BASENAME
+    global MAPPING_DONOR_EVIDENCE, AGENCY_NAME_TO_CODE
+    IN_SCOPE_AGENCIES = set(cfg.get("in_scope_agencies", []))
+    MAPPING_DONOR_BASENAME = cfg.get("mapping_donor_basename")
+    MAPPING_DONOR_EVIDENCE = cfg.get("mapping_donor_evidence", "")
+    AGENCY_NAME_TO_CODE = cfg.get("agency_name_to_code", {})
+
 
 STAGE_ENUM = {
     "2.3": "req_operating_unit_2_3",
@@ -356,64 +380,154 @@ def identity_agreement(content, fname):
     return verdict, "; ".join(f"{k}={v}" for k, v in checks)
 
 
-# ----------------------------------------------------------------------------- main
-def main():
+# ----------------------------------------------------------------------------- scope / provenance
+class ScopeError(ValueError):
+    """ขอบเขตข้อมูลเข้า/ที่เขียนผลไม่ปลอดภัย — ปฏิเสธก่อนแตะไฟล์ใด"""
+
+
+def _real(p: str) -> str:
+    return os.path.normcase(os.path.realpath(os.path.abspath(p)))
+
+
+def _is_within(child: str, parent: str) -> bool:
+    c, p = _real(child), _real(parent)
+    return c == p or c.startswith(p.rstrip(os.sep) + os.sep)
+
+
+def find_git_work_tree(path: str) -> str | None:
+    """คืนรากของ git work tree ที่ ``path`` อยู่ข้างใน (ไล่ขึ้นหา ``.git``)"""
+    cur = _real(path)
+    while True:
+        if os.path.exists(os.path.join(cur, ".git")):
+            return cur
+        parent = os.path.dirname(cur)
+        if parent == cur:
+            return None
+        cur = parent
+
+
+def check_root(root: str) -> str:
+    if not root:
+        raise ScopeError("ต้องระบุ --root เอง — รุ่นนี้ไม่มีค่าตั้งต้นที่ไต่ขึ้นไปหาโฟลเดอร์แม่")
+    r = _real(root)
+    if not os.path.isdir(r):
+        raise ScopeError("--root ไม่ใช่โฟลเดอร์ที่มีอยู่")
+    if os.path.dirname(r) == r:
+        raise ScopeError("--root เป็นรากไดรฟ์ — กว้างเกินขอบเขต")
+    if r == _real(os.path.expanduser("~")):
+        raise ScopeError("--root เป็นโฟลเดอร์โฮมทั้งก้อน — กว้างเกินขอบเขต")
+    if _is_within(_REPO_ROOT, r):
+        raise ScopeError("--root ครอบ repo ของสคริปต์นี้ — กว้างเกินขอบเขต")
+    return r
+
+
+def check_out(out: str, root: str) -> str:
+    if not out:
+        raise ScopeError("ต้องระบุ --out เอง")
+    o = _real(out)
+    probe = o
+    while not os.path.exists(probe):
+        nxt = os.path.dirname(probe)
+        if nxt == probe:
+            break
+        probe = nxt
+    if find_git_work_tree(probe) is not None:
+        raise ScopeError("--out อยู่ใน git work tree — ผลลัพธ์ต้องอยู่นอก repo ทุกตัว")
+    if _is_within(o, root):
+        raise ScopeError("--out อยู่ใต้ --root — รอบถัดไปจะสแกนผลของตัวเองเข้าไป")
+    return o
+
+
+def discover(root: str) -> list[str]:
+    """ไฟล์ Excel ใต้ ``root`` — ไม่ไต่ลิงก์ · ข้ามโฟลเดอร์ซ่อน · ข้าม repo ของสคริปต์"""
     targets = []
-    for dirpath, dirnames, filenames in os.walk(ROOT):
-        dirnames[:] = [d for d in dirnames if d not in (".git", os.path.basename(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))]
+    for dirpath, dirnames, filenames in os.walk(root, followlinks=False):
+        keep = []
+        for d in dirnames:
+            full = os.path.join(dirpath, d)
+            if d.startswith(".") or os.path.islink(full) or _is_within(full, _REPO_ROOT):
+                continue
+            keep.append(d)
+        dirnames[:] = keep
         for fn in filenames:
+            full = os.path.join(dirpath, fn)
+            if fn.startswith("~$") or os.path.islink(full):
+                continue
             if fn.lower().endswith((".xlsx", ".xlsm", ".xls")):
-                targets.append(os.path.join(dirpath, fn))
+                targets.append(full)
     targets.sort()
+    return targets
 
-    records = []
-    for i, path in enumerate(targets, 1):
-        rel = os.path.relpath(path, ROOT).replace("\\", "/")
-        base = os.path.basename(path)
-        st = os.stat(path)
-        rec = {
-            "record_id": f"P1REG-{i:04d}",
-            "registry_schema_version": SCHEMA_VERSION,
-            "observed_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-            "source_path": rel,
-            "file_name": base,
-            "file_size_bytes": st.st_size,
-            "file_mtime_utc": datetime.fromtimestamp(st.st_mtime, timezone.utc)
-                                      .isoformat(timespec="seconds"),
-            "content_hash_algo": "sha256:file-bytes",
-            "content_hash": file_bytes_sha256(path),
-            "semantic_hash_algo": "sha256:sheetname+coord+normalized-value(data_only)",
-            "semantic_content_hash": None,
-            "semantic_hash_cell_count": None,
-            "read_only_verified": True,
-        }
-        try:
-            wb = load_workbook(path, read_only=True, data_only=True)
-            rec["sheet_names"] = list(wb.sheetnames)
-            rec["sheet_count"] = len(wb.sheetnames)
-            rec["schema_version"] = detect_schema_version(wb.sheetnames)
-            sh, nc = semantic_sha256(wb)
-            rec["semantic_content_hash"] = sh
-            rec["semantic_hash_cell_count"] = nc
-            nf, nc_cached, fstate = formula_cache_state(path, wb)
-            rec["formula_cell_count"] = nf
-            rec["formula_cached_value_count"] = nc_cached
-            rec["formula_cache_state"] = fstate
-            cells = head_scan(wb)
-            ident, ev = extract_identity(cells)
-            rec.update(ident)
-            rec["content_field_evidence"] = ev
-            wb.close()
-        except Exception as e:  # noqa: BLE001
-            rec["extract_error"] = f"{type(e).__name__}: {e}"
-            rec["schema_version"] = "UNREADABLE"
 
-        rec.update(parse_filename(base))
-        verdict, detail = identity_agreement(rec, rec)
-        rec["identity_agreement"] = verdict
-        rec["identity_agreement_detail"] = detail
-        records.append(rec)
+def _fingerprint(path: str) -> tuple[str, int, int]:
+    st = os.stat(path)
+    return file_bytes_sha256(path), st.st_size, st.st_mtime_ns
 
+
+# ----------------------------------------------------------------------------- build
+def build_record(path: str, root: str, i: int) -> dict:
+    rel = os.path.relpath(path, root).replace("\\", "/")
+    base = os.path.basename(path)
+    before = _fingerprint(path)
+    rec = {
+        "record_id": f"P1REG-{i:04d}",
+        "registry_schema_version": SCHEMA_VERSION,
+        "builder_version": BUILDER_VERSION,
+        "observed_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "source_path": rel,
+        "file_name": base,
+        "file_size_bytes": before[1],
+        "file_mtime_utc": datetime.fromtimestamp(before[2] / 1e9, timezone.utc)
+                                  .isoformat(timespec="seconds"),
+        "content_hash_algo": "sha256:file-bytes",
+        "content_hash": before[0],
+        "semantic_hash_algo": "sha256:sheetname+coord+normalized-value(data_only)",
+        "semantic_content_hash": None,
+        "semantic_hash_cell_count": None,
+    }
+    read_ok = False
+    try:
+        wb = load_workbook(path, read_only=True, data_only=True)
+        rec["sheet_names"] = list(wb.sheetnames)
+        rec["sheet_count"] = len(wb.sheetnames)
+        rec["schema_version"] = detect_schema_version(wb.sheetnames)
+        sh, nc = semantic_sha256(wb)
+        rec["semantic_content_hash"] = sh
+        rec["semantic_hash_cell_count"] = nc
+        nf, nc_cached, fstate = formula_cache_state(path, wb)
+        rec["formula_cell_count"] = nf
+        rec["formula_cached_value_count"] = nc_cached
+        rec["formula_cache_state"] = fstate
+        cells = head_scan(wb)
+        ident, ev = extract_identity(cells)
+        rec.update(ident)
+        rec["content_field_evidence"] = ev
+        wb.close()
+        read_ok = True
+    except Exception as e:  # noqa: BLE001
+        rec["extract_error"] = f"{type(e).__name__}: {e}"
+        rec["schema_version"] = "UNREADABLE"
+
+    # 🔴 ธงอ่านอย่างเดียว ได้จากหลักฐานก่อน–หลัง ไม่ได้ตั้งล่วงหน้า
+    after = _fingerprint(path)
+    unchanged = before == after
+    rec["read_only_verified"] = bool(read_ok and unchanged)
+    if not read_ok:
+        rec["read_only_reason"] = "read_failed"
+    elif not unchanged:
+        rec["read_only_reason"] = "file_changed_during_read"
+    else:
+        rec["read_only_reason"] = "sha256+size+mtime_unchanged"
+
+    rec.update(parse_filename(base))
+    verdict, detail = identity_agreement(rec, rec)
+    rec["identity_agreement"] = verdict
+    rec["identity_agreement_detail"] = detail
+    return rec
+
+
+def annotate(records: list[dict]) -> dict:
+    """ความสัมพันธ์ · scope · sensitivity · pseudonym — คืนตาราง pseudonym"""
     # ---- ความสัมพันธ์: duplicate (ไบต์ตรง) / variant (semantic ตรงแต่ไบต์ต่าง)
     by_bytes, by_sem = {}, {}
     for r in records:
@@ -434,23 +548,18 @@ def main():
             r["semantic_group_size"] = len(group)
 
     # ---- declared_identity_key + identity_collision
-    #      ป้ายที่ไฟล์ "ประกาศ" ว่าเป็นใคร/ปีไหน/สกุลไหน — ถ้าป้ายเดียวกันแต่ semantic hash ต่าง
-    #      แปลว่ามีไฟล์มากกว่าหนึ่งชุดอ้างตัวเป็นสิ่งเดียวกัน = provenance ต้องตัดสินด้วยมนุษย์
+    #      ป้ายเดียวกันแต่ semantic hash ต่าง = มีไฟล์มากกว่าหนึ่งชุดอ้างตัวเป็นสิ่งเดียวกัน
     key_groups = {}
     for r in records:
         ac, fy = r.get("agency_code_from_content"), r.get("fiscal_year_from_content")
-        if ac and fy:
-            k = f"{ac}|{fy}|{r.get('schema_version')}"
-        else:
-            k = None          # ระบุตัวตนไม่ครบ → ไม่นำมาตรวจ collision
+        k = f"{ac}|{fy}|{r.get('schema_version')}" if (ac and fy) else None
         r["declared_identity_key"] = k
         r["identity_collision"] = False
         r["identity_collision_peers"] = []
         if k:
             key_groups.setdefault(k, []).append(r)
-    for k, g in key_groups.items():
-        sems = {r.get("semantic_content_hash") for r in g}
-        if len(sems) > 1:
+    for g in key_groups.values():
+        if len({r.get("semantic_content_hash") for r in g}) > 1:
             for r in g:
                 r["identity_collision"] = True
                 r["identity_collision_peers"] = sorted(
@@ -460,7 +569,7 @@ def main():
     for r in records:
         code = r.get("agency_code_from_content")
         r["in_research_scope"] = bool(code and code in IN_SCOPE_AGENCIES)
-        if r["file_name"] == MAPPING_DONOR_BASENAME:
+        if MAPPING_DONOR_BASENAME and r["file_name"] == MAPPING_DONOR_BASENAME:
             r["contamination"] = "mapping_donor"
             r["contamination_evidence"] = MAPPING_DONOR_EVIDENCE
         else:
@@ -482,12 +591,13 @@ def main():
     # ---- sensitivity / publishability
     for r in records:
         p = r["source_path"]
-        syn = ("SYN/" in (r.get("schema_version") or "") or "MOCK/" in (r.get("schema_version") or "")
+        sv = r.get("schema_version") or ""
+        syn = ("SYN/" in sv or "MOCK/" in sv
                or "เสมือน" in r["file_name"] or "SYNTHETIC" in r["file_name"].upper()
                or "synthetic" in p or "mock" in r["file_name"].lower())
-        if (r.get("schema_version") or "").startswith("RESEARCH-INSTRUMENT"):
+        if sv.startswith("RESEARCH-INSTRUMENT"):
             r["sensitivity"] = "research_instrument"
-        elif (r.get("schema_version") or "").startswith("VALOUT"):
+        elif sv.startswith("VALOUT"):
             r["sensitivity"] = ("tool_output_from_synthetic" if "synthetic" in p or "ADVISOR" in p
                                 else "tool_output_from_real")
         elif syn:
@@ -497,61 +607,129 @@ def main():
         r["publishable_to_github"] = r["sensitivity"] in ("synthetic", "research_instrument")
 
     # ---- pseudonym สำหรับมุมมองสาธารณะ
-    codes = sorted({r["agency_code_from_content"] for r in records if r.get("agency_code_from_content")})
+    codes = sorted({r["agency_code_from_content"] for r in records
+                    if r.get("agency_code_from_content")})
     pseudo = {c: f"A{i}" for i, c in enumerate(codes, 1)}
     for r in records:
         c = r.get("agency_code_from_content")
         r["agency_pseudonym"] = pseudo.get(c) if c else None
+    return pseudo
 
-    os.makedirs(OUT_DIR, exist_ok=True)
-    with open(os.path.join(OUT_DIR, "registry.internal.json"), "w", encoding="utf-8") as f:
+
+INTERNAL_COLS = ["record_id", "content_hash", "semantic_content_hash", "fiscal_year_from_content",
+                 "agency_code_from_content", "agency_name_from_content", "agency_code_resolution",
+                 "workflow_stage_from_content", "schema_version", "source_path",
+                 "fiscal_year_from_filename", "agency_code_from_filename", "identity_agreement",
+                 "identity_agreement_detail", "duplicate_of", "variant_of", "data_role",
+                 "ground_truth_status", "in_research_scope", "contamination", "sensitivity",
+                 "publishable_to_github", "seal_status", "file_size_bytes",
+                 "formula_cache_state", "formula_cell_count",
+                 "declared_identity_key", "identity_collision", "read_only_verified",
+                 "read_only_reason"]
+
+#: 🔴 คอลัมน์ที่เป็น fingerprint / confirmation oracle หรือชี้ตัวตน (Bo · BLOCKER 1)
+#: ห้ามอยู่ในฉบับ preview
+FINGERPRINT_COLS = ("content_hash", "semantic_content_hash", "file_size_bytes",
+                    "duplicate_of", "variant_of", "declared_identity_key",
+                    "identity_collision_peers", "source_path", "file_name",
+                    "file_mtime_utc", "agency_code_from_content",
+                    "agency_name_from_content", "agency_code_from_filename",
+                    "semantic_hash_cell_count", "formula_cell_count", "sheet_names")
+
+PREVIEW_COLS = ["record_id", "fiscal_year_from_content", "agency_pseudonym",
+                "workflow_stage_from_content", "schema_version", "identity_agreement",
+                "data_role", "ground_truth_status", "sensitivity", "formula_cache_state"]
+PREVIEW_BANNER = "NOT CLEARED FOR PUBLICATION"
+
+
+def public_preview_rows(records: list[dict]) -> list[dict]:
+    """ฉบับตัวอย่าง: **กรองจริง** เฉพาะ publishable · ไม่มีคอลัมน์ fingerprint"""
+    if set(PREVIEW_COLS) & set(FINGERPRINT_COLS):
+        raise AssertionError("PREVIEW_COLS มีคอลัมน์ fingerprint")
+    return [{k: ("" if r.get(k) is None else r.get(k)) for k in PREVIEW_COLS}
+            for r in records if r.get("publishable_to_github") is True]
+
+
+def _write_csv(path, cols, rows, banner):
+    with open(path, "w", encoding="utf-8-sig", newline="") as f:
+        f.write(f"# {banner}\n")
+        w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
+        w.writeheader()
+        for r in rows:
+            w.writerow({k: ("" if r.get(k) is None else r.get(k)) for k in cols})
+
+
+def build(root: str, out: str, *, emit_public_preview: bool = False,
+          argv: list[str] | None = None, identity: dict | None = None) -> dict:
+    """สร้างทะเบียน — ตรวจขอบเขตก่อนแตะไฟล์ใด · คืน build manifest"""
+    root = check_root(root)
+    out = check_out(out, root)
+    _apply_identity(identity if identity is not None else load_identity())
+
+    started = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    records = [build_record(p, root, i) for i, p in enumerate(discover(root), 1)]
+    pseudo = annotate(records)
+
+    os.makedirs(out, exist_ok=True)
+    outputs = {}
+    p_json = os.path.join(out, "registry.internal.json")
+    with open(p_json, "w", encoding="utf-8") as f:
         json.dump({"registry_schema_version": SCHEMA_VERSION,
-                   "generated_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                   "project_root": ROOT,
+                   "builder_version": BUILDER_VERSION,
+                   "generated_at_utc": started,
                    "status": "DRAFT — schema ยังไม่ได้รับอนุมัติ · data_role ทุกรายการยัง UNASSIGNED",
+                   "visibility": "LOCAL ONLY",
                    "record_count": len(records),
                    "agency_pseudonym_map": pseudo,
                    "records": records}, f, ensure_ascii=False, indent=2)
+    outputs["registry.internal.json"] = p_json
+    p_csv = os.path.join(out, "registry.internal.csv")
+    _write_csv(p_csv, INTERNAL_COLS, records, "LOCAL ONLY")
+    outputs["registry.internal.csv"] = p_csv
+    if emit_public_preview:
+        p_pub = os.path.join(out, "registry.public-preview.csv")
+        _write_csv(p_pub, PREVIEW_COLS, public_preview_rows(records), PREVIEW_BANNER)
+        outputs["registry.public-preview.csv"] = p_pub
 
-    internal_cols = ["record_id", "content_hash", "semantic_content_hash", "fiscal_year_from_content",
-                     "agency_code_from_content", "agency_name_from_content", "agency_code_resolution",
-                     "workflow_stage_from_content", "schema_version", "source_path",
-                     "fiscal_year_from_filename", "agency_code_from_filename", "identity_agreement",
-                     "identity_agreement_detail", "duplicate_of", "variant_of", "data_role",
-                     "ground_truth_status", "in_research_scope", "contamination", "sensitivity",
-                     "publishable_to_github", "seal_status", "file_size_bytes",
-                     "formula_cache_state", "formula_cell_count",
-                     "declared_identity_key", "identity_collision"]
-    with open(os.path.join(OUT_DIR, "registry.internal.csv"), "w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=internal_cols, extrasaction="ignore")
-        w.writeheader()
-        for r in records:
-            w.writerow({k: ("" if r.get(k) is None else r.get(k)) for k in internal_cols})
+    manifest = {
+        "builder_version": BUILDER_VERSION,
+        "registry_schema_version": SCHEMA_VERSION,
+        "started_at_utc": started,
+        "argv": list(argv) if argv is not None else None,
+        # ไม่เก็บ path จริงของราก — เก็บแฮชไว้เทียบว่าเป็นรากเดียวกันหรือไม่
+        "root_sha256": hashlib.sha256(root.encode("utf-8")).hexdigest(),
+        "record_count": len(records),
+        "read_only_verified_count": sum(1 for r in records if r["read_only_verified"]),
+        "read_only_failed": [r["record_id"] for r in records if not r["read_only_verified"]],
+        "public_preview": PREVIEW_BANNER if emit_public_preview else "not emitted",
+        "outputs": {name: {"sha256": file_bytes_sha256(p), "bytes": os.path.getsize(p)}
+                    for name, p in outputs.items()},
+    }
+    with open(os.path.join(out, "build_manifest.json"), "w", encoding="utf-8") as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=2)
+    return manifest
 
-    public_cols = ["record_id", "content_hash", "semantic_content_hash", "fiscal_year_from_content",
-                   "agency_pseudonym", "workflow_stage_from_content", "schema_version",
-                   "identity_agreement", "duplicate_of", "variant_of", "data_role",
-                   "ground_truth_status", "in_research_scope", "contamination", "sensitivity",
-                   "file_size_bytes", "formula_cache_state", "identity_collision"]
-    with open(os.path.join(OUT_DIR, "registry.public.csv"), "w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=public_cols, extrasaction="ignore")
-        w.writeheader()
-        for r in records:
-            w.writerow({k: ("" if r.get(k) is None else r.get(k)) for k in public_cols})
 
-    print(f"records                     : {len(records)}")
-    print(f"distinct content_hash       : {len(by_bytes)}")
-    print(f"distinct semantic hash      : {len(by_sem)}")
-    print(f"identity mismatch           : {sum(1 for r in records if r['identity_agreement']=='mismatch')}")
-    print(f"semantic-equal/byte-different: "
-          f"{sum(1 for r in records if r.get('variant_of'))}")
-    print(f"real_agency_data            : {sum(1 for r in records if r['sensitivity']=='real_agency_data')}")
-    print(f"identity_collision groups   : "
-          f"{len({r[chr(39)+chr(39)] if False else r['declared_identity_key'] for r in records if r['identity_collision']})}")
-    from collections import Counter
-    print("formula_cache_state         :", dict(Counter(r.get('formula_cache_state','?') for r in records)))
-    print(f"written to                  : {OUT_DIR}")
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    ap = argparse.ArgumentParser(description="P1 dataset registry builder (read-only)")
+    ap.add_argument("--root", required=True, help="โฟลเดอร์ข้อมูลที่จะสแกน (ต้องระบุเอง)")
+    ap.add_argument("--out", required=True, help="โฟลเดอร์ผลลัพธ์ — ต้องอยู่นอก git work tree")
+    ap.add_argument("--emit-public-preview", action="store_true",
+                    help=f"สร้างฉบับตัวอย่างติดป้าย {PREVIEW_BANNER}")
+    a = ap.parse_args(argv)
+    try:
+        m = build(a.root, a.out, emit_public_preview=a.emit_public_preview, argv=argv)
+    except ScopeError as e:
+        print(f"[refused] {e}", file=sys.stderr)
+        return 2
+    print(f"records              : {m['record_count']}")
+    print(f"read_only_verified   : {m['read_only_verified_count']}/{m['record_count']}")
+    print(f"public preview       : {m['public_preview']}")
+    print("outputs              : " + ", ".join(sorted(m["outputs"])) + " + build_manifest.json")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.exit(main())

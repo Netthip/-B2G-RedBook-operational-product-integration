@@ -9,6 +9,22 @@
 >
 > 🔴 **ห้ามรวมคะแนน · ห้ามใช้ตัวหารร่วม · ห้ามอ้าง mapping ข้ามกัน · ห้ามอ้างผลของหมวดนี้เป็นผลของคาดแดง**
 
+> ## 🔁 FORWARD STATUS — 6 ตุลาคม 2569 (อ่านก่อน · เนื้อหาด้านล่างคือประวัติ ไม่ได้แก้)
+>
+> ตามคำตัดสินของกิ๊ฟใน #13 (6 ต.ค. 2569):
+>
+> | เรื่อง | สถานะ |
+> |---|---|
+> | `registry.public.csv` | 🔴 **ถอนออกจาก HEAD แล้ว** (forward-only · ประวัติ git เดิมไม่ได้แก้) — ฉบับเดิม **ไม่ผ่านด่านการเปิดเผย** (BLOCKER 1) และ "0 hit" ที่เคยอ้างด้านล่าง **ไม่ใช่หลักฐานว่าปลอดการเปิดเผย** |
+> | `build_registry.py` | `p1-registry-builder-0.2.0` — ต้องระบุ `--root`/`--out` เอง · `--out` ต้องอยู่นอก git work tree · เขียน `build_manifest.json` ทุกรอบ · `read_only_verified` มาจากแฮช/ขนาด/เวลาก่อน–หลัง · ไม่สร้างไฟล์ public เป็นค่าตั้งต้น (BLOCKER 3) |
+> | ฉบับ preview | `--emit-public-preview` กรองเฉพาะแถวที่ `publishable_to_github` จริง และไม่มีคอลัมน์ fingerprint · ติดป้าย `NOT CLEARED FOR PUBLICATION` — **ไม่ใช่ใบอนุญาตเผยแพร่** |
+> | การพิสูจน์ | `tests/test_build_registry.py` 20 ข้อ ใช้ **ข้อมูลสังเคราะห์ล้วน** (`SYNTHETIC TEST FIXTURE`) · ยังไม่ได้รันกับโฟลเดอร์ข้อมูลจริง |
+> | `leak_check.py` | `leak-check-0.2.0` fail-closed (BLOCKER 2 · ปิดไปก่อนแล้ว) |
+>
+> 🔴 แถว `registry.public.csv` ในสารบัญด้านล่าง และข้อความ "ผ่าน `leak_check.py` 8 หมวด 0 hit" เป็นสถานะเดิม
+> ผลทดสอบเป็นการรันในเครื่องผู้พัฒนา · ไม่มี CI
+> 🔴 P1 คงแยกจาก RedBook verification — ไม่รวมผลหรือคะแนนข้ามกัน
+
 **สถานะ:** `PROPOSED — NOT APPROVED` · ร่าง 6 กันยายน 2569
 **ชุดนี้เป็นฉบับ sanitized สำหรับเผยแพร่** — ผ่าน `leak_check.py` 8 หมวด 0 hit
 
