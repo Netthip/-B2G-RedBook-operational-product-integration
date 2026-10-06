@@ -31,7 +31,7 @@
 
 | เลน | ขอบเขต | สถานะรวม | สิ่งที่ขวางอยู่ |
 |---|---|---|---|
-| **A** — verification engine | adapter · matching · roll-up · cross-sheet · formula residue · regression | `HANDOFF` | รอ Bo ตรวจ `bb399a0` · ห้ามแตะ 21016/UI/export/FY2571 ก่อนผลตรวจ |
+| **A** — verification engine | adapter · matching · roll-up · cross-sheet · formula residue · regression | `HANDOFF` | รอ Bo ตรวจ `bb399a0` · ห้ามแตะ <agency-code-B>/UI/export/FY2571 ก่อนผลตรวจ | 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 | **B** — operational web app | IA · component · finding detail · filter · evidence navigation · UI test | `READY` (เฉพาะสำรวจและออกแบบ) | 🔴 **ห้าม implement UI กว้าง** จนกว่า Bo ตรวจ gap matrix |
 | **C** — evaluation & security | threat model · data-flow · dependency · protocol · mutation catalogue · metric | `READY` | ห้ามประกาศ ground truth · ห้าม unblind · ห้ามแก้ protocol หลังเห็นผล |
 | **D** — thesis support | crosswalk บทที่ 3–4 · limitation register · แบบตารางผลว่าง | `READY` | ห้ามใส่ผลที่ยังไม่วัด · ห้ามแก้ frozen Evidence Index |
@@ -48,22 +48,22 @@
 | A-04 | roll-up / reconciliation ภายในแฟ้ม | `DONE` | `t1b-rollup-0.5.0` · 6 แฟ้ม 167 ชุด · exact OK 166 |
 | A-05 | blocker #4 ขอบเขตตารางหมวด | `DONE` | `95229e9` · `HL-019` |
 | A-06 | สาม blocker ที่เหลือจาก Shadow Run รอบ 1 | `HANDOFF` | `bb399a0` · `HL-020` · `test_t1b_shadow_blockers.py` 29 ข้อ |
-| A-07 | `T1B-SR-21011-02` | `DONE` | `docs/T1B_SHADOW_RUN_21011_02_RUN_RECORD.md` · manifest นอก git |
+| A-07 | `T1B-SR-<agency-code-A>-02` | `DONE` | `docs/T1B_SHADOW_RUN_<agency-code-A>_02_RUN_RECORD.md` · manifest นอก git | 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 | A-08 | map ชีตปก + ตารางจำแนกตามลักษณะรายจ่าย (หน่วย **บาท**) | `BLOCKED-BO` | ลำดับ 4 ของตาราง `D` · Bo สั่งหยุดที่ gate |
 | A-09 | แยกชั้นคิว `UNMAPPED` ตามเหตุผล | `BLOCKED-BO` | ลำดับ 5 · รอบนี้เพิ่ม **เหตุผล** แล้ว ยังไม่ **จัดชั้น** |
 | A-10 | cross-sheet reconciliation | `BLOCKED-BO` | ลำดับ 6 · ข้อจำกัด `A2` |
 | A-11 | formula residue / value-only preflight | `NOT STARTED` | ข้อจำกัด `A3` — `data_only=True` มองไม่เห็นสูตร |
 | A-12 | approved / consequential / corrective / unexpected / cannot-determine | `BLOCKED-DATA` | ข้อจำกัด `A4` · ต้องมีเอกสารมติ/หนังสืออนุมัติเป็นแหล่งคาดหมาย |
-| A-13 | หน่วยงาน 21016 | `BLOCKED-BO` | คำสั่ง Bo ข้อ 6 — ห้ามแตะก่อนผลตรวจ |
+| A-13 | หน่วยงาน <agency-code-B> | `BLOCKED-BO` | คำสั่ง Bo ข้อ 6 — ห้ามแตะก่อนผลตรวจ | 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 | A-14 | เทียบ baseline กับ **final/post-reduction จริง** | `BLOCKED-DATA` | คู่ที่ใช้อยู่คือ FY2569 vs FY2570 = คนละปีเอกสาร ไม่ใช่ก่อน/หลังปรับลด |
 | A-15 | แถว/คอลัมน์ซ่อน · merged cell ที่คร่อมความหมาย | `NOT STARTED` | ข้อจำกัด `B10` |
 | A-16 | เทียบกับ PDF | `BLOCKED-GIFT` | Phase 3 ยัง blocked ตาม `RES-D-32` |
 
 **🔴 `BLOCKED-DATA` ของเลน A ต้องการอะไรบ้าง** — ตามลำดับที่ Gift ระบุใน directive
 
-1. FY2570 Draft-Bill baseline + final/post-reduction ของหน่วยงาน 21011
+1. FY2570 Draft-Bill baseline + final/post-reduction ของหน่วยงาน <agency-code-A> 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 2. เอกสารมติ/หนังสือปรับลดที่ใช้เป็น **แหล่งคาดหมายที่มีอำนาจ**
-3. ทั้งสามรายการข้างต้นของหน่วยงาน 21016
+3. ทั้งสามรายการข้างต้นของหน่วยงาน <agency-code-B> 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 4. สำเนา value-only หนึ่งชุด และ (ถ้าอนุญาต) สำเนาที่ยังมีสูตรหนึ่งชุด
 
 ทุกไฟล์ต้องบันทึก: ปีงบประมาณ · รหัสหน่วยงาน · ขั้นของเอกสาร · คาดว่ามีสูตรหรือไม่ ·
@@ -213,7 +213,7 @@ Lane C = `ACCEPTED AS DRAFT — REVISION REQUIRED` · Lane D = `SCAFFOLD ACCEPTE
 Bo ปลดใน `BO REVIEW COMPLETE` รอบบ่าย และสั่งขอบเขตไว้ว่า
 
 > cover-sheet / บาท mapping inventory + before/after probe
-> + regression ที่ต้อง **fail บน commit ก่อนแก้** · 🔴 **ห้ามแตะ 21016**
+> + regression ที่ต้อง **fail บน commit ก่อนแก้** · 🔴 **ห้ามแตะ <agency-code-B>** 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 > · หลัง `A-08` ผ่านรีวิวจึงไป `A-09` แล้ว `A-10` — **ห้ามข้าม gate**
 
 **ใครทำ — ยังไม่มีข้อสรุป และ agent ไม่ควรสรุปแทน**

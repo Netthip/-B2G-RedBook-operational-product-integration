@@ -13,7 +13,7 @@ labelled supplement."*
 > 1. **แหล่งอ้างอิงเดียว** = `08_evidence_register/EVIDENCE_INDEX.md` commit **`617ceac`**
 >    (🔒 `EVIDENCE INDEX FROZEN — PRIMARY CASE REVIEW COMPLETE`)
 > 2. **ห้ามนำตัวเลขของชั้น T1B เข้ามาในเอกสารนี้** — ไม่ว่าจะเป็นจำนวนชุดทดสอบ
->    ผลของ `T1B-SR-21011-*` จำนวน finding หรือเวอร์ชันของเครื่องยนต์ T1B
+>    ผลของ `T1B-SR-<agency-code-A>-*` จำนวน finding หรือเวอร์ชันของเครื่องยนต์ T1B 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 >    ทั้งหมดนั้นเป็น **`PRODUCT EVIDENCE — POST-FREEZE`** อยู่ที่ [`D1-P`](LANE_D1P_PRODUCT_EXTENSION_CROSSWALK.md)
 > 3. **ห้ามแก้ Evidence Index ที่ freeze แล้ว** — หลักฐานใหม่ทำเป็น supplement forward-only
 > 4. **ห้ามเขียนย้อนกลับให้ดูเหมือนหลักฐานมีอยู่ก่อน freeze**
@@ -25,7 +25,7 @@ labelled supplement."*
 ## 0. สิ่งที่เอกสารฉบับก่อนทำผิด และแก้แล้วที่นี่
 
 `LANE_D_CHAPTER4_EVIDENCE_CROSSWALK.md` (5 ก.ย.) วาง `redbook/t1b/**` · ชุดทดสอบ
-**445 ข้อ** · และ `T1B-SR-21011-02` ไว้ในช่อง *"หลักฐานที่จะใช้"* ของวัตถุประสงค์เล่ม
+**445 ข้อ** · และ `T1B-SR-<agency-code-A>-02` ไว้ในช่อง *"หลักฐานที่จะใช้"* ของวัตถุประสงค์เล่ม 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 ซึ่ง **ผิด** เพราะทั้งหมดเป็นหลักฐานสายผลิตภัณฑ์ **หลัง freeze**
 
 🔴 และเอกสารฉบับนั้นสรุปว่า *"เขียนหมวด 4.1 และ 4.8 ต่อได้เลย"* — **คำสั่ง Bo
@@ -180,7 +180,7 @@ protocol-1.0.2 : exact 180 + text-equivalent 12 + unresolved 0
 | รายการของสาย T1B | เหตุที่ห้าม |
 |---|---|
 | จำนวนชุดทดสอบของ repo (เช่น `445`) | เป็นชุดทดสอบซอฟต์แวร์หลัง freeze ไม่ใช่ผลการประเมินงานวิจัย |
-| ผลของ `T1B-SR-21011-01` / `-02` | `PRODUCT SHADOW-RUN EVIDENCE` — Bo ระบุชัดว่าไม่ใช่ research evidence |
+| ผลของ `T1B-SR-<agency-code-A>-01` / `-02` | `PRODUCT SHADOW-RUN EVIDENCE` — Bo ระบุชัดว่าไม่ใช่ research evidence | 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 | `t1b-key-*` · `t1b-matching-*` · `t1b-compare-*` · `t1b-rollup-*` | เวอร์ชันของเครื่องยนต์ผลิตภัณฑ์ |
 | จำนวน finding / roll-up / matched ของแฟ้ม AO | หลังการ freeze ทั้งหมด |
 | gap matrix ของเว็บแอป | สายผลิตภัณฑ์ |

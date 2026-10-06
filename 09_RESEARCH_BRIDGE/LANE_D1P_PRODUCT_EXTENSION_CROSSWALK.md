@@ -65,7 +65,7 @@ research objectives**."*
 | หลักฐาน | พูดได้ | 🔴 ห้ามพูด |
 |---|---|---|
 | ชุดทดสอบของ repo | จำนวนข้อที่ผ่าน **ในเครื่องผู้พัฒนา** | ห้ามเขียน "CI ผ่าน" · ห้ามใช้เป็นผลการประเมินความถูกต้อง |
-| `T1B-SR-21011-01` / `-02` | `PRODUCT SHADOW-RUN EVIDENCE` · จำนวนนับและเวอร์ชัน | ห้ามอ้างเป็นผลของ frozen T1A · ห้ามเรียก production certification |
+| `T1B-SR-<agency-code-A>-01` / `-02` | `PRODUCT SHADOW-RUN EVIDENCE` · จำนวนนับและเวอร์ชัน | ห้ามอ้างเป็นผลของ frozen T1A · ห้ามเรียก production certification | 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 | roll-up 167 ชุด | ความสอดคล้องของยอดภายในแฟ้ม | ห้ามแปลงเป็น precision / recall |
 | key stability audit 8/8 | ไม่มี collision ที่กระทบ identity ในชุด 6 แฟ้ม | ห้ามอ้างว่ารองรับทุกหน่วยงาน |
 | การหาหัวเรื่องชีต · ปีจากชีตปก | 🔴 **`DATASET-BOUNDED HEURISTIC`** — ยืนยันกับ **6 แฟ้ม** เท่านั้น | ห้ามอ้างว่ารองรับสมุดงานของทุกหน่วยงาน (คำสั่ง Bo 6 ก.ย.) |
@@ -200,7 +200,7 @@ research objectives**."*
 | การแยกบทบาทผู้สร้างเฉลย และเกณฑ์เป้าหมายรายชั้น | กิ๊ฟ / อาจารย์ |
 | การเก็บข้อมูลจากผู้เชี่ยวชาญ/ผู้ใช้ | กิ๊ฟ |
 | การ deploy / เผยแพร่ / ส่งบทความ | กิ๊ฟ |
-| หน่วยงาน 21016 · UI กว้าง · evidence export · FY2571 builder | Bo (ตามลำดับ gate) |
+| หน่วยงาน <agency-code-B> · UI กว้าง · evidence export · FY2571 builder | Bo (ตามลำดับ gate) | 〔กลบภายหลัง 7 ต.ค. 2569 · forward-only · #25〕
 | Phase 3 (PDF) · ZAP · Audit Trail import | คำตัดสินเดิมที่ยังไม่ปลด |
 
 ---
