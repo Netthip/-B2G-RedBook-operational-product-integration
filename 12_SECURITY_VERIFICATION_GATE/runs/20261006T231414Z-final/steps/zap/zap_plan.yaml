@@ -1,0 +1,39 @@
+env:
+  contexts:
+    - name: redbook-synthetic
+      urls: ['http://127.0.0.1:61062']
+      includePaths: ['http://127.0.0.1:61062.*']
+  parameters:
+    failOnError: true
+    failOnWarning: false
+    progressToStdout: true
+jobs:
+  - type: passiveScan-config
+    parameters:
+      maxAlertsPerRule: 10
+      scanOnlyInScope: true
+  - type: spider
+    parameters:
+      context: redbook-synthetic
+      url: "http://127.0.0.1:61062"
+      maxDuration: 2
+      maxDepth: 5
+      postForm: false
+      parseComments: true
+      parseRobotsTxt: false
+      parseSitemapXml: false
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 5
+  - type: report
+    parameters:
+      template: traditional-json
+      reportDir: "<path>"
+      reportFile: report
+      reportTitle: "RedBook Verify Security Gate - ZAP baseline (passive) - synthetic loopback target"
+  - type: report
+    parameters:
+      template: traditional-html
+      reportDir: "<path>"
+      reportFile: report
+      reportTitle: "RedBook Verify Security Gate - ZAP baseline (passive) - synthetic loopback target"

@@ -13,7 +13,7 @@
 | [`SECURITY_CONTROL_MATRIX.csv`](SECURITY_CONTROL_MATRIX.csv) | **predeclared matrix** 51 control · 12 หมวด · อ้าง ASVS v5.0.0 ราย requirement · check id ที่ runner ใช้ | `v0.1.0` |
 | [`EVIDENCE_MAP.md`](EVIDENCE_MAP.md) | research claim → metric → artifact → run/version | เติมหลังรอบ final |
 | [`FINDINGS_LOG.md`](FINDINGS_LOG.md) | finding ที่ทำให้แก้โค้ด · before/after · disposition | สะสม |
-| `runs/<run_id>/` | หลักฐานต่อรอบ (manifest · summary · control_results · steps/* · HASHES) ที่ผ่าน leak_check แล้ว | ต่อรอบ |
+| `runs/<run_id>/` | หลักฐานต่อรอบ (manifest · summary · control_results · steps/* · HASHES) ที่ผ่าน leak_check แล้ว — **รอบอ้างอิงปัจจุบัน `20261006T231414Z-final`** · รอบอื่นมี `SUPERSEDED.md`/`HASH_NOTE.md` กำกับ | ต่อรอบ |
 
 ## วิธีอ่านผลหนึ่งรอบ
 

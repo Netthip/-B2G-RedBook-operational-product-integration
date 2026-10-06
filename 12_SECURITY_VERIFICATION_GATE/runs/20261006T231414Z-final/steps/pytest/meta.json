@@ -1,0 +1,16 @@
+{
+  "step": "pytest",
+  "started_utc": "2026-10-06T23:14:15+00:00",
+  "status": "DONE",
+  "exit_code": 0,
+  "duration_s": 10.8,
+  "pytest_version": "pytest 9.1.1",
+  "summary": {
+    "tests": 233,
+    "passed": 233,
+    "failed": 0,
+    "error": 0,
+    "skipped": 0
+  },
+  "finished_utc": "2026-10-06T23:14:28+00:00"
+}

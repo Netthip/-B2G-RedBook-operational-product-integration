@@ -80,7 +80,7 @@ python -m security_gate.runner --matrix SECURITY_CONTROL_MATRIX.csv --out <น�
 | http_probes | httpx (passive · ไม่มี payload ทำลาย) | `H:*` 22 check | `probes.json` (URL · method · status · header) |
 | browser | Playwright + Chromium headless | `B:*` 4 check | `result_raw.json` · ภาพหน้าจอ (สังเคราะห์) |
 | pip_audit | pip-audit ใน venv แยกนอกโครงการ ตรวจ `frozen.txt` ของ venv แอป | `D:pip_audit` | `raw.json` · `audit_input.txt` |
-| zap | ZAP baseline (passive) ต่อ target ข้างบน | `Z:zap_baseline` | `report.json/html` |
+| zap | OWASP ZAP (cross-platform package · JRE Temurin 21 · ติดตั้งระดับผู้ใช้ ตรวจ SHA-256 กับค่าที่ผู้เผยแพร่ประกาศ) ผ่าน **Automation Framework**: `spider` (GET-only · ไม่ส่งฟอร์ม · ≤2 นาที) + `passiveScan-wait` + `report` — **ไม่มี job activeScan** · เนื้อหาเทียบเท่า baseline scan | `Z:zap_baseline` | `zap_plan.yaml` · `report.json/html` · เวอร์ชัน ZAP/Java ใน `meta.json` |
 | leak_check | `leak_check.py` (repo นี้) ต่อโฟลเดอร์หลักฐานทั้งหมด | `L:evidence_leak_check` | `stdout.txt` (ไม่มีค่า hit) |
 
 ทุก step เก็บ `command.txt` (คำสั่งจริง) และ `meta.json` (เวลาเริ่ม/จบ UTC · exit code · เวอร์ชันเครื่องมือ) ·
@@ -122,6 +122,6 @@ manifest ไม่บันทึก commit hash ของ repo ระบบ (pr
 
 - check แบบ `static` เป็น heuristic จากข้อความซอร์ส (เช่น SQL ประกอบสตริง · มาร์กเกอร์การเขียนใน GET) — บอกว่า "มี/ไม่มีรูปแบบ" ไม่ใช่การพิสูจน์
 - http probe ตรวจชุด URL ที่ประกาศในโค้ด probe — ไม่ใช่การ crawl ทุกเส้นทาง · ZAP baseline เป็นชั้นเสริมสำหรับส่วนที่ probe ไม่ครอบ
-- ZAP ต้องการ Java/Docker ซึ่งเครื่องพัฒนาอาจไม่มี ⇒ จะเป็น `INCOMPLETE` จนกว่าจะติดตั้ง (ไม่ปลอมเป็น PASS)
+- ZAP รันด้วย spider แบบ GET-only (ไม่ส่งฟอร์ม) ⇒ passive rules เห็นเฉพาะหน้าที่เข้าถึงได้โดยไม่เปลี่ยนสถานะ (รอบแรกพบ 16 URL) — ไม่ใช่ coverage ของทุกเส้นทาง · SG-50 เป็น control แบบ manual: ตัวเลข alert อ้างได้ แต่สถานะ PASS ต้องมี disposition ของคนก่อน · ถ้าเครื่องไม่มี Java/ZAP ⇒ `INCOMPLETE` (ไม่ปลอมเป็น PASS)
 - ผลทั้งหมดรันบนเครื่องผู้พัฒนา · **ไม่มี CI** · การทำซ้ำโดยบุคคลที่สามต้องใช้ repo ระบบ (private) จึงเป็น "ทำซ้ำได้โดยผู้มีสิทธิ์" ไม่ใช่สาธารณะ
 - `pip-audit` ข้ามแพ็กเกจที่หาบน PyPI ไม่ได้ (เช่น เครื่องมือของตัวจัดการแพ็กเกจเอง) — รายงาน "ตรวจได้ x จาก y" เสมอ
