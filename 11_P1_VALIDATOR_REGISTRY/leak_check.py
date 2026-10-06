@@ -46,10 +46,12 @@ import sys
 import tempfile
 import zipfile
 
-LEAK_CHECK_VERSION = "leak-check-0.3.0"
+LEAK_CHECK_VERSION = "leak-check-0.3.1"
 
 #: ไฟล์ใหญ่กว่านี้ไม่ตรวจ ⇒ ตรวจไม่ครบ (fail-closed)
 MAX_BYTES = 50 * 1024 * 1024
+#: นามสกุลที่ต้องเป็นไฟล์ zip — เปิดเป็น zip ไม่ได้ ⇒ ตรวจไม่ครบ (0.3.1)
+ZIP_EXT = {".xlsx", ".xlsm", ".docx", ".pptx", ".zip"}
 SKIP_DIRS = (".git", ".venv")
 REQUIRED_KEYS = tuple("ABCDEFGH")
 
@@ -147,6 +149,11 @@ def _read(f):
             return io.open(f, encoding="utf-8-sig").read()
         except UnicodeDecodeError:
             return io.open(f, encoding="utf-8", errors="replace").read()
+    expect_zip = os.path.splitext(f)[1].lower() in ZIP_EXT
+    if expect_zip and not zipfile.is_zipfile(f):
+        # REVIEW ของ Bo (#17): นามสกุลบอกว่าเป็นไฟล์ zip แต่เปิดไม่ได้ ⇒ ตรวจเนื้อในไม่ได้จริง
+        # ห้ามถอยไปอ่านเป็นไบนารีธรรมดาแล้วนับว่าผ่าน
+        raise Unreadable("นามสกุลเป็นไฟล์ zip แต่โครงสร้างเสีย/เปิดไม่ได้")
     if zipfile.is_zipfile(f):
         parts = []
         try:
@@ -301,8 +308,22 @@ def self_test() -> int:
         broken = os.path.join(d, "broken.xlsx")
         with open(broken, "wb") as f:
             f.write(b"PK\x03\x04 broken")
-        if run([broken], pats, err, False, io.StringIO()) not in (0, 3):
-            fails.append("zip เสียต้องไม่ถูกนับว่าผ่านแบบมี hit")
+        if run([broken], pats, err, False, io.StringIO()) != 3:
+            fails.append("zip เสีย (มีหัว PK) ต้องได้ 3 ตรวจไม่ครบ")
+        # REVIEW ของ Bo (#17): .xlsx เสียที่ไม่ใช่ zip เลย และไม่มี hit ก็ต้อง "ตรวจไม่ครบ"
+        for name, blob_bytes in (("corrupt.xlsx", b"not a zip at all"),
+                                 ("corrupt.docx", b"\x00\x01\x02"),
+                                 ("corrupt.zip", b"")):
+            bad = os.path.join(d, name)
+            with open(bad, "wb") as f:
+                f.write(blob_bytes)
+            if run([bad], pats, err, False, io.StringIO()) != 3:
+                fails.append(f"{name} ที่เปิดเป็น zip ไม่ได้ ต้องได้ 3 ตรวจไม่ครบ")
+        good = os.path.join(d, "clean.xlsx")
+        with zipfile.ZipFile(good, "w") as z:
+            z.writestr("xl/workbook.xml", "<workbook/>")
+        if run([good], pats, err, False, io.StringIO()) != 0:
+            fails.append("xlsx ที่ถูกต้องและไม่มี hit ต้องได้ 0")
         pyc_dir = os.path.join(d, "pkg", "__pycache__")
         os.makedirs(pyc_dir)
         with open(os.path.join(pyc_dir, "m.pyc"), "wb") as f:
