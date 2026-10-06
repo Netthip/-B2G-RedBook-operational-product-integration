@@ -73,7 +73,7 @@
 |---|---|---|
 | repo นี้ (integration) | ✅ ว่าง | ✅ ได้ |
 | `redbook-verify-is` | ❌ **ชนกับ `09_archive_index/`** ที่มีอยู่แล้ว | ❌ ไม่มี remote |
-| `OneDrive` → `Red Vertify Project/` | ✅ ว่าง (มี `00`–`08` และ `99`) | ❌ ไม่ได้ |
+| `<cloud-sync>` → `<deliverables-folder>/` | ✅ ว่าง (มี `00`–`08` และ `99`) | ❌ ไม่ได้ | 〔กลบภายหลัง 6 ต.ค. 2569 · forward-only · ดู threads/06/2026-10-06_MASKING_LOG.md〕
 
 **สมมติฐานที่ Giho ใช้ในรอบนี้:** วางไว้ที่ **repo นี้** เพราะเป็นที่เดียวที่ทั้ง Bo และ Giho เข้าถึงได้
 และ `README.md` ของ repo ระบุไว้เองว่าเป็น shared handoff space ของ Gift × Bo × Giho

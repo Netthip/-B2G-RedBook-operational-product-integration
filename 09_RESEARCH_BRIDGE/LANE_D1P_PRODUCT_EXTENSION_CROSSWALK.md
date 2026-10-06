@@ -131,7 +131,7 @@ research objectives**."*
 
 **🔴 privacy correction สองข้อที่ Bo ระบุว่ายังเปิดอยู่ — ต้องปิดก่อน upload wiring**
 
-1. `redact_text()` ใช้ regex ที่หยุดที่ช่องว่าง ⇒ path แบบ OneDrive/Windows ที่มี
+1. `redact_text()` ใช้ regex ที่หยุดที่ช่องว่าง ⇒ path แบบ `<cloud-sync>`/Windows ที่มี 〔กลบภายหลัง 6 ต.ค. 2569 · forward-only · ดู threads/06/2026-10-06_MASKING_LOG.md〕
    ชื่อโฟลเดอร์หลายคำ จะกลบเฉพาะหัว path แต่ **ปล่อยหางไว้** ทั้งที่
    `find_absolute_paths()` รายงานว่าสะอาดแล้ว — 🔴 **นี่คือ false assurance ของ privacy test**
 2. `view_from_storage()` ประกอบ `FindingView` ด้วย `str(...)` โดยไม่ผ่าน
