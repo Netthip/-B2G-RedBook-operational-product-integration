@@ -1,0 +1,1157 @@
+{
+  "base_url": "http://127.0.0.1:61149",
+  "probes": [
+    {
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "headers": {
+        "content-length": "5045",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store",
+        "set-cookie": "redbook_csrf=AEi2252mfV8oFKiWVlWhNQJFGYAycm-ZhRI4po_jnT0; HttpOnly; Path=/; SameSite=strict"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/queue",
+      "status": 200,
+      "headers": {
+        "content-length": "3431",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/preflight",
+      "status": 200,
+      "headers": {
+        "content-length": "3458",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/export",
+      "status": 200,
+      "headers": {
+        "content-length": "3422",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/t1b/runs",
+      "status": 200,
+      "headers": {
+        "content-length": "3467",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/indicators/runs",
+      "status": 200,
+      "headers": {
+        "content-length": "3569",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/rules",
+      "status": 200,
+      "headers": {
+        "content-length": "42767",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/audit",
+      "status": 200,
+      "headers": {
+        "content-length": "6243",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/projects/new",
+      "status": 200,
+      "headers": {
+        "content-length": "5881",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/healthz",
+      "status": 200,
+      "headers": {
+        "content-length": "56",
+        "content-type": "application/json",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/static/app.css",
+      "status": 200,
+      "headers": {
+        "content-type": "text/css; charset=utf-8",
+        "content-length": "22647",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/static/favicon.svg",
+      "status": 200,
+      "headers": {
+        "content-type": "image/svg+xml",
+        "content-length": "369",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/nope",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/projects/doesnotexist",
+      "status": 404,
+      "headers": {
+        "content-length": "3337",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/runs/doesnotexist",
+      "status": 404,
+      "headers": {
+        "content-length": "3343",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/t1b/runs/doesnotexist",
+      "status": 404,
+      "headers": {
+        "content-length": "3351",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/files/doesnotexist/structure",
+      "status": 404,
+      "headers": {
+        "content-length": "3322",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/indicators/runs/doesnotexist",
+      "status": 404,
+      "headers": {
+        "content-length": "3367",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "headers": {
+        "content-length": "5045",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "Origin: https://evil.example"
+    },
+    {
+      "method": "TRACE",
+      "path": "/",
+      "status": 405,
+      "headers": {
+        "content-length": "3358",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "PUT",
+      "path": "/",
+      "status": 405,
+      "headers": {
+        "content-length": "3358",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "PATCH",
+      "path": "/",
+      "status": 405,
+      "headers": {
+        "content-length": "3358",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "DELETE",
+      "path": "/",
+      "status": 405,
+      "headers": {
+        "content-length": "3358",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "OPTIONS",
+      "path": "/",
+      "status": 405,
+      "headers": {
+        "content-length": "3358",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "TRACE",
+      "path": "/projects/new",
+      "status": 405,
+      "headers": {
+        "content-length": "3358",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "PUT",
+      "path": "/projects/new",
+      "status": 405,
+      "headers": {
+        "content-length": "3358",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "PATCH",
+      "path": "/projects/new",
+      "status": 405,
+      "headers": {
+        "content-length": "3358",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "DELETE",
+      "path": "/projects/new",
+      "status": 405,
+      "headers": {
+        "content-length": "3358",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "OPTIONS",
+      "path": "/projects/new",
+      "status": 405,
+      "headers": {
+        "content-length": "3358",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "TRACE",
+      "path": "/healthz",
+      "status": 405,
+      "headers": {
+        "content-length": "3352",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "PUT",
+      "path": "/healthz",
+      "status": 405,
+      "headers": {
+        "content-length": "3352",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "PATCH",
+      "path": "/healthz",
+      "status": 405,
+      "headers": {
+        "content-length": "3352",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "DELETE",
+      "path": "/healthz",
+      "status": 405,
+      "headers": {
+        "content-length": "3352",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "OPTIONS",
+      "path": "/healthz",
+      "status": 405,
+      "headers": {
+        "content-length": "3352",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "unused method"
+    },
+    {
+      "method": "GET",
+      "path": "/static/..%2f..%2fapp.py",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.traversal"
+    },
+    {
+      "method": "GET",
+      "path": "/redbook/app.py",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.traversal"
+    },
+    {
+      "method": "GET",
+      "path": "/static/..%5c..%5capp.py",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.traversal"
+    },
+    {
+      "method": "GET",
+      "path": "/t1b/exports/..%5c..%5cx",
+      "status": 400,
+      "headers": {
+        "content-length": "3352",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.traversal"
+    },
+    {
+      "method": "GET",
+      "path": "/t1b/exports/%2e%2e/x",
+      "status": 404,
+      "headers": {
+        "content-length": "3331",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.traversal"
+    },
+    {
+      "method": "GET",
+      "path": "/t1b/exports/exp_..%2f..%2fx",
+      "status": 404,
+      "headers": {
+        "content-length": "3331",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.traversal"
+    },
+    {
+      "method": "GET",
+      "path": "/indicators/exports/..%2fx",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.traversal"
+    },
+    {
+      "method": "GET",
+      "path": "/indicators/runs/x/exports/..%2fx",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.traversal"
+    },
+    {
+      "method": "GET",
+      "path": "/evidence/..%2f..%2fx/file",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.traversal"
+    },
+    {
+      "method": "GET",
+      "path": "/.git/HEAD",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.sourcecontrol"
+    },
+    {
+      "method": "GET",
+      "path": "/.git/config",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.sourcecontrol"
+    },
+    {
+      "method": "GET",
+      "path": "/app.py",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.sourcecontrol"
+    },
+    {
+      "method": "GET",
+      "path": "/redbook/app.py",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.sourcecontrol"
+    },
+    {
+      "method": "GET",
+      "path": "/requirements.txt",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.sourcecontrol"
+    },
+    {
+      "method": "GET",
+      "path": "/.env",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.sourcecontrol"
+    },
+    {
+      "method": "GET",
+      "path": "/run_local.py",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.sourcecontrol"
+    },
+    {
+      "method": "GET",
+      "path": "/config.py",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.sourcecontrol"
+    },
+    {
+      "method": "GET",
+      "path": "/static",
+      "status": 307,
+      "headers": {
+        "content-length": "0",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.dirlisting"
+    },
+    {
+      "method": "GET",
+      "path": "/static/",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.dirlisting"
+    },
+    {
+      "method": "GET",
+      "path": "/docs",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.docs"
+    },
+    {
+      "method": "GET",
+      "path": "/redoc",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.docs"
+    },
+    {
+      "method": "GET",
+      "path": "/openapi.json",
+      "status": 404,
+      "headers": {
+        "content-length": "3325",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "H:paths.docs"
+    },
+    {
+      "method": "POST",
+      "path": "/projects/new",
+      "status": 400,
+      "headers": {
+        "content-length": "3343",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "malformed multipart"
+    },
+    {
+      "method": "POST",
+      "path": "/projects/new",
+      "status": 403,
+      "headers": {
+        "content-length": "3491",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "json body to form route"
+    },
+    {
+      "method": "GET",
+      "path": "/projects/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "status": 404,
+      "headers": {
+        "content-length": "3337",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "very long id"
+    },
+    {
+      "method": "POST",
+      "path": "/projects/new",
+      "status": 403,
+      "headers": {
+        "content-length": "3491",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "no token"
+    },
+    {
+      "method": "POST",
+      "path": "/projects/new",
+      "status": 403,
+      "headers": {
+        "content-length": "3491",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "cross-site Origin"
+    },
+    {
+      "method": "POST",
+      "path": "/projects/new",
+      "status": 403,
+      "headers": {
+        "content-length": "3491",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "cross-site Referer"
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "status": 400,
+      "headers": {
+        "content-length": "478",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "Host: evil.example"
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "status": 400,
+      "headers": {
+        "content-length": "478",
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin",
+        "permissions-policy": "geolocation=(), microphone=(), camera=()",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "cache-control": "no-store"
+      },
+      "note": "Host: evil.example:8600"
+    }
+  ]
+}

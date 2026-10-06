@@ -84,7 +84,9 @@ python -m security_gate.runner --matrix SECURITY_CONTROL_MATRIX.csv --out <น�
 | leak_check | `leak_check.py` (repo นี้) ต่อโฟลเดอร์หลักฐานทั้งหมด | `L:evidence_leak_check` | `stdout.txt` (ไม่มีค่า hit) |
 
 ทุก step เก็บ `command.txt` (คำสั่งจริง) และ `meta.json` (เวลาเริ่ม/จบ UTC · exit code · เวอร์ชันเครื่องมือ) ·
-ท้ายรอบเขียน `SECURITY_RUN_MANIFEST.json` · `SECURITY_RESULT_SUMMARY.md` · `control_results.json` · `HASHES.sha256` (ทุกไฟล์)
+ท้ายรอบเขียน `SECURITY_RUN_MANIFEST.json` · `SECURITY_RESULT_SUMMARY.md` · `control_results.json` · `HASHES.sha256`
+(ทุกไฟล์ **ยกเว้น** manifest และตัว HASHES เอง — manifest เก็บ `hashes_sha256_of_HASHES_file` ⇒ ตรวจสองชั้น: `sha256sum -c HASHES.sha256` แล้วเทียบแฮชของ HASHES กับค่าใน manifest) ·
+ไฟล์ข้อความทุกไฟล์เขียนด้วย **LF** และโฟลเดอร์หมวดนี้ตรึง `eol=lf` ใน `.gitattributes` เพื่อให้แฮชเท่ากันทุก checkout · **ไม่เก็บภาพหน้าจอ** (ไบนารีทำให้ตัวตรวจการรั่วเจอรูปแบบปลอม — หลักฐานของขั้นเบราว์เซอร์คือ JSON)
 
 **การกลบก่อนเขียน:** ข้อความที่เครื่องมือพิมพ์ถูกกลบเส้นทางสัมบูรณ์ทุกรูปแบบเป็น `<path>` ก่อนลงดิสก์ ·
 manifest ไม่บันทึก commit hash ของ repo ระบบ (private) แต่บันทึก **ลายนิ้วมือ** (SHA-256 ของ hash · 16 ตัวแรก) + ชื่อ branch + dirty flag ·

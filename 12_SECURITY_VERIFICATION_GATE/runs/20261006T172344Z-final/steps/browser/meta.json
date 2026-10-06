@@ -1,0 +1,13 @@
+{
+  "step": "browser",
+  "started_utc": "2026-10-06T17:23:56+00:00",
+  "status": "DONE",
+  "exit_code": 0,
+  "duration_s": 9.46,
+  "screenshots_retained": false,
+  "versions": {
+    "playwright": "1.60.0",
+    "chromium": "148.0.7778.96"
+  },
+  "finished_utc": "2026-10-06T17:24:06+00:00"
+}

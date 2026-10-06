@@ -16,11 +16,11 @@
 | 4 | reproducible runner | แพ็กเกจ `security_gate/` (ระดับบนสุด · แยกจาก `redbook` เพื่อคงกติกา local-first) · 8 step · เก็บ command/exit/UTC/version/raw/normalized/hash · INCOMPLETE ⇒ REVIEW · `--out` ต้องอยู่นอก git · target = loopback สังเคราะห์ที่ runner เปิดเอง (ไม่มีตัวเลือกชี้ URL อื่น) |
 | 5 | regression tests ใหม่ | 6 ไฟล์ `tests/test_security_gate_*.py` = **48 test** (web/static/upload/export/logging/unit) ครอบ 8 กรณีในหมวด C ของใบ + กลไก fail-closed ของ runner |
 | 6–7 | รัน synthetic · ZAP | รอบ formative `20261006T165937Z-formative` รันครบทุก step ยกเว้น ZAP (INCOMPLETE — เครื่องไม่มี Java/Docker) |
-| 8–9 | triage · แก้ · rerun | finding ที่แก้โค้ด **5** (F-01..F-05) · ค้างคำตัดสิน 2 (F-06 defusedxml · F-08 ZAP) · tooling 3 (F-07 · T-01 · T-02) · รอบ final `20261006T171428Z-final` |
+| 8–9 | triage · แก้ · rerun | finding ที่แก้โค้ด **5** (F-01..F-05) · ค้างคำตัดสิน 2 (F-06 defusedxml · F-08 ZAP) · tooling 3 (F-07 · T-01 · T-02) · รอบ final `20261006T172344Z-final` |
 | 10 | research evidence package | `12_SECURITY_VERIFICATION_GATE/` — PROTOCOL · MATRIX.csv · FINDINGS_LOG · EVIDENCE_MAP · `runs/<run_id>/` (manifest · summary · control_results · steps/* · HASHES) |
 | 11 | ส่ง Bo | รายงานนี้ |
 
-## 2. ผลรอบ final `20261006T171428Z-final` (profile `LOOPBACK_HTTP` · matrix `36b5230a…`)
+## 2. ผลรอบ final `20261006T172344Z-final` (profile `LOOPBACK_HTTP` · matrix `36b5230a…`)
 
 | ตัวชี้วัด (ตามใบ) | ค่า |
 |---|---|
