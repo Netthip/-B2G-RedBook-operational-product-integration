@@ -1,0 +1,4 @@
+# ตรึง line ending เป็น LF ทุกไฟล์ในหมวดนี้ — แฮช SHA-256 ของ matrix/หลักฐานต้องเท่ากันทุกเครื่องที่ checkout
+* text eol=lf
+*.png binary
+*.xlsx binary
