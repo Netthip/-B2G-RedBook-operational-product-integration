@@ -1,0 +1,48 @@
+leak-check-0.3.1 · หมวดที่ใช้: A B C D E F G H Z1 Z2 Z3
+ไฟล์                                                  A   B   C   D   E   F   G   H  Z1  Z2  Z3
+------------------------------------------------------------------------------------
+../secgate-evidence/run-09-final/RUN_START.json       0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/SECURITY_RESULT_SUMMARY.md  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/SECURITY_RUN_MANIFEST.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/control_results.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/browser/command.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/browser/meta.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/browser/result.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/browser/result_raw.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/browser/stdout.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/environment/command.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/environment/frozen.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/environment/meta.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/environment/platform.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/environment/result.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/http_probes/command.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/http_probes/meta.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/http_probes/probes.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/http_probes/result.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/leak_check/command.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pip_audit/audit_input.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pip_audit/command.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pip_audit/meta.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pip_audit/raw.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pip_audit/result.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pip_audit/stdout.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pytest/command.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pytest/junit.xml  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pytest/meta.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pytest/outcomes.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pytest/result.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/pytest/stdout.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/target/command.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/target/meta.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/target/result.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/target/server_stdout.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/target/target.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/zap/command.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/zap/meta.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/zap/report.html  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/zap/report.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/zap/result.json  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/zap/stdout.txt  0   0   0   0   0   0   0   0   0   0   0
+../secgate-evidence/run-09-final/steps/zap/zap_plan.yaml  0   0   0   0   0   0   0   0   0   0   0
+
+✅ LEAK CHECK PASSED — ตรวจ 43 ไฟล์ · 0 hit · หมวด A–H ครบ + ชุดพื้นฐาน 3 หมวด (ไม่พบรูปแบบที่ตรวจ ≠ ปลอดการเปิดเผย)

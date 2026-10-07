@@ -1,0 +1,31 @@
+{
+  "Z:zap_baseline": {
+    "status": "PASS",
+    "detail": {
+      "counts": {
+        "High": 0,
+        "Medium": 0,
+        "Low": 0,
+        "Informational": 2
+      },
+      "alerts": [
+        {
+          "name": "Session Management Response Identified",
+          "risk": "Informational",
+          "pluginid": "10112",
+          "count": "2"
+        },
+        {
+          "name": "User Controllable HTML Element Attribute (Potential XSS)",
+          "risk": "Informational",
+          "pluginid": "10031",
+          "count": "18"
+        }
+      ],
+      "exit_code": 0,
+      "scan_type": "baseline/passive",
+      "target": "synthetic loopback"
+    },
+    "source": "steps/zap/report.json"
+  }
+}

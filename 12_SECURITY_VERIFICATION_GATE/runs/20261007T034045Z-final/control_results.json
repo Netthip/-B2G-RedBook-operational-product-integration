@@ -1,0 +1,538 @@
+{
+  "phase": "final",
+  "profile": "LOOPBACK_HTTP",
+  "counts": {
+    "declared": 51,
+    "PASS": 48,
+    "FAIL": 0,
+    "REVIEW": 0,
+    "NOT_APPLICABLE": 3,
+    "applicable": 48
+  },
+  "controls": [
+    {
+      "control_id": "SG-01",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed": "PASS",
+        "H:paths.traversal": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-02",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_upload_security.py::test_path_for_blocks_traversal": "PASS",
+        "T:tests/test_security_gate_web.py::test_export_download_rejects_traversal": "PASS",
+        "H:paths.traversal": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-03",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:paths.sourcecontrol": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-04",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:paths.dirlisting": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-05",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_web.py::test_api_docs_are_disabled": "PASS",
+        "H:paths.docs": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-06",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_p1_holdout.py": "PASS",
+        "T:tests/test_final_holdout_guard.py": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-07",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_web.py::test_post_without_csrf_is_rejected": "PASS",
+        "T:tests/test_web.py::test_post_with_wrong_csrf_is_rejected": "PASS",
+        "H:csrf.no_token": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-08",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_web.py::test_cross_origin_post_is_rejected": "PASS",
+        "T:tests/test_security_gate_web.py::test_cross_site_referer_only_is_rejected": "PASS",
+        "H:csrf.cross_origin": "PASS",
+        "B:csrf.cross_site_form": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-09",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_static.py::test_every_post_handler_verifies_csrf": "PASS",
+        "T:tests/test_security_gate_static.py::test_no_get_handler_mutates_state": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-10",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:cookie.flags": "PASS",
+        "B:cookie.flags": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-11",
+      "status": "NOT_APPLICABLE",
+      "reason": "เงื่อนไขไม่บังคับใน profile LOOPBACK_HTTP: ใช้เมื่อเสิร์ฟผ่าน TLS · profile LOOPBACK_HTTP (127.0.0.1 ไม่มี TLS) ⇒ NOT_APPLICABLE · บันทึกค่าที่พบไว้เป็นข้อมูล",
+      "checks": {
+        "H:cookie.secure_recorded": "RECORDED"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-12",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_web.py::test_uploaded_filename_is_escaped_in_html": "PASS",
+        "T:tests/test_security_gate_static.py::test_jinja_autoescape_is_enabled": "PASS",
+        "T:tests/test_security_gate_web.py::test_scriptish_path_param_is_not_reflected_raw": "PASS",
+        "T:tests/test_security_gate_xss.py": "PASS",
+        "T:tests/test_security_gate_static.py::test_no_unquoted_attribute_interpolation_in_templates": "PASS",
+        "T:tests/test_security_gate_static.py::test_no_event_handler_or_javascript_url_built_from_templates": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-13",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_static.py::test_dynamic_sql_only_in_allowlisted_schema_code": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-14",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_static.py::test_no_dangerous_dynamic_execution": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-15",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_web.py::test_form_inputs_are_validated_server_side": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-16",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "D:defusedxml_present": "PASS",
+        "T:tests/test_security_gate_upload.py::test_xlsx_with_external_entity_does_not_fetch_or_crash": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-17",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_export_csv_safe.py": "PASS",
+        "T:tests/test_security_gate_export.py::test_xlsx_cells_are_text_typed_never_formula": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-18",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_upload_security.py::test_enforces_size_limit": "PASS",
+        "T:tests/test_upload_security.py::test_rejects_empty_file": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-19",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_upload_security.py::test_detects_real_type_not_extension": "PASS",
+        "T:tests/test_upload_security.py::test_rejects_disguised_executable": "PASS",
+        "T:tests/test_upload_security.py::test_rejects_html_masquerading_as_pdf": "PASS",
+        "T:tests/test_upload_security.py::test_rejects_zip_that_is_not_xlsx": "PASS",
+        "T:tests/test_security_gate_upload.py::test_declared_content_type_is_ignored": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-20",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_upload.py::test_zip_bomb_ratio_is_rejected": "PASS",
+        "T:tests/test_security_gate_upload.py::test_zip_with_too_many_members_is_rejected": "PASS",
+        "T:tests/test_security_gate_upload.py::test_corrupt_zip_is_rejected_safely": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-21",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_upload_security.py::test_accepts_real_xlsx_and_renames_internally": "PASS",
+        "T:tests/test_upload_security.py::test_sanitize_display_name_strips_control_chars": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-22",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_export.py::test_export_download_has_attachment_disposition_with_system_name": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-23",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_static.py::test_upload_dir_is_outside_static_and_not_mounted": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-24",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_privacy_leakage.py::test_p32_debug_detail_is_off_by_default": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-25",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:headers.cache": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-26",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_privacy_leakage.py": "PASS",
+        "T:tests/test_privacy_path_boundary.py": "PASS",
+        "T:tests/test_t1b_stored_row_leakage.py": "PASS",
+        "H:leak.pages": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-27",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "L:evidence_leak_check": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-28",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_static.py::test_route_path_params_are_system_ids_only": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-29",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:headers.referrer": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-30",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:headers.csp": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-31",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:headers.nosniff": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-32",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:headers.frame": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-33",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:headers.coop": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-34",
+      "status": "NOT_APPLICABLE",
+      "reason": "เงื่อนไขไม่บังคับใน profile LOOPBACK_HTTP: ใช้เมื่อเสิร์ฟผ่าน TLS · profile LOOPBACK_HTTP ⇒ NOT_APPLICABLE · บันทึกค่าที่พบ",
+      "checks": {
+        "H:headers.hsts_recorded": "RECORDED"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-35",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:headers.cors": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-36",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_static.py::test_templates_reference_no_external_resources": "PASS",
+        "B:flow.console_clean": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-37",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_export.py::test_export_download_has_attachment_disposition_with_system_name": "PASS",
+        "T:tests/test_security_gate_static.py::test_upload_dir_is_outside_static_and_not_mounted": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-38",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:headers.content_type": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-39",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_privacy_leakage.py::test_p30_error_page_has_no_internal_exception_details": "PASS",
+        "T:tests/test_web.py::test_not_found_page_has_no_internals": "PASS",
+        "T:tests/test_security_gate_web.py::test_malformed_multipart_body_fails_safely": "PASS",
+        "T:tests/test_security_gate_web.py::test_unhandled_exception_renders_generic_500_page": "PASS",
+        "H:error.safe": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-40",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_web.py::test_unexpected_methods_fail_safely": "PASS",
+        "H:methods.blocked": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-41",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:methods.blocked": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-42",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:headers.server": "PASS",
+        "H:healthz.minimal": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-43",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "H:host.allowlist": "PASS",
+        "T:tests/test_security_gate_web.py::test_unknown_host_header_is_rejected": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-44",
+      "status": "NOT_APPLICABLE",
+      "reason": "ประกาศ NOT_APPLICABLE ใน matrix: ระบบเป็นเครื่องมือผู้ปฏิบัติคนเดียวบน loopback ไม่มี authentication/session · ถ้าเพิ่ม auth หรือเปิดสู่เครือข่าย ⇒ ต้องประกาศ matrix รุ่นใหม่ก่อนประเมิน",
+      "checks": {
+        "T:tests/test_security_gate_static.py::test_no_authentication_or_session_mechanism_exists": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-45",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_evidence_routes.py::test_decision_via_route_requires_csrf_and_records_audit": "PASS",
+        "T:tests/test_security_gate_logging.py::test_csrf_rejection_is_logged_without_token_value": "PASS",
+        "T:tests/test_security_gate_logging.py::test_upload_rejection_is_logged_with_sanitized_name": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-46",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_privacy_leakage.py::test_p20_log_formatter_redacts_absolute_paths": "PASS",
+        "T:tests/test_privacy_leakage.py::test_p21_log_formatter_redacts_traceback_frames": "PASS",
+        "T:tests/test_privacy_leakage.py::test_p22_upload_flow_leaves_no_absolute_path_in_the_log": "PASS",
+        "T:tests/test_security_gate_logging.py": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-47",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "T:tests/test_security_gate_logging.py::test_security_event_timestamp_is_iso8601_with_offset": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-48",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "D:pip_audit": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-49",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "D:inventory": "PASS"
+      },
+      "manual_disposition": null
+    },
+    {
+      "control_id": "SG-50",
+      "status": "PASS",
+      "reason": "ทุก check ผ่าน + disposition FALSE_POSITIVE รับโดย Bo (Research Director) — REVIEW #23 รอบ 3 ACCEPT 10112/10031 FALSE_POSITIVE · ส่งผ่านแชต ถ่ายทอดโดย Gift · บันทึกเป็นคอมเมนต์ 6030358199 (Bo ระบุให้ลง accepted_by โดยอ้าง decision นี้ Gift ไม่ต้องแก้ไฟล์เอง)",
+      "checks": {
+        "Z:zap_baseline": "PASS"
+      },
+      "manual_disposition": {
+        "disposition": "FALSE_POSITIVE",
+        "run_id": "20261006T231414Z-final",
+        "proposed_by": "Giho",
+        "proposed_date": "2026-10-07",
+        "accepted_by": "Bo (Research Director) — REVIEW #23 รอบ 3 ACCEPT 10112/10031 FALSE_POSITIVE · ส่งผ่านแชต ถ่ายทอดโดย Gift · บันทึกเป็นคอมเมนต์ 6030358199 (Bo ระบุให้ลง accepted_by โดยอ้าง decision นี้ Gift ไม่ต้องแก้ไฟล์เอง)",
+        "accepted_date": "2026-10-07",
+        "reason": "ZAP baseline/passive บน target สังเคราะห์พบเฉพาะ Informational 2 รายการ · ไม่มี High/Medium/Low · ทั้งสองรายการมีหลักฐานว่าไม่ใช่ช่องโหว่ (ดู alerts)",
+        "alerts": {
+          "10112": {
+            "name": "Session Management Response Identified",
+            "disposition": "FALSE_POSITIVE",
+            "reason": "คุกกี้ redbook_csrf เป็นโทเคน CSRF แบบ double-submit ไม่ใช่ session · ระบบไม่มี authentication/session (SG-44 NOT_APPLICABLE · test_no_authentication_or_session_mechanism_exists) · Bo รับหลักการแล้ว (6027478811)"
+          },
+          "10031": {
+            "name": "User Controllable HTML Element Attribute (Potential XSS)",
+            "disposition": "FALSE_POSITIVE",
+            "reason": "จุดสะท้อน = query page/per_page ของ /t1b/runs/{rid}/findings/{fid} ที่ถูกแปลงเป็น int ก่อนประกอบ query string ฝั่งบริการ แล้ว autoescape ใน attribute ที่มี quote · regression เพิ่มตาม Bo: tests/test_security_gate_xss.py (quote-break · event-handler · unquoted-attribute · javascript: · double-encoding · percent-encoded) บนจุดที่ ZAP ชี้ + ตัวกรองคิว + จุด query อื่น · oracle = parse HTML จริง ห้ามเกิด attribute on* / URL javascript: · static: ไม่มี attribute interpolation ที่ไม่มี quote (test_no_unquoted_attribute_interpolation_in_templates) และไม่มี on*=/javascript: ใน template · markupsafe escape ทั้ง \" และ ' · พบ F-09 ระหว่างทาง (ค่าไม่ใช่ตัวเลข ⇒ 500) แก้เป็น 400 แล้ว"
+          }
+        }
+      }
+    },
+    {
+      "control_id": "SG-51",
+      "status": "PASS",
+      "reason": "ทุก check ที่ประกาศผ่าน",
+      "checks": {
+        "B:flow.forms_submit": "PASS",
+        "B:flow.console_clean": "PASS"
+      },
+      "manual_disposition": null
+    }
+  ]
+}

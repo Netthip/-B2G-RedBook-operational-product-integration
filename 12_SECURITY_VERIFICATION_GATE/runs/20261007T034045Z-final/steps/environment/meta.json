@@ -1,0 +1,9 @@
+{
+  "step": "environment",
+  "started_utc": "2026-10-07T03:40:45+00:00",
+  "status": "DONE",
+  "exit_code": 0,
+  "duration_s": 1.35,
+  "frozen_lines": 43,
+  "finished_utc": "2026-10-07T03:40:46+00:00"
+}

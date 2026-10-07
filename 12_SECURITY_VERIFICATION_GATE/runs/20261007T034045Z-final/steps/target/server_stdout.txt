@@ -1,0 +1,305 @@
+INFO:     Started server process [42948]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:64739 (Press CTRL+C to quit)
+INFO:     127.0.0.1:64740 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /queue HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /preflight HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /export HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /t1b/runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /indicators/runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /audit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /projects/new HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /static/favicon.svg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "GET /nope HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /projects/doesnotexist HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /runs/doesnotexist HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /t1b/runs/doesnotexist HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /files/doesnotexist/structure HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /indicators/runs/doesnotexist HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64862 - "TRACE / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "PUT / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "PATCH / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "DELETE / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "OPTIONS / HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "TRACE /projects/new HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "PUT /projects/new HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "PATCH /projects/new HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "DELETE /projects/new HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "OPTIONS /projects/new HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "TRACE /healthz HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "PUT /healthz HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "PATCH /healthz HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "DELETE /healthz HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "OPTIONS /healthz HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64862 - "GET /static/../../app.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /redbook/app.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /static/..%5C..%5Capp.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /t1b/exports/..%5C..%5Cx HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:64862 - "GET /t1b/exports/../x HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /t1b/exports/exp_../../x HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /indicators/exports/../x HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /indicators/runs/x/exports/../x HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /evidence/../../x/file HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /.git/HEAD HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /.git/config HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /app.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /redbook/app.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /requirements.txt HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /run_local.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /config.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /static HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64862 - "GET /static/ HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /docs HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /redoc HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "GET /openapi.json HTTP/1.1" 404 Not Found
+Expected boundary character 45, got 255 at index 2
+INFO:     127.0.0.1:64862 - "POST /projects/new HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:64862 - "POST /projects/new HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64862 - "GET /projects/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64862 - "POST /projects/new HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64862 - "POST /projects/new HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64862 - "POST /projects/new HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64862 - "GET / HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:64862 - "GET / HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:61097 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /projects/new HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "POST /projects/new HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:61097 - "GET /projects/prj_1b45ba840fc34ab9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /projects/prj_1b45ba840fc34ab9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "POST /projects/prj_1b45ba840fc34ab9/upload HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:61097 - "GET /projects/prj_1b45ba840fc34ab9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /projects/prj_1b45ba840fc34ab9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "POST /projects/prj_1b45ba840fc34ab9/upload HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:61097 - "GET /projects/prj_1b45ba840fc34ab9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /projects/prj_1b45ba840fc34ab9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "POST /projects/prj_1b45ba840fc34ab9/analyze HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:61097 - "GET /t1b/runs/t1b_91fb9a0e88784aa9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61097 - "POST /projects/new HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61097 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65376 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65376 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65376 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65382 - "GET /rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65381 - "GET /audit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65378 - "GET /queue HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:65384 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65377 - "GET /t1b/runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65383 - "GET /projects/new HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65385 - "GET /projects/prj_1b45ba840fc34ab9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65380 - "GET /export HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:65379 - "GET /preflight HTTP/1.1" 303 See Other
+INFO:     127.0.0.1:65386 - "GET /projects/prj_fb4e9d1a27924098 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65387 - "GET /static/favicon.svg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65388 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65388 - "GET /t1b/runs/t1b_91fb9a0e88784aa9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65387 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/preflight HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65385 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/export HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65386 - "GET /files/587e6918741e4f988a939f942af05ebb/structure HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65383 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/audit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65384 - "GET /files/4a2bd9234e8541018233e8ba1a7ac147/structure HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65377 - "GET /files/17c5946db6eb4fc1a4d9609dee419dc3/structure HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65382 - "GET /files/0597437b38f84ec88016e7c99358162f/structure HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65381 - "GET /projects/prj_1b45ba840fc34ab9/delete HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65376 - "GET /projects/prj_fb4e9d1a27924098/delete HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65379 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/f2fe54133b778fd6?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65380 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/0cba89adb148c554?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65378 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/ecc354ff7c8df656?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65389 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/664d3340e5892c2b?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65390 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/5c04f8464dd1ce13?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65388 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/b121fd164950f6c0?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65391 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/5f01fe717436de17?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65392 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/d257b11c25c3ddb3?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65393 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/3b9f4b5584b03ea6?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65378 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/14a143bec4b24eac?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65380 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/3aa8828b28e44c9e?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65379 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/1eaf137514d5ddcb?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65376 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/d40731f4f4c27e04?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65382 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/8771295cc5a7a27a?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65381 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/880888f2310f1d8d?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65377 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/61466320e34fbbe7?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65383 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/827959586e0935b5?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65384 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/2ddda72ba912382c?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65385 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/a1cbc244c462cee5?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65386 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/733a04556ad20c97?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65387 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/6efcb85916382e91?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65394 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/9cc6c5904ac8088c?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65395 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/9777338ad741f40d?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65389 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/610fb2251d736de8?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65396 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/703244a63d105357?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65388 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/c8e503c289c1929f?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65390 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/30909b825fad76d7?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65397 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/4dc23e6db48c4c98?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65391 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/c7f16c2c192e33d7?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65398 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/personnel HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65392 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/dd4d5b363ec1bdf3?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65399 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=AMOUNT_DECREASED HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65387 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65386 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?cat=AMOUNT&ftype=AMOUNT_DECREASED&only_review=1&q&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65385 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65400 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/e244c009f2844d23?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65401 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=AMOUNT_INCREASED HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65402 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/e4949e6faa217940?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65403 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/fa09ae57529f0587?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65404 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=AMOUNT_UNCHANGED HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65392 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/personnel?amount=7.4001&sheet=%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B&unit=%E0%B8%A5%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%9A%E0%B8%B2%E0%B8%97 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65398 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/personnel?amount=3&sheet&unit=%E0%B8%A5%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%9A%E0%B8%B2%E0%B8%97 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65391 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/personnel?amount=3&commit=aaf7b270d5c0cafe&sheet&unit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65405 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/05ec4a3f2176d6f8?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65406 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=INDICATOR_CHANGED HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65400 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/f2fe54133b778fd6?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65386 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/0cba89adb148c554?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65387 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/664d3340e5892c2b?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65385 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/0cba89adb148c554?ftype=AMOUNT_DECREASED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65399 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/5c04f8464dd1ce13?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65397 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/d257b11c25c3ddb3?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65390 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/ecc354ff7c8df656?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65388 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/3b9f4b5584b03ea6?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65396 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/9cc6c5904ac8088c?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65389 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/5f01fe717436de17?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65395 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/9777338ad741f40d?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65394 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/9777338ad741f40d?ftype=AMOUNT_DECREASED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65384 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/b121fd164950f6c0?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65383 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/703244a63d105357?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65377 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/e244c009f2844d23?ftype=AMOUNT_DECREASED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65381 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/4dc23e6db48c4c98?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65382 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/fa09ae57529f0587?ftype=AMOUNT_DECREASED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65376 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/fa09ae57529f0587?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65379 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/e4949e6faa217940?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65380 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/e244c009f2844d23?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65378 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/05ec4a3f2176d6f8?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65407 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/bd380b15d730daaf?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65401 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/bd380b15d730daaf?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65393 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/aaf7b270d5c0cafe?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65408 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=INDICATOR_UNCHANGED HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65402 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/bcdf53a381a82b86?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65409 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/aaf7b270d5c0cafe?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65403 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/02064e6ff03e4162?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65410 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=NOT_COMPARABLE HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65398 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/8e1c7bc927713c40?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65391 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/4531c519dc224e76?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65392 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/d40731f4f4c27e04?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65404 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/61466320e34fbbe7?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65411 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/bcdf53a381a82b86?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65405 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/3aa8828b28e44c9e?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65412 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=ROW_ADDED HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65378 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/14a143bec4b24eac?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65380 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/1eaf137514d5ddcb?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65376 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/2ddda72ba912382c?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65382 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/dd4d5b363ec1bdf3?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65379 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/880888f2310f1d8d?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65381 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/a1cbc244c462cee5?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65377 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/30909b825fad76d7?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65383 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/733a04556ad20c97?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65384 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/827959586e0935b5?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65394 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/610fb2251d736de8?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65395 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/c8e503c289c1929f?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65389 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/5f01fe717436de17?ftype=AMOUNT_INCREASED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65396 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/664d3340e5892c2b?ftype=AMOUNT_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65388 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/4dc23e6db48c4c98?ftype=AMOUNT_INCREASED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65390 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/c7f16c2c192e33d7?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65397 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?cat=AMOUNT&ftype=AMOUNT_INCREASED&only_review=1&q&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65399 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/ecc354ff7c8df656?ftype=AMOUNT_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65385 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/f2fe54133b778fd6?ftype=AMOUNT_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65387 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/8771295cc5a7a27a?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65386 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/5c04f8464dd1ce13?ftype=AMOUNT_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65400 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/6efcb85916382e91?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65406 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/9cc6c5904ac8088c?ftype=AMOUNT_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65413 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/02064e6ff03e4162?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65393 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/e4949e6faa217940?ftype=AMOUNT_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65401 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/05ec4a3f2176d6f8?ftype=AMOUNT_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65407 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/aaf7b270d5c0cafe?ftype=AMOUNT_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65414 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=ROW_REMOVED HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65402 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/personnel?amount=3&commit=aaf7b270d5c0cafe&sheet&unit=%E0%B8%A5%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%9A%E0%B8%B2%E0%B8%97 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65408 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/personnel?amount=3&sheet=%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B&unit=%E0%B8%A5%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%9A%E0%B8%B2%E0%B8%97 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65415 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=UNIT_CHANGED HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65403 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/personnel?amount=3&commit=aaf7b270d5c0cafe&sheet=%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B&unit=%E0%B8%A5%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%9A%E0%B8%B2%E0%B8%97 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65409 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?cat=AMOUNT&ftype=AMOUNT_UNCHANGED&only_review=1&q&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65416 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65404 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?page=1&per_page=50&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65392 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/703244a63d105357?ftype=INDICATOR_CHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65391 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?cat=AMOUNT&ftype=INDICATOR_CHANGED&only_review=1&q&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65398 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=AMOUNT_DECREASED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65410 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/b121fd164950f6c0?ftype=INDICATOR_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65417 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/8e1c7bc927713c40?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65405 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?cat=AMOUNT&ftype=INDICATOR_UNCHANGED&only_review=1&q&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65411 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/bd380b15d730daaf?ftype=NOT_COMPARABLE&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65418 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/4531c519dc224e76?page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65406 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/bcdf53a381a82b86?ftype=NOT_COMPARABLE&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65400 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?cat=AMOUNT&ftype=NOT_COMPARABLE&only_review=1&q&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65386 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/4531c519dc224e76?ftype=ROW_ADDED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65387 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=AMOUNT_INCREASED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65385 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=AMOUNT_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65399 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/d40731f4f4c27e04?ftype=ROW_ADDED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65397 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?cat=AMOUNT&ftype=ROW_ADDED&only_review=1&q&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65419 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?only_review=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65408 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/02064e6ff03e4162?ftype=ROW_REMOVED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65402 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/8e1c7bc927713c40?ftype=ROW_REMOVED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65414 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?cat=AMOUNT&ftype=ROW_REMOVED&only_review=1&q&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65409 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/d257b11c25c3ddb3?ftype=UNIT_CHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65403 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/3b9f4b5584b03ea6?ftype=UNIT_CHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65415 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?cat=AMOUNT&ftype=UNIT_CHANGED&only_review=1&q&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65410 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=INDICATOR_UNCHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65398 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/61466320e34fbbe7?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65391 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=INDICATOR_CHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65392 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/3aa8828b28e44c9e?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65404 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/14a143bec4b24eac?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65416 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/1eaf137514d5ddcb?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65407 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/827959586e0935b5?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65401 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/8771295cc5a7a27a?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65393 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/880888f2310f1d8d?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65413 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/2ddda72ba912382c?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65390 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/a1cbc244c462cee5?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65388 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/733a04556ad20c97?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65396 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/6efcb85916382e91?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65389 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/610fb2251d736de8?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65395 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/c8e503c289c1929f?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65394 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/30909b825fad76d7?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65384 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/c7f16c2c192e33d7?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65383 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/dd4d5b363ec1bdf3?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65377 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?cat=AMOUNT&ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&only_review=1&q&status=PENDING HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65411 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=NOT_COMPARABLE&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65397 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=ROW_ADDED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65419 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/d257b11c25c3ddb3?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65399 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/3b9f4b5584b03ea6?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65385 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/bd380b15d730daaf?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65387 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/bcdf53a381a82b86?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65386 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/02064e6ff03e4162?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65400 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/8e1c7bc927713c40?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65406 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/4531c519dc224e76?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65418 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/d40731f4f4c27e04?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65405 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/61466320e34fbbe7?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65417 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/3aa8828b28e44c9e?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65381 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/14a143bec4b24eac?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65379 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/1eaf137514d5ddcb?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65382 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/827959586e0935b5?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65376 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/8771295cc5a7a27a?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65380 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/880888f2310f1d8d?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65378 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/2ddda72ba912382c?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65412 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/a1cbc244c462cee5?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65414 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/733a04556ad20c97?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65402 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/6efcb85916382e91?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65408 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/610fb2251d736de8?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65403 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/30909b825fad76d7?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65415 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/c8e503c289c1929f?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65409 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/c7f16c2c192e33d7?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65377 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/findings/dd4d5b363ec1bdf3?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65383 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=ROW_REMOVED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65384 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=UNIT_CHANGED&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65394 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?ftype=UNMAPPED_REQUIRES_HUMAN_REVIEW&page=1&per_page=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65412 - "GET /t1b/runs/t1b_91fb9a0e88784aa9/queue?only_review=1&page=1&per_page=50 HTTP/1.1" 200 OK
