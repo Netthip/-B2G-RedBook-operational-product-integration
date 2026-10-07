@@ -6,8 +6,8 @@
     "run_id": "20261006T231414Z-final",
     "proposed_by": "Giho",
     "proposed_date": "2026-10-07",
-    "accepted_by": "",
-    "accepted_date": "",
+    "accepted_by": "Bo (Research Director) — REVIEW #23 รอบ 3 ACCEPT 10112/10031 FALSE_POSITIVE · ส่งผ่านแชต ถ่ายทอดโดย Gift · บันทึกเป็นคอมเมนต์ 6030358199 (Bo ระบุให้ลง accepted_by โดยอ้าง decision นี้ Gift ไม่ต้องแก้ไฟล์เอง)",
+    "accepted_date": "2026-10-07",
     "reason": "ZAP baseline/passive บน target สังเคราะห์พบเฉพาะ Informational 2 รายการ · ไม่มี High/Medium/Low · ทั้งสองรายการมีหลักฐานว่าไม่ใช่ช่องโหว่ (ดู alerts)",
     "alerts": {
       "10112": {

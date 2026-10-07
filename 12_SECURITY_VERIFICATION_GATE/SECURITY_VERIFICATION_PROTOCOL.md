@@ -42,6 +42,7 @@
 |---|---|---|---|
 | 0.1.0 | `36b5230acb22e4fe` | ประกาศครั้งแรก 51 control (`68ce555`) | — |
 | 0.1.1 | `8b22f8267d6c9fc1` | SG-12 **เพิ่ม** check attribute-context XSS (`tests/test_security_gate_xss.py` + static 2 ข้อ) · ไม่ลด/ไม่ผ่อน expected_result ข้อใด | Bo REVIEW `6027478811` ขอ targeted regression ก่อน ACCEPT · เพิ่มแบบ **เข้มขึ้นเท่านั้น** |
+| 0.1.2 | `303472daaf07ca9d` | SG-46 **เพิ่ม** check `tests/test_security_gate_logging.py` ทั้งไฟล์ (log injection CR/LF/U+2028 · ขอบเขต path-only · truncation) · ไม่ลด/ไม่ผ่อนข้อใด | Bo REVIEW #23 รอบ 3 (`6030358199`) ขอตรวจ shared log → #28 · F-11 |
 
 กติกา: การเปลี่ยนรุ่นที่ "เข้มขึ้นเท่านั้น" (เพิ่ม check · ไม่แก้ applicability/expected ของข้อเดิม) ทำได้หลังเห็นผล แต่ต้องรันรอบ final ใหม่ภายใต้รุ่นใหม่ ·
 การผ่อนเกณฑ์/ตัด check/เปลี่ยน applicability หลังเห็นผล **ห้าม** โดยไม่มีคำตัดสินของ Gift บันทึกไว้
