@@ -1,4 +1,7 @@
-"""สุ่มชุดประเมินสุดท้ายแบบแบ่งชั้น (#22) — ตาม FINAL_EVAL_PROTOCOL 1.0.0 §4
+"""สุ่มชุดประเมินสุดท้ายแบบแบ่งชั้น (#22) — ตาม FINAL_EVAL_PROTOCOL 1.0.1 §4
+
+0.2.0 (โปรโตคอล 1.0.1): stratum `TYPE_UNVERIFIED` — ผู้ผ่านเกณฑ์ที่ยืนยันประเภทไม่ได้แม้หน่วยเดียว
+⇒ หยุดก่อนสุ่ม รายงานจำนวน · ห้ามย้ายเข้า S-GOV/S-PO เพื่อให้ชั้นลงตัว (คำตัดสิน Bo ข้อ 6)
 
 ใช้:
   python final_eval_draw.py --self-test
@@ -12,7 +15,7 @@
   อันดับในชั้น = เรียงจาก SHA-256("<seed>|<stratum>|<unit_id>") น้อยไปมาก
   จัดสรร      = n = min(target, จำนวนผู้ผ่าน) · ชั้นที่มีผู้ผ่านได้ 1 ที่ก่อน (ถ้า n ไม่พอ ให้ชั้นตามลำดับ STRATA)
                 · ที่เหลือให้ทีละที่แก่ชั้นที่ยังเหลือผู้ผ่านมากที่สุด (เสมอ ⇒ ตามลำดับ STRATA)
-  หยุด        = ผู้ผ่าน < 2 ⇒ ไม่สุ่ม · ส่งกลับกิ๊ฟ (ห้ามลดเกณฑ์)
+  หยุด        = ผู้ผ่านมี TYPE_UNVERIFIED ⇒ ไม่สุ่ม · ผู้ผ่าน < 2 ⇒ ไม่สุ่ม · ส่งกลับ Bo/Gift (ห้ามลดเกณฑ์)
 ไม่ใช้ `random` ของ Python เพื่อให้ผลไม่ขึ้นกับรุ่นของ interpreter และตรวจด้วยมือได้
 """
 from __future__ import annotations
@@ -23,8 +26,9 @@ import hashlib
 import sys
 from pathlib import Path
 
-TOOL_VERSION = "final-eval-draw-0.1.0"
+TOOL_VERSION = "final-eval-draw-0.2.0"
 STRATA = ("S-GOV", "S-PO")  # ลำดับนี้ใช้ตัดสินเมื่อเสมอ — ตรึงใน §4.2
+UNVERIFIED = "TYPE_UNVERIFIED"
 MIN_UNITS = 2
 CRLF, LF = bytes([13, 10]), bytes([10])
 
@@ -71,12 +75,15 @@ def draw(rows: list[dict], seed: str, target: int) -> dict:
         if uid in seen:
             raise ValueError(f"unit_id ซ้ำ: {uid}")
         seen.add(uid)
-        if st not in STRATA:
-            raise ValueError(f"stratum ไม่รู้จัก '{st}' (ต้องเป็น {STRATA})")
+        if st not in STRATA and st != UNVERIFIED:
+            raise ValueError(f"stratum ไม่รู้จัก '{st}' (ต้องเป็น {STRATA} หรือ {UNVERIFIED})")
         if el not in ("true", "false"):
             raise ValueError(f"eligible ต้องเป็น true/false: {uid}")
         if el == "true":
-            pool[st].append(uid)
+            pool.setdefault(st, []).append(uid)
+    unverified = len(pool.pop(UNVERIFIED, []))
+    if unverified:
+        raise DrawStop(f"ผู้ผ่านเกณฑ์ที่ยืนยันประเภทไม่ได้ {unverified} หน่วย — ไม่สุ่ม · ห้ามย้ายเข้าชั้นอื่น")
     counts = {s: len(v) for s, v in pool.items()}
     alloc = allocate(counts, target)
     ranked = {s: sorted(v, key=lambda u, s=s: rank_key(seed, s, u)) for s, v in pool.items()}
@@ -122,7 +129,17 @@ def _self_test() -> int:
             raise AssertionError(f"ต้องล้มดัง ๆ: {bad}")
         except ValueError:
             pass
-    print(f"{TOOL_VERSION} self-test: 7/7 ผ่าน (ข้อมูลสังเคราะห์เท่านั้น)")
+    # ผู้ผ่านที่ยืนยันประเภทไม่ได้แม้หน่วยเดียว ⇒ หยุด (ไม่ทิ้งเงียบ ๆ ไม่ย้ายชั้น)
+    unv = rows + [{"unit_id": "U99", "stratum": UNVERIFIED, "eligible": "true"}]
+    try:
+        draw(unv, seed, 3)
+        raise AssertionError("ต้องหยุดเมื่อมีผู้ผ่านที่เป็น TYPE_UNVERIFIED")
+    except DrawStop:
+        pass
+    # TYPE_UNVERIFIED ที่ไม่ผ่านเกณฑ์อยู่แล้ว ไม่กระทบผล
+    unv_ok = rows + [{"unit_id": "U99", "stratum": UNVERIFIED, "eligible": "false"}]
+    assert draw(unv_ok, seed, 3)["selected"] == a["selected"]
+    print(f"{TOOL_VERSION} self-test: 9/9 ผ่าน (ข้อมูลสังเคราะห์เท่านั้น)")
     return 0
 
 
