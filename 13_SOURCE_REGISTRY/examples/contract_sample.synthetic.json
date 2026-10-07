@@ -1,0 +1,83 @@
+{
+ "_note": "SYNTHETIC SAMPLE — รหัส ชื่อ และ URL ทั้งหมดเป็นของสมมติ ใช้แสดงรูปแบบ source-contract-0.1.0 เท่านั้น ไม่ใช่ข้อมูลจริง",
+ "contract_version": "source-contract-0.1.0",
+ "contract": {
+  "version": "source-contract-0.1.0",
+  "documents": [
+   {
+    "id": "bb-900001",
+    "year": 2570,
+    "stage": "DRAFT",
+    "stage_label": "ร่าง พ.ร.บ.",
+    "ministry": ["กระทรวงตัวอย่าง ก", "กระทรวงตัวอย่าง ข"],
+    "agency": null,
+    "agency_basis": "NOT_STATED_IN_SOURCE_TITLE — เล่มทางการแบ่งระดับกระทรวง/กลุ่ม ไม่ระบุหน่วยงานรายกรม",
+    "book_title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๙๙ (ตัวอย่างสังเคราะห์)",
+    "book_label": "ฉบับที่ 3 เล่มที่ 99",
+    "doc_type": "expenditure_by_ministry",
+    "doc_type_label": "ฉบับที่ 3 งบประมาณรายจ่ายรายกระทรวง",
+    "thumbnail_source": {"kind": "PDF_FIRST_PAGE", "url": "https://example.test/pdf/900001", "rendered": false},
+    "pdf": {"status": "FOUND", "url": "https://example.test/pdf/900001"},
+    "excel": {
+     "status": "EXCEL_AVAILABLE",
+     "granularity": "MINISTRY",
+     "coverage": "FULL",
+     "verification_level": "EXTERNAL_VIEWER_PAGE_OPENS_FILE_NOT_VERIFIED",
+     "source_status": "UNVERIFIED",
+     "review_flags": [],
+     "urls": ["https://example.test/xls/a", "https://example.test/xls/b"]
+    },
+    "availability": "EXCEL_AVAILABLE",
+    "source_status": {"source_page_url": "https://example.test/page/900001", "verified_date": "2026-10-07T00:00:00+00:00",
+                      "pdf_verification_level": "FILE_SIGNATURE_VERIFIED"},
+    "related_pair_ids": ["P-SAME_YEAR-DRAFT2570-ACT2570-expenditure_by_ministry:99"],
+    "comparison_availability": {"A_completeness": "SUPPORTED", "B_structure_book": "SUPPORTED",
+                                "B_structure_item": "NOT_SUPPORTED", "C_indicator": "NOT_SUPPORTED", "D_amount": "NOT_SUPPORTED"},
+    "observation_counts": {"total": 0}
+   },
+   {
+    "id": "bb-900002",
+    "year": 2569,
+    "stage": "DRAFT",
+    "stage_label": "ร่าง พ.ร.บ.",
+    "ministry": ["กระทรวงตัวอย่าง ค"],
+    "agency": null,
+    "agency_basis": "NOT_STATED_IN_SOURCE_TITLE — เล่มทางการแบ่งระดับกระทรวง/กลุ่ม ไม่ระบุหน่วยงานรายกรม",
+    "book_title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๙๘ (๕) (ตัวอย่างสังเคราะห์)",
+    "book_label": "ฉบับที่ 3 เล่มที่ 98(5)",
+    "doc_type": "expenditure_by_ministry",
+    "doc_type_label": "ฉบับที่ 3 งบประมาณรายจ่ายรายกระทรวง",
+    "thumbnail_source": {"kind": "PDF_FIRST_PAGE", "url": "https://example.test/pdf/900002", "rendered": false},
+    "pdf": {"status": "FOUND", "url": "https://example.test/pdf/900002"},
+    "excel": {
+     "status": "BROKEN_LINK",
+     "granularity": "VOLUME",
+     "coverage": "FULL",
+     "verification_level": "NONE",
+     "source_status": "BROKEN_LINK",
+     "review_flags": ["VIEWER_TITLE_NAMES_OTHER_VOLUME — ชื่อไฟล์ระบุเล่ม 5 แต่ป้ายคือเล่ม 98(5)"],
+     "urls": []
+    },
+    "availability": "PDF_ONLY",
+    "source_status": {"source_page_url": "https://example.test/page/900002", "verified_date": "2026-10-07T00:00:00+00:00",
+                      "pdf_verification_level": "FILE_SIGNATURE_VERIFIED"},
+    "related_pair_ids": [],
+    "comparison_availability": {"A_completeness": "SUPPORTED", "B_structure_book": "NO_PAIR",
+                                "B_structure_item": "NO_PAIR", "C_indicator": "NO_PAIR", "D_amount": "NO_PAIR"},
+    "observation_counts": {"total": 2, "A": 2}
+   }
+  ]
+ },
+ "pairs": [
+  {
+   "pair_id": "P-SAME_YEAR-DRAFT2570-ACT2570-expenditure_by_ministry:99",
+   "kind": "SAME_YEAR",
+   "key": "expenditure_by_ministry:99",
+   "status": "MATCHED",
+   "pair_basis": "METADATA_CONFIRMED",
+   "reasons": [],
+   "a": {"stage": "DRAFT", "fiscal_year": 2570, "ids": ["bb-900001"]},
+   "b": {"stage": "ACT", "fiscal_year": 2570, "ids": ["bb-900003"]}
+  }
+ ]
+}

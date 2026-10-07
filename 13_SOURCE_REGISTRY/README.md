@@ -26,7 +26,9 @@
 | ไฟล์ | เนื้อหา |
 |---|---|
 | [`PROTOCOL.md`](PROTOCOL.md) | นิยามสถานะ · กติกาจับคู่ fail-closed · ความสามารถเทียบหมวด A–D |
-| [`DATA_CONTRACT.md`](DATA_CONTRACT.md) | ฟิลด์ที่ใบ UI อ่านได้โดยไม่ต้องรู้ logic ภายใน |
+| [`DATA_CONTRACT.md`](DATA_CONTRACT.md) | ฟิลด์ที่ #24 (UI) อ่านได้โดยไม่ต้องรู้ logic ภายใน |
+| [`STRUCTURE_STUDY.md`](STRUCTURE_STUDY.md) | Source Coverage Matrix · workbook families · Compatibility Matrix · ผลกระทบต่อ #22 |
+| [`examples/contract_sample.synthetic.json`](examples/contract_sample.synthetic.json) | ตัวอย่างระเบียนสัญญาข้อมูล (สังเคราะห์ทั้งหมด) |
 | [`SEARCH_SCOPE.md`](SEARCH_SCOPE.md) | ส่วนของเว็บที่อ่าน / ไม่ได้อ่าน · จำนวนหน้า · วันที่ |
 | [`FINDINGS.md`](FINDINGS.md) | ข้อสังเกตของชุดเอกสารจากสแนปช็อตอ้างอิง |
 | [`EVIDENCE_MAP.md`](EVIDENCE_MAP.md) | source problem → evidence → capability → observable result → claim |

@@ -1,4 +1,4 @@
-# DATA CONTRACT — source-contract-0.1.0 (ใบ #27 → ใบ UI)
+# DATA CONTRACT — source-contract-0.1.0 (#27 → #24 UI / Budget Book Library)
 
 ไฟล์: `redbook/data/source_registry.json` (repo ระบบ) · อ่านจาก `contract.documents[]` และ `pairs[]`
 
@@ -17,7 +17,7 @@ UI **ไม่ต้อง scrape เว็บ** และไม่ต้อง�
 | `doc_type` / `doc_type_label` | str | ดู PROTOCOL §2 |
 | `thumbnail_source` | `{kind, url, rendered}` | `PDF_FIRST_PAGE` + ลิงก์ PDF ทางการ ทะเบียนไม่เก็บภาพ |
 | `pdf` | `{status, url}` | PROTOCOL §1 |
-| `excel` | `{status, granularity, coverage, verification_level, urls[]}` | `granularity` = `VOLUME`\|`MINISTRY` |
+| `excel` | `{status, granularity, coverage, verification_level, source_status, review_flags[], urls[]}` | `granularity` = `VOLUME`\|`MINISTRY` · `source_status` และ `review_flags` เพิ่มแบบ additive 7 ต.ค. (ดู PROTOCOL §1) · `urls` ไม่รวมลิงก์ที่ชี้ไฟล์ของเล่มอื่น |
 | `availability` | str | ภาพรวม PROTOCOL §1 |
 | `source_status` | `{source_page_url, verified_date, pdf_verification_level}` | ใช้ตรวจย้อนกลับไปหน้าทางการ |
 | `related_pair_ids` | list[str] | ชี้ไป `pairs[].pair_id` |
@@ -27,11 +27,11 @@ UI **ไม่ต้อง scrape เว็บ** และไม่ต้อง�
 ## `pairs[]`
 
 `pair_id` · `kind` (`SAME_YEAR`\|`CROSS_YEAR`) · `key` · `status` (`MATCHED`\|`REVIEW_REQUIRED`\|`CANNOT_DETERMINE`) ·
-`reasons[]` · `a`/`b` = `{stage, fiscal_year, ids[]}` · `evidence` · `comparison`
+`reasons[]` · `pair_basis` (`METADATA_CONFIRMED`\|`METADATA_UNCONFIRMED` · เพิ่มแบบ additive) · `a`/`b` = `{stage, fiscal_year, ids[]}` · `evidence` · `comparison`
 
-## กติกาการแสดงผลที่ตกลงกับใบ UI
+## กติกาการแสดงผลที่ตกลงกับ #24
 
-1. คู่ที่**เชื่อมเป็นลิงก์ได้มีเฉพาะ `MATCHED`** ส่วน `REVIEW_REQUIRED`/`CANNOT_DETERMINE` ให้แสดงว่า "รอยืนยัน"
+1. คู่ที่**เชื่อมเป็นลิงก์ได้มีเฉพาะ `MATCHED`** ซึ่งหมายถึง **metadata-confirmed pairing** เท่านั้น ไม่ใช่ "เทียบได้สมบูรณ์" · #24 ห้ามเดาคู่เอง ส่วน `REVIEW_REQUIRED`/`CANNOT_DETERMINE` ให้แสดงว่า "รอยืนยัน"
 2. `NOT_LISTED`/`UNCHECKED`/ฟิลด์ว่าง ให้แสดงว่า "ยังไม่มีข้อมูล / ไม่อยู่ในส่วนที่ค้น" **ห้ามแสดงว่า "ไม่มี"**
 3. `EXTERNAL_VIEWER_PAGE_OPENS_FILE_NOT_VERIFIED` ห้ามแสดงว่า "ตรวจไฟล์แล้ว"
 4. ไม่อ่านค่าใด ๆ ที่ไม่อยู่ในสัญญานี้ เพราะฟิลด์อื่นใน JSON อาจเปลี่ยนโดยไม่ขึ้นรุ่นสัญญา
