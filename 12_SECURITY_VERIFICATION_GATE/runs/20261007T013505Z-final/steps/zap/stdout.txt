@@ -1,0 +1,39 @@
+470 [main] INFO  org.parosproxy.paros.Constant - Copying default configuration to <path>
+572 [main] INFO  org.parosproxy.paros.Constant - Creating directory <path>
+572 [main] INFO  org.parosproxy.paros.Constant - Creating directory <path>
+572 [main] INFO  org.parosproxy.paros.Constant - Creating directory <path>
+572 [main] INFO  org.parosproxy.paros.Constant - Creating directory <path>
+Job passiveScan-config set maxAlertsPerRule = 10
+Job passiveScan-config set scanOnlyInScope = true
+Job spider set context = redbook-synthetic
+Job spider set url = http://127.0.0.1:59535
+Job spider set maxDuration = 2
+Job spider set maxDepth = 5
+Job spider set postForm = false
+Job spider set parseComments = true
+Job spider set parseRobotsTxt = false
+Job spider set parseSitemapXml = false
+Job passiveScan-wait set maxDuration = 5
+Job report set template = traditional-json
+Job report set reportDir = <path>
+Job report set reportFile = report
+Job report set reportTitle = RedBook Verify Security Gate - ZAP baseline (passive) - synthetic loopback target
+Job report set template = traditional-html
+Job report set reportDir = <path>
+Job report set reportFile = report
+Job report set reportTitle = RedBook Verify Security Gate - ZAP baseline (passive) - synthetic loopback target
+Job passiveScan-config started
+Job passiveScan-config finished, time taken: 00:00:00
+Job spider started
+Job spider requesting URL http://127.0.0.1:59535
+Job spider found 211 URLs
+Job spider finished, time taken: 00:00:10
+Job passiveScan-wait started
+Job passiveScan-wait finished, time taken: 00:00:00
+Job report started
+Job report generated report <path>
+Job report finished, time taken: 00:00:00
+Job report started
+Job report generated report <path>
+Job report finished, time taken: 00:00:00
+Automation plan succeeded!

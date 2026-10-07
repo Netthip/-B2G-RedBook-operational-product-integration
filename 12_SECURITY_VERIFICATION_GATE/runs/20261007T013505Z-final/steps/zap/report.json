@@ -1,0 +1,283 @@
+{
+  "@programName": "ZAP",
+  "@version": "2.17.0",
+  "@generated": "Wed, 7 Oct 2026 08:36:26",
+  "created": "2026-10-07T01:36:26.621305300Z",
+  "insights": [
+    {
+      "level": "Low",
+      "reason": "Warning",
+      "site": "",
+      "key": "insight.log.error",
+      "description": "ZAP errors logged - see the zap.log file for details",
+      "statistic": "1"
+    },
+    {
+      "level": "Low",
+      "reason": "Warning",
+      "site": "",
+      "key": "insight.log.warn",
+      "description": "ZAP warnings logged - see the zap.log file for details",
+      "statistic": "2"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://127.0.0.1:59535",
+      "key": "insight.code.2xx",
+      "description": "Percentage of responses with status code 2xx",
+      "statistic": "98"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://127.0.0.1:59535",
+      "key": "insight.code.3xx",
+      "description": "Percentage of responses with status code 3xx",
+      "statistic": "1"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://127.0.0.1:59535",
+      "key": "insight.endpoint.ctype.text/html",
+      "description": "Percentage of endpoints with content type text/html",
+      "statistic": "97"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://127.0.0.1:59535",
+      "key": "insight.endpoint.method.GET",
+      "description": "Percentage of endpoints with method GET",
+      "statistic": "100"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://127.0.0.1:59535",
+      "key": "insight.endpoint.total",
+      "description": "Count of total endpoints",
+      "statistic": "178"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://127.0.0.1:59535",
+      "key": "insight.response.slow",
+      "description": "Percentage of slow responses",
+      "statistic": "96"
+    }
+  ],
+  "site": [
+    {
+      "@name": "http://127.0.0.1:59535",
+      "@host": "127.0.0.1",
+      "@port": "59535",
+      "@ssl": "false",
+      "alerts": [
+        {
+          "pluginid": "10112",
+          "alertRef": "10112",
+          "alert": "Session Management Response Identified",
+          "name": "Session Management Response Identified",
+          "riskcode": "0",
+          "confidence": "2",
+          "riskdesc": "Informational (Medium)",
+          "desc": "<p>The given response has been identified as containing a session management token. The 'Other Info' field contains a set of header tokens that can be used in the Header Based Session Management Method. If the request is in a context which has a Session Management Method set to \"Auto-Detect\" then this rule will change the session management to use the tokens identified.</p>",
+          "instances": [
+            {
+              "id": "1",
+              "uri": "http://127.0.0.1:59535",
+              "nodeName": "http://127.0.0.1:59535",
+              "method": "GET",
+              "param": "redbook_csrf",
+              "attack": "",
+              "evidence": "redbook_csrf",
+              "otherinfo": "cookie:redbook_csrf"
+            },
+            {
+              "id": "2",
+              "uri": "http://127.0.0.1:59535",
+              "nodeName": "http://127.0.0.1:59535",
+              "method": "GET",
+              "param": "redbook_csrf",
+              "attack": "",
+              "evidence": "redbook_csrf",
+              "otherinfo": "cookie:redbook_csrf"
+            }
+          ],
+          "count": "2",
+          "systemic": false,
+          "solution": "<p>This is an informational alert rather than a vulnerability and so there is nothing to fix.</p>",
+          "otherinfo": "<p>cookie:redbook_csrf</p>",
+          "reference": "<p>https://www.zaproxy.org/docs/desktop/addons/authentication-helper/session-mgmt-id/</p>",
+          "cweid": "-1",
+          "wascid": "-1",
+          "sourceid": "1"
+        },
+        {
+          "pluginid": "10031",
+          "alertRef": "10031",
+          "alert": "User Controllable HTML Element Attribute (Potential XSS)",
+          "name": "User Controllable HTML Element Attribute (Potential XSS)",
+          "riskcode": "0",
+          "confidence": "1",
+          "riskdesc": "Informational (Low)",
+          "desc": "<p>This check looks at user-supplied input in query string parameters and POST data to identify where certain HTML attribute values might be controlled. This provides hot-spot detection for XSS (cross-site scripting) that will require further review by a security analyst to determine exploitability.</p>",
+          "instances": [
+            {
+              "id": "22",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/0cba89adb148c554?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/0cba89adb148c554 (page,per_page)",
+              "method": "GET",
+              "param": "page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/0cba89adb148c554?page=1&per_page=50\n\nappears to include user input in:\na(n) [meta] tag [content] attribute\n\nThe user input found was:\npage=1\n\nThe user-controlled value was:\nwidth=device-width, initial-scale=1"
+            },
+            {
+              "id": "28",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/0cba89adb148c554?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/0cba89adb148c554 (page,per_page)",
+              "method": "GET",
+              "param": "per_page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/0cba89adb148c554?page=1&per_page=50\n\nappears to include user input in:\na(n) [input] tag [maxlength] attribute\n\nThe user input found was:\nper_page=50\n\nThe user-controlled value was:\n500"
+            },
+            {
+              "id": "18",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5c04f8464dd1ce13?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5c04f8464dd1ce13 (page,per_page)",
+              "method": "GET",
+              "param": "page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5c04f8464dd1ce13?page=1&per_page=50\n\nappears to include user input in:\na(n) [meta] tag [content] attribute\n\nThe user input found was:\npage=1\n\nThe user-controlled value was:\nwidth=device-width, initial-scale=1"
+            },
+            {
+              "id": "24",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5c04f8464dd1ce13?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5c04f8464dd1ce13 (page,per_page)",
+              "method": "GET",
+              "param": "per_page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5c04f8464dd1ce13?page=1&per_page=50\n\nappears to include user input in:\na(n) [input] tag [maxlength] attribute\n\nThe user input found was:\nper_page=50\n\nThe user-controlled value was:\n500"
+            },
+            {
+              "id": "20",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5f01fe717436de17?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5f01fe717436de17 (page,per_page)",
+              "method": "GET",
+              "param": "page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5f01fe717436de17?page=1&per_page=50\n\nappears to include user input in:\na(n) [meta] tag [content] attribute\n\nThe user input found was:\npage=1\n\nThe user-controlled value was:\nwidth=device-width, initial-scale=1"
+            },
+            {
+              "id": "29",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5f01fe717436de17?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5f01fe717436de17 (page,per_page)",
+              "method": "GET",
+              "param": "per_page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/5f01fe717436de17?page=1&per_page=50\n\nappears to include user input in:\na(n) [input] tag [maxlength] attribute\n\nThe user input found was:\nper_page=50\n\nThe user-controlled value was:\n500"
+            },
+            {
+              "id": "19",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/664d3340e5892c2b?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/664d3340e5892c2b (page,per_page)",
+              "method": "GET",
+              "param": "page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/664d3340e5892c2b?page=1&per_page=50\n\nappears to include user input in:\na(n) [meta] tag [content] attribute\n\nThe user input found was:\npage=1\n\nThe user-controlled value was:\nwidth=device-width, initial-scale=1"
+            },
+            {
+              "id": "23",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/664d3340e5892c2b?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/664d3340e5892c2b (page,per_page)",
+              "method": "GET",
+              "param": "per_page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/664d3340e5892c2b?page=1&per_page=50\n\nappears to include user input in:\na(n) [input] tag [maxlength] attribute\n\nThe user input found was:\nper_page=50\n\nThe user-controlled value was:\n500"
+            },
+            {
+              "id": "21",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/c7f16c2c192e33d7?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/c7f16c2c192e33d7 (page,per_page)",
+              "method": "GET",
+              "param": "page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/c7f16c2c192e33d7?page=1&per_page=50\n\nappears to include user input in:\na(n) [meta] tag [content] attribute\n\nThe user input found was:\npage=1\n\nThe user-controlled value was:\nwidth=device-width, initial-scale=1"
+            },
+            {
+              "id": "27",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/c7f16c2c192e33d7?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/c7f16c2c192e33d7 (page,per_page)",
+              "method": "GET",
+              "param": "per_page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/c7f16c2c192e33d7?page=1&per_page=50\n\nappears to include user input in:\na(n) [input] tag [maxlength] attribute\n\nThe user input found was:\nper_page=50\n\nThe user-controlled value was:\n500"
+            },
+            {
+              "id": "26",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/d257b11c25c3ddb3?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/d257b11c25c3ddb3 (page,per_page)",
+              "method": "GET",
+              "param": "page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/d257b11c25c3ddb3?page=1&per_page=50\n\nappears to include user input in:\na(n) [meta] tag [content] attribute\n\nThe user input found was:\npage=1\n\nThe user-controlled value was:\nwidth=device-width, initial-scale=1"
+            },
+            {
+              "id": "30",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/d257b11c25c3ddb3?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/d257b11c25c3ddb3 (page,per_page)",
+              "method": "GET",
+              "param": "per_page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/d257b11c25c3ddb3?page=1&per_page=50\n\nappears to include user input in:\na(n) [input] tag [maxlength] attribute\n\nThe user input found was:\nper_page=50\n\nThe user-controlled value was:\n500"
+            },
+            {
+              "id": "17",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/f2fe54133b778fd6?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/f2fe54133b778fd6 (page,per_page)",
+              "method": "GET",
+              "param": "page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/f2fe54133b778fd6?page=1&per_page=50\n\nappears to include user input in:\na(n) [meta] tag [content] attribute\n\nThe user input found was:\npage=1\n\nThe user-controlled value was:\nwidth=device-width, initial-scale=1"
+            },
+            {
+              "id": "25",
+              "uri": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/f2fe54133b778fd6?page=1&per_page=50",
+              "nodeName": "http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/f2fe54133b778fd6 (page,per_page)",
+              "method": "GET",
+              "param": "per_page",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/f2fe54133b778fd6?page=1&per_page=50\n\nappears to include user input in:\na(n) [input] tag [maxlength] attribute\n\nThe user input found was:\nper_page=50\n\nThe user-controlled value was:\n500"
+            }
+          ],
+          "count": "14",
+          "systemic": false,
+          "solution": "<p>Validate all input and sanitize output it before writing to any HTML attributes.</p>",
+          "otherinfo": "<p>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</p><p></p><p>http://127.0.0.1:59535/t1b/runs/t1b_75af9df9d3554142/findings/0cba89adb148c554?page=1&per_page=50</p><p></p><p>appears to include user input in:</p><p>a(n) [meta] tag [content] attribute</p><p></p><p>The user input found was:</p><p>page=1</p><p></p><p>The user-controlled value was:</p><p>width=device-width, initial-scale=1</p>",
+          "reference": "<p>https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html</p>",
+          "cweid": "20",
+          "wascid": "20",
+          "sourceid": "103"
+        }
+      ]
+    }
+  ],
+  "sequences": []
+}

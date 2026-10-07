@@ -14,7 +14,9 @@ severity ใช้ชุดเดียวกับ ZAP (`High | Medium | Low | 
 | `20261006T172053Z-final` | final · ไม่เผยแพร่ | `36b5230a…` | ขั้น L ล้มจากรูปแบบปลอมใน PNG (T-05) — เก็บเฉพาะในเครื่อง |
 | `20261006T172344Z-final` | final · **SUPERSEDED** (สภาพแวดล้อมเปลี่ยนตามคำตัดสินกิ๊ฟ 6026979007) | `36b5230a…` | ตรวจย้อนได้ครบ · = **before** ของ F-06/F-08 |
 | `20261006T231033Z-final` | final · ไม่เผยแพร่ | `36b5230a…` | ขั้น L ล้มจาก nodeid ของ pytest ที่มีเส้นทางสมมติ (T-07) — เก็บเฉพาะในเครื่อง |
-| `20261006T231414Z-final` | **final (after · อ้างอิง)** | `36b5230a…` | ZAP 2.17.0 รันแล้ว · defusedxml ติดตั้งแล้ว · `sha256sum -c` ผ่าน · ไม่มี CR |
+| `20261006T231414Z-final` | final · **SUPERSEDED** (before ของ F-09/F-10 · Bo REVISE 6027478811) | `36b5230a…` | ZAP 2.17.0 รันแล้ว · defusedxml ติดตั้งแล้ว · ตรวจย้อนได้ครบ |
+| `20261006T235206Z-final` | final · matrix 0.1.0 · ไม่เผยแพร่ | `36b5230a…` | รันหลังแก้ F-09/F-10 แต่ก่อนประกาศ matrix 0.1.1 — ชุด XSS ยังไม่อยู่ใน matrix จึงไม่นับ |
+| `20261007T013505Z-final` | **final (after · อ้างอิง) · matrix 0.1.1** | `8b22f826…` | + attribute-context XSS regression (SG-12) · F-09/F-10 แก้แล้ว · dispositions.json (SG-50 เสนอ FALSE_POSITIVE รอ accepted_by) |
 
 ## finding ที่ทำให้แก้โค้ด (before → after)
 
@@ -25,6 +27,8 @@ severity ใช้ชุดเดียวกับ ZAP (`High | Medium | Low | 
 | **F-03** | SG-20 (V5.2.3) | **Low** | ถุง zip ถูกตรวจขนาดคลายอัดและอัตราขยาย แต่ **ไม่จำกัดจำนวนสมาชิก** (มาตรฐานต้องการเพดานจำนวนไฟล์ก่อนคลาย) | `MAX_ZIP_MEMBERS = 5000` · เกิน ⇒ `upload_rejected_zip_too_many_members` | `20261006T172344Z-final`: test_zip_with_too_many_members_is_rejected PASS | FIXED |
 | **F-04** | SG-29 (V3.4.5) | **Low** | หัว HTTP `Referrer-Policy: same-origin` แต่ทุกหน้ามี `<meta name="referrer" content="no-referrer">` — meta มีผลเหนือหัว ⇒ นโยบายที่ใช้จริงไม่ใช่ที่ประกาศ (และเป็นต้นเหตุเดิมของ `Origin: null` 23 ก.ย.) | meta เปลี่ยนเป็น `same-origin` ให้ตรงหัว | `20261006T172344Z-final`: H:headers.referrer PASS (meta_mismatch = 0) | FIXED |
 | **F-06** | SG-16 (V1.5.1) | **Low** | `.venv` ประเมินไม่มี `defusedxml` ⇒ openpyxl ใช้ parser มาตรฐาน (ทดสอบ XXE ไม่พบการเรียกออก แต่ขาดชั้นป้องกันตามมาตรฐาน) | กิ๊ฟอนุมัติ (6026979007): ติดตั้ง `defusedxml==0.7.1` + ตรึง `requirements.lock.txt` · openpyxl รายงาน DEFUSEDXML=True | `20261006T231414Z-final`: SG-16 PASS (before `20261006T172344Z-final`: FAIL) | FIXED |
+| **F-09** | SG-12/SG-39 (จุดสะท้อนที่ ZAP 10031 ชี้) | **Low** | `page`/`per_page` ที่ไม่ใช่จำนวนเต็มบนหน้ารายละเอียด finding ⇒ `ValueError` ⇒ 500 (หน้าทั่วไป ไม่สะท้อนค่า แต่ไม่ fail-safe) — พบจาก regression ที่ Bo ขอ | แปลง int ในบล็อก try ⇒ 400 หน้ามาตรฐาน | `20261007T013505Z-final`: test_finding_detail_reflected_pagination_cannot_break_attribute 14/14 PASS (before: 14/14 FAIL ด้วย 500) | FIXED |
+| **F-10** | SG-39 (V16.3.3 / error page) | **Low** | ค่าปริยายของ FastAPI ตอบ JSON 422 ที่สะท้อนค่าที่ส่งมา (ฟิลด์ `input`) เมื่อพารามิเตอร์ผิดชนิด — ไม่ใช่ XSS (JSON+nosniff) แต่ขัดหลักไม่สะท้อนอินพุตในหน้าข้อผิดพลาด | handler `RequestValidationError` ⇒ หน้า 400 มาตรฐาน | `20261007T013505Z-final`: test_queue_pagination_non_int_fails_safely PASS | FIXED |
 | **F-05** | SG-42 (V13.4.6 · L3) | **Informational** | response มีหัว `Server: uvicorn` เปิดเผยผลิตภัณฑ์ของส่วนประกอบเบื้องหลัง | `uvicorn_options()` ส่วนกลาง (`redbook/web/launch.py`) ตั้ง `server_header=False` — ใช้ร่วม run_local · demo · target | `20261006T172344Z-final`: H:headers.server PASS | FIXED |
 
 ## finding ที่ยัง **ไม่ปิด** (ต้องการคำตัดสิน)
@@ -45,3 +49,4 @@ severity ใช้ชุดเดียวกับ ZAP (`High | Medium | Low | 
 | **T-03** | `pip-audit` runner เทียบชื่อแพ็กเกจที่มี `.` กับผลลัพธ์ที่ใช้ `-` ไม่ตรง ⇒ พิมพ์ `pdfminer.six` ในรายการข้ามทั้งที่ตรวจแล้ว (ตัวเลข audited 40/42 ถูกต้อง · รายการชื่อผิด) | normalize `.`→`-` ด้วย · ไม่รันรอบ final ซ้ำ — บันทึกไว้ตรง ๆ ว่ารายการชื่อใน run นี้มีข้อผิดนี้ |
 | **T-06** | runner กลบเส้นทาง **หลัง** `json.dumps` ⇒ กิน escape `\"` ของสตริงที่มีเส้นทาง ทำให้ `meta.json` ของขั้น ZAP เป็น JSON ไม่ถูกต้อง · และแผน ZAP ที่เขียนผ่านตัวกลบทำให้ ZAP อ่าน reportDir ไม่ได้ | กลบที่ค่าก่อน serialize · แผนจริงเขียนดิบในโฟลเดอร์ชั่วคราว เก็บสำเนากลบเป็นหลักฐาน |
 | **T-07** | รอบ `20261006T231033Z-final`: ขั้น L พบ nodeid ของ pytest (key ใน `outcomes.json`) ที่ parametrize ด้วยสตริงคล้ายเส้นทางสมมติ — ตัวกลบไม่กลบ key | กลบ key ด้วย + ตั้ง `ids=` ให้ parametrize · ⇒ ด่าน L บล็อกจริงเป็นครั้งที่ 3 |
+| **T-08** (observation) | test ของเลนหลักฐาน `test_log_has_no_document_text_or_paths` ล้มเมื่อรันหลัง `test_security_gate_web` ในโปรเซสเดียว — ข้อความ 404 ของแอป ("ไม่พบรอบทะเบียนตัวชี้วัดที่ระบุ") ไหลลงล็อกร่วมแล้วถูกนับเป็นข้อความเอกสาร | ไม่แก้ (ไม่ใช่เลนนี้ · ลำดับปกติไม่ชน) — แจ้งเจ้าของเลนหลักฐาน |

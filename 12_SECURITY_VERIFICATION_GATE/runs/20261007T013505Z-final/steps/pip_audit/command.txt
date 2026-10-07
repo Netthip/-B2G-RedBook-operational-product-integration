@@ -1,0 +1,1 @@
+'<path>' -r '<path>' --no-deps -f json -o '<path>' --progress-spinner off

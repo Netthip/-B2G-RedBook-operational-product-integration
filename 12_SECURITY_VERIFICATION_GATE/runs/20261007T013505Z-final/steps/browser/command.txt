@@ -1,0 +1,1 @@
+'<path>' '<path>' --base http://127.0.0.1:59535 --files-dir '<path>' --out '<path>' --shots '<path>'

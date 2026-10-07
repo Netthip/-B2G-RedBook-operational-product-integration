@@ -1,0 +1,575 @@
+{
+  "T:tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/projects/zz-unknown]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/runs/zz-unknown]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/runs/zz-unknown/review]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/runs/zz-unknown/compare]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/findings/zz-unknown]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/t1b/runs/zz-unknown]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/t1b/runs/zz-unknown/queue]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/t1b/runs/zz-unknown/export]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/t1b/runs/zz-unknown/audit]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/t1b/runs/zz-unknown/findings/zz]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/t1b/runs/zz-unknown/personnel]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/evidence/zz-unknown]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/evidence/zz-unknown/file]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/evidence/zz-unknown/page/1.png]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/indicators/runs/zz-unknown]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/indicators/runs/zz-unknown/verify]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/indicators/runs/zz-unknown/keybuild]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/files/zz-unknown/structure]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/t1b/exports/exp_zz-unknown.csv]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_object_ids_fail_closed[/indicators/exports/zz-unknown.csv]": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_upload_security.py::test_path_for_blocks_traversal": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_upload_security.py::test_path_for_blocks_traversal[../secret.xlsx]": "passed",
+        "tests/test_upload_security.py::test_path_for_blocks_traversal[a/b.xlsx]": "passed",
+        "tests/test_upload_security.py::test_path_for_blocks_traversal[a\\\\b.xlsx]": "passed",
+        "tests/test_upload_security.py::test_path_for_blocks_traversal[..\\\\x.pdf]": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_web.py::test_export_download_rejects_traversal": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_web.py::test_export_download_rejects_traversal[/t1b/exports/..%5c..%5cx]": "passed",
+        "tests/test_security_gate_web.py::test_export_download_rejects_traversal[/t1b/exports/%2e%2e/x]": "passed",
+        "tests/test_security_gate_web.py::test_export_download_rejects_traversal[/t1b/exports/exp_..%2f..%2fx]": "passed",
+        "tests/test_security_gate_web.py::test_export_download_rejects_traversal[/t1b/exports/exp_%2e%2e%5cx.csv]": "passed",
+        "tests/test_security_gate_web.py::test_export_download_rejects_traversal[/indicators/exports/..%2fx]": "passed",
+        "tests/test_security_gate_web.py::test_export_download_rejects_traversal[/indicators/runs/x/exports/..%2fx]": "passed",
+        "tests/test_security_gate_web.py::test_export_download_rejects_traversal[/static/..%2f..%2fapp.py]": "passed",
+        "tests/test_security_gate_web.py::test_export_download_rejects_traversal[/static/..%5c..%5capp.py]": "passed",
+        "tests/test_security_gate_web.py::test_export_download_rejects_traversal[/static/../../redbook/app.py]": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_web.py::test_api_docs_are_disabled": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_web.py::test_api_docs_are_disabled": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_p1_holdout.py": {
+    "status": "PASS",
+    "detail": {
+      "tests": 20,
+      "skipped": 0,
+      "failed": 0
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_final_holdout_guard.py": {
+    "status": "PASS",
+    "detail": {
+      "tests": 21,
+      "skipped": 0,
+      "failed": 0
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_web.py::test_post_without_csrf_is_rejected": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_web.py::test_post_without_csrf_is_rejected": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_web.py::test_post_with_wrong_csrf_is_rejected": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_web.py::test_post_with_wrong_csrf_is_rejected": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_web.py::test_cross_origin_post_is_rejected": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_web.py::test_cross_origin_post_is_rejected": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_web.py::test_cross_site_referer_only_is_rejected": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_web.py::test_cross_site_referer_only_is_rejected": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_every_post_handler_verifies_csrf": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_every_post_handler_verifies_csrf": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_no_get_handler_mutates_state": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_no_get_handler_mutates_state": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_web.py::test_uploaded_filename_is_escaped_in_html": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_web.py::test_uploaded_filename_is_escaped_in_html": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_jinja_autoescape_is_enabled": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_jinja_autoescape_is_enabled": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_web.py::test_scriptish_path_param_is_not_reflected_raw": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_web.py::test_scriptish_path_param_is_not_reflected_raw": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_xss.py": {
+    "status": "PASS",
+    "detail": {
+      "tests": 81,
+      "skipped": 0,
+      "failed": 0
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_no_unquoted_attribute_interpolation_in_templates": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_no_unquoted_attribute_interpolation_in_templates": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_no_event_handler_or_javascript_url_built_from_templates": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_no_event_handler_or_javascript_url_built_from_templates": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_dynamic_sql_only_in_allowlisted_schema_code": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_dynamic_sql_only_in_allowlisted_schema_code": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_no_dangerous_dynamic_execution": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_no_dangerous_dynamic_execution": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_web.py::test_form_inputs_are_validated_server_side": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_web.py::test_form_inputs_are_validated_server_side": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_upload.py::test_xlsx_with_external_entity_does_not_fetch_or_crash": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_upload.py::test_xlsx_with_external_entity_does_not_fetch_or_crash": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_export_csv_safe.py": {
+    "status": "PASS",
+    "detail": {
+      "tests": 26,
+      "skipped": 0,
+      "failed": 0
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_export.py::test_xlsx_cells_are_text_typed_never_formula": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_export.py::test_xlsx_cells_are_text_typed_never_formula[=1+1]": "passed",
+        "tests/test_security_gate_export.py::test_xlsx_cells_are_text_typed_never_formula[+cmd|' /C calc'!A0]": "passed",
+        "tests/test_security_gate_export.py::test_xlsx_cells_are_text_typed_never_formula[-2+3]": "passed",
+        "tests/test_security_gate_export.py::test_xlsx_cells_are_text_typed_never_formula[@SUM(A1)]": "passed",
+        "tests/test_security_gate_export.py::test_xlsx_cells_are_text_typed_never_formula[\\t=HYPERLINK(\"http://x\")]": "passed",
+        "tests/test_security_gate_export.py::test_xlsx_cells_are_text_typed_never_formula[=WEBSERVICE(\"http://x\")]": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_upload_security.py::test_enforces_size_limit": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_upload_security.py::test_enforces_size_limit": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_upload_security.py::test_rejects_empty_file": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_upload_security.py::test_rejects_empty_file": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_upload_security.py::test_detects_real_type_not_extension": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_upload_security.py::test_detects_real_type_not_extension": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_upload_security.py::test_rejects_disguised_executable": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_upload_security.py::test_rejects_disguised_executable": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_upload_security.py::test_rejects_html_masquerading_as_pdf": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_upload_security.py::test_rejects_html_masquerading_as_pdf": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_upload_security.py::test_rejects_zip_that_is_not_xlsx": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_upload_security.py::test_rejects_zip_that_is_not_xlsx": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_upload.py::test_declared_content_type_is_ignored": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_upload.py::test_declared_content_type_is_ignored": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_upload.py::test_zip_bomb_ratio_is_rejected": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_upload.py::test_zip_bomb_ratio_is_rejected": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_upload.py::test_zip_with_too_many_members_is_rejected": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_upload.py::test_zip_with_too_many_members_is_rejected": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_upload.py::test_corrupt_zip_is_rejected_safely": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_upload.py::test_corrupt_zip_is_rejected_safely": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_upload_security.py::test_accepts_real_xlsx_and_renames_internally": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_upload_security.py::test_accepts_real_xlsx_and_renames_internally": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_upload_security.py::test_sanitize_display_name_strips_control_chars": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_upload_security.py::test_sanitize_display_name_strips_control_chars": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_export.py::test_export_download_has_attachment_disposition_with_system_name": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_export.py::test_export_download_has_attachment_disposition_with_system_name": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_upload_dir_is_outside_static_and_not_mounted": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_upload_dir_is_outside_static_and_not_mounted": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_privacy_leakage.py::test_p32_debug_detail_is_off_by_default": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_privacy_leakage.py::test_p32_debug_detail_is_off_by_default": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_privacy_leakage.py": {
+    "status": "PASS",
+    "detail": {
+      "tests": 18,
+      "skipped": 0,
+      "failed": 0
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_privacy_path_boundary.py": {
+    "status": "PASS",
+    "detail": {
+      "tests": 24,
+      "skipped": 0,
+      "failed": 0
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_t1b_stored_row_leakage.py": {
+    "status": "PASS",
+    "detail": {
+      "tests": 6,
+      "skipped": 0,
+      "failed": 0
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_route_path_params_are_system_ids_only": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_route_path_params_are_system_ids_only": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_templates_reference_no_external_resources": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_templates_reference_no_external_resources": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_privacy_leakage.py::test_p30_error_page_has_no_internal_exception_details": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_privacy_leakage.py::test_p30_error_page_has_no_internal_exception_details": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_web.py::test_not_found_page_has_no_internals": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_web.py::test_not_found_page_has_no_internals": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_web.py::test_malformed_multipart_body_fails_safely": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_web.py::test_malformed_multipart_body_fails_safely": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_web.py::test_unhandled_exception_renders_generic_500_page": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_web.py::test_unhandled_exception_renders_generic_500_page": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_web.py::test_unexpected_methods_fail_safely": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/-TRACE]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/-PUT]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/-PATCH]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/-DELETE]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/-OPTIONS]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/projects/new-TRACE]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/projects/new-PUT]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/projects/new-PATCH]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/projects/new-DELETE]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/projects/new-OPTIONS]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/healthz-TRACE]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/healthz-PUT]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/healthz-PATCH]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/healthz-DELETE]": "passed",
+        "tests/test_security_gate_web.py::test_unexpected_methods_fail_safely[/healthz-OPTIONS]": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_web.py::test_unknown_host_header_is_rejected": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_web.py::test_unknown_host_header_is_rejected[evil.example]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_host_header_is_rejected[evil.example:8600]": "passed",
+        "tests/test_security_gate_web.py::test_unknown_host_header_is_rejected[127.0.0.1.evil.example]": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_static.py::test_no_authentication_or_session_mechanism_exists": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_static.py::test_no_authentication_or_session_mechanism_exists": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_evidence_routes.py::test_decision_via_route_requires_csrf_and_records_audit": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_evidence_routes.py::test_decision_via_route_requires_csrf_and_records_audit": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_logging.py::test_csrf_rejection_is_logged_without_token_value": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_logging.py::test_csrf_rejection_is_logged_without_token_value": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_logging.py::test_upload_rejection_is_logged_with_sanitized_name": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_logging.py::test_upload_rejection_is_logged_with_sanitized_name": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_privacy_leakage.py::test_p20_log_formatter_redacts_absolute_paths": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_privacy_leakage.py::test_p20_log_formatter_redacts_absolute_paths": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_privacy_leakage.py::test_p21_log_formatter_redacts_traceback_frames": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_privacy_leakage.py::test_p21_log_formatter_redacts_traceback_frames": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_privacy_leakage.py::test_p22_upload_flow_leaves_no_absolute_path_in_the_log": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_privacy_leakage.py::test_p22_upload_flow_leaves_no_absolute_path_in_the_log": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  },
+  "T:tests/test_security_gate_logging.py::test_security_event_timestamp_is_iso8601_with_offset": {
+    "status": "PASS",
+    "detail": {
+      "outcomes": {
+        "tests/test_security_gate_logging.py::test_security_event_timestamp_is_iso8601_with_offset": "passed"
+      }
+    },
+    "source": "steps/pytest/junit.xml"
+  }
+}
