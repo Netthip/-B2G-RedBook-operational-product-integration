@@ -1,0 +1,25 @@
+{
+  "_schema": "security-gate dispositions 0.1 — key = control_id · runner อ่านอย่างเดียว · control แบบ manual จะ PASS ได้ก็ต่อเมื่อ accepted_by ไม่ว่างและ disposition ∈ FIXED/ACCEPTED_RISK/FALSE_POSITIVE · REVIEW_REQUIRED = ยัง REVIEW",
+  "_claim_boundary": "disposition ไม่ใช่การรับรองว่า 'ผ่าน ZAP' หรือ 'แฮกไม่ได้' — เป็นคำตัดสินต่อ alert ที่พบในรอบที่ระบุ บน target สังเคราะห์",
+  "SG-50": {
+    "disposition": "FALSE_POSITIVE",
+    "run_id": "20261006T231414Z-final",
+    "proposed_by": "Giho",
+    "proposed_date": "2026-10-07",
+    "accepted_by": "",
+    "accepted_date": "",
+    "reason": "ZAP baseline/passive บน target สังเคราะห์พบเฉพาะ Informational 2 รายการ · ไม่มี High/Medium/Low · ทั้งสองรายการมีหลักฐานว่าไม่ใช่ช่องโหว่ (ดู alerts)",
+    "alerts": {
+      "10112": {
+        "name": "Session Management Response Identified",
+        "disposition": "FALSE_POSITIVE",
+        "reason": "คุกกี้ redbook_csrf เป็นโทเคน CSRF แบบ double-submit ไม่ใช่ session · ระบบไม่มี authentication/session (SG-44 NOT_APPLICABLE · test_no_authentication_or_session_mechanism_exists) · Bo รับหลักการแล้ว (6027478811)"
+      },
+      "10031": {
+        "name": "User Controllable HTML Element Attribute (Potential XSS)",
+        "disposition": "FALSE_POSITIVE",
+        "reason": "จุดสะท้อน = query page/per_page ของ /t1b/runs/{rid}/findings/{fid} ที่ถูกแปลงเป็น int ก่อนประกอบ query string ฝั่งบริการ แล้ว autoescape ใน attribute ที่มี quote · regression เพิ่มตาม Bo: tests/test_security_gate_xss.py (quote-break · event-handler · unquoted-attribute · javascript: · double-encoding · percent-encoded) บนจุดที่ ZAP ชี้ + ตัวกรองคิว + จุด query อื่น · oracle = parse HTML จริง ห้ามเกิด attribute on* / URL javascript: · static: ไม่มี attribute interpolation ที่ไม่มี quote (test_no_unquoted_attribute_interpolation_in_templates) และไม่มี on*=/javascript: ใน template · markupsafe escape ทั้ง \" และ ' · พบ F-09 ระหว่างทาง (ค่าไม่ใช่ตัวเลข ⇒ 500) แก้เป็น 400 แล้ว"
+      }
+    }
+  }
+}

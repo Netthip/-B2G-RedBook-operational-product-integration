@@ -34,7 +34,17 @@
 | profile การติดตั้งที่ประเมิน | เอกสารนี้ §3 | ระบุใน manifest ทุกรอบ |
 
 🔴 **ลำดับบังคับ:** matrix และ protocol ถูก commit **ก่อน** รอบ `final` ทุกครั้ง · ถ้าแก้ matrix หลังเห็นผล ⇒ ต้องขึ้นรุ่นใหม่
-และรอบที่รันกับรุ่นเก่ากลายเป็น formative โดยอัตโนมัติ
+และรอบที่รันกับรุ่นเก่า **อ้างได้เฉพาะคู่กับรุ่นนั้น** (manifest ผูก sha256 ของ matrix) — ไม่ใช่ผลของรุ่นใหม่
+
+**รุ่นของ matrix (ตาม sha256 ใน manifest)**
+
+| รุ่น | sha256 (16 ตัวแรก) | เปลี่ยนอะไร | เหตุ |
+|---|---|---|---|
+| 0.1.0 | `36b5230acb22e4fe` | ประกาศครั้งแรก 51 control (`68ce555`) | — |
+| 0.1.1 | `8b22f8267d6c9fc1` | SG-12 **เพิ่ม** check attribute-context XSS (`tests/test_security_gate_xss.py` + static 2 ข้อ) · ไม่ลด/ไม่ผ่อน expected_result ข้อใด | Bo REVIEW `6027478811` ขอ targeted regression ก่อน ACCEPT · เพิ่มแบบ **เข้มขึ้นเท่านั้น** |
+
+กติกา: การเปลี่ยนรุ่นที่ "เข้มขึ้นเท่านั้น" (เพิ่ม check · ไม่แก้ applicability/expected ของข้อเดิม) ทำได้หลังเห็นผล แต่ต้องรันรอบ final ใหม่ภายใต้รุ่นใหม่ ·
+การผ่อนเกณฑ์/ตัด check/เปลี่ยน applicability หลังเห็นผล **ห้าม** โดยไม่มีคำตัดสินของ Gift บันทึกไว้
 
 ## 3. profile การติดตั้ง
 
@@ -51,7 +61,9 @@
 2. `applicability = CONDITIONAL` และเงื่อนไขไม่เป็นจริงใน profile ⇒ `NOT_APPLICABLE`
 3. check ใด `FAIL` ⇒ `FAIL`
 4. check ใด `INCOMPLETE` / ไม่ได้รัน / `RECORDED` ⇒ `REVIEW` — **ห้ามนับ PASS**
-5. control แบบ `manual` (SG-50 ZAP) ⇒ `REVIEW` จนกว่าจะมี disposition ของคน แม้ทุก check PASS
+5. control แบบ `manual` (SG-50 ZAP) ⇒ `REVIEW` แม้ทุก check PASS จนกว่าจะมี disposition ใน `dispositions.json` ที่ **ผู้มีอำนาจรับแล้ว**
+   (`accepted_by` ไม่ว่าง · Bo review → Gift accept) และ disposition ∈ `FIXED | ACCEPTED_RISK | FALSE_POSITIVE` ⇒ จึงเป็น `PASS` ·
+   `REVIEW_REQUIRED` หรือข้อเสนอของ Giho ที่ยังไม่มีผู้รับ ⇒ ยัง `REVIEW` · disposition **ไม่ลบล้าง** check ที่ `FAIL`
 6. ทุก check `PASS` ⇒ `PASS`
 
 **INCOMPLETE เกิดเมื่อ:** เครื่องมือไม่พร้อม (ZAP/pip-audit/playwright ไม่มี) · รันไม่จบ/timeout · อ่านผลไม่ได้ · test ถูก skip ·
