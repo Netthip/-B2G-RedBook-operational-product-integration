@@ -208,14 +208,15 @@ def test_public_preview_filters_rows_and_drops_fingerprints(data_root, out_dir):
     text = (out_dir / "registry.public-preview.csv").read_text(encoding="utf-8-sig")
     first, rest = text.split("\n", 1)
     assert first == "# NOT CLEARED FOR PUBLICATION"
-    rows = list(csv.DictReader(rest.splitlines()))
+    reader = csv.DictReader(rest.splitlines())
+    rows = list(reader)
     reg = json.loads((out_dir / "registry.internal.json").read_text(encoding="utf-8"))
     publishable = {r["record_id"] for r in reg["records"] if r["publishable_to_github"]}
     not_publishable = {r["record_id"] for r in reg["records"]} - publishable
     assert not_publishable, "ชุดทดสอบต้องมีแถวที่ห้ามเผยแพร่อย่างน้อยหนึ่งแถว"
     assert {r["record_id"] for r in rows} == publishable
     for col in BR.FINGERPRINT_COLS:
-        assert col not in rows[0]
+        assert col not in reader.fieldnames
     for r in reg["records"]:
         assert r["content_hash"] not in text
 

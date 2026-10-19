@@ -46,7 +46,7 @@ import sys
 import tempfile
 import zipfile
 
-LEAK_CHECK_VERSION = "leak-check-0.3.1"
+LEAK_CHECK_VERSION = "leak-check-0.3.2"
 
 #: ไฟล์ใหญ่กว่านี้ไม่ตรวจ ⇒ ตรวจไม่ครบ (fail-closed)
 MAX_BYTES = 50 * 1024 * 1024
@@ -161,7 +161,13 @@ def _read(f):
                 for info in z.infolist():
                     if info.file_size > MAX_BYTES:
                         raise Unreadable(f"สมาชิกใน zip ใหญ่เกิน {MAX_BYTES // (1024 * 1024)} MB")
-                    parts.append(info.filename + "\n" + _decode_bytes(z.read(info)))
+                    data = z.read(info)
+                    # Nested compressed payloads cannot be checked by decoding bytes.
+                    # Fail closed rather than claim the archive has been fully scanned.
+                    if (os.path.splitext(info.filename)[1].lower() in ZIP_EXT
+                            or zipfile.is_zipfile(io.BytesIO(data))):
+                        raise Unreadable("พบ archive ซ้อน — ตรวจเนื้อในไม่ครบ")
+                    parts.append(info.filename + "\n" + _decode_bytes(data))
         except (zipfile.BadZipFile, RuntimeError, OSError) as e:
             raise Unreadable(f"แตก zip ไม่ได้ ({type(e).__name__})") from None
         return "\n".join(parts)

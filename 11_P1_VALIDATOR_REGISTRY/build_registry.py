@@ -47,7 +47,7 @@ from datetime import datetime, timezone
 
 from openpyxl import load_workbook
 
-BUILDER_VERSION = "p1-registry-builder-0.2.0"
+BUILDER_VERSION = "p1-registry-builder-0.2.1"
 SCHEMA_VERSION = "p1-dataset-registry/0.1-draft"
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _REPO_ROOT = os.path.abspath(os.path.join(_HERE, ".."))
@@ -604,7 +604,9 @@ def annotate(records: list[dict]) -> dict:
             r["sensitivity"] = "synthetic"
         else:
             r["sensitivity"] = "real_agency_data"
-        r["publishable_to_github"] = r["sensitivity"] in ("synthetic", "research_instrument")
+        # Names and sheet layouts are classification hints, not provenance or
+        # publication approval. This builder has no verified clearance source.
+        r["publishable_to_github"] = False
 
     # ---- pseudonym สำหรับมุมมองสาธารณะ
     codes = sorted({r["agency_code_from_content"] for r in records

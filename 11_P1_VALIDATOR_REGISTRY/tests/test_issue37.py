@@ -83,6 +83,17 @@ def candidate_rows(count=3):
              "eligible": "true"} for i in range(count)]
 
 
+def test_preview_filter_keeps_only_explicitly_cleared_records():
+    # Exercise the filter independently; annotate never supplies clearance.
+    records = [{"record_id": "S1", "publishable_to_github": True,
+                "source_path": "synthetic-private", "content_hash": "synthetic-hash"},
+               {"record_id": "S2", "publishable_to_github": False},
+               {"record_id": "S3"}]
+    preview = BR.public_preview_rows(records)
+    assert [row["record_id"] for row in preview] == ["S1"]
+    assert not set(BR.FINGERPRINT_COLS).intersection(preview[0])
+
+
 @pytest.mark.parametrize("target", [-1, 0, 1, 2, 4])
 def test_target_cannot_override_protocol_sample_size(target):
     with pytest.raises(DRAW.DrawStop):

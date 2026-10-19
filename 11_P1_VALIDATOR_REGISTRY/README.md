@@ -1,5 +1,12 @@
 # Dataset Registry & Evaluation Design — P1 Numeric Validator
 
+> **Forward update · #37 · 19 ต.ค. 2569:** builder `0.2.1` ไม่ให้สิทธิ์เผยแพร่จากชื่อไฟล์
+> path หรือชื่อชีตอีกต่อไป การจัดประเภท sensitivity เป็นเพียง hint; `annotate()` ตั้ง
+> `publishable_to_github=False` ทุกแถว เพราะยังไม่มีแหล่งยืนยัน clearance ที่ตรวจสอบได้
+> ดังนั้น preview จาก builder จะมีเฉพาะหัวตารางจนกว่าจะมีกระบวนการ clearance ที่ยืนยันได้
+> และยังติดป้าย `NOT CLEARED FOR PUBLICATION` เช่นเดิม ส่วน leak checker `0.3.2`
+> พบ archive ซ้อนแล้วรายงาน `INCOMPLETE` (exit 3) ไม่รับรองว่าตรวจเนื้อในครบ
+
 > # ⚠️ หมวดนี้ไม่ใช่งานคาดแดง / RedBook
 >
 > **P1 Numeric Validator** กับ **RedBook Verify (คาดแดง · T1A/T1B)** เป็น **คนละเครื่องมือ

@@ -26,10 +26,11 @@ import hashlib
 import sys
 from pathlib import Path
 
-TOOL_VERSION = "final-eval-draw-0.2.0"
+TOOL_VERSION = "final-eval-draw-0.2.1"
 STRATA = ("S-GOV", "S-PO")  # ลำดับนี้ใช้ตัดสินเมื่อเสมอ — ตรึงใน §4.2
 UNVERIFIED = "TYPE_UNVERIFIED"
 MIN_UNITS = 2
+PROTOCOL_TARGET = 3
 CRLF, LF = bytes([13, 10]), bytes([10])
 
 
@@ -47,6 +48,8 @@ def rank_key(seed: str, stratum: str, unit_id: str) -> str:
 
 
 def allocate(counts: dict[str, int], target: int) -> dict[str, int]:
+    if target != PROTOCOL_TARGET:
+        raise DrawStop("โปรโตคอล 1.0.1 §4.2 กำหนด target=3 — เปลี่ยนจำนวนต้องออกรุ่นโปรโตคอลก่อน")
     total = sum(counts.values())
     if total < MIN_UNITS:
         raise DrawStop(f"ผู้ผ่านเกณฑ์ {total} หน่วย < {MIN_UNITS} — ไม่สุ่ม ส่งกลับกิ๊ฟ")
@@ -149,7 +152,8 @@ def main() -> int:
     p.add_argument("--self-test", action="store_true")
     p.add_argument("--seed-from", type=Path)
     p.add_argument("--candidates", type=Path)
-    p.add_argument("--target", type=int, default=3)
+    p.add_argument("--target", type=int, default=PROTOCOL_TARGET,
+                   help="ต้องเป็น 3 ตามโปรโตคอล 1.0.1 §4.2 (มีผู้ผ่านเพียง 2 หน่วยจะเลือก 2 อัตโนมัติ)")
     a = p.parse_args()
     if a.self_test:
         return _self_test()
