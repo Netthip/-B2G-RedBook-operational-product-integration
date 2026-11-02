@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% from "_verify.html" import state_badge with context %}
+{% block title %}ด่านก่อนส่งออก · เทียบเล่ม PDF · {{ app_name }}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/static/pdfpair.css">
+<script src="/static/pdfpair.js" defer></script>
+{% set rid = v.rid %}
+<nav class="vx-crumbs" aria-label="ตำแหน่ง"><a href="/projects/{{ v.run.project_id }}">{{ project.name if project else 'งานตรวจ' }}</a> ›
+  <a href="/pdfpair/runs/{{ rid }}">ผลเทียบเล่ม PDF</a> › <span aria-current="page">ด่านก่อนส่งออก</span></nav>
+<h1>ด่านก่อนส่งออก (Preflight)</h1>
+<p class="page-sub">{{ svc.MODE_LABELS.get(v.result.mode, v.result.mode) }}{% if v.run.agency %} · {{ v.run.agency }}{% endif %}
+  · ระบบไม่ให้ส่งออก CSV จนกว่าจะผ่านทุกข้อ (บังคับที่เซิร์ฟเวอร์)</p>
+{% include "_pdfpair_lineage.html" %}
+
+{% if rerun_error %}<div class="note danger" role="alert">{{ rerun_error }}</div>{% endif %}
+{% if pf.ok %}
+<div class="note ok" role="status"><b>ผ่านครบ {{ pf.checks|length }} ข้อ</b> — ส่งออกผลการตรวจได้ ·
+  สถานะการใช้ผล: <b>{{ svc.USE_STATUS_LABELS[pf.use_status] }}</b> · {{ pf.use_breakdown }}
+  {% if pf.use_reasons %}<ul>{% for r in pf.use_reasons %}<li>{{ r }}</li>{% endfor %}</ul>{% endif %}
+  <div class="hint">{{ svc.USE_STATUS_SCOPE }}</div>
+  <div class="actions"><a class="btn" href="/pdfpair/runs/{{ rid }}/export">ไปหน้าส่งออก</a></div></div>
+{% else %}
+<div class="note danger"><b>ยังส่งออกไม่ได้ — ติด {{ pf.failing|length }} ข้อ</b></div>
+{% endif %}
+
+{% for c in pf.checks %}
+<div class="gate {{ 'pass' if c.ok else 'fail' }}">
+  <span class="mark" aria-hidden="true">{{ '✓' if c.ok else '!' }}</span>
+  <div class="gate-body">
+    <div class="gate-name">{{ loop.index }}. {{ c.label }}<span class="sr-only"> — {{ 'ผ่าน' if c.ok else 'ยังไม่ผ่าน' }}</span></div>
+    <div class="gate-detail">{{ c.detail }}</div>
+    {% if not c.ok and c.action_href and c.action_post %}
+    <form method="post" action="{{ c.action_href }}" class="actions" data-pp-wait="กำลังคำนวณรอบใหม่ด้วยปีที่ยืนยัน…">
+      <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+      <button class="btn small" type="submit">{{ c.action_label }}</button></form>
+    {% elif not c.ok and c.action_href %}<div class="actions"><a class="btn small secondary" href="{{ c.action_href }}">{{ c.action_label }}</a></div>{% endif %}
+  </div>
+</div>
+{% endfor %}
+
+{% if v.stage_warnings %}
+<div class="note warn"><b>คำเตือนที่ไม่บล็อกการส่งออก — ขั้นเอกสาร</b>
+  <ul>{% for side, msg in v.stage_warnings %}<li>ฉบับ {{ side }}: {{ msg }}</li>{% endfor %}</ul></div>
+{% endif %}
+<section class="vx-group pp-group" id="years" aria-labelledby="h-years">
+  <h2 id="h-years">ปีงบของแต่ละฉบับ</h2>
+  <p class="hint">ปีงบเป็นตัวตั้งว่าระบบเทียบแบบปีเดียวกันหรือข้ามปี และใช้จัดคอลัมน์ปีของตาราง — ถ้าอ่านผิด
+    การปรับลดจริงอาจกลายเป็น "ข้อมูลประกอบ" ที่ไม่มีใครตัดสิน · การยืนยันไม่แก้ผลเทียบที่บันทึกไว้ ถ้าปีที่ยืนยัน
+    ต่างจากปีที่ใช้คำนวณ ระบบให้สร้างรอบใหม่ที่คำนวณด้วยปีที่ยืนยัน และบล็อกรอบนี้ · เปลี่ยนปีที่ยืนยันไว้ หรือยืนยันปี
+    ต่างจากที่ระบบอ่านได้ ต้องระบุเหตุผล</p>
+  {% if year_error %}<div class="note danger" role="alert">ฉบับ {{ year_side }}: {{ year_error }}</div>{% endif %}
+  {% for side in ['A', 'B'] %}
+    {% set bf = v.facts_a if side == 'A' else v.facts_b %}
+    {% set conf = v.year_confirms.get(side) %}
+    <div class="card pp-year">
+      <h3 class="vx-side-h"><span class="vx-side-tag{% if side == 'B' %} is-b{% endif %}">{{ side }}</span> {{ v.side_label(side) }}</h3>
+      <dl class="kv">
+        <dt>ไฟล์</dt><dd>{{ v.run[side|lower ~ '_name'] }} · หน้า {{ v.run.scope[side].first }}–{{ v.run.scope[side].last }}</dd>
+        <dt>ระบบอ่านได้</dt><dd>{% if bf.fiscal_year %}ปี {{ bf.fiscal_year }}{% else %}—{% endif %}
+          · {{ state_badge(svc.year_status_state(bf.year_status), svc.year_status_label(bf.year_status)) }}</dd>
+        <dt>ที่มา</dt><dd>{{ svc.YEAR_ORIGIN_LABELS.get(bf.year_origin, '—') }}</dd>
+        <dt>หลักฐานที่พบ</dt><dd>{% if bf.year_evidence %}
+          <table class="pp-vals"><thead><tr><th scope="col">หน้า</th><th scope="col">ข้อความในบรรทัด</th><th scope="col">ชนิด</th><th scope="col">ที่มา</th></tr></thead><tbody>
+          {% for e in bf.year_evidence %}<tr><td>{{ e.page }}</td><td>{{ e.line }}</td>
+            <td>{{ svc.YEAR_EVIDENCE_KINDS.get(e.kind, e.kind) }}{% if e.cue %} <span class="hint">(คำบอก: {{ e.cue }})</span>{% endif %}</td>
+            <td>{{ 'อ่านตรงจากข้อความ' if e.direct else 'อนุมาน' }}{% if not e.bbox %} · ไม่พบกรอบบนหน้า{% endif %}</td></tr>{% endfor %}
+          </tbody></table>{% else %}<span class="mono">{{ bf.year_candidates|join(' · ') or '—' }}</span>{% endif %}</dd>
+        <dt>ปีที่ใช้คำนวณผลนี้</dt><dd>{{ v.used_year(side) or 'ไม่มีปี' }}</dd>
+        {% if conf %}<dt>ผู้ตรวจยืนยัน</dt><dd>ปี {{ conf.year }} · {{ conf.confirmed_at }}{% if conf.note %} · {{ conf.note }}{% endif %}</dd>{% endif %}
+      </dl>
+      {% set sc = v.run.scope[side] %}
+      <details class="pp-year-pages"{% if bf.year_status not in svc.YEAR_SETTLED %} open{% endif %}><summary>ภาพหน้าที่ใช้ดูปีงบ</summary>
+        <div class="pp-thumbs">
+        {% for n in [1, sc.first]|unique %}
+          <figure><img loading="lazy" src="/pdfpair/runs/{{ rid }}/page/{{ side }}/{{ n }}.png" alt="ฉบับ {{ side }} หน้า {{ n }}">
+            <figcaption>หน้า {{ n }}{% if n == sc.first %} (หน้าแรกของหน่วยงาน){% else %} (หน้าต้นไฟล์){% endif %}</figcaption></figure>
+        {% endfor %}
+        </div></details>
+      {% if v.year_confirmable(side) %}
+      <form method="post" action="/pdfpair/runs/{{ rid }}/year" class="pp-year-form">
+        <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+        <input type="hidden" name="side" value="{{ side }}">
+        <label for="y-{{ side }}">ปีงบตามหน้าเอกสาร (พ.ศ.)</label>
+        <input id="y-{{ side }}" name="year" inputmode="numeric" size="6" required pattern="25[0-9]{2}|26[0-9]{2}|2700"
+               value="{{ conf.year if conf else (bf.fiscal_year or '') }}">
+        <label for="yn-{{ side }}">หมายเหตุ (หน้า/ข้อความที่ใช้ยืนยัน · ต้องระบุเมื่อเปลี่ยนปีหรือต่างจากที่ระบบอ่าน)</label>
+        <input id="yn-{{ side }}" name="note" maxlength="300" size="40" value="{{ conf.note if conf else '' }}">
+        <label class="vx-choice"><input type="checkbox" name="seen" value="1" required> ดูปีงบจากภาพหน้าเอกสารแล้ว</label>
+        <div class="actions"><button class="btn small" type="submit">{% if conf %}แก้การยืนยัน{% else %}ยืนยันปีงบ{% endif %}</button></div>
+      </form>
+      {% endif %}
+    </div>
+  {% endfor %}
+</section>
+<p class="vx-scope">ทุกการยืนยันปีและทุกคำตัดสินบันทึกใน Audit ของรอบนี้ · {{ profile_status }}</p>
+{% endblock %}

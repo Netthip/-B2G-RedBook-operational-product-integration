@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% from "_verify.html" import state_badge, scope_note with context %}
+{% block title %}ที่มาเอกสาร · {{ app_name }}{% endblock %}
+{% block content %}
+{% set rid = s.run_id %}
+
+<nav class="vx-crumbs" aria-label="ตำแหน่ง"><a href="/t1b/runs/{{ rid }}">ผลตรวจเทียบเอกสาร</a> › <span aria-current="page">ที่มาเอกสาร</span></nav>
+<h1>ที่มาเอกสาร</h1>
+<p class="page-sub">ชั้นที่ 1 <b>Source Verification</b> — A และ B คือเอกสารที่ถูกต้องหรือไม่ ·
+  ชั้นที่ 2 <b>Result Verification</b> ทำในหน้าเทียบ A | B ของแต่ละรายการ (เปิดแถวจริงในไฟล์ต้นฉบับ)</p>
+
+<p class="vx-headline">{% if sv.failed %}{{ state_badge('fail', sv.headline) }}{% else %}{{ state_badge('ok' if not sv.to_confirm else 'manual', sv.headline) }}{% endif %}</p>
+
+<ul class="vx-checks">
+{% for c in sv.checks %}
+  <li class="vx-check is-{{ c.state }}">{{ state_badge(c.state, c.state_label) }}
+    <b>{{ c.name }}</b><span class="vx-check-t">{{ c.text }}</span></li>
+{% endfor %}
+</ul>
+
+<div class="vx-sides">
+{% for src in [sv.a, sv.b] %}
+  <section class="vx-side vx-side-{{ src.side|lower }}" aria-labelledby="src-{{ src.side }}">
+    <h2 id="src-{{ src.side }}" class="vx-side-h"><span class="vx-side-tag">{{ src.side }}</span> ฉบับ {{ src.side }}
+      {% if src.synthetic %}<span class="dev-chip">DEV · ข้อมูลสังเคราะห์</span>{% endif %}</h2>
+    <h3 class="vx-h3">เอกสารอ้างอิง (ทะเบียนแหล่งทางการ)</h3>
+    {% if src.has_book %}
+    <dl class="kv">
+      <dt>ชื่อเอกสาร</dt><dd>{{ src.title or '—' }}</dd>
+      <dt>ปีงบประมาณ</dt><dd>{{ src.fiscal_year or '—' }}</dd>
+      <dt>ประเภท/ฉบับ</dt><dd>{{ src.stage or '—' }}</dd>
+      <dt>หน่วยงาน</dt><dd>{{ src.ministries|join(', ') if src.ministries else '— (ทะเบียนไม่ระบุ)' }}</dd>
+      <dt>Source URL</dt><dd>{% if src.source_url %}<a href="{{ src.source_url }}" target="_blank" rel="noopener noreferrer" class="vx-url">{{ src.source_url }}<span class="sr-only"> (เปิดแท็บใหม่)</span></a>{% else %}—{% endif %}</dd>
+      {% if src.source_page and src.source_page != src.source_url %}<dt>หน้าที่ประกาศ</dt><dd><a href="{{ src.source_page }}" target="_blank" rel="noopener noreferrer" class="vx-url">{{ src.source_page }}<span class="sr-only"> (เปิดแท็บใหม่)</span></a></dd>{% endif %}
+      <dt>วันที่ดึงข้อมูล</dt><dd>{{ src.retrieved_at or '—' }}</dd>
+      <dt>ผูกกับงานนี้เมื่อ</dt><dd>{{ src.linked_at or '—' }}</dd>
+      <dt>รหัสเอกสาร</dt><dd class="mono">{{ src.book_id }}</dd>
+    </dl>
+    {% else %}
+    <p class="empty">งานนี้ไม่ได้เลือกเอกสารฝั่ง {{ src.side }} จากคลังเล่ม — <a href="/books">ค้นหาเอกสารสาธารณะ</a></p>
+    {% endif %}
+    <h3 class="vx-h3">สมุดงานที่ใช้ตรวจ</h3>
+    <dl class="kv">
+      <dt>ไฟล์</dt><dd>{{ src.file_name or '—' }}</dd>
+      <dt>ใส่เมื่อ</dt><dd>{{ src.uploaded_at or '—' }}</dd>
+      <dt>SHA-256 ตอนตรวจ</dt><dd class="mono vx-hash">{{ src.run_sha256 or 'ไม่มีบันทึก' }}</dd>
+      <dt>SHA-256 ไฟล์ที่เก็บอยู่</dt><dd class="mono vx-hash">{{ src.stored_sha256 or 'ไม่พบไฟล์' }}
+        {% if src.file_matches_run %}{{ state_badge('ok', 'ตรงกัน') }}{% else %}{{ state_badge('warn', 'ไม่ตรง/ไม่ครบ') }}{% endif %}</dd>
+    </dl>
+  </section>
+{% endfor %}
+</div>
+
+{{ scope_note() }}
+<p class="vx-foot"><a href="/t1b/runs/{{ rid }}/details">รายละเอียดการตรวจสอบ (ผลด่านตัวตนหน่วยงานแบบเต็ม)</a></p>
+{% endblock %}

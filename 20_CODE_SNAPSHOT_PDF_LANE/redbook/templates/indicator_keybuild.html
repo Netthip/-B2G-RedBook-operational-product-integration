@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% block title %}จัดทำ/ยืนยันเฉลย {{ kv.run.id }} · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>{{ key_title }}</h1>
+<p class="page-sub">รอบ <span class="mono">{{ kv.run.id }}</span>
+  · 🔴 ขั้นนี้ไม่มีลิงก์ไปหน้ารายงาน/ผลของเครื่องโดยเจตนา (Bo `5606392284` P4-1)</p>
+
+<div class="note warn">
+  <b>ขั้นตอนนี้คือ KEY BUILD / VERIFY</b> — {{ key_notice }}<br>
+  รายการทั้งหมดในหน้านี้มาจาก <b>ทะเบียนข้อสังเกตอิสระ</b> ที่ผู้ดูแลอ่านเอกสารแล้วกรอกเอง
+  ไม่ใช่สิ่งที่เครื่องสกัดได้ ไม่ใช่คู่ ลำดับ หรือจำนวนคู่ที่เครื่องเสนอ<br>
+  ⇒ ตัวชี้วัดที่เครื่องอ่านไม่เจอ <b>ยังอยู่ในเฉลยและถูกนับเป็นรายการที่เครื่องพลาด</b><br>
+  ขั้นตัดสินหลังรันเปิดได้เมื่อ <b>ผนึกครบทั้งสาม artifact และตรวจแล้วว่ายังตรงกับที่ผนึกไว้</b>
+</div>
+
+{% if error %}<div class="note danger">{{ error }}</div>{% endif %}
+
+<h2>ลำดับที่บังคับ</h2>
+<div class="card">
+  <ol class="small">
+    <li>กรอกทะเบียนข้อสังเกตอิสระจากการอ่านเอกสาร —
+      {% if kv.inventory %}<b>กรอกแล้ว {{ kv.inventory|length }} รายการ</b>{% else %}<b>ยังไม่กรอก</b>{% endif %}</li>
+    <li>สร้างจักรวาลของเฉลยจากทะเบียนอิสระ —
+      {% if kv.rows %}<b>ทำแล้ว {{ kv.rows|length }} รายการ</b>{% else %}<b>ยังไม่ทำ</b>{% endif %}</li>
+    <li>ตรึงจักรวาล —
+      {% if kv.universe_seal %}<b>ตรึงแล้ว</b> {{ kv.universe_seal.frozen_at }} โดย {{ kv.universe_seal.frozen_by }} ·
+        แฮชจักรวาล <span class="mono small">{{ kv.universe_seal.universe_digest }}</span>{% else %}<b>ยังไม่ตรึง</b>{% endif %}</li>
+    <li>ผนึกผลลัพธ์ของเครื่อง —
+      {% if kv.detector_sealed %}<b>ผนึกแล้ว</b>{% else %}<b>ยังไม่ผนึก</b>{% endif %}
+      <span class="muted small">(ขั้นนี้ไม่แสดงจำนวน แฮช หรือรายละเอียดใดของผลเครื่อง)</span></li>
+    <li>กรอกคำตอบให้ครบทุกรายการ — <b>{{ kv.answered }} / {{ kv.rows|length }}</b></li>
+    <li>ผนึกเฉลย —
+      {% if kv.key_seal %}<b>ผนึกแล้ว</b> {{ kv.key_seal.sealed_at }} โดย {{ kv.key_seal.sealed_by }}{% else %}<b>ยังไม่ผนึก</b>{% endif %}</li>
+  </ol>
+  <p class="small">🔴 ลำดับนี้บังคับด้วยโค้ด — ผนึกผลของเครื่องก่อนทำเฉลย เพื่อให้แก้เครื่องหลังเห็นเฉลยไม่ได้
+    และตรึงทะเบียนอิสระก่อนผนึกผลของเครื่อง เพื่อให้จักรวาลไม่ถูกกำหนดโดยสิ่งที่เครื่องสกัดได้</p>
+
+</div>
+
+{% if not kv.universe_seal %}
+<h2>ขั้นที่ 1 — ทะเบียนข้อสังเกตอิสระ (คนอ่านเอกสารแล้วกรอกเอง)</h2>
+<div class="card">
+  <p class="small">เปิดหน้าเอกสารอ่านเอง แล้วกรอกตัวชี้วัดที่พบทีละรายการ ·
+    <b>อย่ากรอกตามสิ่งที่เครื่องเสนอ</b> · <b>ครั้งที่ปรากฏ</b> = ข้อความเดียวกันนี้ปรากฏเป็นครั้งที่เท่าไร
+    ในหน้านั้นนับจากบนลงล่าง — ข้อความที่มีครั้งเดียวในหน้าให้ใส่ 1 · เลขหน้าต้องไม่เกินจำนวนหน้าจริงของเอกสาร</p>
+  <form method="post" action="/indicators/runs/{{ kv.run.id }}/keybuild/source">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <label class="field">ฉบับ
+      <select name="side">
+        <option value="old">ฉบับเก่า{% if kv.old_doc %} · {{ kv.old_doc.fiscal_year or "" }}{% endif %}</option>
+        <option value="new">ฉบับใหม่{% if kv.new_doc %} · {{ kv.new_doc.fiscal_year or "" }}{% endif %}</option>
+      </select></label>
+    <label class="field">หน้า <input type="text" name="page" size="4"></label>
+    <label class="field">ครั้งที่ข้อความนี้ปรากฏในหน้า <input type="text" name="occurrence" size="3" value="1"></label>
+    <label class="field">ข้อความตามที่ปรากฏ <input type="text" name="observed_text" size="60"></label>
+    <label class="field">จุดอ้างอิงสั้น ๆ <input type="text" name="hint" size="18" placeholder="เช่น ใต้หัวข้อ 7.3"></label>
+    <label class="field">ผู้กรอก <input type="text" name="entered_by" size="14"></label>
+    <button class="btn small" type="submit">เพิ่มรายการ</button>
+  </form>
+</div>
+
+{% if kv.inventory %}
+<div class="table-wrap"><table class="report small">
+  <thead><tr><th>#</th><th>ฉบับ</th><th>หน้า</th><th>ลำดับ</th><th>ข้อความที่คนอ่านได้</th><th>ผู้กรอก</th><th>ถอน</th></tr></thead>
+  <tbody>
+  {% for r in kv.inventory %}
+    <tr>
+      <td class="mono small">{{ loop.index }}</td>
+      <td>{% if r.side == "old" %}เก่า{% else %}ใหม่{% endif %}</td>
+      <td>{{ r.page }}</td>
+      <td>{{ r.occurrence }}{% if r.hint %} · {{ r.hint }}{% endif %}</td>
+      <td class="observed">{{ r.observed_text }}</td>
+      <td class="small">{{ r.entered_by }}</td>
+      <td>
+        <form method="post" action="/indicators/runs/{{ kv.run.id }}/keybuild/source/retract">
+          <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+          <input type="hidden" name="identity_key" value="{{ r.identity_key }}">
+          <input type="text" name="retracted_by" size="10" placeholder="ผู้ถอน">
+          <button class="btn small ghost" type="submit">ถอน</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+{% endif %}
+<h2>ขั้นที่ 2 — สร้างและตรึงจักรวาลของเฉลย</h2>
+<div class="card">
+  <p class="small">จักรวาลสร้างจากทะเบียนอิสระข้างบนเท่านั้น · ตรึงแล้วเพิ่ม/ถอนรายการไม่ได้อีก
+    และจะมีแฮชของจักรวาลบันทึกไว้สำหรับตรวจซ้ำทุกครั้งที่เปิดขั้นตัดสิน</p>
+  <form method="post" action="/indicators/runs/{{ kv.run.id }}/keybuild/build" class="inline-form">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <input type="text" name="built_by" placeholder="ผู้จัดทำจักรวาล">
+    <button class="btn small" type="submit">สร้าง/ปรับปรุงจักรวาลจากทะเบียนอิสระ</button>
+  </form>
+  {% if kv.rows %}
+  <form method="post" action="/indicators/runs/{{ kv.run.id }}/keybuild/freeze" class="inline-form">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <input type="text" name="frozen_by" placeholder="ผู้ตรึงจักรวาล">
+    <button class="btn small danger" type="submit">ตรึงจักรวาล ({{ kv.rows|length }} รายการ)</button>
+  </form>
+  {% endif %}
+</div>
+{% endif %}
+
+{% if kv.blind %}
+<h2>ผลตรวจผนึก</h2>
+<div class="card">
+  <p class="small">🔴 ระบบ <b>คำนวณใหม่จากข้อมูลปัจจุบันแล้วเทียบ</b> กับค่าที่ผนึกไว้ทุกครั้ง
+    ไม่ได้ดูเพียงว่ามีการผนึกแล้วหรือไม่ · ข้อมูลที่เปลี่ยนหลังผนึกทำให้ <b>ล็อกกลับทันที</b>
+    และต้องเปิดรอบประเมินใหม่ ห้ามซ่อมทับ</p>
+  <table class="report small">
+    <thead><tr><th>ชั้น</th><th>สถานะ</th><th>รายละเอียด</th></tr></thead>
+    <tbody>
+    {% for c in kv.blind.rows %}
+      <tr>
+        <td>{{ c.label }}</td>
+        <td>{% if c.ok is none %}<span class="badge">{{ c.state_label }}</span>
+            {% elif c.ok %}<span class="badge green">{{ c.state_label }}</span>
+            {% else %}<span class="badge red">{{ c.state_label }}</span>{% endif %}</td>
+        <td class="small">{% if c.ok is none %}<span class="muted">ไม่แสดงรายละเอียดของชั้นนี้จนกว่าตรวจผ่านครบทุกชั้น</span>
+            {% elif c.ok %}<span class="mono small">{{ c.digest_prefix }}…</span>
+            {% else %}{{ c.reasons|join(' · ') }}{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% if not kv.blind.ok and kv.blind.all_sealed %}<div class="note danger">{{ kv.blind.summary }}</div>{% endif %}
+</div>
+{% endif %}
+
+<h2>ด่านความครบถ้วนของเฉลย</h2>
+<div class="card">
+  <p class="small">ศูนย์ / ไม่ครบ / ซ้ำ / ขาด / เกิน <b>ผนึกไม่ได้</b> — ด่าน
+    <span class="mono small">{{ kv.coverage.gate_version }}</span></p>
+  <table class="report small">
+    <thead><tr><th>ด่าน</th><th>ผล</th></tr></thead>
+    <tbody>
+    {% for name, ok in kv.coverage.checks.items() %}
+      <tr><td>{{ kv.check_labels.get(name, name) }}</td>
+          <td>{% if ok %}<span class="badge green">ผ่าน</span>{% else %}<span class="badge red">ไม่ผ่าน</span>{% endif %}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p class="small">ฝั่งเก่า {{ kv.coverage.counts.get('old_answered', 0) }}/{{ kv.coverage.counts.get('old_total', 0) }} ·
+     ฝั่งใหม่ {{ kv.coverage.counts.get('new_answered', 0) }}/{{ kv.coverage.counts.get('new_total', 0) }}</p>
+  {% if kv.coverage.missing_items %}<p class="small">ยังไม่ตอบ: <span class="mono small">{{ kv.coverage.missing_items|length }}</span> รายการ</p>{% endif %}
+  {% if kv.coverage.reciprocity_violations %}<p class="small">การจับคู่ไม่ตรงกันสองทาง: <span class="mono small">{{ kv.coverage.reciprocity_violations|join(', ') }}</span></p>{% endif %}
+  {% if kv.coverage.reuse_violations %}<p class="small">รายการถูกใช้เป็นคู่ซ้ำ: <span class="mono small">{{ kv.coverage.reuse_violations|join(', ') }}</span></p>{% endif %}
+  {% if kv.coverage.shape_violations %}<p class="small">รูปทรงไม่ตรงสถานะ: <span class="mono small">{{ kv.coverage.shape_violations|join(', ') }}</span></p>{% endif %}
+</div>
+
+{% if kv.rows %}
+<h2>รายการในจักรวาลของเฉลย</h2>
+<div class="table-wrap"><table class="report">
+  <thead><tr><th>#</th><th>รายการ</th><th>ฝั่ง</th><th>ข้อความที่ปรากฏ</th><th>ขั้น/ปี/หน้า</th><th>หลักฐาน</th><th>คำตอบที่บันทึก</th><th>บันทึกคำตอบ</th></tr></thead>
+  <tbody>
+  {% for r in kv.rows %}
+    <tr class="{% if r.clipped %}needs-human{% endif %}">
+      <td class="mono small">{{ loop.index }}</td>
+      <td class="mono small">{{ r.item_id }}</td>
+      <td class="small">{{ r.side_label }}</td>
+      <td class="observed">{{ r.text or "—" }}
+        {% if r.clipped %}<div class="badge yellow">ข้อความชน/ล้นขอบหน้า — ต้องเปิดหลักฐานอ่านเอง</div>{% endif %}</td>
+      <td class="small">{{ r.stage_label }} · {{ r.fiscal_year or "—" }} · หน้า {{ r.page }} ·
+        <span class="mono">{{ r.short_hash }}</span>
+        {% if r.location_review %}<span class="badge yellow">ต้องชี้ตำแหน่ง</span>{% endif %}</td>
+      <td class="links">{% if r.evidence_url %}<a class="btn small ghost" href="{{ r.evidence_url }}">เปิดหลักฐาน</a>{% endif %}</td>
+      <td class="small">
+        {% if r.key_status %}<span class="badge green">{{ r.key_status }}</span>
+          {% if r.counterpart_item_id %}<br>คู่: <span class="mono small">{{ r.counterpart_item_id }}</span>{% endif %}
+          {% if r.key_reason %}<br><i>{{ r.key_reason }}</i>{% endif %}
+        {% else %}<span class="muted">ยังไม่ตอบ</span>{% endif %}
+      </td>
+      <td>
+        {% if kv.universe_seal and not kv.key_seal %}
+        <form method="post" action="/indicators/runs/{{ kv.run.id }}/keybuild/answer">
+          <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+          <input type="hidden" name="item_id" value="{{ r.item_id }}">
+          <select name="key_status">
+            <option value="">— เลือกสถานะ —</option>
+            {% for s in kv.statuses %}<option value="{{ s }}">{{ s }} — {{ kv.status_labels[s] }}</option>{% endfor %}
+          </select>
+          <select name="counterpart_item_id">
+            <option value="">— ไม่มีคู่ —</option>
+            {% if r.side == "old" %}
+              {% for c in kv.new_rows %}<option value="{{ c.item_id }}">{{ c.item_id }} · หน้า {{ c.page }}</option>{% endfor %}
+            {% else %}
+              {% for c in kv.old_rows %}<option value="{{ c.item_id }}">{{ c.item_id }} · หน้า {{ c.page }}</option>{% endfor %}
+            {% endif %}
+          </select>
+          <input type="text" name="reason" placeholder="เหตุผล (บังคับสำหรับสถานะเชิงความหมาย 3/4/5/8)">
+          <input type="text" name="entered_by" placeholder="ผู้จัดทำเฉลย">
+          <button class="btn small" type="submit">บันทึกคำตอบ</button>
+        </form>
+        {% elif not kv.universe_seal %}<span class="muted small">ตรึงจักรวาลก่อน</span>
+        {% else %}<span class="muted small">ผนึกแล้ว</span>{% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+{% endif %}
+
+{% if kv.key_seal %}
+<div class="note ok">
+  <b>เฉลยของรอบนี้ถูกผนึกแล้ว</b> เมื่อ {{ kv.key_seal.sealed_at }} โดย {{ kv.key_seal.sealed_by }} ·
+  {{ kv.key_seal.entries_count }} รายการ · แฮชเฉลย <span class="mono small">{{ kv.key_seal.key_digest }}</span><br>
+  แก้เฉลยไม่ได้อีก
+  {% if kv.blind and kv.blind.ok %}· <a href="/indicators/runs/{{ kv.run.id }}/verify">ไปยังขั้นตัดสินหลังรัน</a>
+  {% elif not kv.detector_sealed %}· ยังต้องผนึกผลลัพธ์ของเครื่องก่อนจึงจะเปิดขั้นตัดสินหลังรันได้
+  {% else %}· {{ kv.blind.summary }}{% endif %}
+</div>
+{% elif kv.universe_seal %}
+<h2>ผนึกเฉลย</h2>
+<div class="card">
+  <p class="muted small">การผนึกเป็นการกระทำของผู้ถือเฉลย (custodian) เท่านั้น · ผนึกได้ต่อเมื่อผ่านด่านความครบถ้วนทุกข้อ ·
+    บันทึกเฉพาะ <b>แฮชของเฉลย</b> ไม่บันทึกเนื้อเฉลยในที่สาธารณะ · แฮชผูกตัวตน การจับคู่ สถานะ แฮชเหตุผล
+    แฮชเนื้อเอกสารเต็ม เวอร์ชัน schema/protocol และ manifest ของจักรวาล</p>
+  <form method="post" action="/indicators/runs/{{ kv.run.id }}/keybuild/seal">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <label class="field">ผู้ผนึกเฉลย <input type="text" name="sealed_by"></label>
+    <label class="field">หมายเหตุ <input type="text" name="note"></label>
+    <button class="btn danger" type="submit">ผนึกเฉลยของรอบนี้</button>
+  </form>
+</div>
+{% endif %}
+
+{% if not kv.detector_sealed %}
+<h2>ผนึกผลลัพธ์ของเครื่อง</h2>
+<div class="card">
+  <p class="muted small">artifact คนละชิ้นกับเฉลย · แฮชผูกทั้งการจับคู่และจำนวนคู่ที่เครื่องเสนอ ⇒ แก้วิธีจับคู่หลังผนึกแล้วจะถูกจับได้ ·
+    หน้านี้ไม่แสดงเนื้อของผลลัพธ์นั้น</p>
+  <form method="post" action="/indicators/runs/{{ kv.run.id }}/keybuild/detector-seal">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <label class="field">ผู้ผนึก <input type="text" name="sealed_by"></label>
+    <label class="field">หมายเหตุ <input type="text" name="note"></label>
+    <button class="btn danger" type="submit">ผนึกผลลัพธ์ของเครื่อง</button>
+  </form>
+</div>
+{% endif %}
+
+{% endblock %}

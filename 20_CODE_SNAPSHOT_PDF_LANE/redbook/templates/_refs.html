@@ -1,0 +1,31 @@
+{# ═══ แถบ "เอกสารที่เทียบ" ของงานตรวจ (#24) — ใช้ร่วมกันในหน้างานตรวจ · สรุปผล · ข้อสังเกต ═══
+   แถวที่เก็บใน project_books มีแค่รหัส/ปี/ชื่อ/ลิงก์ → อ่านขั้น ปก และสถานะสังเคราะห์จากทะเบียนเล่มปัจจุบัน
+   หาเล่มในทะเบียนไม่เจอ (ทะเบียนเปลี่ยนรุ่น) = แสดงจากแถวที่เก็บไว้ ไม่เดาขั้น
+   ต้อง import แบบ with context (ใช้ book_lookup จาก page()) #}
+{% from "_book.html" import thumb, stage_chip with context %}
+
+{% macro ref_strip(book_refs, labels=None, compact=False) -%}
+{% if book_refs %}
+<div class="ref-strip{% if compact %} is-compact{% endif %}" role="group" aria-label="เอกสารที่เทียบในงานนี้">
+  {% for side in ["A", "B"] %}{% set r = book_refs.get(side) %}{% if r %}
+  {% set bk = book_lookup(r.book_id) %}
+  <div class="rs-side">
+    {% if bk and not compact %}{{ thumb(bk, 'mini') }}{% endif %}
+    <div class="rs-text">
+      <span class="rs-tag">{{ labels[side] if labels else 'ฝั่ง ' ~ side }}</span>
+      <span class="chips"><span class="year-chip">{{ r.fiscal_year }}</span>{% if bk %}{{ stage_chip(bk) }}{% endif %}
+        {% if bk and bk.synthetic %}<span class="dev-chip">DEV · ข้อมูลสังเคราะห์</span>{% else %}<span class="badge source">เอกสารสาธารณะ</span>{% endif %}</span>
+      <b class="rs-title" title="{{ bk.headline if bk else r.title }}">{{ bk.headline_short if bk else r.title }}</b>
+      <span class="rs-links">
+        {% set url = (bk.pdf_url if bk and bk.pdf_openable else ('' if bk else r.pdf_url)) %}
+        {% if url %}<a href="{{ url }}" target="_blank" rel="noopener noreferrer">เปิด PDF ต้นทาง<span class="sr-only"> ฝั่ง {{ side }} (เปิดแท็บใหม่)</span> ↗</a>
+        {% else %}<span class="hint">ยังไม่พบลิงก์ PDF</span>{% endif %}
+        · <a href="/books/{{ r.book_id }}">ดูในคลังเล่ม<span class="sr-only"> ฝั่ง {{ side }}</span></a>
+      </span>
+    </div>
+  </div>
+  {% if loop.first %}<span class="rs-arrow" aria-hidden="true">→</span>{% endif %}
+  {% endif %}{% endfor %}
+</div>
+{% endif %}
+{%- endmacro %}

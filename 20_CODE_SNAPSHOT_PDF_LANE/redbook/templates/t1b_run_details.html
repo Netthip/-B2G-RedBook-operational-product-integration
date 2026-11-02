@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% from "_refs.html" import ref_strip with context %}
+{% block title %}รายละเอียดการตรวจสอบ · {{ app_name }}{% endblock %}
+{% block content %}
+{#
+  🔴 หน้านี้เป็นสายงานผลิตภัณฑ์ T1B (PRODUCT EVIDENCE — POST-FREEZE)
+  ห้ามนำตัวเลขจากหน้านี้ไปอ้างเป็นผลของ frozen T1A evaluation
+#}
+
+<h1>รายละเอียดการตรวจสอบ</h1>
+<p class="page-sub">
+  รหัสรอบตรวจ <span class="mono">{{ s.run_id }}</span> ·
+  <a href="/t1b/runs/{{ s.run_id }}">‹ กลับหน้าสรุปผลตรวจ</a> ·
+  <a href="/t1b/runs">รายการรอบตรวจทั้งหมด</a> ·
+  <a href="/t1b/runs/{{ s.run_id }}/personnel">กันงบบุคลากรและแบ่งสี่ไตรมาส</a>
+</p>
+
+{{ ref_strip(book_refs) }}
+
+<div class="note warn">
+  <b>ขอบเขต:</b> รอบนี้เป็นการเปรียบเทียบ<b>สมุดงานสองฉบับของหน่วยงานเดียวกัน</b>
+  ระบบ<b>เสนอข้อสังเกต</b> ส่วนคำตัดสินว่าเป็นการปรับที่ตั้งใจหรือไม่
+  <b>เป็นของผู้ตรวจ</b> · ผลของสายงานนี้เป็นหลักฐานผลิตภัณฑ์หลังการ freeze
+  ไม่ใช่ผลการประเมินเชิงวิจัย และไม่ใช่การรับรองความถูกต้องของเอกสาร
+</div>
+
+{# ══ ภาพรวมก่อนรายละเอียด (#24) — จัดกลุ่ม "ชนิดข้อสังเกต" ที่ engine ให้มาแล้วเพื่อการแสดงผลเท่านั้น
+   ไม่มีกฎใหม่ ไม่คำนวณผลใหม่ · ทุกการ์ดนับเป็น "ใบข้อสังเกต" · การ์ดกลุ่มเนื้อหารวมกันเท่ากับยอดทั้งหมดเสมอ
+   (กลุ่ม "อื่น ๆ" = ส่วนที่เหลือ) ส่วน "ต้องตัดสิน" เป็นส่วนหนึ่งของยอดเดียวกัน จึงแยกไว้คนละแถว #}
+{% set bt = s.by_type %}
+{% set g_new = bt.get('ROW_ADDED', 0) %}
+{% set g_gone = bt.get('ROW_REMOVED', 0) %}
+{% set g_amt = bt.get('AMOUNT_INCREASED', 0) + bt.get('AMOUNT_DECREASED', 0) %}
+{% set g_ind = bt.get('INDICATOR_CHANGED', 0) %}
+{% set g_same = bt.get('AMOUNT_UNCHANGED', 0) + bt.get('INDICATOR_UNCHANGED', 0) %}
+{% set g_other = s.total_findings - g_new - g_gone - g_amt - g_ind - g_same %}
+<section class="ov" aria-labelledby="ov-h">
+  <h2 id="ov-h" class="ov-h">ภาพรวมความแตกต่างของเนื้อหา <span class="hint">นับเป็นใบข้อสังเกต</span></h2>
+  <ul class="ov-cards">
+    {% for key, label, n, q in [
+        ('new', 'รายการใหม่', g_new, 'ftype=ROW_ADDED'),
+        ('gone', 'ไม่พบในฉบับปัจจุบัน', g_gone, 'ftype=ROW_REMOVED'),
+        ('amt', 'จำนวนเงินเปลี่ยน', g_amt, 'ftype=AMOUNT_INCREASED&amp;ftype=AMOUNT_DECREASED'),
+        ('ind', 'ตัวชี้วัดเปลี่ยน', g_ind, 'ftype=INDICATOR_CHANGED'),
+        ('other', 'โครงสร้าง/ต้องตีความ', g_other, ''),
+        ('same', 'เท่าเดิม', g_same, ''),
+    ] %}
+    <li class="ov-card ov-{{ key }}{% if not n %} is-zero{% endif %}">
+      <span class="ov-n">{{ n }}</span><span class="ov-k">{{ label }}</span>
+      {% if n and q %}<a class="ov-link" href="/t1b/runs/{{ s.run_id }}/queue?{{ q }}">ดูในคิว<span class="sr-only"> — {{ label }} {{ n }} ใบ</span> <span aria-hidden="true">→</span></a>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="ov-review" role="note">
+    <div class="ov-rv-main"><span class="ov-n">{{ s.requiring_review }}</span>
+      <span class="ov-k">ในจำนวนนี้ <b>ต้องตรวจสอบโดยผู้ใช้</b>
+        {% if counts %}<span class="d-block">ทั้งรอบ: ตัดสินแล้ว {{ counts.decided }} ใบ · รอตัดสิน {{ counts.pending }} ใบ</span>{% endif %}</span></div>
+    <a class="btn small" href="/t1b/runs/{{ s.run_id }}/queue?only_review=1">ไปคิวที่ต้องตัดสิน</a>
+  </div>
+  <p class="hint">“โครงสร้าง/ต้องตีความ” รวมหน่วยนับเปลี่ยน เลขลำดับโครงการเปลี่ยน ปีที่มีข้างเดียว และแถวที่ระบบอ่านไม่ครบ — รายละเอียดอยู่ในตาราง “ข้อสังเกตแยกตามชนิด” ด้านล่าง</p>
+</section>
+
+{% if s.identity_gate_blocked %}
+<div class="note warn">
+  <b>ด่านตัวตนหน่วยงานไม่ผ่าน — ไม่มีการเปรียบเทียบอัตโนมัติในรอบนี้</b><br>
+  {{ s.identity_verdict_label }}
+  (<span class="mono">{{ s.identity_reason }}</span>)<br>
+  ทุกรายการถูกส่งเข้าคิวให้ผู้ตรวจพิจารณา และยังถูกนับไว้ครบทั้งสองฉบับ
+  <b>ไม่มีรายการใดหายไป</b>
+</div>
+{% endif %}
+
+<div class="grid grid-4">
+  <div class="stat">
+    {# ช่อง .n ถูกจัดรูปแบบไว้สำหรับตัวเลข วลีไทยยาว ๆ จะล้นกรอบ
+       จึงใส่ป้ายสั้นไว้ในช่องนั้น แล้วให้คำอธิบายเต็มอยู่บรรทัดล่าง #}
+    <div class="n"><span class="badge">{{ s.readiness }}</span></div>
+    <div class="k">{{ s.readiness_label }} · สถานะที่คำนวณได้</div>
+  </div>
+  <div class="stat"><div class="n">{{ s.total_findings }}</div>
+    <div class="k">ข้อสังเกตทั้งหมด <span class="mono">(ใบ)</span></div></div>
+  <div class="stat"><div class="n">{{ s.requiring_review }}</div>
+    <div class="k">ในนั้น ต้องให้ผู้ตรวจตัดสิน <span class="mono">(ใบ)</span></div></div>
+  <div class="stat"><div class="n">{{ s.automatic_pairs }}</div>
+    <div class="k">คู่ที่ชั้นจับคู่จับได้ <span class="mono">(คู่)</span></div></div>
+</div>
+
+<div class="note warn mt-s">
+  🔴 <b>สามช่องนี้ใช้หน่วยไม่เหมือนกัน ห้ามบวกกัน</b> — สองช่องแรกนับเป็น
+  <b>ใบข้อสังเกต</b> และช่องที่สองเป็น<b>ส่วนหนึ่งของ</b>ช่องแรกอยู่แล้ว
+  ส่วนช่องขวาสุดนับเป็น <b>คู่รายการ</b> ซึ่งคู่ที่จับได้ก็ยังตกไปอยู่ในกอง
+  ที่ต้องให้คนตัดสินได้ ดูตารางกระทบยอดด้านล่างว่าตัวเลขบวกกลับอย่างไร
+</div>
+
+<div class="hint mt-s">
+  สถานะความพร้อมเป็น<b>ค่าที่คำนวณจากตัวเลขในรอบนี้ทุกครั้งที่เปิดหน้า</b>
+  ไม่ใช่ปุ่มที่กดตั้งค่าได้ และไม่ได้ถูกเก็บไว้ในฐานข้อมูล
+</div>
+
+<h2>ตารางกระทบยอด</h2>
+{% set rc = view.reconciliation %}
+{% if not rc.balanced %}
+<div class="note warn">
+  🔴 <b>กระทบยอดไม่ลง</b> — ผลรวมจากตัวข้อสังเกตได้ {{ rc.total }} ใบ
+  แต่ยอดที่รอบนี้ประกาศไว้คือ {{ rc.declared_total }} ใบ
+  <b>ห้ามใช้ตัวเลขในหน้านี้จนกว่าจะหาสาเหตุได้</b>
+  แปลว่าหน้านี้ได้รับชุดข้อสังเกตไม่ครบ หรือยอดสรุปที่เก็บไว้ไม่ตรงกับแถวจริง
+</div>
+{% endif %}
+<div class="card">
+  <p class="mt-0">
+    แบ่งข้อสังเกตทุกใบด้วยสองแกนพร้อมกัน — <b>ฝั่งที่มีหลักฐาน</b> กับ
+    <b>ระบบสรุปได้เองหรือไม่</b> ทุกใบตกลงในช่องเดียวเท่านั้น ผลรวมจึงเท่ากับยอดทั้งหมดเสมอ
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>ฝั่งที่มีหลักฐาน</th>
+        <th class="num">ระบบสรุปได้เอง</th>
+        <th class="num">ต้องให้ผู้ตรวจตัดสิน</th>
+        <th class="num">รวม</th>
+      </tr></thead>
+      <tbody>
+        {% for r in rc.rows %}
+        <tr>
+          <td>{{ r.side_label }} <span class="mono">{{ r.side }}</span></td>
+          <td class="num">{{ r.automatic }}</td>
+          <td class="num">{{ r.review }}</td>
+          <td class="num">{{ r.total }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot><tr>
+        <td><b>รวม</b></td>
+        <td class="num"><b>{{ rc.total_automatic }}</b></td>
+        <td class="num"><b>{{ rc.total_review }}</b></td>
+        <td class="num"><b>{{ rc.total }}</b></td>
+      </tr></tfoot>
+    </table>
+  </div>
+  <div class="hint mt-m">
+    ช่อง <b>คู่ที่ชั้นจับคู่จับได้</b> ข้างบนมีค่า {{ rc.automatic_pairs }} <b>คู่</b>
+    ขณะที่แถว <span class="mono">pair</span> ในตารางนี้มี {{ rc.pair_findings }} <b>ใบ</b>
+    {% if rc.extra_findings_from_pairs %}
+      ต่างกัน {{ rc.extra_findings_from_pairs }} ใบ เพราะหนึ่งคู่ออกข้อสังเกตได้มากกว่าหนึ่งใบ
+      เช่นเมื่อจับคู่ได้แต่เลขลำดับโครงการเปลี่ยนด้วย
+    {% else %}
+      รอบนี้เท่ากันพอดี เพราะไม่มีคู่ใดที่ออกข้อสังเกตมากกว่าหนึ่งใบ
+      — <b>ไม่ใช่กฎที่รับประกัน</b> รอบอื่นต่างกันได้
+    {% endif %}
+  </div>
+</div>
+
+<h2>ด่านตัวตนหน่วยงาน</h2>
+<div class="card">
+  <dl class="kv">
+    <dt>ผลระดับการเปรียบเทียบ</dt>
+    <dd><b>{{ s.identity_verdict_label }}</b><br>
+        <span class="mono">{{ s.identity_verdict }}</span></dd>
+    <dt>เหตุผลจากด่าน</dt><dd class="mono">{{ s.identity_reason }}</dd>
+    <dt>อนุญาตให้เทียบอัตโนมัติ</dt>
+    <dd>{% if s.identity_gate_blocked %}ไม่ — ปฏิเสธไว้{% else %}ใช่{% endif %}</dd>
+  </dl>
+  <div class="hint mt-m">
+    ระบบเปรียบเทียบอัตโนมัติเฉพาะเมื่อ<b>ยืนยันได้จากเนื้อในแฟ้ม</b>ว่าเป็นหน่วยงานเดียวกัน
+    “ยืนยันไม่ได้” <b>ไม่เท่ากับ</b> “อนุญาตให้เทียบ”
+  </div>
+</div>
+
+<h2>ข้อสังเกตแยกตามชนิด</h2>
+{% if s.by_type %}
+<div class="card">
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>ชนิด</th><th>รหัส</th><th class="num">จำนวน</th><th><span class="sr-only">ดูรายการ</span></th></tr></thead>
+    <tbody>
+    {% for code, label, n in s.by_type_labelled %}
+      <tr>
+        <td>{{ label }}</td>
+        <td class="mono">{{ code }}</td>
+        <td class="num">{{ n }}</td>
+        <td><a class="btn small"
+               href="/t1b/runs/{{ s.run_id }}/queue?ftype={{ code }}">ดูในคิว</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% else %}
+<div class="empty">รอบนี้ไม่มีข้อสังเกต</div>
+{% endif %}
+
+{% if s.by_flag %}
+<h2>ธงที่บังคับให้ต้องตรวจ</h2>
+<div class="card">
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>ธง</th><th>รหัส</th><th class="num">จำนวน</th><th><span class="sr-only">ดูรายการ</span></th></tr></thead>
+    <tbody>
+    {% for code, label, n in s.by_flag_labelled %}
+      <tr>
+        <td>{{ label }}</td>
+        <td class="mono">{{ code }}</td>
+        <td class="num">{{ n }}</td>
+        <td><a class="btn small"
+               href="/t1b/runs/{{ s.run_id }}/queue?flag={{ code }}">ดูในคิว</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endif %}
+
+<h2>ข้อมูลการตรวจซ้ำ</h2>
+<div class="card">
+  <dl class="kv">
+    <dt>คีย์</dt><dd class="mono">{{ s.key_version }}</dd>
+    <dt>ชั้นจับคู่</dt><dd class="mono">{{ s.matching_version }}</dd>
+    <dt>ชั้นเปรียบเทียบ</dt><dd class="mono">{{ s.compare_version }}</dd>
+    <dt>ชั้นบริการ</dt><dd class="mono">{{ s.service_version }}</dd>
+  </dl>
+</div>
+
+<div class="actions">
+  <a class="btn" href="/t1b/runs/{{ s.run_id }}/queue?only_review=1">
+    เปิดคิวที่ต้องตัดสิน ({{ s.requiring_review }})</a>
+  <a class="btn" href="/t1b/runs/{{ s.run_id }}/queue">ดูข้อสังเกตทั้งหมด</a>
+</div>
+
+{% endblock %}

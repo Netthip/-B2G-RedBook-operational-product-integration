@@ -1,0 +1,18 @@
+{% extends "trial_base.html" %}
+{% block content %}
+<div class="tr-bar">
+  <a class="btn small secondary" href="/trial">← เล่มทั้งหมด</a>
+  <span class="tr-bar-title"><b>{{ s.book.title }}</b> · {{ s.book.agency }}</span>
+  <span class="tr-chip tr-chip-ok">ส่งใบประกาศแล้ว {{ s.rec.locked_at[:16]|replace('T', ' ') }}</span>
+</div>
+<div class="note danger" role="alert"><b>ระบบเทียบไม่สำเร็จ</b> — {{ error }} ·
+  ใบประกาศของท่านบันทึกไว้แล้ว (ล็อก) · เทียบไม่สำเร็จมาแล้ว {{ s.rec.run_failures or 0 }} ครั้ง (บันทึกไว้ในสถานะการรัน)</div>
+{% if s.active %}
+<form method="post" action="/trial/s/{{ sid }}/run" class="tr-lock">
+  <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+  <p>ถ้าเหตุมาจากไฟล์ถูกเปิดค้างหรือเครื่องช้า ลองเทียบอีกครั้งได้ · ถ้าไฟล์บนชั้นไม่ใช่ไฟล์เดียวกับตอนเริ่ม ระบบจะไม่เทียบ</p>
+  <button class="btn" type="submit" data-pp-wait="ระบบกำลังเทียบเล่ม…">ลองเทียบอีกครั้ง</button>
+</form>
+{% endif %}
+<p><a href="/trial/s/{{ sid }}">ดูรายการที่ส่งไว้</a></p>
+{% endblock %}
