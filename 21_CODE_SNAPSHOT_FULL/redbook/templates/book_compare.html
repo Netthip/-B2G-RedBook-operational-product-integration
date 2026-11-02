@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% from "_book.html" import thumb, stage_chip, asset_row, stage_pair, icon with context %}
+{% block title %}เปรียบเทียบ · {{ anchor.headline_short }} · {{ app_name }}{% endblock %}
+{% block content %}
+{% set excel_text = {'ok': 'พบไฟล์', 'unverified': 'ยังไม่ยืนยันไฟล์', 'broken': 'ลิงก์เปิดไม่ได้', 'not_listed': 'ไม่อยู่ในส่วนที่ค้น', 'missing': 'ยังไม่พบจากหน้าที่ตรวจ', 'unchecked': 'ยังไม่ได้ตรวจ'} %}
+{% set pdf_text = {'ok': 'พบไฟล์', 'unchecked': 'มีลิงก์ · ยังไม่ได้ตรวจ', 'broken': 'ลิงก์เปิดไม่ได้', 'missing': 'ยังไม่พบจากหน้าที่ตรวจ'} %}
+{# ระดับของสถานะ → สี + เครื่องหมาย + ข้อความ (สีไม่ใช่ตัวบอกสถานะเพียงอย่างเดียว) #}
+{% set tone = {'ok': 'ok', 'unverified': 'wait', 'unchecked': 'wait', 'not_listed': 'wait', 'broken': 'bad', 'missing': 'wait'} %}
+{% set mark = {'ok': '✓', 'wait': '?', 'bad': '!'} %}
+
+<p class="crumbs"><a href="/books">คลังเล่มงบประมาณ</a> ›
+  <a href="/books/{{ anchor.id }}">{{ anchor.headline_short }} ปี {{ anchor.fiscal_year }}</a> › เปรียบเทียบ</p>
+
+{% if pair and pair.error %}
+<div class="note danger" role="alert">{{ pair.error }}</div>
+{% endif %}
+
+{% if pair and pair.complete %}
+{# ══ คู่ที่เลือกแล้ว — ภาพรวมก่อนรายละเอียด ══
+   1) ภาพคู่ (ปก + ปี + ขั้น) 2) สถานะคู่ตามทะเบียน #27 3) A ความสมบูรณ์ของชุดเอกสาร
+   4) B ความแตกต่างของเนื้อหา (ยังไม่มีผลจนกว่าจะตั้งงานตรวจ) — แยกสองเรื่อง ไม่ปนกัน
+   คู่ "ยืนยัน" = ทะเบียนระบุ MATCHED เท่านั้น (counterpart / confirmed_other_years) ไม่ใช้ pair_key #}
+{% set confirmed = is_stage_pair or (pair.a in others) or (pair.b in others) %}
+<div class="page-head">
+  <p class="eyebrow">{% if pair.a.fiscal_year == pair.b.fiscal_year %}ปีงบ {{ pair.b.fiscal_year }} · {{ pair.a.stage_label }} → {{ pair.b.stage_label }}{% else %}ปีต่อปี · {{ pair.a.fiscal_year }} → {{ pair.b.fiscal_year }}{% endif %}</p>
+  <h1>เปรียบเทียบเอกสารคู่นี้</h1>
+  <p class="page-sub">ดูภาพรวมของคู่ก่อน แล้วค่อยตั้งงานตรวจเพื่อเทียบเนื้อหา</p>
+</div>
+
+<section class="vs-hero" aria-label="คู่เอกสารที่เลือก">
+  {% for side, tag in [(pair.a, 'A'), (pair.b, 'B')] %}
+  <article class="vs-side">
+    <a class="vs-cover" href="/books/{{ side.id }}" tabindex="-1" aria-hidden="true">{{ thumb(side, 'card') }}</a>
+    <div class="vs-meta">
+      <p class="vs-tag">ฝั่ง {{ tag }} · {{ 'ฉบับก่อน' if loop.first else 'ฉบับหลัง' }}</p>
+      <div class="chips"><span class="year-chip">{{ side.fiscal_year }}</span>{{ stage_chip(side) }}{% if side.synthetic %}<span class="dev-chip">DEV · ข้อมูลสังเคราะห์</span>{% endif %}</div>
+      <p class="kicker">{{ side.kicker }}</p>
+      <h2 class="vs-title" title="{{ side.headline }}"><a href="/books/{{ side.id }}">{{ side.headline_short }}</a></h2>
+    </div>
+  </article>
+  {% if loop.first %}
+  <div class="vs-mid" aria-hidden="true"><span class="vs-badge">VS</span>{{ icon('arrow') }}</div>
+  {% endif %}
+  {% endfor %}
+</section>
+
+<div class="pair-status {{ 'is-confirmed' if confirmed else 'is-user' }}" role="note">
+  {% if confirmed %}
+  <span class="ps-mark" aria-hidden="true">✓</span>
+  <div><b>คู่ที่ยืนยันจากข้อมูลเล่ม (metadata-confirmed)</b>
+    <span class="hint d-block">ทะเบียนแหล่งทางการยืนยันจากหัวเรื่อง ฉบับ เล่ม และหน่วยรับงบว่าเป็นเอกสารชุดเดียวกัน
+      — <b>ยังไม่ได้เทียบเนื้อหา</b> · ระบบไม่ได้จับคู่เอง</span></div>
+  {% else %}
+  <span class="ps-mark" aria-hidden="true">?</span>
+  <div><b>ยังยืนยันคู่เอกสารไม่ได้ — ผู้ใช้เลือกคู่นี้เอง</b>
+    <span class="hint d-block">ทะเบียนแหล่งทางการยังไม่ได้ยืนยันว่าสองเล่มนี้เป็นคู่กัน · ตรวจได้ แต่ต้องตรวจสอบโดยผู้ใช้ว่าเลือกเล่มถูกชุด</span></div>
+  {% endif %}
+</div>
+{% for w in pair.warnings %}<div class="note">{{ w }}</div>{% endfor %}
+
+<div class="world-grid">
+  {# ── A. ความสมบูรณ์ของชุดเอกสาร — มาจากทะเบียน ไม่ได้เปิดอ่านไฟล์ ── #}
+  <section class="world world-a" aria-labelledby="world-a">
+    <header class="world-head">
+      <span class="world-tag" aria-hidden="true">A</span>
+      <div><h2 id="world-a">ความสมบูรณ์ของชุดเอกสาร</h2>
+        <p class="hint mt-0">มีไฟล์อะไรให้ตรวจบ้าง — ตามที่ทะเบียนพบจากหน้าเว็บทางการ</p></div>
+    </header>
+    <table class="avail-table">
+      <caption class="sr-only">สถานะไฟล์ของฝั่ง A และฝั่ง B</caption>
+      <thead><tr><th scope="col">ไฟล์</th>
+        <th scope="col">ฝั่ง A <span class="hint">{{ pair.a.fiscal_year }} {{ pair.a.stage_label }}</span></th>
+        <th scope="col">ฝั่ง B <span class="hint">{{ pair.b.fiscal_year }} {{ pair.b.stage_label }}</span></th></tr></thead>
+      <tbody>
+        <tr><th scope="row">{{ icon('pdf') }} PDF</th>
+          {% for s in [pair.a, pair.b] %}{% set t = tone[s.pdf_status] %}
+          <td><span class="st st-{{ t }}"><span class="st-mark" aria-hidden="true">{{ mark[t] }}</span>{{ pdf_text[s.pdf_status] }}</span></td>{% endfor %}</tr>
+        <tr><th scope="row">{{ icon('xls') }} Excel</th>
+          {% for s in [pair.a, pair.b] %}{% set t = tone[s.excel_status] %}
+          <td><span class="st st-{{ t }}"><span class="st-mark" aria-hidden="true">{{ mark[t] }}</span>{{ excel_text[s.excel_status] }}</span></td>{% endfor %}</tr>
+        <tr><th scope="row">{{ icon('official') }} แหล่ง</th>
+          {% for s in [pair.a, pair.b] %}
+          <td>{% if s.synthetic %}<span class="hint">ข้อมูลสังเคราะห์ — ไม่มีหน้าเผยแพร่ทางการ</span>{% elif s.source_page %}<a href="{{ s.source_page }}" target="_blank" rel="noopener noreferrer">หน้าเว็บทางการ<span class="sr-only"> (เปิดแท็บใหม่)</span> ↗</a>{% else %}{{ s.publisher }}{% endif %}
+            {% if s.checked_on %}<span class="hint d-block">ตรวจล่าสุด {{ s.checked_on }}</span>{% endif %}</td>{% endfor %}</tr>
+      </tbody>
+    </table>
+    <p class="hint">“ยังไม่ได้ตรวจ” หรือ “ไม่อยู่ในส่วนที่ค้น” ไม่ได้แปลว่าไม่มีเอกสาร — หมายถึงทะเบียนยังหาไม่พบจากหน้าที่ตรวจ</p>
+  </section>
+
+  {# ── B. ความแตกต่างของเนื้อหา — มีผลเมื่อตั้งงานตรวจและนำเข้าสมุดงานแล้วเท่านั้น ── #}
+  <section class="world world-b" aria-labelledby="world-b">
+    <header class="world-head">
+      <span class="world-tag" aria-hidden="true">B</span>
+      <div><h2 id="world-b">ความแตกต่างของเนื้อหา</h2>
+        <p class="hint mt-0">รายการ ตัวเลข และตัวชี้วัดที่ต่างกัน — ได้จากการตรวจสมุดงาน (Excel)</p></div>
+    </header>
+    <ul class="pending-metrics" aria-label="สิ่งที่จะเห็นหลังตรวจ (ยังไม่มีผล)">
+      {% for label in ['รายการใหม่', 'รายการที่หายไป', 'จำนวนเงินเปลี่ยน', 'ตัวชี้วัดเปลี่ยน', 'โครงสร้างเปลี่ยน', 'ต้องตรวจสอบโดยผู้ใช้'] %}
+      <li><span class="pm-val" aria-hidden="true">—</span><span class="pm-label">{{ label }}</span></li>
+      {% endfor %}
+    </ul>
+    <div class="world-empty">
+      <b>ยังไม่ได้เปรียบเทียบเนื้อหา</b>
+      <p class="hint mt-0">ตัวเลขจะขึ้นหลังตั้งงานตรวจและนำเข้าสมุดงานของทั้งสองฝั่ง — ระบบไม่อ่านตัวเลขจาก PDF</p>
+    </div>
+  </section>
+</div>
+
+<details class="meta-details">
+  <summary>ข้อมูลเล่มแบบตาราง</summary>
+  <table class="cmp-table">
+    <caption class="sr-only">เทียบข้อมูลเล่ม ฝั่ง A กับ ฝั่ง B</caption>
+    <thead><tr><th scope="col">ข้อมูล</th><th scope="col">ฝั่ง A</th><th scope="col">ฝั่ง B</th></tr></thead>
+    <tbody>
+      {% for label, fa, fb in [
+          ('ปีงบประมาณ', pair.a.fiscal_year, pair.b.fiscal_year),
+          ('ขั้นเอกสาร', pair.a.stage_label, pair.b.stage_label),
+          ('ฉบับ / เล่ม', pair.a.kicker, pair.b.kicker),
+          ('หน่วยรับงบ', pair.a.headline, pair.b.headline),
+      ] %}
+      <tr class="{% if fa != fb %}diff{% endif %}"><th scope="row">{{ label }}</th><td>{{ fa }}</td><td>{{ fb }}{% if fa != fb %}<span class="sr-only"> (ต่างจากฝั่ง A)</span>{% endif %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</details>
+
+<div class="cta-band">
+  <div>
+    <b>ขั้นต่อไป: ตั้งงานตรวจ</b>
+    <p class="hint mt-0">ระบบสร้างงานตรวจโดยอ้างอิงสองเล่มนี้ แล้วพาไปขั้นที่ 2 นำเข้าสมุดงาน ของขั้นตอนตรวจเดิม (1–6)
+      — ระบบเทียบจากสมุดงาน (Excel) ไม่ได้อ่านตัวเลขจาก PDF</p>
+  </div>
+  <a class="btn" href="/verify/start?a={{ pair.a.id }}&amp;b={{ pair.b.id }}">ตั้งงานตรวจโดยอ้างอิงคู่นี้</a>
+</div>
+<p class="hint"><a href="/books/compare?a={{ anchor.id }}">เลือกคู่ใหม่</a></p>
+
+{% else %}
+<div class="page-head">
+  <p class="eyebrow">ทางเข้าการเปรียบเทียบ</p>
+  <h1>เลือกคู่เอกสารที่จะเทียบ</h1>
+  <p class="page-sub">เลือกได้สองแบบ — <b>ร่าง พ.ร.บ. → พ.ร.บ.</b> ของปีเดียวกัน หรือ <b>ปีต่อปี</b> ของเล่มเดียวกัน
+    · หน้านี้เทียบเฉพาะข้อมูลเล่ม การเทียบตัวเลขทำในงานตรวจ</p>
+</div>
+{# ── ยังไม่ได้เลือกคู่: เสนอสองแบบ พร้อมสถานะจริงของแต่ละแบบ ── #}
+<div class="anchor-strip">
+  {{ thumb(anchor, 'mini') }}
+  <div>
+    <div class="chips"><span class="year-chip">{{ anchor.fiscal_year }}</span>{{ stage_chip(anchor) }}</div>
+    <b>{{ anchor.headline }}</b>
+    <span class="hint">{{ anchor.kicker }} · เล่มตั้งต้น</span>
+  </div>
+</div>
+
+<div class="cmp-options">
+  <section class="cmp-option" aria-labelledby="opt-stage">
+    <h2 id="opt-stage">แบบที่ 1 · ร่าง พ.ร.บ. → พ.ร.บ.</h2>
+    {{ stage_pair(anchor, counterpart, pending) }}
+    {% if counterpart %}
+    <div class="actions mt-m"><a class="btn" href="/books/compare?a={{ anchor.id }}&amp;b={{ counterpart.id }}">เลือกคู่นี้</a></div>
+    {% endif %}
+  </section>
+
+  <section class="cmp-option" aria-labelledby="opt-year">
+    <h2 id="opt-year">แบบที่ 2 · ปีต่อปี (เล่มเดียวกัน)</h2>
+    {% if others %}
+    <ul class="pick-list">
+      {% for o in others %}
+      <li>
+        {{ thumb(o, 'mini') }}
+        <span class="pl-text"><b>ปี {{ o.fiscal_year }}</b> {{ stage_chip(o) }}<span class="hint">{{ o.kicker }}</span></span>
+        <a class="btn small" href="/books/compare?a={{ anchor.id }}&amp;b={{ o.id }}"
+           aria-label="เลือกเทียบปี {{ anchor.fiscal_year }} กับปี {{ o.fiscal_year }}">เลือก</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    {% set waiting = pending|selectattr('kind', 'equalto', 'CROSS_YEAR')|list %}
+    <div class="sp-slot is-empty"><b>ยังไม่มีคู่ปีที่ทะเบียนยืนยัน</b>
+      <span class="hint">{% if waiting %}ทะเบียนเสนอไว้ {{ waiting|length }} คู่ แต่ยัง{{ waiting[0].status_label }} — ใช้เปรียบเทียบไม่ได้จนกว่าจะยืนยัน
+        {% else %}ระบบเสนอเฉพาะคู่ที่ทะเบียนแหล่งทางการยืนยัน ไม่จับคู่จากชื่อเอง{% endif %}</span></div>
+    {% endif %}
+    <p class="hint">เลือกเล่มเองได้ (ผู้ใช้เป็นผู้ตัดสินคู่): <a href="/books?pick={{ anchor.id }}~cmp">เลือกจากคลังเล่ม</a></p>
+  </section>
+</div>
+{% endif %}
+<script src="/static/books.js" defer></script>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% from "_refs.html" import ref_strip with context %}
+{% block title %}รายละเอียดข้อสังเกต T1B · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>{{ f.type_label }}</h1>
+<p class="page-sub">
+  รอบตรวจ <a href="/t1b/runs/{{ s.run_id }}"><span class="mono">{{ s.run_id }}</span></a> ·
+  <a href="/t1b/runs/{{ s.run_id }}/queue?{{ qs_here }}">กลับไปที่คิว</a>
+  {% if d.position %} · รายการที่ {{ d.position }} จาก {{ d.total }} ในคิวที่กรองอยู่{% endif %}
+</p>
+
+{# position = 0 หมายถึงรายการนี้ไม่อยู่ในคิวที่กรองอยู่ จึงไม่มีเพื่อนบ้านให้เดิน #}
+{% if not d.position %}
+<div class="note warn">
+  รายการนี้<b>อยู่นอกตัวกรองที่เปิดอยู่</b> จึงไม่มีปุ่มก่อนหน้า/ถัดไป
+  <a href="/t1b/runs/{{ s.run_id }}/queue">ล้างตัวกรอง</a>
+  เพื่อเดินดูรายการทั้งหมดตามลำดับ
+</div>
+{% endif %}
+
+{% if s.identity_gate_blocked %}
+<div class="note warn">
+  <b>รอบนี้ด่านตัวตนหน่วยงานไม่ผ่าน</b> — {{ s.identity_verdict_label }}
+  รายการนี้จึง<b>ไม่ได้ผ่านการเปรียบเทียบอัตโนมัติ</b>
+</div>
+{% endif %}
+
+<div class="card">
+  <dl class="kv">
+    <dt>ชนิด</dt><dd>{{ f.type_label }} · <span class="mono">{{ f.finding_type }}</span></dd>
+    <dt>ต้องให้ผู้ตรวจตัดสิน</dt>
+    <dd>{% if f.requires_human_decision %}ใช่{% else %}ไม่จำเป็น{% endif %}</dd>
+    <dt>รายการ</dt><dd>{{ f.row_label or "—" }}</dd>
+    {% if f.section_title %}<dt>หัวเรื่องชีต</dt><dd>{{ f.section_title }}</dd>{% endif %}
+    {% if f.parent_plan %}<dt>แผนงานแม่</dt><dd>{{ f.parent_plan }}</dd>{% endif %}
+    <dt>บทบาทชีต</dt><dd class="mono">{{ f.sheet_role or "—" }}</dd>
+    <dt>แกนเทียบ</dt><dd class="mono">{{ f.comparison_axis or "—" }}</dd>
+    <dt>ปีงบประมาณ</dt>
+    <dd>{{ f.fiscal_year if f.fiscal_year is not none else "—" }}</dd>
+    <dt>หมวดงบรายจ่าย</dt><dd>{{ f.budget_category or "—" }}</dd>
+    <dt>หน่วยที่ประกาศ</dt><dd>{{ f.declared_unit or "—" }}</dd>
+    <dt>ฝั่งที่มีหลักฐาน</dt><dd>{{ f.side_label }}</dd>
+  </dl>
+</div>
+
+<h2>ค่าที่นำมาเทียบ</h2>
+<div class="grid grid-3">
+  <div class="stat"><div class="n mono">{{ f.baseline_value|amount(f.declared_unit) }}</div>
+    <div class="k">ฉบับตั้งต้น</div></div>
+  <div class="stat"><div class="n mono">{{ f.current_value|amount(f.declared_unit) }}</div>
+    <div class="k">ฉบับปัจจุบัน</div></div>
+  <div class="stat"><div class="n mono">{{ f.difference|amount(f.declared_unit) }}</div>
+    <div class="k">ผลต่าง</div></div>
+</div>
+
+{% if f.baseline_category_table_year or f.current_category_table_year %}
+<div class="note {% if f.flags %}warn{% else %}info{% endif %}">
+  ปีบริบทของตารางจำแนกตามงบรายจ่าย —
+  ฉบับตั้งต้น <b>{{ f.baseline_category_table_year or "อ่านไม่ได้" }}</b> ·
+  ฉบับปัจจุบัน <b>{{ f.current_category_table_year or "อ่านไม่ได้" }}</b>
+</div>
+{% endif %}
+
+{% if f.flag_labels %}
+<h2>ธงที่ติดกับรายการนี้</h2>
+<div class="card">
+  <ul>
+    {% for label in f.flag_labels %}<li>{{ label }}</li>{% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<h2>ตำแหน่งหลักฐาน</h2>
+<div class="grid grid-2">
+  <div class="card">
+    <div class="side-title">ฉบับตั้งต้น</div>
+    {% if f.baseline %}
+      <dl class="kv">
+        <dt>ชีต</dt><dd class="mono">{{ f.baseline.where }}</dd>
+        <dt>ข้อความในแถว</dt><dd>{{ f.baseline.label or "—" }}</dd>
+        <dt>ค่าดิบในเซลล์</dt><dd class="mono">{{ f.baseline.value or "—" }}</dd>
+      </dl>
+    {% else %}
+      <div class="empty">ไม่มีหลักฐานฝั่งนี้</div>
+    {% endif %}
+  </div>
+  <div class="card">
+    <div class="side-title">ฉบับปัจจุบัน</div>
+    {% if f.current %}
+      <dl class="kv">
+        <dt>ชีต</dt><dd class="mono">{{ f.current.where }}</dd>
+        <dt>ข้อความในแถว</dt><dd>{{ f.current.label or "—" }}</dd>
+        <dt>ค่าดิบในเซลล์</dt><dd class="mono">{{ f.current.value or "—" }}</dd>
+      </dl>
+    {% else %}
+      <div class="empty">ไม่มีหลักฐานฝั่งนี้</div>
+    {% endif %}
+  </div>
+</div>
+
+<h2>คำอธิบายจากระบบ</h2>
+<div class="card"><p>{{ f.detail or "ระบบไม่มีคำอธิบายเพิ่มเติมสำหรับรายการชนิดนี้ — ดูค่าที่นำมาเทียบและตำแหน่งหลักฐานด้านบน" }}</p></div>
+
+{% if book_refs %}
+{# เล่มอ้างอิงทางการของงานนี้ (#24) — เปิดเทียบได้จากหน้าที่ต้องตัดสิน ไม่ต้องย้อนไปหา #}
+<p class="mt-0"><b>เอกสารที่เทียบ</b> <span class="hint">— ใช้ประกอบการตัดสินเท่านั้น ตำแหน่งหลักฐานด้านบนมาจากสมุดงานที่ใส่ในขั้น 2</span></p>
+{{ ref_strip(book_refs, compact=True) }}
+{% endif %}
+
+<div class="card">
+  <dl class="kv">
+    <dt>รหัสรายการ</dt><dd class="mono">{{ f.finding_id }}</dd>
+    <dt>ที่มาของรหัส</dt>
+    <dd>
+      {% if f.id_is_stable %}
+        คำนวณจากเนื้อหา — <b>คงที่เมื่อรันซ้ำ</b>
+      {% else %}
+        เนื้อหาแยกจากรายการอื่นไม่ได้ จึงต้องเติมลำดับที่พบ —
+        <b>ไม่รับประกันว่าคงที่เมื่อรันซ้ำ</b>
+      {% endif %}
+      <span class="mono">({{ f.identity_basis }})</span>
+    </dd>
+  </dl>
+</div>
+
+<h2>คำตัดสินของผู้ตรวจ</h2>
+<div class="note info"><b>ระบบเสนอสิ่งที่ตรวจพบ ผู้ปฏิบัติงานเป็นผู้ตัดสิน</b> · {{ dec.E_BUDGETING_DISCLAIMER }}</div>
+{% if not f.id_is_stable %}
+<div class="note warn">🔴 รหัสของรายการนี้คำนวณจากตำแหน่ง — ตัดสินได้ในรอบนี้ แต่<b>ผูกคำตัดสินกลับอัตโนมัติในรอบใหม่ไม่ได้</b>
+  ต้องให้มนุษย์ยืนยันซ้ำ (not_rebindable)</div>
+{% endif %}
+{% if decision_error %}<div class="note danger">{{ decision_error }}</div>{% endif %}
+<div class="card">
+  <dl class="kv">
+    <dt>สถานะปัจจุบัน</dt><dd><b>{{ a.status_label }}</b> <span class="mono">{{ a.status }}</span></dd>
+    <dt>หมวดจุดตรวจสอบ</dt><dd>{{ a.subject.label }} · {{ a.subject.confidence_label }}
+      <div class="hint">{% for e in a.subject.evidence %}{{ e }}{% if not loop.last %} · {% endif %}{% endfor %}
+      {% if a.subject.reason %}<br>{{ a.subject.reason }}{% endif %}</div></dd>
+  </dl>
+  <form method="post" action="/t1b/runs/{{ s.run_id }}/findings/{{ f.finding_id }}/decide?{{ qs_here }}">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <input type="hidden" name="expected_latest_seq" value="{{ a.latest_seq }}">
+    <label>คำตัดสิน
+      <select name="status" id="status">
+        {% for code in dec.DECIDABLE %}<option value="{{ code }}">{{ dec.STATUS_LABELS[code] }}</option>{% endfor %}
+      </select>
+    </label>
+    <label for="corrected_value">ค่าที่แก้ไข (เฉพาะ “ยืนยันโดยแก้ไขข้อเสนอ”) — ค่าที่ระบบเสนอ
+      <span class="mono">{{ f.current_value|amount(f.declared_unit) }}</span> จะยังคงอยู่ในประวัติ</label>
+    <input type="text" id="corrected_value" name="corrected_value" maxlength="500" autocomplete="off">
+    <label for="note">เหตุผล/หมายเหตุ (บังคับสำหรับทุกสถานะยกเว้น “ยืนยันว่าเป็นจุดที่ต้องแก้” · บังคับเสมอเมื่อกลับคำตัดสินเดิม)</label>
+    <textarea id="note" name="note" maxlength="2000"></textarea>
+    <div class="actions"><button class="btn" type="submit">บันทึกคำตัดสิน</button></div>
+  </form>
+</div>
+{% if history %}
+<h2>ประวัติคำตัดสินของรายการนี้</h2>
+<div class="card"><div class="table-wrap"><table>
+  <thead><tr><th>seq</th><th>จาก → เป็น</th><th>ค่า engine (ตรึง)</th><th>ค่าที่แก้</th><th>เหตุผล</th><th>เมื่อ</th><th>audit</th></tr></thead>
+  <tbody>{% for h in history %}
+    <tr><td class="num">{{ h.seq }}</td><td>{{ h.status_from_label }} → <b>{{ h.status_label }}</b></td>
+      <td class="mono">{{ h.engine_baseline_value|amount_num(f.declared_unit) }} → {{ h.engine_current_value|amount_num(f.declared_unit) }}</td>
+      <td class="mono">{{ h.corrected_value or "—" }}</td><td>{{ h.note or "—" }}</td>
+      <td class="mono">{{ h.decided_at }}</td><td class="mono">#{{ h.audit_seq }}</td></tr>
+  {% endfor %}</tbody></table></div></div>
+{% endif %}
+
+<div class="actions">
+  {% if d.prev_id %}
+    <a class="btn"
+       href="/t1b/runs/{{ s.run_id }}/findings/{{ d.prev_id }}?{{ qs_here }}">‹ รายการก่อนหน้า</a>
+  {% endif %}
+  {% if d.next_id %}
+    <a class="btn"
+       href="/t1b/runs/{{ s.run_id }}/findings/{{ d.next_id }}?{{ qs_here }}">รายการถัดไป ›</a>
+  {% endif %}
+  <a class="btn small" href="/t1b/runs/{{ s.run_id }}/queue?{{ qs_here }}">กลับไปที่คิว</a>
+</div>
+
+{% endblock %}

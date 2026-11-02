@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}ลบงานตรวจ · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>ลบงานตรวจ</h1>
+<p class="page-sub">{{ project.name }}</p>
+
+<div class="note warn">
+  🔴 <b>การลบนี้ย้อนกลับไม่ได้</b> — ไฟล์ต้นฉบับที่อัปโหลดไว้จะถูกลบออกจากเครื่อง
+  พร้อมผลตรวจทั้งหมดของงานนี้
+</div>
+
+<h2>สิ่งที่จะถูกลบ</h2>
+<div class="card">
+  {% if preview.files %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ฝั่ง</th><th>ชื่อไฟล์ที่อัปโหลด</th><th class="num">ขนาด (ไบต์)</th></tr></thead>
+      <tbody>
+        {% for f in preview.files %}
+        <tr>
+          <td>{{ f.side }}</td>
+          <td>{{ f.original_name }}</td>
+          <td class="num">{{ f.size_bytes }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="mt-0">ยังไม่มีไฟล์ที่อัปโหลดไว้ในงานนี้</p>
+  {% endif %}
+
+  <dl class="kv mt-m">
+    <dt>รอบตรวจ metadata (T1A)</dt><dd>{{ preview.t1a_runs }} รอบ · {{ preview.t1a_findings }} ข้อสังเกต</dd>
+    <dt>รอบเปรียบเทียบเนื้อใน (T1B)</dt><dd>{{ preview.t1b_runs }} รอบ · {{ preview.t1b_findings }} ข้อสังเกต</dd>
+  </dl>
+</div>
+
+<h2>สิ่งที่จะยังเหลืออยู่</h2>
+<div class="card">
+  <p class="mt-0">
+    เหลือเฉพาะรายการใน <b>Audit Trail</b> ซึ่งลบไม่ได้ตามการออกแบบ
+    และเก็บได้เฉพาะข้อมูลที่<b>ไม่มีเนื้อหางบประมาณ</b>
+  </p>
+  <ul>
+    <li>เวลาที่ดำเนินการ</li>
+    <li>ค่าแฮช SHA-256 ของไฟล์ — ใช้ยืนยันย้อนหลังว่าเคยตรวจไฟล์ใด</li>
+    <li>รุ่นของเครื่องยนต์ที่ใช้</li>
+    <li>สถานะการดำเนินการและจำนวนนับ</li>
+  </ul>
+  <div class="hint">
+    <b>ไม่เหลือ</b> ชื่อรายการ ยอดเงิน ตำแหน่งเซลล์ หรือเนื้อหาใด ๆ จากเอกสาร
+  </div>
+</div>
+
+<h2>ยืนยัน</h2>
+<form method="post" action="/projects/{{ project.id }}/delete" class="card">
+  <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+  <label for="confirm">พิมพ์คำว่า <b>ลบ</b> เพื่อยืนยัน</label>
+  <input type="text" id="confirm" name="confirm" autocomplete="off" required>
+  <div class="hint">ขั้นตอนนี้มีไว้กันการกดพลาด ไม่ใช่มาตรการความปลอดภัย</div>
+  <div class="actions">
+    <button class="btn danger" type="submit">ลบงานตรวจนี้ถาวร</button>
+    <a class="btn ghost" href="/projects/{{ project.id }}">ยกเลิก</a>
+  </div>
+</form>
+
+<div class="hint mt-m">
+  นโยบายที่ใช้อยู่คือ <span class="mono">PROVISIONAL_LOCAL_RETENTION POLICY</span>
+  — เป็นนโยบายชั่วคราวสำหรับต้นแบบ <b>ไม่ใช่นโยบายใช้งานจริงของหน่วยงาน</b>
+  ระบบ<b>ไม่ลบไฟล์ให้เองโดยอัตโนมัติ</b> การลบเกิดจากการกดของผู้ใช้เท่านั้น
+</div>
+
+{% endblock %}

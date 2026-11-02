@@ -1,0 +1,9 @@
+{# รอบที่ถูกแทน/คำนวณแทน — แสดงทุกหน้าของรอบ #}
+{% if v.superseded_by %}
+<div class="note danger" role="alert"><b>รอบนี้ถูกบล็อก</b> — มีรอบใหม่ที่คำนวณด้วยปีงบที่ยืนยันแล้ว ·
+  ผลและคำตัดสินเดิมเก็บไว้ดูย้อนหลังเท่านั้น บันทึกเพิ่มหรือส่งออกไม่ได้
+  <div class="actions"><a class="btn small" href="/pdfpair/runs/{{ v.superseded_by }}">ไปรอบใหม่</a></div></div>
+{% elif v.supersedes %}
+<div class="note" role="status">รอบนี้คำนวณแทน<a href="/pdfpair/runs/{{ v.supersedes }}">รอบเดิม</a>ด้วยปีงบที่ผู้ตรวจยืนยัน ·
+  คำตัดสินของรอบเดิมไม่ถูกคัดลอกมา — ตัดสินรอบนี้ใหม่</div>
+{% endif %}

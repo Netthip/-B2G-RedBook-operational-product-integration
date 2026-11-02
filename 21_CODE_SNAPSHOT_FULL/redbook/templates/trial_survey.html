@@ -1,0 +1,52 @@
+{% extends "trial_base.html" %}
+{% block content %}
+<div class="tr-bar"><a class="btn small secondary" href="/trial/s/{{ sid }}/result">← ระบบเจออะไร</a>
+  <span class="tr-bar-title"><b>แบบสอบถามหลังใช้ผล</b> · {{ s.book.title }}</span></div>
+{% if state != 'open' %}
+<div class="note warn" role="status">{{ tsvc.SURVEY_STATE_TEXT[state] }}</div>
+{% if state == 'legacy' and answers %}
+<ul>{% for k, v in answers|dictsort %}<li>{{ k }}: {{ v }}</li>{% endfor %}</ul>
+{% endif %}
+{% else %}
+<p class="tr-sub">โปรดตอบหลังจากได้ใช้ผลของระบบกับคู่เอกสารของท่านแล้ว · ไม่ต้องลงชื่อ ใช้รหัสผู้ตอบแทน · ไม่ต้องระบุตัวเลขงบประมาณจริง ·
+  คำตอบเชิงลบมีประโยชน์เท่ากับเชิงบวก · ผลรายงานเป็นภาพรวม · ถอนตัวได้ทุกเมื่อโดยแจ้งรหัสผู้ตอบ</p>
+<form method="post" action="/trial/s/{{ sid }}/survey" class="tr-survey">
+  <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+  <p class="hint">ให้ความยินยอมไว้แล้วก่อนเริ่มรอบ ({{ (s.rec.consent_at or '')[:16]|replace('T', ' ') }}) · ถอนตัวได้ทุกเมื่อ</p>
+  <fieldset><legend>ส่วนที่ ๑ ขั้นตอนที่ท่านทำได้</legend>
+    <table class="tr-table">
+      <thead><tr><th scope="col">ขั้นตอน</th>{% for k, label in tsvc.STEP_CHOICES.items() %}<th scope="col">{{ label }}</th>{% endfor %}</tr></thead>
+      <tbody>{% for k, text in tsvc.STEPS %}<tr><th scope="row">{{ text }}</th>
+        {% for v, label in tsvc.STEP_CHOICES.items() %}<td><input type="radio" name="{{ k }}" value="{{ v }}" aria-label="{{ text }} {{ label }}"{% if answers.get(k) == v %} checked{% endif %}></td>{% endfor %}</tr>{% endfor %}</tbody>
+    </table>
+  </fieldset>
+  {% if s.v03 %}<fieldset><legend>ส่วนที่ ๒ ความคิดเห็นต่อความเหมาะสมในการใช้งาน <span class="hint">(๕ = มากที่สุด · ๔ = มาก · ๓ = ปานกลาง · ๒ = น้อย · ๑ = น้อยที่สุด · ข้อไหนไม่อยากตอบเว้นไว้ได้)</span></legend>
+  {% else %}<fieldset><legend>ส่วนที่ ๒ ความเห็นหลังใช้ผล <span class="hint">(๑ = ไม่เห็นด้วยอย่างยิ่ง … ๕ = เห็นด้วยอย่างยิ่ง · ตอบตามที่ใช้จริง · ข้อไหนไม่อยากตอบเว้นไว้ได้)</span></legend>{% endif %}
+    {% for group, items in tsvc.likert_items(s) %}
+    <h3 class="tr-h3">{{ group }}</h3>
+    {% for k, text in items %}
+    <div class="tr-q" role="radiogroup" aria-labelledby="ql-{{ k }}">
+      <span id="ql-{{ k }}">{{ text }}</span>
+      <span class="tr-scale">{% for v in (['5', '4', '3', '2', '1'] if s.v03 else ['1', '2', '3', '4', '5']) %}
+        <label><input type="radio" name="{{ k }}" value="{{ v }}"{% if answers.get(k) == v %} checked{% endif %}><span>{{ v }}</span></label>{% endfor %}</span>
+    </div>
+    {% endfor %}
+    {% endfor %}
+  </fieldset>
+  <fieldset><legend>ส่วนที่ ๓ คำถามปลายเปิด</legend>
+    {% for k, text in tsvc.OPEN_ITEMS %}
+    <label for="o-{{ k }}">{{ text }}</label>
+    <textarea id="o-{{ k }}" name="{{ k }}" rows="2" maxlength="2000">{{ answers.get(k, '') }}</textarea>
+    {% endfor %}
+  </fieldset>
+  <fieldset><legend>ส่วนที่ ๔ ข้อมูลทั่วไป</legend>
+    {% for k, text, choices in tsvc.GENERAL_ITEMS %}
+    <div class="tr-radios" role="radiogroup" aria-label="{{ text }}"><span>{{ text }}</span>
+      {% for v, label in choices.items() %}<label><input type="radio" name="{{ k }}" value="{{ v }}"{% if answers.get(k) == v %} checked{% endif %}> {{ label }}</label>{% endfor %}</div>
+    {% endfor %}
+  </fieldset>
+  <div class="actions"><button class="btn" type="submit">บันทึกลงเครื่อง แล้วดูแดชบอร์ด</button></div>
+  <p class="hint">ความเห็นใช้ประกอบด้านประโยชน์ต่อผู้ใช้เท่านั้น — ไม่ใช้แทนผลด้านความถูกต้องในการหาจุดต่าง</p>
+</form>
+{% endif %}
+{% endblock %}

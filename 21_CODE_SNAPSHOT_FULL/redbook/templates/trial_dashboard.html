@@ -1,0 +1,101 @@
+{% extends "trial_base.html" %}
+{% block content %}
+{% set b = r.s.book %}{% set a1 = m.A1 %}{% set led = m.A3 %}
+<div class="tr-bar"><a class="btn small secondary" href="/trial">← เล่มทั้งหมด</a>
+  <span class="tr-bar-title"><b>แดชบอร์ด</b> · {{ b.title }} · {{ b.agency }}</span>
+  {% if r.complete %}<span class="tr-chip tr-chip-ok">จับคู่และจัดกลุ่มครบ</span>{% else %}<span class="tr-chip">ยังไม่ครบ — <a href="/trial/s/{{ sid }}/result">ไปทำต่อ</a></span>{% endif %}
+  <span class="tr-chip">การรัน: {{ tsvc.STATUS_TEXT.run[st.run] }}</span>
+  <span class="tr-chip">ผู้ตรวจ: {{ tsvc.STATUS_TEXT.reviewer[st.reviewer] }}</span></div>
+{% if st.excluded_main %}<div class="note warn">ไม่นับในผลหลักของด้าน A: {% for x in st.exclusions %}{{ tsvc.STATUS_TEXT.exclusions[x] }}{% if not loop.last %} · {% endif %}{% endfor %} (รายงานแยกเชิงพรรณนา)</div>{% endif %}
+{% if st.flags %}<p class="tr-flags">{% for f in st.flags %}<span class="tr-chip">{{ tsvc.STATUS_TEXT.flags[f] }}</span> {% endfor %}</p>{% endif %}
+
+<h2>ด้าน A — ความถูกต้องและความครบถ้วนในการหาจุดต่าง</h2>
+<p class="hint">อัตราการพบเทียบรายการอ้างอิงของผู้ตรวจ ภายในหัวข้อและส่วนของเล่มที่ผู้ตรวจประกาศว่าตรวจครบ · ร้อยละแสดงเมื่อตัวหารตั้งแต่ ๑๐ ขึ้นไป</p>
+{% if m.v03 %}{% set v = m.v03 %}
+<div class="tr-metrics tr-metrics-big">
+  <div class="tr-metric tr-metric-red"><span>H1 อัตราการพบหลัก (พบตรง ÷ N₀)</span><b>{{ v.issues.H1.text if v.issues else 'ยังตัดสินไม่ครบ ' ~ v.pending.issues }}</b>
+    {% if v.issues %}<small>ผลเสริม พบตรง ÷ N {{ v.issues.supplement.text }} · รวมพบบางส่วน ÷ N₀ {{ v.issues.incl_partial.text }} · ตัดสินไม่ได้ {{ v.issues.undecidable }}</small>{% endif %}</div>
+  <div class="tr-metric"><span>H2 ตำแหน่งถูกทุกฝั่ง ในประเด็นที่พบและตัดสินตำแหน่งได้</span><b>{{ v.location.H2.text if v.location else 'ยังไม่ครบ ' ~ v.pending.location }}</b>
+    {% if v.location %}<small>P {{ v.location.P }} · ตัดสินไม่ได้ {{ v.location.undecidable }} · ถูกทุกฝั่ง ÷ P {{ v.location.all_over_P.text }}</small>{% endif %}</div>
+  <div class="tr-metric"><span>A3-อ ความตรงของสิ่งที่อ่านได้ · A3-ข ความถูกของข้อสรุป</span><b>{{ (v.obs.A3_fidelity.text ~ ' · ' ~ v.obs.A3_assertion.text) if v.obs else 'ยังไม่ครบ ' ~ v.pending.obs }}</b>
+    {% if v.obs %}<small>ตัดสินไม่ได้ A3-อ {{ v.obs.fidelity.undecidable }} · A3-ข {{ v.obs.assertion.undecidable }} · อ่านตรงครบแต่ข้อสรุปไม่ถูก {{ v.obs.read_ok_assertion_wrong }} · แจ้งเกิน ส3 ÷ (F − ส4) {{ v.obs.overflag.text }} (ไม่ใช่ precision)</small>{% endif %}</div>
+</div>
+{% endif %}
+<div class="tr-metrics tr-metrics-big">
+  <div class="tr-metric tr-metric-red"><span>อัตราการพบแบบเข้ม (พบตรง ÷ N)</span><b>{{ a1.strict.text }}</b>
+    <small>N0 = {{ a1.N0 }} ที่ล็อกในขอบเขต · N = {{ a1.N }}{% if a1.pending %} · ยังไม่ครบ {{ a1.pending }}{% endif %}</small>
+    <span class="tr-bar-track"><span class="tr-bar-fill" data-w="{{ (100 * a1.exact / a1.N)|round|int if a1.N else 0 }}"></span></span></div>
+  <div class="tr-metric"><span>อัตราการพบรวมพบบางส่วน</span><b>{{ a1.with_partial.text }}</b>
+    <small>พบบางส่วนนับแยก ไม่นับเป็นครึ่ง</small></div>
+  <div class="tr-metric"><span>พลาด</span><b>{{ a1.missed }}</b>
+    <small>{% for k, label in tsvc.MISS_REASONS.items() %}{{ label.split(' ')[0] }} {{ a1.missed_reasons[k] }}{% if not loop.last %} · {% endif %}{% endfor %}</small></div>
+  <div class="tr-metric"><span>พบบางส่วน</span><b>{{ a1.partial }}</b>
+    <small>{% for k, label in tsvc.PARTIAL_REASONS.items() %}{{ label.split(' ')[0] }} {{ a1.partial_reasons[k] }}{% if not loop.last %} · {% endif %}{% endfor %}</small></div>
+  <div class="tr-metric"><span>ตัดสินไม่ได้ (ไม่นับในตัวหาร)</span><b>{{ a1.undecidable }}</b>
+    <small>จับคู่ผ่านข้อมูลประกอบ {{ a1.matched_level.info }} · ผ่านข้อต้องตรวจ {{ a1.matched_level.must }}</small></div>
+</div>
+
+<table class="tr-table">
+  <caption>แยกกลุ่ม (สูตรเดียวกัน)</caption>
+  <thead><tr><th scope="col">กลุ่ม</th><th scope="col">ประเด็น</th><th scope="col">พบตรง</th><th scope="col">บางส่วน</th><th scope="col">พลาด</th><th scope="col">ตัดสินไม่ได้</th><th scope="col">แบบเข้ม</th><th scope="col">รวมบางส่วน</th></tr></thead>
+  <tbody>
+  {% macro row(label, c) %}<tr><th scope="row">{{ label }}</th><td>{{ c.issues }}</td><td>{{ c.exact }}</td><td>{{ c.partial }}</td><td>{{ c.missed }}</td><td>{{ c.undecidable }}</td><td>{{ c.strict.text }}</td><td>{{ c.with_partial.text }}</td></tr>{% endmacro %}
+  {{ row('ทุกประเด็นในส่วนที่ตรวจครบ', a1) }}
+  {{ row('เฉพาะต้นเหตุ (ต)', a1.by_cause.t) }}
+  {{ row('ผลที่ตามมา (ล)', a1.by_cause.l) }}
+  {{ row('ระดับแดง', a1.by_level.red) }}
+  {{ row('ระดับน้ำตาล', a1.by_level.brown) }}
+  {% for code, c in a1.by_topic.items() %}{{ row('หัวข้อ ' ~ code, c) }}{% endfor %}
+  </tbody>
+</table>
+{% if m.scope.pair_kind == 'cross_year' %}<div class="note" role="note"><b>คู่ข้ามปี — {{ m.scope.label }}</b> (หัวข้อ {{ tsvc.XYEAR_TOPICS|join(' ') }}) ·
+  ข้อสังเกตที่ไม่ใช่เชิงโครงสร้าง {{ m.findings.descriptive }} ข้อ ไม่ต้องจับคู่หรือจัดกลุ่ม ไม่นับใน F — นับจำนวนแยกตามชนิดเท่านั้น{% if m.scope.descriptive_by_kind %}:
+  {% for k, n in m.scope.descriptive_by_kind.items() %}{{ tsvc.KIND_LABELS.get(k, k) }} {{ n }}{% if not loop.last %} · {% endif %}{% endfor %}{% endif %}
+  <span class="hint">· กติกา {{ m.scope.rule }}</span></div>{% endif %}
+{% if a1.post_result.part or a1.post_result.cause or a1.post_result.level %}<p class="note warn">ร1 จัดใหม่หลังเห็นผล (ตัวประเด็นยังมาจากรายการที่ล็อก จึงอยู่ในผลรวมหลัก):
+  ส่วนของเล่ม {{ a1.post_result.part }} · ต/ล {{ a1.post_result.cause }} (ไม่อยู่ในแถวต้นเหตุ/ผลที่ตามมา) · ระดับ {{ a1.post_result.level }} (ไม่อยู่ในแถวแดง/น้ำตาล) ·
+  ขอบเขตตามส่วนที่ไม่ได้จัดใหม่: แบบเข้ม {{ a1.scope_locked_only.strict.text }} · รวมบางส่วน {{ a1.scope_locked_only.with_partial.text }}</p>{% endif %}
+<p class="hint">ประเด็นนอกส่วนที่ตรวจครบ (ไม่นับในตัวหาร): {{ a1.out_of_scope.issues }} · พบตรง {{ a1.out_of_scope.exact }} · บางส่วน {{ a1.out_of_scope.partial }} · พลาด {{ a1.out_of_scope.missed }}</p>
+
+<div class="tr-metrics">
+  <div class="tr-metric"><span>หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)</span><b>{{ m.A2.rate.text }}</b>
+    <small>ถูกบางฉบับ {{ m.A2.some }} · ไม่ถูก {{ m.A2.none }}</small></div>
+  <div class="tr-metric"><span>ข้อสังเกตต้องตรวจในส่วนที่ตรวจครบ (F)</span><b>{{ led.F }}</b>
+    <small>จับคู่ {{ led.matched }} · ส1 {{ led.s1 }} · ส2 {{ led.s2 }} · ส3 {{ led.s3 }} · ส4 {{ led.s4 }} ·
+      บัญชี{{ 'ปิดแล้ว' if led.closed else 'ยังไม่ปิด (รอจัด ' ~ led.pending ~ ')' }}</small></div>
+  <div class="tr-metric"><span>สัดส่วนแจ้งเกิน ส3 ÷ (F − ส4)</span><b>{{ led.false_alarm.text }}</b>
+    <small>{% for k, label in tsvc.S3_REASONS.items() %}{{ label }} {{ led.s3_reasons[k] }}{% if not loop.last %} · {% endif %}{% endfor %}</small></div>
+  <div class="tr-metric"><span>บัญชีข้อสังเกตต้องตรวจ (จำนวน)</span><b>จ {{ led.matched }} · ส1 {{ led.s1 }} · ส2 {{ led.s2 }}</b>
+    <small>สัดส่วน "ความต่างจริง" ระงับไว้จนกว่าจะนิยามแยกความถูกของข้อสังเกตจากการจับคู่ — จ รวมข้อที่จับคู่แบบบางส่วน
+      จึงยังไม่ใช่จำนวนข้อสังเกตที่ถูก · ส1 ไม่เพิ่มเข้า N</small></div>
+  <div class="tr-metric"><span>ความครอบคลุมและปัญหาการอ่านของระบบ (A4)</span><b>{{ m.A4.parts.full }} ส่วน</b>
+    <small>ตรวจครบ {{ m.A4.parts.full }} · บางส่วน {{ m.A4.parts.partial }} · ไม่ได้ตรวจ {{ m.A4.parts.none }} ·
+      หน้าไม่มีชั้นข้อความ {{ lab.prev }} {{ m.A4.unread_pages.prev|length }} · {{ lab.cur }} {{ m.A4.unread_pages.cur|length }} ·
+      สกัดไม่ได้ {{ m.A4.read_problems.unparsed }} · ไม่พบหัวข้อ (ต้องตรวจว่าหายจริงหรือสกัดตก) {{ m.A4.read_problems.not_found }} ·
+      พลาดเพราะอ่าน/สกัดไม่สำเร็จ (พ1) {{ m.A4.missed_unread }} · ข้อมูลประกอบ {{ m.A4.info_findings }} · ต้องตรวจนอกส่วนที่ตรวจครบ {{ m.A4.must_outside }}</small></div>
+</div>
+
+<h2>ด้าน B — ประโยชน์ต่อผู้ใช้ <span class="hint">(รายงานแยกจากด้าน A · ไม่มีคะแนนรวม)</span></h2>
+<div class="tr-metrics">
+  <div class="tr-metric"><span>ฐานการวินิจฉัยรายข้อ</span><b>{{ m.B1_basis.total }} ข้อ</b>
+    <small>{% for k, label in tsvc.BASIS.items() %}{{ label }} {{ m.B1_basis[k] }}{% if not loop.last %} · {% endif %}{% endfor %}</small></div>
+  <div class="tr-metric"><span>แบบสอบถามหลังใช้ผล</span><b>{{ 'ตอบแล้ว' if r.answers else 'ยังไม่ได้ตอบ' }}</b>
+    <small>{% if r.s.rec.use_done_at %}<a href="/trial/s/{{ sid }}/survey">{{ 'แก้คำตอบ' if r.answers else 'ไปตอบ' }}</a>{% else %}เปิดได้หลังจบการใช้ผล{% endif %}</small></div>
+</div>
+
+<section class="tr-steps">
+  <h2>อ่านผลนี้อย่างไร</h2>
+  <ul>
+    <li>เป็นผลของเล่มนี้ ผู้ตรวจหนึ่งคน ระบบรุ่น {{ r.view.run.versions.pdfbook }} เท่านั้น ภายในหัวข้อและส่วนของเล่มที่ประกาศว่าตรวจครบ —
+      ไม่ใช้กับเอกสารหรือหน่วยงานอื่น และไม่ใช่ความแม่นยำของระบบ</li>
+    <li>"พบ" นับเมื่อท่านยืนยันเอง · ข้อเสนอที่ยังไม่ยืนยันไม่นับ · พบบางส่วนนับแยก ไม่นับเป็นครึ่ง</li>
+    <li>ข้อมูลประกอบที่ไม่ได้จับคู่นับจำนวนเท่านั้น ไม่นับเป็นแจ้งเกิน · ระบบพบเพิ่มที่ท่านยืนยัน (ส1) รายงานแยก ไม่เพิ่มเข้าตัวหาร</li>
+    <li>ผลนี้ไม่ได้บอกว่าเอกสารถูกต้อง และไม่ได้วัดเวลาที่ใช้</li>
+  </ul>
+  <div class="actions">
+    <a class="btn" href="/trial/s/{{ sid }}/summary.json">ดาวน์โหลดสรุป (เฉพาะจำนวน)</a>
+  </div>
+  <p class="hint">ไฟล์สรุปมีเฉพาะจำนวน ใบประกาศ (จำนวน) รุ่นระบบ แฮชของเล่ม สถานะ และคำตอบแบบสอบถาม —
+    ไม่มีตำแหน่ง หมายเหตุ เลขข้อในรายการของท่าน หรือข้อความเหตุผล · ทุกครั้งที่ดาวน์โหลด ระบบบันทึกแฮชของไฟล์ไว้</p>
+</section>
+{% endblock %}

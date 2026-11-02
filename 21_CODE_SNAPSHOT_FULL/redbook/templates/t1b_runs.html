@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}รอบตรวจ · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>รอบตรวจทั้งหมด</h1>
+<p class="page-sub">รายการรอบตรวจที่บันทึกไว้ในเครื่องนี้</p>
+
+<div class="note warn">
+  สายงาน T1B เป็น<b>ผลิตภัณฑ์หลังการ freeze</b> (<span class="mono">PRODUCT
+  EVIDENCE — POST-FREEZE</span>) แยกจากผลการประเมินเชิงวิจัยที่ตรึงไว้แล้ว
+  🔴 ห้ามนำตัวเลขจากหน้านี้ไปอ้างเป็นผลของการประเมินเชิงวิจัย
+</div>
+
+{% if runs %}
+<div class="card">
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th>รหัสรอบตรวจ</th><th>เริ่มเมื่อ</th><th>ด่านตัวตนหน่วยงาน</th>
+      <th class="num">ข้อสังเกต</th>
+      <th class="num">ต้องตัดสิน</th><th></th>
+    </tr></thead>
+    <tbody>
+    {% for r in runs %}
+      <tr>
+        <td class="mono">{{ r.id }}</td>
+        <td class="mono">{{ r.started_at }}</td>
+        <td class="mono">{{ r.identity_verdict }}</td>
+        <td class="num">{{ r.total_findings }}</td>
+        <td class="num">{{ r.requiring_review }}</td>
+        <td><a class="btn small" href="/t1b/runs/{{ r.id }}">เปิด</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% else %}
+<div class="empty">ยังไม่มีรอบตรวจ T1B ที่บันทึกไว้ในเครื่องนี้</div>
+{% endif %}
+
+{% endblock %}

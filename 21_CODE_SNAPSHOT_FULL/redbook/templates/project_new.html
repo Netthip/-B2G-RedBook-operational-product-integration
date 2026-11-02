@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}สร้างงานตรวจใหม่ · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>สร้างงานตรวจใหม่</h1>
+<p class="page-sub">ตั้งชื่องานและเลือกโหมดตรวจ จากนั้นจึงอัปโหลดไฟล์ในขั้นถัดไป</p>
+
+<form method="post" action="/projects/new" class="card narrow">
+  <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+
+  <label for="name">ชื่องานตรวจ</label>
+  <input type="text" id="name" name="name" maxlength="200" required
+         placeholder="เช่น ตรวจเอกสารหน่วยงาน ก ปีงบประมาณ 2570">
+  <div class="hint">ชื่อนี้ใช้ภายในเครื่องเท่านั้น เลือกชื่อที่ท่านค้นหาได้ง่าย</div>
+
+  <label>โหมดตรวจ</label>
+  <div class="grid grid-2 mt-xs">
+    <label class="card choice">
+      <input type="radio" name="mode" value="year_to_year" required>
+      <b>ปีก่อนเทียบปีปัจจุบัน</b>
+      <div class="hint">เช่น ปีงบประมาณ 2569 เทียบ 2570 — ตรวจรายการที่เท่าเดิม เพิ่ม ลด
+        รายการใหม่ รายการที่หายไป และการย้ายโครงสร้าง</div>
+    </label>
+    <label class="card choice">
+      <input type="radio" name="mode" value="before_after_reduction">
+      <b>ก่อนเทียบหลังปรับลด</b>
+      <div class="hint">เทียบฉบับก่อนปรับลดกับฉบับหลังปรับลด และเทียบกับหลักฐาน
+        รายการปรับลดที่อนุมัติ ถ้ามีไฟล์อ้างอิง</div>
+    </label>
+  </div>
+
+  <label for="note">หมายเหตุ (ไม่บังคับ)</label>
+  <textarea id="note" name="note" maxlength="2000"
+            placeholder="บันทึกบริบทของงานตรวจนี้ เช่น ที่มาของไฟล์ ผู้ส่ง วันที่ได้รับ"></textarea>
+
+  <div class="actions">
+    <button class="btn" type="submit">สร้างงานตรวจ</button>
+    <a class="btn secondary" href="/">ยกเลิก</a>
+  </div>
+</form>
+
+<div class="note info">
+  <b>ข้อควรทราบ:</b> ระบบตรวจเฉพาะไฟล์ที่ท่านอัปโหลดจริง ไม่มีข้อมูลตัวอย่างในผลตรวจ
+  และเมื่อพบความแตกต่าง ระบบจะรายงานว่า “พบความแตกต่าง” เท่านั้น
+  การสรุปว่าเป็นข้อผิดพลาดหรือเป็นการเปลี่ยนแปลงที่ถูกต้อง เป็นการตัดสินของผู้ตรวจ
+</div>
+
+{% endblock %}

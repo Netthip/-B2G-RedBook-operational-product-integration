@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}บัญชีกฎตรวจ · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>บัญชีกฎตรวจ (Rule Catalog)</h1>
+<p class="page-sub">ชุดกฎเวอร์ชัน <span class="mono">{{ rule_set_version }}</span></p>
+
+<div class="grid grid-3">
+  <div class="stat"><div class="n">{{ rules|length }}</div><div class="k">กฎทั้งหมดในบัญชี</div></div>
+  <div class="stat"><div class="n">{{ counts.implemented }}</div><div class="k">พัฒนาแล้วและใช้ตรวจจริง</div></div>
+  <div class="stat"><div class="n">{{ counts.planned }}</div><div class="k">อยู่ในแผน ยังไม่เปิดใช้</div></div>
+</div>
+
+<div class="note warn">
+  กฎที่ขึ้นสถานะ <b>planned</b> คือกฎที่ออกแบบไว้แล้วแต่<b>ยังไม่ทำงาน</b>
+  ระบบจะไม่สร้างผลตรวจจากกฎเหล่านี้ และจะไม่แสดงตัวอย่างผลลัพธ์ของกฎเหล่านี้ที่ใดเลย
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th>รหัส</th><th>ชื่อกฎ</th><th>โหมด</th><th>ชนิดไฟล์</th>
+      <th>สถานะเริ่มต้น</th><th>ระดับ</th><th>ระยะ</th><th>สถานะพัฒนา</th>
+    </tr></thead>
+    <tbody>
+    {% for r in rules %}
+      <tr>
+        <td class="mono">{{ r.rule_id }}</td>
+        <td>
+          <b>{{ r.title }}</b>
+          <div class="hint">{{ r.description }}</div>
+          {% if r.cannot_conclude %}
+            <div class="hint"><b>ไม่สรุปให้ว่า:</b> {{ r.cannot_conclude }}</div>
+          {% endif %}
+          {% if r.requires_evidence_file %}
+            <div class="hint"><b>ต้องมีไฟล์หลักฐานการปรับลด</b>จึงจะสรุปได้เกินคำว่าพบความแตกต่าง</div>
+          {% endif %}
+          {% if r.presentation_only %}
+            <span class="badge gray">ความต่างด้านการแสดงผล</span>
+          {% endif %}
+        </td>
+        <td>{% for m in r.modes %}{{ mode_label.get(m, m) }}{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
+        <td class="mono">{{ r.source_types | join(", ") }}</td>
+        <td>{{ th_label(MachineStatus(r.default_machine_status)) }}</td>
+        <td class="sev-{{ r.default_severity }}">{{ r.default_severity }}</td>
+        <td>{{ r.phase }}</td>
+        <td>
+          {% if r.status == 'implemented' %}<span class="badge green">ใช้ตรวจจริง</span>
+          {% else %}<span class="badge gray">อยู่ในแผน</span>{% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}ตั้งงานตรวจจากเล่ม · {{ app_name }}{% endblock %}
+{% block content %}
+
+<p class="crumbs"><a href="/books">คลังเล่มงบประมาณ</a> › เริ่มตรวจ</p>
+<div class="page-head">
+  <h1>ตั้งงานตรวจโดยอ้างอิงเล่ม</h1>
+  <p class="page-sub">เลือกเอกสารสองฉบับ ระบบจะตั้งงานตรวจให้และพาไปขั้นต่อไปเอง
+    — ฉบับปีเก่าอยู่ฝั่ง A เสมอ ไม่ต้องจัดเอง</p>
+</div>
+
+{% if pair.error %}
+<div class="note danger" role="alert"><b>เลือกเล่มไม่สำเร็จ:</b> {{ pair.error }}</div>
+{% endif %}
+
+{# ── สองช่อง: เห็นทันทีว่าเลือกอะไรไปแล้ว และยังขาดอะไร ── #}
+<div class="pair" aria-label="เอกสารที่จะเปรียบเทียบ">
+  {% for side, b in [("A", pair.a), ("B", pair.b)] %}
+  {% if b %}
+  <div class="slot filled">
+    <div class="side">ฝั่ง {{ side }} · {% if side == "A" %}ฉบับตั้งต้น{% else %}ฉบับที่นำมาเทียบ{% endif %}
+      {% if b.synthetic %}<span class="dev-chip">DEV · ข้อมูลสังเคราะห์</span>{% else %}<span class="badge source">เอกสารสาธารณะ</span>{% endif %}</div>
+    <div class="chips mt-s"><span class="year-chip">{{ b.fiscal_year }}</span><span class="stage-chip s-{{ b.stage_code or 'unknown' }}">{{ b.stage_label }}</span></div>
+    <div class="t">{{ b.headline }}</div>
+    <div class="k">{{ b.kicker }} · ปีงบ {{ b.fiscal_year }}</div>
+    <div class="actions mt-s">
+      {% if b.pdf_openable %}<a class="btn small secondary" href="{{ b.pdf_url }}" target="_blank" rel="noopener noreferrer">เปิด PDF ต้นทาง <span class="ext" aria-hidden="true">↗</span><span class="sr-only"> (เปิดแท็บใหม่)</span></a>
+      {% else %}<span class="btn small secondary is-disabled" aria-disabled="true">PDF: ยังไม่พบลิงก์</span>{% endif %}
+      {% set other = pair.b if side == "A" else pair.a %}
+      <a class="btn small secondary" href="/verify/start{% if other %}?a={{ other.id }}{% endif %}">เปลี่ยนเล่มนี้</a>
+    </div>
+  </div>
+  {% else %}
+  <div class="slot empty-slot">
+    <div class="side">ฝั่ง {{ side }}</div>
+    <div class="t">{% if anchor %}เลือกอีกฉบับ{% else %}ยังไม่ได้เลือกเล่ม{% endif %}</div>
+    <div class="k">{% if anchor %}แนะนำเล่มเดียวกันของปีอื่นไว้ด้านล่าง หรือค้นจากคลังเล่ม{% else %}เริ่มจากค้นหาเล่มในคลัง{% endif %}</div>
+    <div class="actions mt-s">
+      <a class="btn small" href="/books{% if anchor %}?pick={{ anchor.id }}{% endif %}">ค้นจากคลังเล่ม</a>
+    </div>
+  </div>
+  {% endif %}
+  {% if loop.first %}<div class="arrow" aria-hidden="true">→</div>{% endif %}
+  {% endfor %}
+</div>
+
+{% for w in pair.warnings %}
+<div class="note warn"><b>ตรวจอีกครั้ง:</b> {{ w }}</div>
+{% endfor %}
+
+{% if suggestions %}
+<h2>คู่ที่แนะนำ — ทะเบียนแหล่งทางการยืนยันแล้ว</h2>
+<div class="suggest">
+  {% for s in suggestions %}
+  <a class="card" href="/verify/start?a={{ anchor.id }}&amp;b={{ s.id }}">
+    <span class="badge year">ปีงบ {{ s.fiscal_year }}</span> <span class="stage-chip s-{{ s.stage_code or 'unknown' }}">{{ s.stage_label }}</span>{% if s.synthetic %} <span class="dev-chip">DEV</span>{% endif %}
+    <div class="t mt-s"><b>{{ s.headline }}</b></div>
+    <div class="hint mt-0">{{ s.kicker }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% elif anchor and not pair.complete %}
+<div class="note">ยังไม่มีคู่ที่ทะเบียนแหล่งทางการยืนยันสำหรับเล่มนี้ — เลือกอีกฉบับเองได้จาก
+  <a href="/books?pick={{ anchor.id }}">คลังเล่ม</a> (ยังยืนยันคู่เอกสารไม่ได้ · ต้องตรวจสอบโดยผู้ใช้)</div>
+{% endif %}
+
+{% if pair.complete %}
+<h2>ตั้งงานตรวจ</h2>
+<form class="card" method="post" action="/verify/start">
+  <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+  <input type="hidden" name="a" value="{{ pair.a.id }}">
+  <input type="hidden" name="b" value="{{ pair.b.id }}">
+  <label class="mt-0" for="name">ชื่องานตรวจ</label>
+  <input type="text" id="name" name="name" maxlength="200" value="{{ pair.suggested_name }}">
+  <div class="hint">ตั้งให้อัตโนมัติจากเล่มที่เลือก แก้ได้ · ประเภทงาน:
+    <b>{{ mode_display(pair.mode, pair.a, pair.b) }}</b></div>
+  <div class="actions">
+    <button class="btn" type="submit">ตั้งงานตรวจ — ไปขั้นใส่สมุดงาน Excel</button>
+    <a class="btn secondary" href="/books">ยกเลิก</a>
+  </div>
+</form>
+{% endif %}
+
+<div class="note info mt-l">
+  <b>ตอนนี้อยู่ขั้น 1 จาก 6</b> (แถบด้านบน) — เมื่อกดเริ่มตรวจ ระบบพาไปขั้น 2 ใส่ไฟล์ทันที<br>
+  <b>สิ่งที่ระบบเทียบจริง:</b> เนื้อในสมุดงาน Excel ของเอกสารสองฉบับ (ขั้น 2 ใส่ไฟล์)
+  · PDF ทางการของเล่มที่เลือกใช้เป็น <b>เอกสารอ้างอิงและหลักฐาน</b> ให้ผู้ตรวจเปิดเทียบ
+  · ระบบยังไม่อ่านตัวเลขจาก PDF โดยตรง และไม่ตัดสินแทนผู้ตรวจ
+</div>
+
+{% endblock %}

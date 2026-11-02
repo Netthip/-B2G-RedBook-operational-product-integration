@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Audit ของรอบเทียบเล่ม · {{ app_name }}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/static/pdfpair.css">
+<script src="/static/pdfpair.js" defer></script>
+{% set rid = v.rid %}
+<nav class="vx-crumbs" aria-label="ตำแหน่ง"><a href="/projects/{{ v.run.project_id }}">{{ project.name if project else 'งานตรวจ' }}</a> ›
+  <a href="/pdfpair/runs/{{ rid }}">ผลเทียบเล่ม PDF</a> › <span aria-current="page">Audit</span></nav>
+<h1>Audit ของรอบเทียบเล่มนี้</h1>
+<p class="page-sub">ทุกเหตุการณ์ของรอบนี้: สร้างรอบ · คำตัดสินแต่ละข้อ (รวมผลเดิมเมื่อเปลี่ยน) · การยืนยันปีงบ · การส่งออก
+  · <a href="/audit">ดู Audit ทั้งระบบ</a></p>
+
+{% if chain.ok %}
+<div class="note ok"><b>สายโซ่แฮชของทั้งระบบสมบูรณ์</b> ตรวจแล้ว {{ "{:,}".format(chain.checked) }} รายการ ไม่พบการแก้ไขย้อนหลัง</div>
+{% else %}
+<div class="note danger"><b>สายโซ่แฮชไม่ต่อเนื่อง</b> พบความผิดปกติที่ลำดับ {{ chain.broken_at_seq }}</div>
+{% endif %}
+
+{% set labels = svc.AUDIT_ACTION_LABELS %}
+{% if entries %}
+<div class="card"><div class="table-wrap">
+  <table>
+    <caption class="sr-only">เหตุการณ์ของรอบเทียบเล่มนี้ เรียงตามเวลา</caption>
+    <thead><tr><th class="num" scope="col">ลำดับ</th><th scope="col">เวลา</th><th scope="col">การกระทำ</th>
+      <th scope="col">ข้อ/ฉบับ</th><th scope="col">รายละเอียด</th><th scope="col">แฮช</th></tr></thead>
+    <tbody>
+    {% for e in entries %}
+      {% set fid = e.object_id.split('/', 1)[1] if '/' in e.object_id else '' %}
+      <tr>
+        <td class="num mono">{{ e.seq }}</td>
+        <td class="mono">{{ e.ts }}</td>
+        <td>{{ labels.get(e.action, e.action) }}</td>
+        <td class="mono">{% if e.action == 'pdfpair_decision' %}<a href="/pdfpair/runs/{{ rid }}/f/{{ fid }}">{{ fid }}</a>{% else %}{{ fid or '—' }}{% endif %}</td>
+        <td>{{ svc.audit_summary(e) }}
+          <details class="vx-tech"><summary>ข้อมูลเต็ม</summary><div class="mono wrap-cell">{{ e.detail_json }}</div></details></td>
+        <td class="mono tiny-11">{{ e.entry_hash[:16] }}…</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div></div>
+{% else %}
+<p class="empty">ยังไม่มีเหตุการณ์ของรอบนี้</p>
+{% endif %}
+{% endblock %}

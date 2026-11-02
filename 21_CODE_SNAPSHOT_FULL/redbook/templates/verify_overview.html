@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% from "_refs.html" import ref_strip with context %}
+{% from "_verify.html" import state_badge, scope_note, context_bar with context %}
+{% block title %}ผลตรวจเทียบเอกสาร · {{ app_name }}{% endblock %}
+{% block content %}
+{#
+  🔴 สายงานผลิตภัณฑ์ T1B (PRODUCT EVIDENCE — POST-FREEZE) · ห้ามอ้างเป็นผลประเมิน T1A
+  หน้าแรกตอบสามคำถามเท่านั้น (เงิน · ตัวชี้วัดและรายการ · ความต่าง A↔B)
+  รายละเอียดทุกอย่างอยู่ชั้นถัดไป — ห้ามเพิ่มการ์ด/ตาราง/ส่วนใหม่ในหน้านี้ (คำสั่ง #24)
+#}
+{% set m = ov.money %}
+{% set rid = s.run_id %}
+
+<h1>ผลตรวจเทียบเอกสาร</h1>
+<p class="page-sub">{% if mode_label %}{{ mode_label }} · {% endif %}รอบตรวจ <span class="mono">{{ rid }}</span></p>
+
+{{ context_bar(rc) }}
+{{ ref_strip(book_refs, compact=True) }}
+
+<a class="vx-source{% if sv.failed %} is-fail{% endif %}" href="/t1b/runs/{{ rid }}/sources">
+  <span class="vx-source-k">ที่มาเอกสาร</span>
+  <span class="vx-checklets">{% for c in sv.checks %}<span class="vx-checklet is-{{ c.state }}" title="{{ c.state_label }} — {{ c.text }}"><span aria-hidden="true">{{ {'ok':'✓','warn':'!','manual':'?','fail':'×'}[c.state] }}</span> {{ c.name }}<span class="sr-only"> ({{ c.state_label }})</span></span>{% endfor %}</span>
+  <span class="vx-go">ตรวจว่าเอา A และ B ถูกฉบับมาเทียบ ›</span>
+</a>
+
+{% if ov.blocked %}
+<div class="note warn" role="alert">
+  <b>ยังยืนยันไม่ได้ว่าสองฉบับเป็นหน่วยงานเดียวกัน</b> — ระบบจึงไม่เทียบอัตโนมัติ
+  ทุกแถวของทั้งสองฉบับยังถูกนับไว้ครบและส่งให้ผู้ตรวจพิจารณา <b>ไม่มีรายการใดหายไป</b>
+  · <a href="/t1b/runs/{{ rid }}/sources">ดูที่มาเอกสาร</a>
+</div>
+{% endif %}
+
+<ol class="vx-answers">
+  {# ── 1. เงิน ── #}
+  <li class="vx-answer vx-a-money is-{{ m.state }}">
+    <span class="vx-q"><span class="vx-ico" aria-hidden="true">💰</span> เงิน</span>
+    <div class="vx-a-body">
+      <p class="vx-headline">{{ state_badge(m.state, m.headline) }}</p>
+      {% if m.lines %}<p class="vx-sub">{{ m.lines[0] }}{% if m.lines|length > 1 %} · {{ m.lines[1] }}{% endif %}</p>{% endif %}
+    </div>
+    {% if m.state != 'blocked' %}
+    <a class="btn small vx-cta" href="/t1b/runs/{{ rid }}/money">{% if m.state == 'same' %}ดูรายละเอียด{% else %}ดูว่าเกิดจากรายการไหน{% endif %}<span class="sr-only"> — เงิน</span></a>
+    {% endif %}
+  </li>
+
+  {# ── 2. ตัวชี้วัดและรายการ ── #}
+  <li class="vx-answer vx-a-obs is-{{ 'diff' if ov.observation_total else 'same' }}">
+    <span class="vx-q"><span class="vx-ico" aria-hidden="true">🎯</span> ตัวชี้วัดและรายการ</span>
+    <div class="vx-a-body">
+      {% if ov.observation_total %}
+      <p class="vx-headline">{{ state_badge('diff', 'มี ' ~ ov.observation_total ~ ' ข้อสังเกต') }}</p>
+      <p class="vx-sub">{% for o in ov.observations[:4] %}{{ o.sentence }}{% if not loop.last %} · {% endif %}{% endfor %}{% if ov.observations|length > 4 %} · …{% endif %}</p>
+      {% else %}
+      <p class="vx-headline">{{ state_badge('same', 'ไม่มีการเปลี่ยน') }}</p>
+      <p class="vx-sub">ไม่พบตัวชี้วัดหรือรายการที่เพิ่ม หาย หรือเปลี่ยนข้อความ</p>
+      {% endif %}
+    </div>
+    {% if ov.observation_total %}<a class="btn small vx-cta" href="/t1b/runs/{{ rid }}/changes">ดูข้อสังเกต<span class="sr-only"> — ตัวชี้วัดและรายการ</span></a>{% endif %}
+  </li>
+
+  {# ── 3. ความต่างระหว่างเอกสาร A ↔ B ── #}
+  <li class="vx-answer vx-a-diff is-{{ 'diff' if ov.differences else 'same' }}">
+    <span class="vx-q"><span class="vx-ico" aria-hidden="true">🔎</span> ความต่างระหว่างเอกสาร</span>
+    <div class="vx-a-body">
+      <p class="vx-headline">{% if ov.differences %}{{ state_badge('diff', 'พบ ' ~ ov.differences ~ ' จุด') }}{% else %}{{ state_badge('same', 'ไม่พบความแตกต่าง') }}{% endif %}</p>
+      {% if ov.differences %}<p class="vx-sub">{% for k, label, n in vv.kind_counts(vv.items_for(ov, 'differences')) %}{{ label }} {{ n }} จุด{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+      {% if ov.review_count %}<p class="vx-sub">อีก <a href="/t1b/runs/{{ rid }}/review">{{ ov.review_count }} แถวควรตรวจทานเอง</a> (ระบบอ่านหรือเทียบเองไม่ได้)</p>{% endif %}
+    </div>
+    {% if ov.differences %}<a class="btn small vx-cta" href="/t1b/runs/{{ rid }}/differences">เปิดเทียบ A | B<span class="sr-only"> — ความต่างระหว่างเอกสาร</span></a>{% endif %}
+  </li>
+</ol>
+
+{{ scope_note() }}
+<p class="vx-foot">
+  <a href="/t1b/runs/{{ rid }}/queue?only_review=1">บันทึกคำตัดสินในคิวพิจารณา{% if counts %} ({{ counts.pending }} รอตัดสิน){% endif %}</a>
+  · <a href="/t1b/runs/{{ rid }}/details">รายละเอียดการตรวจสอบ</a>
+</p>
+{% endblock %}

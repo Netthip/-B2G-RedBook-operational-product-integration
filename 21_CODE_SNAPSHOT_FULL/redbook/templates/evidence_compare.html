@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}เทียบหลักฐานเก่า–ใหม่ · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>เทียบหลักฐานเก่า–ใหม่ <span class="mono">{{ p.mapping_id }}</span></h1>
+<p class="page-sub">
+  รอบ <a href="/indicators/runs/{{ p.run_id }}"><span class="mono">{{ p.run_id }}</span></a> ·
+  <a href="/indicators/runs/{{ p.run_id }}/verify">กลับไปหน้าตรวจยืนยัน</a>
+</p>
+<div class="note info">{{ notice }}</div>
+
+<div class="card">
+  <dl class="kv">
+    <dt>สถานะที่เครื่องเสนอ</dt>
+    <dd><span class="badge {{ 'yellow' if p.human_required else 'blue' }}">{{ p.proposed_status }}</span> {{ p.proposed_label }}
+      {% if p.human_required %}· <b>ต้องให้คนยืนยัน</b>{% endif %}</dd>
+    <dt>เหตุผลที่เครื่องอ่านได้</dt><dd>{% for b in p.basis %}{{ b }}{% if not loop.last %} · {% endif %}{% endfor %}</dd>
+    {% if p.alternatives %}<dt>คู่แข่ง</dt><dd>{% for a in p.alternatives %}<span class="mono">{{ a }}</span> {% endfor %}</dd>{% endif %}
+    <dt>สถานะปัจจุบัน</dt>
+    <dd>{% if p.decision %}<span class="badge green">{{ p.current_status }}</span> {{ p.current_label }} — ตัดสินโดย {{ p.decision.reviewer }} เมื่อ {{ p.decision.decided_at }}{% else %}<span class="badge gray">ยังไม่ตัดสิน</span> (ใช้ค่าที่เครื่องเสนอไปพลาง){% endif %}</dd>
+    <dt>indicator_id</dt><dd class="mono">{{ p.indicator_id or "—" }}</dd>
+  </dl>
+</div>
+
+{% if p.differences %}
+<h2>ความต่างของ นิยาม / หน่วย / วิธี / รอบ</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>ฟิลด์</th><th>ฉบับเก่า</th><th>ฉบับใหม่</th></tr></thead>
+  <tbody>{% for d in p.differences %}<tr><td>{{ d.label }}</td><td>{{ d.old or "—" }}</td><td>{{ d.new or "—" }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endif %}
+
+<h2>เทียบข้างกัน</h2>
+<div class="side-by-side">
+{% for side, label in ((p.old, "ฉบับเก่า"), (p.new, "ฉบับใหม่")) %}
+  <div class="card side-col">
+    <div class="side-title">{{ label }}</div>
+    {% if side %}
+      <dl class="kv">
+        <dt>เอกสาร</dt><dd><span class="mono">{{ side.document_id }}</span> · {{ side.stage_label }}{% if side.fiscal_year %} · ปี {{ side.fiscal_year }}{% endif %}{% if side.version_label %} · {{ side.version_label }}{% endif %}</dd>
+        <dt>sha256</dt><dd class="mono small">{{ side.content_sha256 }}</dd>
+        <dt>หน้า</dt><dd>{{ side.page }}{% if side.page_count %} / {{ side.page_count }}{% endif %}</dd>
+        <dt>ข้อความตามที่ปรากฏ</dt><dd class="observed">{{ side.observed_text or "—" }}</dd>
+        <dt>ตำแหน่ง</dt><dd>{% if side.location_review_required %}<span class="badge yellow">{{ loc_review_label }}</span>{% else %}{{ side.location_label }}{% endif %}</dd>
+      </dl>
+      <p>
+        <a class="btn small" href="{{ side.evidence_url }}">เปิดหลักฐาน{{ label[4:] }}</a>
+        <a class="btn small ghost" href="{{ side.open_url }}" target="_blank" rel="noopener">เปิด PDF หน้า {{ side.page }}</a>
+      </p>
+      {% if side.source_status %}
+        <div class="note warn">{{ src_label }} — <span class="mono">{{ side.source_status }}</span></div>
+      {% elif can_render %}
+        <div class="evidence-frame"><img class="evidence-img" src="{{ side.image_url }}" alt="{{ label }} หน้า {{ side.page }}"></div>
+      {% endif %}
+    {% else %}
+      <p class="muted">ไม่มีฝั่งนี้ — {{ p.proposed_label }}</p>
+    {% endif %}
+  </div>
+{% endfor %}
+</div>
+
+<h2>คำตัดสินของผู้ตรวจ</h2>
+<div class="card">
+  {% if error %}<div class="note warn">{{ error }}</div>{% endif %}
+  <form method="post" action="/indicators/runs/{{ p.run_id }}/mappings/{{ p.mapping_id }}/decide">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <fieldset class="choices">
+      {% for code, lab in decisions %}
+        <label><input type="radio" name="decision" value="{{ code }}" {% if loop.first %}checked{% endif %}> {{ lab }}</label>
+      {% endfor %}
+    </fieldset>
+    <label class="field">สถานะที่ถูกต้อง (จำเป็นเมื่อไม่ยอมรับ)
+      <select name="final_status">
+        <option value="">— ใช้สถานะที่เครื่องเสนอ —</option>
+        {% for s in statuses %}<option value="{{ s }}">{{ s }} — {{ status_labels[s] }}</option>{% endfor %}
+      </select>
+    </label>
+    <label class="field">เหตุผล / หมายเหตุ (บังคับสำหรับสถานะที่ต้องให้คนยืนยัน)
+      <textarea name="reason" rows="3"></textarea>
+    </label>
+    <label class="field">ผู้ตรวจ
+      <input type="text" name="reviewer" value="{{ reviewer_default }}">
+    </label>
+    <button class="btn" type="submit">บันทึกคำตัดสิน</button>
+  </form>
+  <p class="muted small">คำตัดสินเพิ่มอย่างเดียว แก้ไม่ได้ · ทุกครั้งผูกกับ Audit Trail · หน้านี้ไม่แสดงคะแนนของเครื่องโดยเจตนา</p>
+</div>
+
+{% endblock %}

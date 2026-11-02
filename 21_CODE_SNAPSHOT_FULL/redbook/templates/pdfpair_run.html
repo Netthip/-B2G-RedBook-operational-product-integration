@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% from "_verify.html" import state_badge with context %}
+{% block title %}ผลเทียบเล่ม PDF · {{ app_name }}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/static/pdfpair.css">
+<script src="/static/pdfpair.js" defer></script>
+{% set rid = v.rid %}
+<nav class="vx-crumbs" aria-label="ตำแหน่ง"><a href="/projects/{{ v.run.project_id }}">{{ project.name if project else 'งานตรวจ' }}</a> ›
+  <a href="/projects/{{ v.run.project_id }}/pdfpair">เทียบเล่ม PDF</a> › <span aria-current="page">ผลเทียบ</span></nav>
+<h1>ผลเทียบเล่ม PDF ↔ PDF</h1>
+<p class="page-sub">{{ svc.MODE_LABELS.get(v.result.mode, v.result.mode) }}{% if v.run.agency %} · {{ v.run.agency }}{% endif %}</p>
+{% include "_pdfpair_lineage.html" %}
+<p class="note warn pp-profile">{{ profile_status }}</p>
+{% for side, msg in v.year_warnings %}
+<p class="note warn" role="alert">ปีงบของฉบับ {{ side }}: {{ msg }} — ตรวจปีจากภาพหน้าเอกสารก่อนใช้ผลเทียบ{% if v.result.mode %} (รูปแบบการเทียบที่ใช้: {{ svc.MODE_LABELS.get(v.result.mode, v.result.mode) }}){% endif %}</p>
+{% endfor %}
+{% for side, msg in v.stage_warnings %}
+<p class="note warn">ขั้นเอกสารของฉบับ {{ side }}: {{ msg }}</p>
+{% endfor %}
+
+<div class="vx-sides">
+{% for side in ['A', 'B'] %}
+  {% set sc = v.run.scope[side] %}
+  {% set bf = v.facts_a if side == 'A' else v.facts_b %}
+  <section class="vx-side vx-side-{{ side|lower }}">
+    <h2 class="vx-side-h"><span class="vx-side-tag{% if side == 'B' %} is-b{% endif %}">{{ side }}</span> {{ v.side_label(side) }}</h2>
+    <dl class="kv">
+      <dt>ไฟล์</dt><dd>{{ v.run[side|lower ~ '_name'] }}</dd>
+      <dt>ช่วงหน้าที่ตรวจ</dt><dd>หน้า {{ sc.first }}–{{ sc.last }} จาก {{ sc.pages_in_file }} หน้า</dd>
+      <dt>ได้ช่วงหน้าจาก</dt><dd>{{ sc.method_label }}</dd>
+      <dt>หัวข้อที่พบ</dt><dd>{{ bf.coverage.sections_found|length }} หัวข้อ</dd>
+      <dt>คำที่ระบบซ่อมอักษรไทย</dt><dd>{{ bf.coverage.repaired_words }} คำ <span class="hint">(สระอำแตก · ลำดับวรรณยุกต์ · อักขระ PUA)</span></dd>
+      <dt>หน้าที่ไม่มีชั้นข้อความ</dt><dd>{% if bf.coverage.pages_no_text %}{{ state_badge('warn', bf.coverage.pages_no_text|join(', ')) }}{% else %}ไม่มี{% endif %}</dd>
+    </dl>
+  </section>
+{% endfor %}
+</div>
+
+<p class="vx-headline">
+  {% if v.pending %}{{ state_badge('review', 'เหลือ ' ~ v.pending ~ ' จาก ' ~ v.actionable ~ ' ข้อสังเกตที่คนยังต้องตรวจ') }}
+  {% else %}{{ state_badge('ok', 'ผู้ตรวจบันทึกผลครบทุกข้อสังเกตแล้ว (' ~ v.actionable ~ ' ข้อ)') }}{% endif %}
+  {% if v.info_count %}<span class="hint">· ข้อมูลประกอบ {{ v.info_count }} รายการ (เช่น การเปลี่ยนแปลงระหว่างปี) ไม่ต้องตัดสิน</span>{% endif %}
+</p>
+
+{% macro frow(f) -%}
+{% set d = v.decisions.get(f.id) %}
+<li class="pp-f" id="f-{{ f.id }}">
+  <a class="pp-f-link" href="/pdfpair/runs/{{ rid }}/f/{{ f.id }}">
+    <span class="pp-f-mark">{% if f.info %}<span class="vx-state vx-state-same">ข้อมูลประกอบ</span>{% elif d %}{{ state_badge('ok', svc.DECISION_LABELS.get(d.choice, d.choice)) }}{% else %}{{ state_badge('review', 'รอตรวจ') }}{% endif %}</span>
+    <span class="pp-f-main"><b class="pp-f-subj">{{ f.subject }}</b>{% if f.column %} <span class="pp-f-col">· {{ f.column }}</span>{% endif %}
+      <span class="pp-f-kind">{{ f.kind_label }}{% if f.within %} · ภายในฉบับ {{ f.within }}{% endif %}{% if f.caveats %} · <b>ต้องให้คนยืนยัน: {{ f.caveats|join(' · ') }}</b>{% endif %}</span></span>
+    <span class="pp-f-vals">
+      {% if f.topic not in ('text', 'struct', 'cover') %}
+        <span class="vx-cell-a">A {{ svc.amount_text(f.a, f.unit) }}</span> → <span class="vx-cell-b">B {{ svc.amount_text(f.b, f.unit) }}</span>
+        {% if f.delta %}<span class="vx-delta">{{ svc.delta_text(f) }}</span>{% endif %}
+      {% endif %}
+      <span class="pp-f-pages">{% if f.a.page %}A หน้า {{ f.a.page }}{% endif %}{% if f.a.page and f.b.page %} · {% endif %}{% if f.b.page %}B หน้า {{ f.b.page }}{% endif %}</span>
+    </span>
+  </a>
+</li>
+{%- endmacro %}
+
+{% if v.item_changes %}
+<section class="vx-group pp-group" aria-labelledby="h-roots">
+  <h2 id="h-roots">สรุปการเปลี่ยนแปลงระดับรายการ <span class="vx-count">{{ v.item_changes|length }} รายการ</span></h2>
+  <p class="hint">รายการในรายละเอียดงบประมาณที่ค่าต่างกัน — ข้อสังเกตในหัวข้ออื่น (ยอดรวม หมวดงบ ประมาณการ ฯลฯ)
+    มักเป็นผลที่ไล่ตามมาจากรายการเหล่านี้ ยังต้องตรวจแต่ละข้อตามปกติ</p>
+  <ul class="pp-list">{% for f in v.item_changes %}{{ frow(f) }}{% endfor %}</ul>
+</section>
+{% endif %}
+
+<nav class="pp-toc" aria-label="หัวข้อ">
+  <ul>
+  {% for g in v.groups %}<li><a href="#t-{{ g.key }}">{{ g.label }}</a> <span class="vx-count">{{ g.total }}{% if g.info %} +{{ g.info|length }}{% endif %}</span></li>{% endfor %}
+  </ul>
+</nav>
+
+
+
+{% for g in v.groups %}
+<section class="vx-group pp-group" id="t-{{ g.key }}" aria-labelledby="h-{{ g.key }}">
+  <h2 id="h-{{ g.key }}">{{ g.label }} <span class="vx-count">{% if g.total %}ตรวจแล้ว {{ g.decided }}/{{ g.total }}{% else %}ไม่มีข้อที่ต้องตัดสิน{% endif %}</span></h2>
+  {% if g.findings %}<ul class="pp-list">{% for f in g.findings %}{{ frow(f) }}{% endfor %}</ul>{% endif %}
+  {% if g.info %}
+  <details class="vx-tech"><summary>ข้อมูลประกอบ {{ g.info|length }} รายการ</summary>
+    <ul class="pp-list">{% for f in g.info %}{{ frow(f) }}{% endfor %}</ul></details>
+  {% endif %}
+</section>
+{% endfor %}
+
+<section class="vx-group pp-group" aria-labelledby="h-next">
+  <h2 id="h-next">ขั้นต่อไป</h2>
+  {% if pf and pf.ok %}
+  <p>{{ state_badge('ok', 'ผ่านด่านก่อนส่งออกครบ ' ~ pf.checks|length ~ ' ข้อ') }}</p>
+  {% elif pf %}
+  <p>{{ state_badge('review', 'ยังไม่ผ่านด่านก่อนส่งออก ' ~ pf.failing|length ~ ' ข้อ') }}
+    <span class="hint">{{ pf.failing|map(attribute='label')|join(' · ') }}</span></p>
+  {% endif %}
+  <div class="actions">
+    <a class="btn small" href="/pdfpair/runs/{{ rid }}/preflight">Preflight — ด่านก่อนส่งออก</a>
+    <a class="btn small" href="/pdfpair/runs/{{ rid }}/export">ส่งออก CSV</a>
+    <a class="btn small" href="/pdfpair/runs/{{ rid }}/audit">Audit ของรอบนี้</a>
+  </div>
+</section>
+<p class="vx-scope">ระบบบอกว่า<b>อะไรต่างและหลักฐานอยู่หน้าไหน</b> — การตัดสินว่าเป็นการปรับที่ตั้งใจหรือต้องแก้เป็นของผู้ตรวจ ·
+  ผลนี้ไม่ใช่การรับรองความถูกต้องของเอกสาร · ส่วนที่ระบบอ่านไม่ได้แสดงไว้ในหัวข้อสุดท้าย</p>
+<details class="vx-tech"><summary>รุ่นของระบบที่ใช้ในรอบนี้</summary>
+  <dl class="kv">{% for k, val in v.run.versions.items() %}<dt>{{ k }}</dt><dd class="mono">{{ val }}</dd>{% endfor %}
+    <dt>SHA-256 ฉบับ A</dt><dd class="mono vx-hash">{{ v.run.a_sha256 }}</dd>
+    <dt>SHA-256 ฉบับ B</dt><dd class="mono vx-hash">{{ v.run.b_sha256 }}</dd></dl>
+</details>
+{% endblock %}

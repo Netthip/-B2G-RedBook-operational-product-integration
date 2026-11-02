@@ -1,0 +1,72 @@
+{% extends "trial_base.html" %}
+{% block content %}
+<h1 class="tr-h1">เลือกเล่มที่จะตรวจ</h1>
+<p class="tr-sub">ส่งใบประกาศแล้ว {{ status.values()|selectattr('state', 'equalto', 'locked')|list|length }} จาก {{ books|length }} เล่ม
+  · แตะป้ายของใบไหนก็ได้ หรือกด ← →</p>
+
+{% if not books %}
+<div class="note warn"><b>ยังไม่มีเล่มทดสอบในเครื่องนี้</b> — ต้องมีเล่มบนชั้นเล่ม และไฟล์ตั้งค่า
+  <code>trial_books.json</code> ในโฟลเดอร์ชั้นเล่ม ({{ books_file }}) ที่บอกว่าเล่มทดสอบแต่ละเล่มคือหน่วยงานใด
+  และสองฉบับที่เทียบเป็นเล่มไหน</div>
+{% else %}
+<form method="post" action="/trial/start" class="tr-start" data-tr-fan>
+  <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+  <div class="tr-fan" role="radiogroup" aria-label="เล่มทดสอบ">
+    {% for b in books %}{% set st = status.get(b.id) %}
+    <button class="tr-card{% if st and st.state == 'locked' %} is-done{% endif %}" type="submit" name="book_id" value="{{ b.id }}"
+            role="radio" aria-checked="false" data-i="{{ loop.index0 }}">
+      <span class="tr-tab">{{ b.title }}{% if st and st.state == 'locked' %} ✓{% endif %}</span>
+      <span class="tr-card-art" aria-hidden="true">{{ loop.index }}</span>
+      <span class="tr-card-name">{{ b.agency }}</span>
+      <span class="tr-card-pair">{{ 'ข้ามปี · ฉบับปีก่อน ↔ ฉบับปีนี้' if b.pair_kind == 'cross_year' else 'ปีเดียวกัน · ฉบับ A ↔ ฉบับ B' }}</span>
+      <span class="tr-chip">{% if st and st.state == 'locked' %}ส่งใบประกาศแล้ว{% elif st and st.state == 'draft' %}กำลังทำ{% elif st and st.state == 'legacy' %}มีรอบกติกา 0.1 (อ่านอย่างเดียว){% elif st %}{{ tsvc.STATUSES.get(st.state, '') }}แล้ว{% else %}ยังไม่เริ่ม{% endif %}</span>
+    </button>
+    {% endfor %}
+  </div>
+  <div class="tr-start-row">
+    <label for="tr-rev">รหัสผู้ตรวจ <span class="hint">(ไม่ต้องใส่ชื่อ — เช่น R1)</span></label>
+    <input id="tr-rev" name="reviewer" maxlength="20" size="8">
+  </div>
+  <fieldset class="tr-paths">
+    <legend>ทางทำรายการอ้างอิง</legend>
+    <label class="tr-path"><input type="radio" name="path" value="r1" checked>
+      <span><b>ร1 — ใช้รายการเดิมของฉัน</b> (ทางหลัก) · รายการที่จดไว้แล้วจากงานตรวจเล่มตามปกติ หรือจากแบบ ๐๑ ·
+        ส่งเฉพาะจำนวนก่อนเห็นผล ไม่ต้องตรวจใหม่ทุกหน้า</span></label>
+    <label class="tr-path"><input type="radio" name="path" value="r2">
+      <span><b>ร2 — วงจุดบนภาพหน้าเอกสาร</b> (ทางเลือก) · วงจุดต่างบนภาพหน้าของทั้งสองฉบับในหน้านี้</span></label>
+  </fieldset>
+  <div class="tr-start-row"><button class="btn" type="submit" data-tr-go>เริ่มตรวจเล่มนี้</button></div>
+  <p class="hint" data-tr-fan-hint>กดเริ่มที่เล่มที่เคยทำไว้ = กลับไปรอบเดิม (งานที่ทำไว้ไม่หาย) · ส่งใบประกาศแล้ว = ไปหน้าผล</p>
+</form>
+{% if status %}
+<details class="tr-steps"><summary>รอบที่ทำไว้ · เริ่มรอบใหม่</summary>
+  <ul>{% for b in books %}{% set st = status.get(b.id) %}{% if st %}
+    <li>{{ b.title }} · {% if st.state == 'locked' %}ส่งใบประกาศแล้ว{% elif st.state == 'draft' %}กำลังทำ{% elif st.state == 'legacy' %}รอบกติกา 0.1 (อ่านอย่างเดียว){% else %}{{ tsvc.STATUSES.get(st.state, '') }}แล้ว{% endif %}{% if st.legacy %} · รอบกติกา 0.1{% endif %} ·
+      <a href="/trial/s/{{ st.sid }}{% if st.state == 'locked' %}/result{% endif %}">เปิดรอบนี้</a>
+      <form method="post" action="/trial/start" class="tr-inline">
+        <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+        <input type="hidden" name="book_id" value="{{ b.id }}"><input type="hidden" name="again" value="1">
+        <label class="sr-only" for="np-{{ b.id }}">ทางของรอบใหม่</label>
+        <select id="np-{{ b.id }}" name="path"><option value="r1">ร1</option><option value="r2">ร2</option></select>
+        <button class="btn small secondary" type="submit">เริ่มรอบใหม่ของ{{ b.title }}</button></form>
+      <span class="hint">(รอบเดิมยังเก็บไว้ · ถ้าเคยเห็นผลระบบของเล่มนี้แล้ว รอบใหม่จะถูกบันทึกไว้ให้รายงาน)</span></li>
+  {% endif %}{% endfor %}</ul>
+</details>
+{% endif %}
+{% endif %}
+
+<section class="tr-steps" aria-labelledby="h-steps">
+  <h2 id="h-steps">ขั้นตอน (บอกตามจริง)</h2>
+  <ol>
+    <li><b>เลือกเล่มและทาง</b> — ใช้งานจริงต้อง<b>อัปโหลดไฟล์ PDF</b> สองฉบับเอง · รอบทดลองนี้เตรียมเล่มไว้ให้แล้ว ·
+      ทาง ร1 ใช้รายการที่ท่านมีอยู่แล้ว · ทาง ร2 วงจุดบนภาพหน้า</li>
+    <li><b>ส่งใบประกาศก่อนเห็นผล</b> — วันที่จัดทำ ที่มา ส่วนของเล่มที่ตรวจครบ และจำนวนประเด็นรายหัวข้อ (ทาง ร2 ระบบนับจากจุดที่วง) ·
+      <b>ไม่ต้องกด "ตรวจหน้านี้แล้ว" ครบทุกหน้า</b> · ส่งแล้วแก้ไม่ได้ · <b>ระบบยังไม่เทียบจนกว่าท่านจะส่ง</b></li>
+    <li><b>จับคู่ประเด็นกับข้อสังเกตของระบบ</b> — ระบบเสนอคู่จากหน้าและตำแหน่ง ท่านเป็นผู้ยืนยัน · ระบุผล รหัสเหตุ
+      หลักฐาน และฐานการวินิจฉัย · จัดข้อสังเกตที่ไม่อยู่ในรายการของท่าน</li>
+    <li><b>จบการใช้ผล</b> แล้วตอบ<b>แบบสอบถามหลังใช้ผล</b></li>
+    <li><b>ดูแดชบอร์ด</b> และดาวน์โหลดสรุปเฉพาะจำนวนส่งผู้ศึกษา (ไม่มีตำแหน่ง หมายเหตุ หรือเนื้อหาของประเด็น)</li>
+  </ol>
+  <p class="hint">ใช้เวลาเท่าไรก็ได้ ปิดหน้าแล้วกลับมาทำต่อได้ · หยุดรอบหรือถอนตัวได้ทุกเมื่อ · ถ้าขั้นไหนยากหรืออยากให้ปรับ บอกได้ในแบบสอบถาม</p>
+</section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% from "_book.html" import book_card with context %}
+{% block title %}ตัวอย่างสถานะของการ์ด · {{ app_name }}{% endblock %}
+{% block content %}
+<p class="crumbs"><a href="/books">คลังเล่มงบประมาณ</a> › ตัวอย่างสถานะ</p>
+<div class="page-head">
+  <p class="eyebrow">สำหรับตรวจ UX</p>
+  <h1>ตัวอย่างสถานะของการ์ดและหน้าคลัง</h1>
+  <p class="page-sub">ทะเบียนที่ใช้อยู่ตอนนี้ไม่มีลิงก์เสีย ยังไม่ได้ตรวจ Excel และยังไม่มี พ.ร.บ. จึงรวมทุกสถานะ (ตามคำศัพท์ของ #27) ไว้ที่นี่ให้ดูครบ
+    · การ์ดทุกใบสร้างจากเล่มจริงหนึ่งเล่มแล้วเปลี่ยนเฉพาะสถานะ <b>ไม่ใช่ข้อมูลในทะเบียน</b> และกดไม่ได้</p>
+</div>
+
+<h2>การ์ดเล่ม</h2>
+<div class="book-grid">
+  {% for b in samples %}{{ book_card(b) }}{% endfor %}
+</div>
+
+<h2>กำลังโหลด</h2>
+<div class="book-grid" aria-hidden="true">
+  <article class="book-card skeleton">
+    <div class="card-top"><div class="thumb card"></div>
+      <div class="card-id"><span class="sk w40"></span><span class="sk w80"></span><span class="sk w60"></span></div></div>
+    <div class="asset-row"><span class="sk w100"></span></div>
+  </article>
+</div>
+<p class="hint">ระหว่างเปลี่ยนตัวกรอง ผลลัพธ์เดิมจางลงพร้อมข้อความ “กำลังโหลดผลลัพธ์…” · ภาพปกที่ยังโหลดไม่เสร็จแสดงปกจำลองแทน</p>
+
+<h2>ไม่พบผลลัพธ์</h2>
+<div class="empty">
+  <div class="empty-title">ไม่พบเล่มที่ตรงกับคำค้นนี้</div>
+  <p>ลองตัดคำค้นให้สั้นลง เช่น พิมพ์เฉพาะชื่อกระทรวง หรือเลือก “ทุกปี”</p>
+</div>
+
+<h2>ข้อมูลยังไม่มีในทะเบียน</h2>
+<div class="empty state-missing">
+  <div class="empty-title">ยังไม่มีเล่มขั้น พ.ร.บ. ในทะเบียน</div>
+  <p>เล่ม พ.ร.บ. และคู่ ร่าง → พ.ร.บ. จะแสดงเมื่อทะเบียนแหล่งทางการส่งข้อมูลมา ระบบไม่สร้างหรือเดาคู่เอง</p>
+</div>
+
+<h2>โหลดทะเบียนไม่สำเร็จ</h2>
+<div class="error-box" role="note">
+  <div class="empty-title">โหลดทะเบียนเล่มไม่สำเร็จ</div>
+  <p>ลองใหม่อีกครั้ง หรือแจ้งผู้ดูแลระบบ (ไฟล์ทะเบียนเล่มหายหรืออ่านไม่ได้) — หน้าจริงแสดงพร้อมรหัสข้อผิดพลาดสำหรับติดตาม</p>
+</div>
+<script src="/static/books.js" defer></script>
+{% endblock %}

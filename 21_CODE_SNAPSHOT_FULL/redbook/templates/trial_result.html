@@ -1,0 +1,267 @@
+{% extends "trial_base.html" %}
+{% block content %}
+{% set b = r.s.book %}{% set rid = r.view.rid %}{% set a1 = m.A1 %}{% set led = m.A3 %}{% set live = r.s.active %}
+<div class="tr-bar">
+  <a class="btn small secondary" href="/trial">← เล่มทั้งหมด</a>
+  <span class="tr-bar-title"><b>{{ b.title }}</b> · {{ b.agency }} · ระบบเจออะไร</span>
+  <span class="tr-chip">{{ tsvc.PATHS[r.s.path] }}</span>
+  <span class="tr-chip tr-chip-ok">ส่งใบประกาศแล้ว {{ r.s.rec.locked_at[:16]|replace('T', ' ') }}</span>
+</div>
+{% if not live %}<div class="note" role="status"><b>รอบนี้{{ tsvc.STATUSES[r.s.status] }}แล้ว</b> — ดูได้อย่างเดียว</div>{% endif %}
+<p class="tr-sub">รายการของท่านล็อกไว้ก่อนระบบเทียบ · ระบบ<b>เสนอ</b>คู่จากหน้าและตำแหน่ง ท่านเป็นผู้ยืนยันทุกข้อ ·
+  จับคู่ได้ทั้งข้อ<b>ต้องตรวจ</b>และ<b>ข้อมูลประกอบ</b> · {{ lab.prev }} = ซ้าย · {{ lab.cur }} = ขวา ในภาพหลักฐาน</p>
+{% if m.scope.pair_kind == 'cross_year' %}<div class="note" role="note"><b>คู่ข้ามปี — {{ m.scope.label }}</b> (หัวข้อ {{ tsvc.XYEAR_TOPICS|join(' ') }}) ·
+  ข้อสังเกตที่ไม่ใช่เชิงโครงสร้าง {{ m.findings.descriptive }} ข้อ ไม่ต้องจับคู่หรือจัดกลุ่ม ไม่นับใน F — นับจำนวนแยกตามชนิดเท่านั้น{% if m.scope.descriptive_by_kind %}:
+  {% for k, n in m.scope.descriptive_by_kind.items() %}{{ tsvc.KIND_LABELS.get(k, k) }} {{ n }}{% if not loop.last %} · {% endif %}{% endfor %}{% endif %}
+  <span class="hint">· กติกา {{ m.scope.rule }}</span></div>{% endif %}
+{% if st.flags %}<p class="tr-flags">{% for f in st.flags %}<span class="tr-chip">{{ tsvc.STATUS_TEXT.flags[f] }}</span> {% endfor %}</p>{% endif %}
+
+{% if m.v03 %}{% set v = m.v03 %}
+<div class="tr-metrics tr-metrics-big">
+  <div class="tr-metric tr-metric-red"><span>H1 อัตราการพบหลัก (พบตรง ÷ N₀)</span><b>{{ v.issues.H1.text if v.issues else 'ยังตัดสินไม่ครบ ' ~ v.pending.issues }}</b>
+    {% if v.issues %}<small>ผลเสริม พบตรง ÷ N {{ v.issues.supplement.text }} · รวมพบบางส่วน ÷ N₀ {{ v.issues.incl_partial.text }} · ตัดสินไม่ได้ {{ v.issues.undecidable }}</small>{% endif %}</div>
+  <div class="tr-metric"><span>H2 ตำแหน่งถูกทุกฝั่ง ในประเด็นที่พบและตัดสินตำแหน่งได้</span><b>{{ v.location.H2.text if v.location else 'ยังไม่ครบ ' ~ v.pending.location }}</b>
+    {% if v.location %}<small>P {{ v.location.P }} · ตัดสินไม่ได้ {{ v.location.undecidable }} · ถูกทุกฝั่ง ÷ P {{ v.location.all_over_P.text }}</small>{% endif %}</div>
+  <div class="tr-metric"><span>A3-อ ความตรงของสิ่งที่อ่านได้ · A3-ข ความถูกของข้อสรุป</span><b>{{ (v.obs.A3_fidelity.text ~ ' · ' ~ v.obs.A3_assertion.text) if v.obs else 'ยังไม่ครบ ' ~ v.pending.obs }}</b>
+    {% if v.obs %}<small>ตัดสินไม่ได้ A3-อ {{ v.obs.fidelity.undecidable }} · A3-ข {{ v.obs.assertion.undecidable }} · อ่านตรงครบแต่ข้อสรุปไม่ถูก {{ v.obs.read_ok_assertion_wrong }} · แจ้งเกิน ส3 ÷ (F − ส4) {{ v.obs.overflag.text }} (ไม่ใช่ precision)</small>{% endif %}</div>
+</div>
+{% endif %}
+<div class="tr-metrics">
+  <div class="tr-metric"><span>อัตราการพบแบบเข้ม (พบตรง ÷ N)</span><b>{{ a1.strict.text }}</b>
+    <small>N0 = {{ a1.N0 }} ประเด็นที่ล็อกในขอบเขต · N = {{ a1.N }} (ไม่รวมตัดสินไม่ได้){% if a1.pending %} · ยังไม่ครบ {{ a1.pending }}{% endif %}</small></div>
+  <div class="tr-metric"><span>รวมพบบางส่วน</span><b>{{ a1.with_partial.text }}</b>
+    <small>พบตรง {{ a1.exact }} · บางส่วน {{ a1.partial }} · พลาด {{ a1.missed }} · ตัดสินไม่ได้ {{ a1.undecidable }}</small></div>
+  <div class="tr-metric"><span>ข้อสังเกตต้องตรวจในส่วนที่ตรวจครบ (F){% if m.scope.pair_kind == 'cross_year' %} — {{ m.scope.label }}{% endif %}</span><b>{{ led.F }}</b>
+    <small>จับคู่ {{ led.matched }} · ส1 {{ led.s1 }} · ส2 {{ led.s2 }} · ส3 {{ led.s3 }} · ส4 {{ led.s4 }}{% if led.pending %} · รอจัด {{ led.pending }}{% endif %}</small></div>
+  <div class="tr-metric"><span>บัญชี F = จ + ส1 + ส2 + ส3 + ส4</span><b>{{ 'ปิดแล้ว' if led.closed else 'ยังไม่ปิด' }}</b>
+    <small>นอกส่วนที่ตรวจครบ {{ led.outside }} · ข้อมูลประกอบ {{ m.findings.info }} · อ่านหรือสกัดไม่ได้ {{ m.findings.unread }} · ไม่พบหัวข้อ {{ m.A4.read_problems.not_found }}</small></div>
+</div>
+
+<section aria-labelledby="h-issues">
+  <h2 id="h-issues">๑. ประเด็นในรายการของท่าน ({{ r.issues|length }}){% if r.s.path == 'r1' %} <span class="hint">— กรอกลักษณะของแต่ละแถวจากรายการของท่าน (ไม่ต้องใส่เนื้อหา) แล้วจับคู่</span>{% endif %}</h2>
+  {% if not r.issues %}<p class="hint">ไม่มีประเด็นในรายการ</p>{% endif %}
+  <datalist id="dl-findings">{% for f in r.matchable %}<option value="{{ f.id }}">{{ lab.prev if f.a.page and not f.b.page else lab.cur }} หน้า {{ f.b.page or f.a.page or '—' }} · {{ tsvc.FINDING_LEVELS[r.level[f.id]] }} · {{ f.subject[:70] }}</option>{% endfor %}</datalist>
+  {% for mk in r.issues %}{% set d = r.decisions.get(mk.id) %}{% set lk = r.links.get(mk.id, []) %}{% set gp = r.gaps(mk) %}
+  {% set prop = r.proposals.get(mk.id, '') %}{% set lvl = mk.level or ('red' if mk.pen == 'red' else ('brown' if mk.pen == 'brown' else '')) %}
+  <article class="tr-item tr-item-{{ mk.pen or lvl or 'row' }}" id="i-{{ mk.id }}">
+    <header>
+      {% if mk.origin == 'row' %}<b>ประเด็น {{ mk.topic }}-{{ mk.seq }}</b>{% if mk.ref %} · ข้อ {{ mk.ref }} ในรายการของท่าน{% endif %}
+      {% else %}<span class="tr-dot tr-dot-{{ mk.pen }}" aria-hidden="true"></span> <b>{{ pens[mk.pen].split(' — ')[0] }}</b> · {{ lab[mk.side] }} หน้า {{ mk.page }}
+        · <a href="/trial/s/{{ sid }}?{% if mk.side == 'cur' %}page_no={{ mk.page }}{% else %}pp={{ mk.page }}{% endif %}">ดูจุดบนหน้า</a>{% endif %}
+      · {{ mk.topic }} {{ tsvc.TOPIC_LABELS.get(mk.topic, '') }}{% if mk.part %} · ส่วน {{ mk.part }}{% endif %}
+      {% if mk.cause %} · {{ tsvc.CAUSES[mk.cause].split(' — ')[0] }}{% endif %}{% if mk.level %} · {{ tsvc.LEVELS[mk.level].split(' — ')[0] }}{% endif %}
+      {% if mk.note %} · “{{ mk.note }}”{% endif %}
+      {% set pd = tsvc.post_dims(mk) %}{% if pd %}<span class="tr-chip">จัดใหม่หลังเห็นผล: {% for d in pd|sort %}{{ tsvc.POST_DIMS[d] }}{% if not loop.last %} · {% endif %}{% endfor %} — แยกเฉพาะมิตินี้</span>{% endif %}
+      {% if mk.part and not r.in_scope(mk) %}<span class="tr-chip">นอกส่วนที่ตรวจครบ — ไม่นับในตัวหาร</span>{% endif %}
+      {% if not gp %}<span class="tr-chip tr-chip-ok">{{ tsvc.VERDICTS[d.verdict] }}</span>{% else %}<span class="tr-chip">ยังขาด: {{ gp|join(', ') }}</span>{% endif %}
+    </header>
+    {% if error and error_at == 'i-' ~ mk.id %}<div class="note danger" role="alert">{{ error }}</div>{% endif %}
+    {% if mk.origin == 'row' and live %}
+    <form method="post" action="/trial/s/{{ sid }}/row/{{ mk.id }}" class="tr-rowform">
+      <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+      <label>ส่วน <select name="part"><option value="">—</option>{% for code, label in parts %}<option value="{{ code }}"{% if mk.part == code %} selected{% endif %}>{{ code }} {{ label[:40] }}</option>{% endfor %}</select></label>
+      <label>ต/ล <select name="cause"><option value="">—</option>{% for k, label in tsvc.CAUSES.items() %}<option value="{{ k }}"{% if mk.cause == k %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+      <label>ระดับ <select name="level"><option value="">—</option>{% for k, label in tsvc.LEVELS.items() %}<option value="{{ k }}"{% if mk.level == k %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+      <label>ข้อที่ในรายการที่ล็อก <input name="ref" size="6" maxlength="40" value="{{ mk.ref }}"></label>
+      {% if r.s.xkind == 'cross_year' %}<label>ชนิดประเด็น (คู่ข้ามปี) <select name="xtype"><option value="">—</option>{% for k in tsvc.XTYPE_BY_TOPIC.get(mk.topic, ()) %}<option value="{{ k }}"{% if mk.xtype == k %} selected{% endif %}>{{ tsvc.XTYPES[k] }}</option>{% endfor %}</select></label>{% endif %}
+      <label>ที่มาของลักษณะ <select name="row_source"><option value="">—</option>{% for k, label in tsvc.ROW_SOURCES.items() %}<option value="{{ k }}"{% if (mk.row_source == k) or (k == 'post_result' and tsvc.post_dims(mk)) %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+      <span>จัดใหม่หลังเห็นผล: {% for d, label in tsvc.POST_DIMS.items() %}<label class="tr-inline"><input type="checkbox" name="post_dim" value="{{ d }}"{% if d in tsvc.post_dims(mk) %} checked{% endif %}> {{ label }}</label> {% endfor %}</span>
+      <label>อยู่ที่ <select name="side"><option value="">—</option>{% for k in ('prev', 'cur') %}<option value="{{ k }}"{% if mk.side == k %} selected{% endif %}>{{ lab[k] }}</option>{% endfor %}</select></label>
+      <label>หน้า <input name="page_no" size="4" inputmode="numeric" value="{{ mk.page or '' }}"></label>
+      <label>ของที่หาย — ฉบับที่พบ <select name="found_in"><option value="">ไม่ใช่ของที่หาย</option>{% for k in ('prev', 'cur') %}<option value="{{ k }}"{% if mk.found_in == k %} selected{% endif %}>{{ lab[k] }}</option>{% endfor %}</select></label>
+      <label>ขอบเขตที่ค้นในอีกฉบับ <input name="searched" maxlength="200" value="{{ mk.searched }}"></label>
+      <button class="btn small secondary" type="submit">บันทึกลักษณะ</button>
+    </form>
+    {% endif %}
+    {% if prop %}{% set pf = r.finding(prop) %}
+    <p>ระบบเสนอ: <b>{{ pf.subject }}</b> · {{ pf.kind_label }}{% if pf.column %} · {{ pf.column }}{% endif %}
+      · <span class="tr-chip">{{ tsvc.FINDING_LEVELS[r.level[prop]] }}</span>
+      · <a href="/pdfpair/runs/{{ rid }}/f/{{ pf.id }}" target="_blank" rel="noopener">ดูหลักฐาน {{ lab.prev }} | {{ lab.cur }}</a></p>
+    {% elif mk.origin != 'row' %}<p class="hint">ระบบไม่มีข้อสังเกตบนตำแหน่งนี้ — ถ้าระบบยกไว้ที่อื่น (ย้ายหน้า) เลือกจากรายการด้านล่าง ·
+      {{ tsvc.P1_HINT }}</p>{% endif %}
+    {% if live %}
+    <form method="post" action="/trial/s/{{ sid }}/issue/{{ mk.id }}" class="tr-decide">
+      <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+      <fieldset><legend>ข้อสังเกตที่ตรงกับประเด็นนี้ <span class="hint">(พบตรง/บางส่วน · หลายข้อได้)</span></legend>
+        {% set shown = [] %}
+        {% for fid in lk %}{% set f = r.finding(fid) %}{% if f %}{% set _ = shown.append(fid) %}
+        <label class="tr-cand"><input type="checkbox" name="finding_ids" value="{{ fid }}" checked> {{ f.subject[:80] }} · {{ f.kind_label[:40] }} · <span class="tr-chip">{{ tsvc.FINDING_LEVELS[r.level[fid]] }}</span>
+          <a href="/pdfpair/runs/{{ rid }}/f/{{ fid }}" target="_blank" rel="noopener">หลักฐาน</a></label>{% endif %}{% endfor %}
+        {% if prop and prop not in lk %}{% set _ = shown.append(prop) %}{% set pf = r.finding(prop) %}
+        <label class="tr-cand"><input type="checkbox" name="finding_ids" value="{{ prop }}"{% if not d %} checked{% endif %}> ข้อที่ระบบเสนอ: {{ pf.subject[:80] }}</label>{% endif %}
+        {% for f in r.candidates(mk)[:6] %}{% if f.id not in shown %}
+        <label class="tr-cand"><input type="checkbox" name="finding_ids" value="{{ f.id }}"> หน้า {{ (f.b.page if mk.side == 'cur' else f.a.page) or f.b.page or f.a.page or '—' }} · {{ f.subject[:70] }} · {{ f.kind_label[:36] }} · <span class="tr-chip">{{ tsvc.FINDING_LEVELS[r.level[f.id]] }}</span>
+          <a href="/pdfpair/runs/{{ rid }}/f/{{ f.id }}" target="_blank" rel="noopener">หลักฐาน</a></label>{% endif %}{% endfor %}
+        <label>ข้ออื่น (รหัสข้อสังเกต — พิมพ์ค้นจากหน้า/ชื่อรายการ) <input name="finding_ids" list="dl-findings" size="16"></label>
+      </fieldset>
+      <fieldset class="tr-radios"><legend>ผล</legend>
+        {% for k, label in tsvc.VERDICTS.items() %}<label><input type="radio" name="verdict" value="{{ k }}"{% if d and d.verdict == k %} checked{% endif %} required> {{ label }}</label>{% endfor %}
+        <label>เหตุของพบบางส่วน <select name="reason_b"><option value="">—</option>{% for k, label in (tsvc.PARTIAL_REASONS_V03 if r.s.v03 else tsvc.PARTIAL_REASONS).items() %}<option value="{{ k }}"{% if d and d.reason == k %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+        <label>เหตุของพลาด <select name="reason_p"><option value="">—</option>{% for k, label in tsvc.MISS_REASONS.items() %}<option value="{{ k }}"{% if d and d.reason == k %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+      </fieldset>
+      {% if r.s.v03 %}{% set sides = (d.relevant_sides.split(',') if d and d.relevant_sides else ['A', 'B']) %}
+      <fieldset class="tr-radios"><legend>ตำแหน่ง (A2) <span class="hint">— เฉพาะพบตรง/บางส่วน · ขั้นแยกหลังตัดสินผลจากเนื้อหา · เลือกข้อแรกที่เข้าตามลำดับ</span></legend>
+        {% for k, label in tsvc.LOCATIONS.items() %}<label><input type="radio" name="location" value="{{ k }}"{% if d and d.location == k %} checked{% endif %}> {{ label }}</label>{% endfor %}
+        <span class="hint">ฝั่งที่เกี่ยวข้อง:</span>
+        <label><input type="checkbox" name="relevant_side" value="A"{% if 'A' in sides %} checked{% endif %}> {{ lab.prev }}</label>
+        <label><input type="checkbox" name="relevant_side" value="B"{% if 'B' in sides %} checked{% endif %}> {{ lab.cur }}</label>
+        <label>ขอบเขตที่ค้นในอีกฉบับ <span class="hint">(ถ้าเกี่ยวข้องฝั่งเดียว — เพิ่ม/หาย)</span> <input name="search_scope" maxlength="200" value="{{ d.search_scope if d else '' }}"></label>
+      </fieldset>
+      {% else %}
+      <fieldset class="tr-radios"><legend>หลักฐานชี้ตำแหน่ง <span class="hint">(เฉพาะพบตรง/บางส่วน)</span></legend>
+        {% for k, label in tsvc.EVIDENCE.items() %}<label><input type="radio" name="evidence" value="{{ k }}"{% if d and d.evidence == k %} checked{% endif %}> {{ label }}</label>{% endfor %}
+      </fieldset>
+      {% endif %}
+      <fieldset class="tr-radios"><legend>ฐานการวินิจฉัย</legend>
+        {% for k, label in tsvc.BASIS.items() %}<label><input type="radio" name="basis" value="{{ k }}"{% if d and d.basis == k %} checked{% endif %} required> {{ label }}</label>{% endfor %}
+      </fieldset>
+      {% if d %}<label>เหตุผลที่เปลี่ยนคู่หรือผลเดิม <input name="change_reason" maxlength="300" size="40"></label>{% endif %}
+      <button class="btn small" type="submit">บันทึกผล</button>
+    </form>
+    {% endif %}
+    {% set hist = r.history('issue', mk.id) %}
+    {% if hist|length > 1 %}<details class="tr-hist"><summary>ประวัติการเปลี่ยนคู่ ({{ hist|length }})</summary><ol>
+      {% for h in hist %}<li>{{ h.changed_at[:16]|replace('T', ' ') }} · {{ tsvc.VERDICTS.get((h.before or {}).get('verdict', ''), '—') }} → {{ tsvc.VERDICTS.get(h.after.verdict, '—') }}
+        ({{ (h.after.links or [])|length }} ข้อสังเกต){% if h.reason %} · เหตุผล: {{ h.reason }}{% endif %}</li>{% endfor %}</ol></details>{% endif %}
+  </article>
+  {% endfor %}
+</section>
+
+<section aria-labelledby="h-extra">
+  <h2 id="h-extra">๒. ข้อสังเกตต้องตรวจที่ไม่ได้จับคู่ ({{ r.unmatched_must|length }})</h2>
+  <p class="hint">ตัดสินจาก<b>ภาพหน้าเอกสาร</b> ไม่ใช่จากข้อความที่ระบบแสดง · การเปลี่ยนที่ตั้งใจซึ่งระบบรายงานถูก (เช่น ปรับวงเงินจริง)
+    ที่ไม่อยู่ในรายการ = ส1 · ข้อในส่วนที่ท่านไม่ได้ตรวจครบ เลือก "อยู่นอกส่วนที่ตรวจครบ" (นับจำนวนเท่านั้น)</p>
+  {% for f in r.unmatched_must %}{% set g = r.groups.get(f.id) %}
+  <article class="tr-item" id="f-{{ f.id }}">
+    <header><b>{{ f.subject }}</b> · {{ f.kind_label }}{% if f.column %} · {{ f.column }}{% endif %}
+      · {% if f.a.page %}{{ lab.prev }} หน้า {{ f.a.page }}{% endif %}{% if f.a.page and f.b.page %} · {% endif %}{% if f.b.page %}{{ lab.cur }} หน้า {{ f.b.page }}{% endif %}
+      {% if f.within %} (ภายในฉบับ {{ lab.prev if f.within == 'A' else lab.cur }}){% endif %}
+      · <a href="/pdfpair/runs/{{ rid }}/f/{{ f.id }}" target="_blank" rel="noopener">ดูหลักฐาน {{ lab.prev }} | {{ lab.cur }}</a>
+      {% if g and g.grp %}<span class="tr-chip tr-chip-ok">{{ tsvc.GROUPS[g.grp].split(' (')[0] }}</span>{% endif %}</header>
+    {% if f.a.value or f.b.value %}<p class="mono">{{ psvc.amount_text(f.a) }} → {{ psvc.amount_text(f.b) }}</p>{% endif %}
+    {% if f.caveats %}<p class="tr-caveat">ต้องให้คนยืนยันก่อนใช้: {% for c in f.caveats %}{{ psvc.CAVEAT_LABELS.get(c, c) }}{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+    {% if error and error_at == 'f-' ~ f.id %}<div class="note danger" role="alert">{{ error }}</div>{% endif %}
+    {% if live %}
+    <form method="post" action="/trial/s/{{ sid }}/finding/{{ f.id }}" class="tr-decide">
+      <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+      <fieldset class="tr-radios"><legend>ท่านเห็นว่า</legend>
+        {% for k, label in tsvc.GROUPS.items() %}<label><input type="radio" name="group" value="{{ k }}"{% if g and g.grp == k %} checked{% endif %} required> {{ label }}</label>{% endfor %}
+        <label>เหตุของ ส3 <select name="s3_reason"><option value="">—</option>{% for k, label in tsvc.S3_REASONS.items() %}<option value="{{ k }}"{% if g and g.s3_reason == k %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+        <label>นอกส่วนที่ตรวจครบ: ส่วน <select name="part"><option value="">—</option>{% for code, label in parts %}{% if r.decl.body.parts.get(code) != 'full' %}<option value="{{ code }}"{% if g and g.part == code %} selected{% endif %}>{{ code }} ({{ tsvc.COVERAGE[r.decl.body.parts.get(code)] }})</option>{% endif %}{% endfor %}</select></label>
+        <label>เหตุ (นอกส่วนที่ตรวจครบ) <input name="note" maxlength="200" value="{{ g.note if g else '' }}"></label>
+        <label>ส2 เป็นผลที่ตามมาของ <select name="issue_ref"><option value="">—</option>{% for mk in r.issues %}<option value="{{ mk.id }}"{% if g and g.issue_ref == mk.id %} selected{% endif %}>{% if mk.origin == 'row' %}ประเด็น {{ mk.topic }}-{{ mk.seq }}{% else %}{{ lab[mk.side] }} หน้า {{ mk.page }} · {{ mk.topic }}{% endif %}</option>{% endfor %}</select></label>
+      </fieldset>
+      <fieldset class="tr-radios"><legend>ฐานการวินิจฉัย <span class="hint">(ส1–ส4)</span></legend>
+        {% for k, label in tsvc.BASIS.items() %}<label><input type="radio" name="basis" value="{{ k }}"{% if g and g.basis == k %} checked{% endif %}> {{ label }}</label>{% endfor %}
+      </fieldset>
+      {% if g %}<label>เหตุผลที่เปลี่ยนกลุ่มเดิม <input name="change_reason" maxlength="300" size="40"></label>{% endif %}
+      <button class="btn small secondary" type="submit">บันทึก</button>
+    </form>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+
+{% if r.s.v03 %}
+<section aria-labelledby="h-a3">
+  <h2 id="h-a3">๒ก. ประเมินข้อสังเกตในบัญชี F (A3) ({{ r.u_ids|select('in', r.obs_eval)|list|length }}/{{ r.u_ids|length }})</h2>
+  <p class="hint">ทุกข้อใน U = จ + ส1–ส4 · <b>A3-อ</b> สิ่งที่ระบบแสดงตรงกับภาพทุกฝั่งที่เกี่ยวข้องหรือไม่ ·
+    <b>A3-ข</b> ข้อสรุปที่ข้อสังเกตอ้างถูกหรือไม่ — มิติที่ไม่ใช้เลือก N/A พร้อมเหตุ (ไม่ถือว่าไม่ถูก) ·
+    คำเตือนจับคู่ไม่แน่ชัด ประเมินว่าความกำกวมมีจริงหรือไม่ ไม่ใช่ "คนละรายการแน่นอน"</p>
+  {% for fid in r.u_ids %}{% set f = r.by_id[fid] %}{% set e = r.obs_eval.get(fid) %}{% set ok = tsvc.obs_kind(f) %}
+  <article class="tr-item" id="o-{{ fid }}">
+    <header><b>{{ f.subject }}</b> · {{ f.kind_label }} · <span class="tr-chip">{{ tsvc.OBS_KINDS[ok] }}</span>
+      · <a href="/pdfpair/runs/{{ rid }}/f/{{ fid }}" target="_blank" rel="noopener">ดูหลักฐาน</a>
+      {% if e %}<span class="tr-chip tr-chip-ok">A3-อ {{ tsvc.FIDELITY[e.fidelity] }} · A3-ข {{ tsvc.ASSERTION[e.assertion] }}</span>{% endif %}</header>
+    {% if error and error_at == 'o-' ~ fid %}<div class="note danger" role="alert">{{ error }}</div>{% endif %}
+    {% if live %}
+    <form method="post" action="/trial/s/{{ sid }}/obs/{{ fid }}" class="tr-decide">
+      <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+      <fieldset class="tr-radios"><legend>A3-อ ความตรงของสิ่งที่อ่านได้</legend>
+        {% for k, label in tsvc.FIDELITY.items() %}<label><input type="radio" name="fidelity" value="{{ k }}"{% if e and e.fidelity == k %} checked{% endif %} required> {{ label }}</label>{% endfor %}
+        <label>เหตุ (ถ้าไม่ตรงครบ) <select name="fidelity_reason"><option value="">—</option>{% for k, label in tsvc.FIDELITY_REASONS.items() %}<option value="{{ k }}"{% if e and e.fidelity_reason == k %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+      </fieldset>
+      <fieldset class="tr-radios"><legend>A3-ข ความถูกของข้อสรุป — ต่อมิติ</legend>
+        <label><input type="checkbox" name="assertion_undecidable" value="1"{% if e and e.assertion == 'undecidable' and not e.dims %} checked{% endif %}> ตัดสินไม่ได้</label>
+        {% for dm in tsvc.DIMS_BY_OBS_KIND[ok] %}<label>{{ tsvc.DIMS[dm] }} <select name="dim_{{ dm }}"><option value="">—</option>{% for k, label in tsvc.DIM_VALUES.items() %}<option value="{{ k }}"{% if e and e.dims.get(dm) == k %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+        <label>เหตุ N/A <input name="dim_{{ dm }}_na" maxlength="120" size="14" value="{{ e.dims.get(dm ~ '_na', '') if e else '' }}"></label>{% endfor %}
+      </fieldset>
+      <fieldset class="tr-radios"><legend>ฐานการวินิจฉัย</legend>
+        {% for k, label in tsvc.BASIS.items() %}<label><input type="radio" name="basis" value="{{ k }}"{% if e and e.basis == k %} checked{% endif %} required> {{ label }}</label>{% endfor %}
+      </fieldset>
+      {% if e %}<label>เหตุผลที่เปลี่ยนผลเดิม <input name="change_reason" maxlength="300" size="40"></label>{% endif %}
+      <button class="btn small secondary" type="submit">บันทึก</button>
+    </form>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+
+<details class="tr-steps"><summary>๓. ข้อมูลประกอบของระบบ ({{ m.findings.info }} ข้อ · จับคู่กับประเด็นแล้ว {{ m.A4.info_matched }}) — นับจำนวนเท่านั้น ไม่นับเป็นแจ้งเกิน</summary>
+  <p class="hint">ข้อมูลประกอบไม่เท่ากับนอกขอบเขต — ถ้าตรงกับประเด็นในรายการ เลือกจับคู่ได้ในข้อ ๑</p>
+  <ul>{% for f in r.of_level('info') %}<li>{{ f.subject[:90] }} · {{ f.kind_label[:50] }} · หน้า {{ f.b.page or f.a.page or '—' }}
+    · <a href="/pdfpair/runs/{{ rid }}/f/{{ f.id }}" target="_blank" rel="noopener">หลักฐาน</a></li>{% endfor %}</ul>
+</details>
+{% set rv = r.of_level('review') %}{% if rv %}<details class="tr-steps" open><summary>ต้องทบทวนกติกาก่อนสรุปผล ({{ rv|length }} ข้อ)</summary>
+  <p class="hint">{{ tsvc.FINDING_LEVELS.review }} — ไม่จับคู่ ไม่จัดกลุ่ม ไม่นับใน F จนกว่าจะทบทวนกติกา</p>
+  <ul>{% for f in rv %}<li>{{ f.subject[:80] }} · {{ r.level_reason[f.id] }} · <a href="/pdfpair/runs/{{ rid }}/f/{{ f.id }}" target="_blank" rel="noopener">หลักฐาน</a></li>{% endfor %}</ul>
+</details>{% endif %}
+<details class="tr-steps"><summary>๔. ปัญหาการอ่านของระบบ ({% for k, label in tsvc.READ_PROBLEMS.items() %}{{ label.split(' — ')[0].split(' (')[0] }} {{ m.A4.read_problems[k] }}{% if not loop.last %} · {% endif %}{% endfor %})</summary>
+  <p>หน้าที่ไม่มีชั้นข้อความ — {{ lab.prev }}: {{ m.A4.unread_pages.prev|join(', ') or 'ไม่มี' }} · {{ lab.cur }}: {{ m.A4.unread_pages.cur|join(', ') or 'ไม่มี' }}</p>
+  <p class="hint">{{ tsvc.P1_HINT }}</p>
+  {% for k, label in tsvc.READ_PROBLEMS.items() %}{% set rows = r.findings|selectattr('id', 'in', r.read_problem_ids(k))|list %}{% if rows %}
+  <h3 class="tr-h3">{{ label }} ({{ rows|length }})</h3>
+  <ul>{% for f in rows %}<li>{{ f.subject[:90] }}{% if f.within %} · เกิดที่ {{ lab.prev if f.within == 'A' else lab.cur }}{% endif %} · <a href="/pdfpair/runs/{{ rid }}/f/{{ f.id }}" target="_blank" rel="noopener">หลักฐาน</a></li>{% endfor %}</ul>
+  {% endif %}{% endfor %}
+</details>
+
+<section class="tr-steps" id="notes" aria-labelledby="h-notes">
+  <h2 id="h-notes">ข้อสังเกตหลังล็อก ({{ r.notes|length }}) <span class="hint">— ประเด็นที่เห็นเพิ่มหลังส่ง ไม่เพิ่มเข้ารายการที่ล็อก</span></h2>
+  {% if error and error_at == 'notes' %}<div class="note danger" role="alert">{{ error }}</div>{% endif %}
+  {% if live %}
+  <form method="post" action="/trial/s/{{ sid }}/note" class="tr-rowform">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <label>ส่วน <select name="part"><option value="">—</option>{% for code, _l in parts %}<option value="{{ code }}">{{ code }}</option>{% endfor %}</select></label>
+    <label>หัวข้อ <select name="topic"><option value="">—</option>{% for code, _l in topics %}<option value="{{ code }}">{{ code }}</option>{% endfor %}</select></label>
+    <label>ลักษณะสั้น ๆ <input name="note" maxlength="300" size="40"></label>
+    <button class="btn small secondary" type="submit">จดไว้</button>
+  </form>
+  {% endif %}
+</section>
+
+<section class="tr-steps" id="finish" aria-labelledby="h-finish">
+  <h2 id="h-finish">จบการใช้ผล</h2>
+  {% if error and error_at == 'finish' %}<div class="note danger" role="alert">{{ error }}</div>{% endif %}
+  {% if r.s.rec.use_done_at %}<p class="note ok">จบการใช้ผลแล้ว {{ r.s.rec.use_done_at[:16]|replace('T', ' ') }}{% if r.s.rec.use_done_reason %} (ยังไม่ครบ){% endif %} ·
+    <a href="/trial/s/{{ sid }}/survey">ไปแบบสอบถามหลังใช้ผล</a></p>
+  {% elif live %}
+  <form method="post" action="/trial/s/{{ sid }}/finish" class="tr-stack">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    {% if r.complete %}<p>จับคู่และจัดกลุ่มครบแล้ว</p>
+    {% else %}<p class="hint">ยังจับคู่หรือจัดกลุ่มไม่ครบ — ถ้าจะจบตอนนี้ ระบุเหตุ (สถานะจะเป็น "ไม่ครบ")</p>
+    <label>เหตุ <input name="reason" maxlength="300" size="50"></label>{% endif %}
+    <div><button class="btn" type="submit">จบการใช้ผล แล้วไปแบบสอบถาม</button></div>
+  </form>
+  {% endif %}
+</section>
+
+{% if live %}
+<details class="tr-steps" id="status"><summary>หยุดรอบนี้ / ถอนตัว</summary>
+  {% if error and error_at == 'status' %}<div class="note danger" role="alert">{{ error }}</div>{% endif %}
+  <form method="post" action="/trial/s/{{ sid }}/status" class="tr-stack">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    {% for k, label in tsvc.STATUSES.items() %}<label><input type="radio" name="status" value="{{ k }}" required> {{ label }}</label>{% endfor %}
+    <label>เหตุ (หยุดรอบนี้ต้องระบุ · ไม่ต้องระบุตัวเลขจริง) <input name="reason" maxlength="300"></label>
+    <label><input type="checkbox" name="no_data_use" value="1"> ถอนตัวและขอไม่ให้ใช้ข้อมูลที่ทำไว้</label>
+    <label><input type="checkbox" name="confirm" value="1"> ยืนยัน — หลังจากนี้บันทึกเพิ่มในรอบนี้ไม่ได้</label>
+    <div><button class="btn small secondary" type="submit">บันทึกสถานะ</button></div>
+  </form>
+</details>
+{% endif %}
+
+<div class="tr-nav">
+  {% if r.s.rec.use_done_at %}<a class="btn" href="/trial/s/{{ sid }}/survey">แบบสอบถามหลังใช้ผล</a>{% endif %}
+  <a class="btn secondary" href="/trial/s/{{ sid }}/dashboard">ดูแดชบอร์ด</a>
+</div>
+{% endblock %}

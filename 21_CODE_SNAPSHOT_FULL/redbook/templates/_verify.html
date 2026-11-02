@@ -1,0 +1,83 @@
+{# ═══ ชิ้นส่วนร่วมของหน้า "ผู้ช่วยตรวจงบ" (#24 · IA รอบใหม่) ═══
+   ภาษาบนจอ = ภาษาคนตรวจงบ · ศัพท์เครื่องยนต์อยู่หน้า /details เท่านั้น
+   สถานะทุกแบบมีข้อความกำกับ ไม่พึ่งสีอย่างเดียว #}
+
+{% macro segs(parts, side) -%}
+{%- for p in parts -%}
+{%- if p.changed -%}<mark class="vx-mark vx-mark-{{ side }}"><span class="sr-only">[{{ 'ข้อความเดิม' if side == 'a' else 'ข้อความใหม่' }}: </span>{{ p.text }}<span class="sr-only">]</span></mark>
+{%- else -%}{{ p.text }}{%- endif -%}
+{%- endfor -%}
+{%- endmacro %}
+
+{% macro kind_chips(it) -%}
+<span class="vx-chips">{% for k in it.kinds|sort %}{% if k in vv.KIND_LABELS %}<span class="vx-chip vx-k-{{ k }}">{{ vv.KIND_LABELS[k] }}</span>{% endif %}{% endfor %}</span>
+{%- endmacro %}
+
+{% macro item_row(it, rid, back) -%}
+<li class="vx-item">
+  <a class="vx-item-link" href="/t1b/runs/{{ rid }}/compare/{{ it.id }}?back={{ back }}">
+    <span class="vx-item-main">
+      <b class="vx-item-title">{{ it.title }}</b>
+      {% if it.context %}<span class="vx-item-ctx">{{ it.context }}</span>{% endif %}
+    </span>
+    <span class="vx-item-sum">{{ it.summary }}</span>
+    {{ kind_chips(it) }}
+    <span class="vx-item-go" aria-hidden="true">เทียบ A | B ›</span>
+  </a>
+</li>
+{%- endmacro %}
+
+{# ═══ แถบบริบทของรอบตรวจ (sticky) — หน่วยงาน · ปี · A/B คืออะไร · ใช้คงที่ทั้งหน้า ═══ #}
+{% macro context_bar(rc) -%}
+{% if rc %}
+<div class="vx-ctx" role="group" aria-label="บริบทของรอบตรวจ">
+  {% if rc.agency or rc.ministry %}<span class="vx-ctx-agency"><b>{{ rc.agency or rc.ministry }}</b>{% if rc.agency and rc.ministry %} <span class="hint">· {{ rc.ministry }}</span>{% endif %}</span>{% endif %}
+  {% if rc.years %}<span class="vx-ctx-years">{{ rc.years }}</span>{% endif %}
+  <span class="vx-ctx-ab"><span class="vx-side-tag">A</span> {{ rc.label_a }} <span aria-hidden="true">↔</span> <span class="vx-side-tag is-b">B</span> {{ rc.label_b }}</span>
+  {% if rc.synthetic %}<span class="dev-chip">DEV · ข้อมูลสังเคราะห์</span>{% endif %}
+  {% if rc.scope %}<span class="vx-ctx-scope">{{ rc.scope }}</span>{% endif %}
+</div>
+{% endif %}
+{%- endmacro %}
+
+{# แถวประเด็นแบบ compact — เหมือนกันทั้ง คิวพิจารณา และ ตรวจก่อนส่งออก · กดแล้วเปิดหน้าหลักฐาน A | B เดียวกัน
+   ลำดับที่ตาเห็น: ประเภท → รายการ (+หัวข้อแม่) → เปลี่ยนอย่างไร/ต่างเท่าไร → ตำแหน่งสั้น → สถานะ → ดูหลักฐาน #}
+{% macro issue_row(it, rid, back, ann) -%}
+{% set st = vv.item_state(it, ann) %}
+<li class="vx-row is-{{ st.mark }}" id="it-{{ it.id }}">
+  <span class="vx-chip vx-k-{{ vv.primary_kind(it) or 'same' }}">{{ vv.issue_label(it) }}</span>
+  <span class="vx-row-main">
+    <b class="vx-row-title">{{ it.title }}</b>
+    {% if it.heading %}<span class="vx-row-crumb" title="ภายใต้ {{ it.heading }}">ภายใต้ {{ it.heading }}</span>{% endif %}
+  </span>
+  <span class="vx-row-chg">
+    {% set chs = it.changes %}
+    {% if chs and not ('added' in it.kinds or 'removed' in it.kinds) %}
+      {% for ch in chs[:2] %}<span class="vx-chg-line"><span class="vx-nw">{% if ch.period %}<span class="vx-chg-p">{{ ch.period }}</span> {% endif %}{{ ch.a }} → {{ ch.b }} <span class="hint">{{ ch.unit }}</span></span>{% if ch.delta %} <b class="vx-nw vx-delta-{{ 'down' if ch.delta_value and ch.delta_value < 0 else 'up' }}">{{ ch.delta }}</b>{% endif %}</span>{% endfor %}
+      {% if chs|length > 2 %}<span class="hint">และอีก {{ chs|length - 2 }} ช่อง</span>{% endif %}
+    {% else %}{{ it.summary }}{% endif %}
+  </span>
+  <span class="vx-row-loc" title="{% if it.a_loc %}A: {{ vv.where(it.a_loc) }}{% endif %}{% if it.b_loc %} · B: {{ vv.where(it.b_loc) }}{% endif %}">{{ it.rows_text }}</span>
+  <span class="vx-badge is-{{ st.mark }}"><span aria-hidden="true">{{ st.icon }}</span> {{ st.short }}</span>
+  <a class="vx-go-link" href="/t1b/runs/{{ rid }}/compare/{{ it.id }}?back={{ back }}">ดูหลักฐาน<span class="sr-only"> — {{ it.title }}</span> <span aria-hidden="true">→</span></a>
+</li>
+{%- endmacro %}
+
+{% macro issue_groups(groups, rid, back, ann) -%}
+{% for g in groups %}
+<details class="vx-group"{% if not g.collapsed %} open{% endif %}>
+  <summary><span class="vx-group-crumbs">{% for c in g.crumbs %}{% if not loop.first %} <span aria-hidden="true">›</span> {% endif %}{% if loop.last %}<b>{{ c }}</b>{% else %}{{ c }}{% endif %}{% endfor %}</span>
+    <span class="vx-count">{{ g.items|length }} รายการ</span>{% if g.note %} <span class="hint">· {{ g.note }}</span>{% endif %}</summary>
+  <ul class="vx-rows">{% for it in g.items %}{{ issue_row(it, rid, back, ann) }}{% endfor %}</ul>
+</details>
+{% endfor %}
+{%- endmacro %}
+
+{% macro state_badge(state, text) -%}
+<span class="vx-state vx-state-{{ state }}"><span aria-hidden="true">{{ {'same':'✓','ok':'✓','diff':'!','warn':'!','review':'?','manual':'?','blocked':'×','fail':'×'}.get(state, '•') }}</span> {{ text }}</span>
+{%- endmacro %}
+
+{% macro scope_note() -%}
+<p class="vx-scope">ระบบบอกว่า<b>อะไรเปลี่ยนและหลักฐานอยู่ตรงไหน</b> — คำตัดสินว่าเป็นการปรับที่ตั้งใจหรือไม่เป็นของผู้ตรวจ
+  · ผลนี้ไม่ใช่การรับรองความถูกต้องของเอกสาร และไม่ใช่ผลการประเมินเชิงวิจัย</p>
+{%- endmacro %}

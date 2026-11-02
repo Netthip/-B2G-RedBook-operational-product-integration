@@ -1,0 +1,39 @@
+# ============================================================
+# RedBook Verify — ห้าม commit ไฟล์ราชการจริงและผลตรวจจริง
+# ============================================================
+
+# ข้อมูลรันจริงทั้งหมด (ไฟล์อัปโหลด ฐานข้อมูล ล็อก รายงาน)
+.data/
+# โหมดสาธิต — ข้อมูลสังเคราะห์ แยกโฟลเดอร์จากงานจริง
+.data_demo/
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+
+# ไฟล์เอกสารทุกชนิดที่หลุดออกมานอก .data/ ถือว่าเสี่ยงเป็นไฟล์จริง
+*.xlsx
+*.xlsm
+*.xls
+*.csv
+*.pdf
+!tests/fixtures/**/*.xlsx
+!tests/fixtures/**/*.csv
+!tests/fixtures/**/*.pdf
+
+# ล็อกและรายงานความปลอดภัย
+*.log
+security/zap_reports/*.html
+security/zap_reports/*.json
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# ระบบ
+~$*
+Thumbs.db
+desktop.ini
+.DS_Store
