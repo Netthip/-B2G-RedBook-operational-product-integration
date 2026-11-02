@@ -72,7 +72,7 @@
               {#each rows as f (f.id)}
                 <tr><td><b>{f.subject}</b>{#if f.column}{` · ${f.column}`}{/if}<br /><span class="hint">{f.topic_label} · {f.kind_label}</span>
                   {#if f.caveats.length}<br /><span class="cav">{`ต้องให้คนยืนยัน: ${f.caveats.join(" · ")}`}</span>{/if}</td>
-                  <td class="num">{NO_VALUES.has(f.topic) ? "—" : `${clip(f.a.amount_text || "—", 40)} → ${clip(f.b.amount_text || "—", 40)}`}{#if f.delta_text}{@const t = trend(f)}<br /><span class="delta {t}" title={TREND_SAY[t]}>{#if t}{`${TREND_MARK[t]} `}{/if}{t ? absDelta(f) : f.delta_text}</span>{/if}</td>
+                  <td class="num">{#if NO_VALUES.has(f.topic)}—{:else}<span class="amt">{clip(f.a.amount_text || "—", 40)}</span> → <span class="amt">{clip(f.b.amount_text || "—", 40)}</span>{/if}{#if f.delta_text}{@const t = trend(f)}<br /><span class="delta {t}" title={TREND_SAY[t]}>{#if t}{`${TREND_MARK[t]} `}{/if}{t ? absDelta(f) : f.delta_text}</span>{/if}</td>
                   <td>{pagesOf(f, offsetsOf(r)) || "—"}</td>
                   <td>{f.decision ? f.decision.choice_label : "—"}{#if f.decision?.note}<br /><span class="hint">{f.decision.note}</span>{/if}</td></tr>
               {/each}
@@ -111,11 +111,13 @@
   .n { display: inline-grid; place-items: center; min-width: 26px; height: 22px; padding: 0 6px; border-radius: 999px; background: #eef0f3; font-size: .85em; }
   section > .hint { margin: 0 0 6px; }
   table { width: 100%; border-collapse: collapse; font-size: .9em; table-layout: fixed; }
-  th:nth-child(1) { width: 40%; } th:nth-child(2) { width: 28%; } th:nth-child(3) { width: 10%; } th:nth-child(4) { width: 22%; }
+  th:nth-child(1) { width: 36%; } th:nth-child(2) { width: 32%; } th:nth-child(3) { width: 10%; } th:nth-child(4) { width: 22%; }
   th, td { text-align: left; padding: 6px 8px; border-top: 1px solid var(--line); vertical-align: top; }
   th { color: var(--muted); font-weight: 600; }
   td { overflow-wrap: anywhere; }
   .num { font-variant-numeric: tabular-nums; }
+  /* ตัวเลขกับหน่วยไม่แยกบรรทัด (ยอดเงินแยกจาก "บาท" บนจอ 1366 — กิ๊ฟ 2 พ.ย.) · ตัดบรรทัดได้ที่ลูกศรเท่านั้น */
+  .amt, .delta { white-space: nowrap; }
   .cav { color: var(--warn); font-size: .9em; }
   .files ul { margin: 4px 0; padding-left: 20px; }
   @media print {
