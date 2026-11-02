@@ -13,11 +13,11 @@
 <p class="hint">อัตราการพบเทียบรายการอ้างอิงของผู้ตรวจ ภายในหัวข้อและส่วนของเล่มที่ผู้ตรวจประกาศว่าตรวจครบ · ร้อยละแสดงเมื่อตัวหารตั้งแต่ ๑๐ ขึ้นไป</p>
 {% if m.v03 %}{% set v = m.v03 %}
 <div class="tr-metrics tr-metrics-big">
-  <div class="tr-metric tr-metric-red"><span>H1 อัตราการพบหลัก (พบตรง ÷ N₀)</span><b>{{ v.issues.H1.text if v.issues else 'ยังตัดสินไม่ครบ ' ~ v.pending.issues }}</b>
+  <div class="tr-metric tr-metric-red"><span>H1 อัตราการพบหลัก (พบตรง ÷ N₀)</span><b>{{ v.issues.H1.text if v.issues else 'ยังตัดสินไม่ครบ ' ~ v.pending.issues ~ ' ข้อ' }}</b>
     {% if v.issues %}<small>ผลเสริม พบตรง ÷ N {{ v.issues.supplement.text }} · รวมพบบางส่วน ÷ N₀ {{ v.issues.incl_partial.text }} · ตัดสินไม่ได้ {{ v.issues.undecidable }}</small>{% endif %}</div>
-  <div class="tr-metric"><span>H2 ตำแหน่งถูกทุกฝั่ง ในประเด็นที่พบและตัดสินตำแหน่งได้</span><b>{{ v.location.H2.text if v.location else 'ยังไม่ครบ ' ~ v.pending.location }}</b>
+  <div class="tr-metric"><span>H2 ตำแหน่งถูกทุกฝั่ง ในประเด็นที่พบและตัดสินตำแหน่งได้</span><b>{{ v.location.H2.text if v.location else 'ยังไม่ครบ ' ~ v.pending.location ~ ' ข้อ' }}</b>
     {% if v.location %}<small>P {{ v.location.P }} · ตัดสินไม่ได้ {{ v.location.undecidable }} · ถูกทุกฝั่ง ÷ P {{ v.location.all_over_P.text }}</small>{% endif %}</div>
-  <div class="tr-metric"><span>A3-อ ความตรงของสิ่งที่อ่านได้ · A3-ข ความถูกของข้อสรุป</span><b>{{ (v.obs.A3_fidelity.text ~ ' · ' ~ v.obs.A3_assertion.text) if v.obs else 'ยังไม่ครบ ' ~ v.pending.obs }}</b>
+  <div class="tr-metric"><span>A3-อ ความตรงของสิ่งที่อ่านได้ · A3-ข ความถูกของข้อสรุป</span><b>{{ (v.obs.A3_fidelity.text ~ ' · ' ~ v.obs.A3_assertion.text) if v.obs else 'ยังไม่ครบ ' ~ v.pending.obs ~ ' ข้อ' }}</b>
     {% if v.obs %}<small>ตัดสินไม่ได้ A3-อ {{ v.obs.fidelity.undecidable }} · A3-ข {{ v.obs.assertion.undecidable }} · อ่านตรงครบแต่ข้อสรุปไม่ถูก {{ v.obs.read_ok_assertion_wrong }} · แจ้งเกิน ส3 ÷ (F − ส4) {{ v.obs.overflag.text }} (ไม่ใช่ precision)</small>{% endif %}</div>
 </div>
 <p class="hint">ผลเสริมด้านล่างนับแยกจาก H1 — ไม่ใช่ตัววัดหลัก · ตัวหาร N = ประเด็นที่ตัดสินได้ (ไม่รวมตัดสินไม่ได้)</p>
@@ -26,7 +26,7 @@
   <div class="tr-metric{{ '' if m.v03 else ' tr-metric-red' }}"><span>{{ 'ผลเสริม · ' if m.v03 }}อัตราการพบแบบเข้ม (พบตรง ÷ N)</span><b>{{ a1.strict.text }}</b>
     <small>N0 = {{ a1.N0 }} ที่ล็อกในขอบเขต · N = {{ a1.N }}{% if a1.pending %} · ยังไม่ครบ {{ a1.pending }}{% endif %}</small>
     {% if not m.v03 %}<span class="tr-bar-track"><span class="tr-bar-fill" data-w="{{ (100 * a1.exact / a1.N)|round|int if a1.N else 0 }}"></span></span>{% endif %}</div>
-  <div class="tr-metric"><span>{{ 'ผลเสริม · ' if m.v03 }}อัตราการพบรวมพบบางส่วน ((พบตรง + บางส่วน) ÷ N)</span><b>{{ a1.with_partial.text }}</b>
+  <div class="tr-metric"><span>{{ 'ผลเสริม · ' if m.v03 }}รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N</span><b>{{ a1.with_partial.text }}</b>
     <small>พบบางส่วนนับแยก ไม่นับเป็นครึ่ง</small></div>
   <div class="tr-metric"><span>พลาด</span><b>{{ a1.missed }}</b>
     <small>{% for k, label in tsvc.MISS_REASONS.items() %}{{ label.split(' ')[0] }} {{ a1.missed_reasons[k] }}{% if not loop.last %} · {% endif %}{% endfor %}</small></div>

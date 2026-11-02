@@ -1493,6 +1493,7 @@ def test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary(cl
     assert "H2 ตำแหน่งถูกทุกฝั่ง" in pending and "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" not in pending
     assert "ผลเสริม · อัตราการพบแบบเข้ม (พบตรง ÷ N)" in pending and "ยังไม่ครบ" in pending
     assert "0.0%" not in pending
+    assert "ยังตัดสินไม่ครบ 1 ข้อ" in pending and "ผลเสริม · รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N" in pending
     dash = client.get(f"/trial/s/{sid}/dashboard").text
     strict = dash[:dash.index("ผลเสริม · อัตราการพบแบบเข้ม")]
     assert strict.rsplit('class="tr-metric', 1)[1].startswith('"') and "tr-bar-fill" not in dash.split("ผลเสริม ·")[1][:600]
@@ -1501,6 +1502,8 @@ def test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary(cl
                                                             "relevant_side": ["A", "B"]}, follow_redirects=False)
     assert r.status_code == 303
     page = client.get(f"/trial/s/{sid}/result").text
+    res = plain(client.get(f"/trial/s/{sid}/result").text)
+    assert "ผลเสริม · อัตราการพบแบบเข้ม (พบตรง ÷ N)" in res and "ผลเสริม · รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N" in res
     linked = re.search(rf'value="{must[0].id}" checked>([^<]*)', page).group(1)
     assert linked.strip().startswith(f"หน้า {must[0].b.page} ·")
     done = plain(client.get(f"/trial/s/{sid}/dashboard").text)
