@@ -24,17 +24,17 @@
   {@const v = m.v03}
   <div class="metrics v03" class:big>
     <div class="card metric m-red">
-      <span class="lbl">H1 อัตราการพบหลัก (พบตรง ÷ N₀)</span><b>{v.issues ? v.issues.H1.text : `ยังตัดสินไม่ครบ ${v.pending.issues}`}</b>
+      <span class="lbl">H1 อัตราการพบหลัก (พบตรง ÷ N₀)</span><b>{v.issues ? v.issues.H1.text : `ยังตัดสินไม่ครบ ${v.pending.issues} ข้อ`}</b>
       {#if v.issues}<small>ผลเสริม พบตรง ÷ N {v.issues.supplement.text} · รวมพบบางส่วน ÷ N₀ {v.issues.incl_partial.text} · ตัดสินไม่ได้ {v.issues.undecidable}</small>{/if}
     </div>
     <div class="card metric">
       <span class="lbl">H2 ตำแหน่งถูกทุกฝั่ง ในประเด็นที่พบและตัดสินตำแหน่งได้</span>
-      <b>{v.location ? v.location.H2.text : `ยังไม่ครบ ${v.pending.location}`}</b>
+      <b>{v.location ? v.location.H2.text : `ยังไม่ครบ ${v.pending.location} ข้อ`}</b>
       {#if v.location}<small>P {v.location.P} · ตัดสินไม่ได้ {v.location.undecidable} · ถูกทุกฝั่ง ÷ P {v.location.all_over_P.text}</small>{/if}
     </div>
     <div class="card metric">
       <span class="lbl">A3-อ ความตรงของสิ่งที่อ่านได้ · A3-ข ความถูกของข้อสรุป</span>
-      <b>{v.obs ? `${v.obs.A3_fidelity.text} · ${v.obs.A3_assertion.text}` : `ยังไม่ครบ ${v.pending.obs}`}</b>
+      <b>{v.obs ? `${v.obs.A3_fidelity.text} · ${v.obs.A3_assertion.text}` : `ยังไม่ครบ ${v.pending.obs} ข้อ`}</b>
       {#if v.obs}<small>ตัดสินไม่ได้ A3-อ {v.obs.fidelity.undecidable} · A3-ข {v.obs.assertion.undecidable} ·
         อ่านตรงครบแต่ข้อสรุปไม่ถูก {v.obs.read_ok_assertion_wrong} · แจ้งเกิน ส3 ÷ (F − ส4) {v.obs.overflag.text} (ไม่ใช่ precision)</small>{/if}
     </div>
@@ -48,7 +48,7 @@
     {#if !sup}<span class="track"><span class="fill" style:width="{fill}%"></span></span>{/if}
   </div>
   <div class="card metric" class:sup>
-    <span class="lbl">{sup ? "ผลเสริม · " : ""}รวมพบบางส่วน ((พบตรง + บางส่วน) ÷ N)</span><b>{a1.with_partial.text}</b>
+    <span class="lbl">{sup ? "ผลเสริม · " : ""}รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N</span><b>{a1.with_partial.text}</b>
     <small>พบตรง {a1.exact} · บางส่วน {a1.partial} · พลาด {a1.missed} · ตัดสินไม่ได้ {a1.undecidable}</small>
   </div>
   <div class="card metric">
