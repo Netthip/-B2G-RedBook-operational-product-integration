@@ -7,6 +7,8 @@
   const a1 = $derived(m.A1);
   const led = $derived(m.A3);
   const fill = $derived(a1.N ? (100 * a1.exact) / a1.N : 0);
+  // รอบ 0.3 (Bo #43 6540982695): อัตราการพบเดิมเป็นผลเสริม ไม่แข่ง H1 · H2 แทน A2 (ข้อมูลรอบ 0.2 ไม่ลบ)
+  const sup = $derived(!!m.v03);
 </script>
 
 {#if m.scope.pair_kind === "cross_year"}
@@ -39,14 +41,14 @@
   </div>
 {/if}
 <div class="metrics" class:big>
-  <div class="card metric m-red">
-    <span class="lbl">อัตราการพบแบบเข้ม (พบตรง ÷ N)</span>
+  <div class="card metric" class:m-red={!sup} class:sup>
+    <span class="lbl">{sup ? "ผลเสริม · อัตราการพบแบบเข้ม (พบตรง ÷ N)" : "อัตราการพบแบบเข้ม (พบตรง ÷ N)"}</span>
     <b>{a1.strict.text}</b>
     <small>N0 = {a1.N0} ที่ล็อกในขอบเขต · N = {a1.N} (ไม่รวมตัดสินไม่ได้){a1.pending ? ` · ยังไม่ครบ ${a1.pending}` : ""}</small>
-    <span class="track"><span class="fill" style:width="{fill}%"></span></span>
+    {#if !sup}<span class="track"><span class="fill" style:width="{fill}%"></span></span>{/if}
   </div>
-  <div class="card metric">
-    <span class="lbl">รวมพบบางส่วน</span><b>{a1.with_partial.text}</b>
+  <div class="card metric" class:sup>
+    <span class="lbl">{sup ? "ผลเสริม · " : ""}รวมพบบางส่วน ((พบตรง + บางส่วน) ÷ N)</span><b>{a1.with_partial.text}</b>
     <small>พบตรง {a1.exact} · บางส่วน {a1.partial} · พลาด {a1.missed} · ตัดสินไม่ได้ {a1.undecidable}</small>
   </div>
   <div class="card metric">
@@ -58,10 +60,12 @@
     <small>นอกส่วนที่ตรวจครบ {led.outside} · {meta.finding_levels.info} {m.findings.info} · {meta.finding_levels.unread} {m.findings.unread}</small>
   </div>
   {#if big}
-    <div class="card metric">
-      <span class="lbl">หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)</span><b>{m.A2.rate.text}</b>
-      <small>ถูกบางฉบับ {m.A2.some} · ไม่ถูก {m.A2.none}</small>
-    </div>
+    {#if !sup}
+      <div class="card metric">
+        <span class="lbl">หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)</span><b>{m.A2.rate.text}</b>
+        <small>ถูกบางฉบับ {m.A2.some} · ไม่ถูก {m.A2.none}</small>
+      </div>
+    {/if}
     <div class="card metric">
       <span class="lbl">สัดส่วนแจ้งเกิน ส3 ÷ (F − ส4)</span><b>{led.false_alarm.text}</b>
       <small>{Object.entries(meta.s3_reasons).map(([k, l]) => `${l} ${led.s3_reasons[k] ?? 0}`).join(" · ")}</small>
@@ -87,6 +91,8 @@
   .big b { font-size: 1.8em; }
   small { color: var(--muted); }
   .m-red { border-left: 5px solid var(--red); }
+  .sup b { font-size: 1.2em; }
+  .big .sup b { font-size: 1.35em; }
   .track { display: block; height: 8px; border-radius: 999px; background: #eef0f3; overflow: hidden; margin-top: 6px; }
   .fill { display: block; height: 100%; background: var(--red); transition: width .9s cubic-bezier(.22, 1, .36, 1); }
 </style>
