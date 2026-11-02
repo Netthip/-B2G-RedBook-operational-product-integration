@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}ผลของเครื่องยังเปิดไม่ได้ · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>ผลของเครื่องยังเปิดไม่ได้</h1>
+<p class="page-sub">รอบ <span class="mono">{{ run_id or "— (ไม่ได้ระบุรอบ)" }}</span></p>
+
+<div class="note warn">
+  <b><span class="mono">{{ reason }}</span></b><br>
+  หน้าที่ขอเปิดแสดง <b>สิ่งที่เครื่องสกัดหรือเสนอ</b> (ข้อสังเกต · คู่ · สถานะ · จำนวน · สรุป)
+  จึงเปิดได้ก็ต่อเมื่อ <b>ผนึกครบทั้งสาม artifact</b>
+  — จักรวาลของเฉลย เฉลยของรอบนี้ และผลลัพธ์ของเครื่อง <b>และตรวจแล้วว่ายังตรงกับที่ผนึกไว้</b>
+  มิฉะนั้นเฉลยถูกชี้นำได้ ผลของเครื่องถูกแก้หลังเห็นเฉลยได้ หรือข้อมูลถูกเปลี่ยนหลังผนึกโดยไม่มีใครเห็น
+</div>
+
+{% if verification %}
+<div class="card">
+  <p class="small">ระบบคำนวณใหม่จากข้อมูลปัจจุบันแล้วเทียบกับค่าที่ผนึกไว้ — ผลคือ</p>
+  <table class="report small">
+    <thead><tr><th>ชั้น</th><th>สถานะ</th><th>รายละเอียด</th></tr></thead>
+    <tbody>
+    {% for c in verification.rows %}
+      <tr>
+        <td>{{ c.label }}</td>
+        <td>{% if c.ok is none %}<span class="badge">{{ c.state_label }}</span>
+            {% elif c.ok %}<span class="badge green">{{ c.state_label }}</span>
+            {% else %}<span class="badge red">{{ c.state_label }}</span>{% endif %}</td>
+        <td class="small">{% if c.ok is none %}<span class="muted">ไม่แสดงรายละเอียดของชั้นนี้จนกว่าตรวจผ่านครบทุกชั้น</span>
+            {% elif c.ok %}<span class="mono small">{{ c.digest_prefix }}…</span>
+            {% else %}{{ c.reasons|join(' · ') }}{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% if not verification.ok and verification.all_sealed %}<div class="note danger">{{ verification.summary }}</div>{% endif %}
+  <p class="small">🔴 ถ้าเหตุผลคือ "ไม่ตรงกับค่าที่ผนึกไว้" แปลว่ามีข้อมูลเปลี่ยนหลังผนึก —
+    <b>ห้ามซ่อมทับที่เดิม</b> ต้องเปิดรอบประเมินใหม่</p>
+</div>
+{% endif %}
+
+<div class="card">
+  <p>ลำดับที่ต้องทำ</p>
+  <ol>
+    <li>กรอก<b>ทะเบียนข้อสังเกตอิสระ</b> ที่หน้า {% if run_id %}<a href="/indicators/runs/{{ run_id }}/keybuild">KEY BUILD / VERIFY</a>{% else %}KEY BUILD / VERIFY ของรอบนั้น{% endif %} โดยอ่านเอกสารเอง (หน้านั้นไม่แสดงผลของเครื่อง)</li>
+    <li><b>ตรึงจักรวาลของเฉลย</b> ที่สร้างจากทะเบียนนั้น</li>
+    <li>กด <b>ผนึกผลลัพธ์ของเครื่อง</b></li>
+    <li>กรอกคำตอบของเฉลย <b>ให้ครบทุกรายการ</b> แล้วผู้ถือเฉลยกด <b>ผนึกเฉลย</b></li>
+    <li>ขั้นตัดสินหลังรันและชุดส่งออกจึงจะเปิด — และถูกตรวจซ้ำทุกครั้งที่เปิด</li>
+  </ol>
+  <p class="muted small">🔴 หน้ารายงานของรอบก็แสดงผลของเครื่อง จึงถูกล็อกด้วยด่านเดียวกัน (Bo `5606392284` P4-1)</p>
+</div>
+
+{% endblock %}

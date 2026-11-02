@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% from "_refs.html" import ref_strip with context %}
+{% block title %}{{ project.name }} · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>{{ project.name }}</h1>
+<p class="page-sub">
+  โหมด: <b>{{ mode_label }}</b> · สร้างเมื่อ <span class="mono">{{ project.created_at }}</span>
+  {% if project.note %}<br>{{ project.note }}{% endif %}
+</p>
+
+{% if book_refs %}
+{# ── เล่มอ้างอิงที่เลือกจากคลังเล่ม (#24) — เปิด PDF ทางการเทียบได้ตลอดการตรวจ ── #}
+<h2>เล่มอ้างอิงของงานนี้</h2>
+{{ ref_strip(book_refs, side_labels) }}
+<p class="hint">ขั้นต่อไป: ใส่สมุดงาน Excel ของเอกสารทั้งสองฉบับด้านล่าง — ระบบเทียบจากสมุดงาน
+  และใช้ PDF ข้างบนเป็นหลักฐานอ้างอิง</p>
+{% endif %}
+
+{% if demo_pair_available and not ready %}
+<div class="note warn">
+  <b>โหมดสาธิต:</b> ยังไม่มีไฟล์? ใส่คู่สมุดงาน<b>สังเคราะห์</b>ให้ทั้งสองฝั่งได้ในคลิกเดียว
+  — เนื้อในเป็นข้อมูลที่แต่งขึ้น <b>ไม่ได้มาจาก PDF ของเล่มอ้างอิงข้างบน</b>
+  ห้ามนำผลไปอ้างเป็นข้อผิดพลาดของเล่มจริง
+  <form method="post" action="/projects/{{ project.id }}/demo-files" class="mt-s">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <button class="btn small" type="submit">ใส่คู่ไฟล์สาธิต (สังเคราะห์)</button>
+  </form>
+</div>
+{% endif %}
+
+<h2>อัปโหลดและจับคู่ไฟล์</h2>
+<div class="grid grid-2">
+  {% for side in ["A", "B", "REF"] %}
+  {% set f = pf.get(side) %}
+  <div class="card">
+    <div class="card-head">
+      <h3>{{ side_labels[side] }}</h3>
+      {% if f %}<span class="badge green">อัปโหลดแล้ว</span>
+      {% elif side == "REF" %}<span class="badge gray">ไม่บังคับ</span>
+      {% else %}<span class="badge yellow">ยังไม่มีไฟล์</span>{% endif %}
+    </div>
+
+    {% if f %}
+    <dl class="kv mt-m">
+      <dt>ชื่อไฟล์</dt><dd>{{ f.original_name }}</dd>
+      <dt>ชนิดไฟล์ที่ตรวจได้</dt><dd>{{ f.kind|upper }}</dd>
+      <dt>ขนาด</dt><dd>{{ "{:,}".format(f.size_bytes) }} ไบต์</dd>
+      <dt>SHA-256</dt><dd class="mono tiny">{{ f.sha256 }}</dd>
+      <dt>ปีงบประมาณที่ระบุ</dt><dd>{{ f.declared_fiscal_year or "— ยังไม่ระบุ" }}</dd>
+      <dt>หน่วยงานที่ระบุ</dt>
+      <dd>{{ f.declared_agency_code or "—" }} {{ f.declared_agency_name or "" }}</dd>
+      <dt>ประเภทเอกสารที่ระบุ</dt><dd>{{ f.declared_doc_kind or "— ยังไม่ระบุ" }}</dd>
+      <dt>อัปโหลดเมื่อ</dt><dd class="mono">{{ f.uploaded_at }}</dd>
+    </dl>
+    {% if f.kind == "xlsx" %}
+      <div class="actions">
+        <a class="btn small secondary" href="/files/{{ f.id }}/structure">ดูโครงสร้างไฟล์</a>
+      </div>
+    {% endif %}
+    <div class="hint mt-s">อัปโหลดไฟล์ใหม่ทับได้จากแบบฟอร์มด้านล่าง</div>
+    {% endif %}
+
+    <form method="post" action="/projects/{{ project.id }}/upload"
+          enctype="multipart/form-data" class="mt-s">
+      <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+      <input type="hidden" name="side" value="{{ side }}">
+
+      <label for="file-{{ side }}">เลือกไฟล์ (Excel .xlsx/.xlsm หรือ PDF · ไม่เกิน {{ max_mb }} MB)</label>
+      <input type="file" id="file-{{ side }}" name="upload" required
+             accept=".xlsx,.xlsm,.pdf">
+      <div class="hint">ระบบตรวจชนิดไฟล์จากเนื้อไฟล์จริง ไม่ได้ดูจากนามสกุลเพียงอย่างเดียว</div>
+
+      <label for="year-{{ side }}">ปีงบประมาณของไฟล์นี้</label>
+      <input type="number" id="year-{{ side }}" name="fiscal_year" min="2500" max="2700"
+             placeholder="เช่น 2570"
+             {% if book_refs.get(side) %}value="{{ book_refs[side].fiscal_year }}"{% endif %}>
+
+      <label for="agency-{{ side }}">รหัสหน่วยงาน</label>
+      <input type="text" id="agency-{{ side }}" name="agency_code" maxlength="40"
+             placeholder="ตามที่ใช้ในเอกสาร">
+
+      <label for="agencyname-{{ side }}">ชื่อหน่วยงาน</label>
+      <input type="text" id="agencyname-{{ side }}" name="agency_name" maxlength="200">
+
+      <label for="kind-{{ side }}">ประเภทเอกสาร</label>
+      <input type="text" id="kind-{{ side }}" name="doc_kind" maxlength="100"
+             placeholder="เช่น ร่าง พ.ร.บ. / พ.ร.บ. / ฉบับก่อน–หลังปรับลด / เอกสารปีงบประมาณ">
+      <div class="hint">ระบบใช้ค่าที่ท่านระบุนี้ตรวจว่าจับคู่ไฟล์ถูกฝั่งหรือไม่
+        ยังไม่อ่านปีหรือหน่วยงานจากในเอกสารเอง เพราะยังไม่มี mapping ที่ท่านอนุมัติ</div>
+
+      <div class="actions">
+        <button class="btn" type="submit">{% if f %}อัปโหลดทับ{% else %}อัปโหลด{% endif %}</button>
+      </div>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+
+<h2>ตรวจ metadata ก่อนเริ่ม</h2>
+<div class="card">
+  <p class="mt-0">
+    ขั้นตอนนี้ตรวจว่าไฟล์สองฝั่งเข้าคู่กันหรือไม่ ก่อนจะลงไปเปรียบเทียบเนื้อหา
+    ใช้กฎ <b>M01–M05</b> ได้แก่ ความสอดคล้องของปีงบประมาณกับโหมด หน่วยงาน ประเภทเอกสาร
+    ไฟล์ซ้ำกันทั้งสองฝั่ง และชนิดไฟล์ต่างกัน
+  </p>
+  <form method="post" action="/projects/{{ project.id }}/precheck">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <div class="actions">
+      <button class="btn" type="submit" {% if not ready %}disabled{% endif %}>เริ่มตรวจ metadata</button>
+      {% if not ready %}<span class="hint">ต้องมีไฟล์ครบทั้งฝั่ง A และฝั่ง B ก่อน</span>{% endif %}
+    </div>
+  </form>
+</div>
+
+<h2>เปรียบเทียบเนื้อในสมุดงาน (T1B)</h2>
+<div class="card">
+  <p class="mt-0">
+    ขั้นตอนนี้อ่านรายการในสมุดงานทั้งสองฝั่งแล้วจับคู่ด้วยคีย์เนื้อหา
+    เพื่อหา <b>รายการที่หายไป รายการที่เพิ่มเข้ามา และรายการที่ยอดเปลี่ยน</b>
+    ผลที่ได้จะแยกเป็นสองกอง คือกองที่ระบบสรุปได้เอง กับกองที่ต้องให้คนตรวจ
+  </p>
+  <p class="hint mt-s">
+    รองรับเฉพาะแฟ้ม Excel (.xlsx/.xlsm) ในขั้นนี้ · ยังไม่รองรับ PDF ·
+    ระบบไม่ตัดสินว่ารายการใดถูกหรือผิด บอกได้เพียงว่าต่างกันตรงไหน
+  </p>
+  <form method="post" action="/projects/{{ project.id }}/analyze">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <div class="actions">
+      <button class="btn" type="submit" {% if not ready %}disabled{% endif %}>เปรียบเทียบเนื้อในสมุดงาน</button>
+      {% if not ready %}<span class="hint">ต้องมีไฟล์ครบทั้งฝั่ง A และฝั่ง B ก่อน</span>{% endif %}
+    </div>
+  </form>
+</div>
+
+<h2>เทียบเล่ม PDF ↔ PDF</h2>
+<div class="card">
+  <p class="mt-0">
+    เทียบเล่มเอกสารงบประมาณฉบับ PDF สองฉบับโดยตรง (อ่านชั้นข้อความ ไม่ใช้ OCR) — ยอดรวมและหมวดงบ ·
+    รายจ่ายประจำ/ลงทุน · ผลผลิต/โครงการ · รายการที่เสนอตั้ง/ไม่เสนอตั้ง · รายการผูกพัน · ประมาณการล่วงหน้า ·
+    ตัวชี้วัด · วิสัยทัศน์ พันธกิจ ผลสัมฤทธิ์ และความสอดคล้องภายในเล่ม
+  </p>
+  <div class="actions"><a class="btn" href="/projects/{{ project.id }}/pdfpair">ไปที่หน้าเทียบเล่ม PDF</a></div>
+</div>
+
+<h2>ลบงานตรวจนี้</h2>
+<div class="card">
+  <p class="mt-0">
+    ลบไฟล์ต้นฉบับที่อัปโหลดไว้และผลตรวจทั้งหมดของงานนี้ออกจากเครื่อง
+    เหลือไว้เฉพาะรายการใน Audit Trail ที่ไม่มีเนื้อหางบประมาณ
+  </p>
+  <div class="actions">
+    <a class="btn danger" href="/projects/{{ project.id }}/delete">ไปหน้ายืนยันการลบ</a>
+  </div>
+  <div class="hint mt-s">
+    นโยบาย <span class="mono">PROVISIONAL_LOCAL_RETENTION</span> —
+    ระบบไม่ลบไฟล์ให้เองโดยอัตโนมัติ
+  </div>
+</div>
+
+<h2>ประวัติการตรวจ</h2>
+{% if runs %}
+<div class="card">
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th>รหัสการตรวจ</th><th>ขั้นตอน</th><th>เวอร์ชันกฎ</th>
+      <th class="num">ข้อสังเกต</th><th class="num">เวลา (มิลลิวินาที)</th>
+      <th>เริ่มเมื่อ</th><th></th>
+    </tr></thead>
+    <tbody>
+    {% for r in runs %}
+      <tr>
+        <td class="mono">{{ r.id }}</td>
+        <td>{{ r.status }}</td>
+        <td class="mono">{{ r.rule_set_version }}</td>
+        <td class="num">{{ r.items_checked }}</td>
+        <td class="num">{{ r.duration_ms if r.duration_ms is not none else "—" }}</td>
+        <td class="mono">{{ r.started_at }}</td>
+        <td><a class="btn small secondary" href="/runs/{{ r.id }}">ดูผล</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% else %}
+<div class="empty">ยังไม่มีการตรวจในงานนี้</div>
+{% endif %}
+
+{% endblock %}

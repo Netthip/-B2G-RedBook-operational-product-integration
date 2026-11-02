@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}{{ f.finding_code }} · {{ app_name }}{% endblock %}
+{% block content %}
+
+{% set color = status_color(MachineStatus(f.machine_status), ReviewStatus(f.review_status), f.presentation_only) %}
+
+<h1>{{ f.finding_code }} · {{ f.check_type }}</h1>
+<p class="page-sub">
+  {% if project %}งานตรวจ <a href="/projects/{{ project.id }}">{{ project.name }}</a> · {% endif %}
+  <a href="/runs/{{ f.run_id }}">กลับไปหน้าสรุปผล</a>
+</p>
+
+<div class="card">
+  <div class="card-head">
+    <h2>สถานะ</h2>
+    <span class="badge {{ color }}">
+      {% if f.review_status == 'pending' %}{{ th_label(MachineStatus(f.machine_status)) }}
+      {% else %}{{ th_label(ReviewStatus(f.review_status)) }}{% endif %}
+    </span>
+    {% if f.presentation_only %}<span class="badge gray">ความต่างด้านการแสดงผล</span>{% endif %}
+  </div>
+
+  <dl class="kv mt-l">
+    <dt>รหัสผลตรวจ</dt><dd class="mono">{{ f.finding_code }}</dd>
+    <dt>ประเภทการตรวจ</dt><dd>{{ f.check_type }}</dd>
+    <dt>ระดับความสำคัญ</dt><dd class="sev-{{ f.severity }}">{{ f.severity }}</dd>
+    <dt>ค่าฝั่ง A</dt><dd>{{ f.value_a if f.value_a is not none else "— ไม่มีค่า" }}</dd>
+    <dt>ค่าฝั่ง B</dt><dd>{{ f.value_b if f.value_b is not none else "— ไม่มีค่า" }}</dd>
+    <dt>ผลต่าง</dt><dd>{{ f.diff_value if f.diff_value is not none else "— คำนวณไม่ได้จากข้อมูลนี้" }}</dd>
+    <dt>ร้อยละ</dt><dd>{{ f.diff_pct if f.diff_pct is not none else "—" }}</dd>
+    <dt>หน่วย</dt><dd>{{ f.unit or "—" }}</dd>
+    <dt>กฎที่ใช้</dt><dd class="mono">{{ f.rule_id }} · {{ f.rule_version }}</dd>
+    <dt>เหตุผลที่แจ้งเตือน</dt><dd>{{ f.reason }}</dd>
+    <dt>ความเชื่อมั่น</dt>
+    <dd>{% if f.confidence is not none %}{{ f.confidence }} — {{ f.confidence_basis }}
+        {% else %}— กฎนี้ไม่ใช้คะแนนความเชื่อมั่น (อ่านค่าตรงจากข้อมูลที่ระบุ){% endif %}</dd>
+    <dt>ผู้ยืนยัน</dt><dd>{{ f.reviewed_by or "— ยังไม่มีการพิจารณา" }}</dd>
+    <dt>วันเวลาที่พิจารณา</dt><dd class="mono">{{ f.reviewed_at or "—" }}</dd>
+    <dt>หมายเหตุของผู้ตรวจ</dt><dd>{{ f.review_note or "—" }}</dd>
+    <dt>คีย์ผลตรวจ</dt><dd class="mono tiny">{{ f.finding_key }}</dd>
+  </dl>
+</div>
+
+{% if rule %}
+<div class="card">
+  <h2>สิ่งที่กฎนี้สรุปได้และสรุปไม่ได้</h2>
+  <p class="mt-0"><b>{{ rule.rule_id }} — {{ rule.title }}</b><br>{{ rule.description }}</p>
+  {% if rule.cannot_conclude %}
+  <div class="note warn"><b>กฎนี้ไม่สรุปให้ว่า:</b> {{ rule.cannot_conclude }}</div>
+  {% endif %}
+  {% if rule.requires_evidence_file %}
+  <div class="note info">กฎนี้ต้องมีไฟล์หลักฐานการปรับลดประกอบ จึงจะสรุปได้เกินกว่าคำว่า “พบความแตกต่าง”</div>
+  {% endif %}
+</div>
+{% endif %}
+
+<h2>หลักฐานย้อนกลับ (Evidence View)</h2>
+<div class="compare">
+  <div class="card">
+    <div class="side-title">ฝั่ง A</div>
+    {% if f.loc_a %}
+    <dl class="kv">
+      {% for k, v in f.loc_a.items() %}
+        <dt>{{ k }}</dt><dd>{{ v if v is not none else "—" }}</dd>
+      {% endfor %}
+    </dl>
+    {% if file_a and file_a.kind == 'xlsx' %}
+      <div class="actions"><a class="btn small secondary" href="/files/{{ file_a.id }}/structure">เปิดโครงสร้างไฟล์ A</a></div>
+    {% endif %}
+    {% else %}<div class="hint">ไม่มีตำแหน่งต้นทางสำหรับฝั่งนี้</div>{% endif %}
+  </div>
+  <div class="card">
+    <div class="side-title">ฝั่ง B</div>
+    {% if f.loc_b %}
+    <dl class="kv">
+      {% for k, v in f.loc_b.items() %}
+        <dt>{{ k }}</dt><dd>{{ v if v is not none else "—" }}</dd>
+      {% endfor %}
+    </dl>
+    {% if file_b and file_b.kind == 'xlsx' %}
+      <div class="actions"><a class="btn small secondary" href="/files/{{ file_b.id }}/structure">เปิดโครงสร้างไฟล์ B</a></div>
+    {% endif %}
+    {% else %}<div class="hint">ไม่มีตำแหน่งต้นทางสำหรับฝั่งนี้</div>{% endif %}
+  </div>
+</div>
+
+<h2>บันทึกผลการพิจารณา</h2>
+<div class="card">
+  {% if f.review_status != 'pending' %}
+  <div class="note ok">
+    ผลตรวจนี้ได้รับการพิจารณาแล้วเป็น <b>{{ th_label(ReviewStatus(f.review_status)) }}</b>
+    โดย {{ f.reviewed_by }} เมื่อ {{ f.reviewed_at }}<br>
+    การบันทึกเพิ่มจะถูกเก็บใน Audit Trail เป็นรายการใหม่ ไม่ลบรายการเดิม
+  </div>
+  {% endif %}
+  <form method="post" action="/findings/{{ f.id }}/decide">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+
+    <label for="reviewer">ชื่อผู้ตรวจ</label>
+    <input type="text" id="reviewer" name="reviewer" maxlength="120"
+           value="{{ f.reviewed_by or '' }}" placeholder="ชื่อผู้รับผิดชอบการพิจารณา">
+
+    <label for="decision">ผลการพิจารณา</label>
+    <select id="decision" name="decision" required>
+      <option value="">— เลือกผลการพิจารณา —</option>
+      <option value="confirmed_error">ยืนยันว่าเป็นข้อผิดพลาด</option>
+      <option value="confirmed_valid_change">ยืนยันว่าเป็นการเปลี่ยนแปลงที่ถูกต้อง</option>
+      <option value="exempted">ยกเว้นข้อสังเกตนี้</option>
+    </select>
+
+    <label for="note">เหตุผลประกอบ (บังคับ)</label>
+    <textarea id="note" name="note" required maxlength="2000"
+              placeholder="ระบุหลักฐานหรือเหตุผลที่ใช้ตัดสิน เช่น เอกสารอ้างอิง หนังสือสั่งการ หรือการตรวจกับต้นฉบับ"></textarea>
+    <div class="hint">ระบบไม่บันทึกคำตัดสินที่ไม่มีเหตุผลกำกับ</div>
+
+    <div class="actions">
+      <button class="btn" type="submit">บันทึกผลการพิจารณา</button>
+      <a class="btn secondary" href="/runs/{{ f.run_id }}">กลับ</a>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "_verify.html" import state_badge with context %}
+{% block title %}ส่งออก · เทียบเล่ม PDF · {{ app_name }}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/static/pdfpair.css">
+<script src="/static/pdfpair.js" defer></script>
+{% set rid = v.rid %}
+<nav class="vx-crumbs" aria-label="ตำแหน่ง"><a href="/projects/{{ v.run.project_id }}">{{ project.name if project else 'งานตรวจ' }}</a> ›
+  <a href="/pdfpair/runs/{{ rid }}">ผลเทียบเล่ม PDF</a> › <span aria-current="page">ส่งออก</span></nav>
+<h1>ส่งออกผลการตรวจ</h1>
+<p class="page-sub">{{ svc.MODE_LABELS.get(v.result.mode, v.result.mode) }}{% if v.run.agency %} · {{ v.run.agency }}{% endif %}</p>
+{% include "_pdfpair_lineage.html" %}
+
+{% if pf.ok %}
+<div class="note ok"><b>ผ่านด่านก่อนส่งออกครบ {{ pf.checks|length }} ข้อ</b></div>
+<dl class="kv">
+  <dt>ข้อที่ต้องตรวจ</dt><dd>{{ v.actionable }} ข้อ · ตัดสินครบ</dd>
+  <dt>ข้อมูลประกอบ</dt><dd>{{ v.info_count }} รายการ (รวมอยู่ในไฟล์ ไม่ต้องตัดสิน)</dd>
+  <dt>ปีงบ</dt><dd>{{ v.side_label('A') }} ↔ {{ v.side_label('B') }}
+    · <a href="/pdfpair/runs/{{ rid }}/preflight#years">ดูภาพหน้าที่ใช้ยืนยันปี</a>
+    {% if v.stage_warnings %}<ul>{% for side, msg in v.stage_warnings %}<li>ขั้นเอกสารของฉบับ {{ side }}: {{ msg }}</li>{% endfor %}</ul>{% endif %}</dd>
+  <dt>สถานะการใช้ผล</dt><dd><b>{{ svc.USE_STATUS_LABELS[pf.use_status] }}</b> · {{ pf.use_breakdown }}
+    {% if pf.use_reasons %}<ul>{% for r in pf.use_reasons %}<li>{{ r }}</li>{% endfor %}</ul>{% endif %}
+    <div class="hint">{{ svc.USE_STATUS_SCOPE }}</div></dd>
+  <dt>ไฟล์ที่ใช้เทียบ</dt><dd class="mono">A {{ v.run.a_sha256[:16] }}… · B {{ v.run.b_sha256[:16] }}…</dd>
+  <dt>รุ่นเครื่องมือ</dt><dd class="mono">{% for k, x in v.run.versions.items() %}{{ k }} {{ x }}{% if not loop.last %} · {% endif %}{% endfor %}</dd>
+</dl>
+<p class="hint">"ตรวจครบ" ≠ "ผ่านเงื่อนไขการใช้ผล": ข้อที่ตัดสินว่า "{{ svc.DECISION_LABELS['needs_more'] }}" หรือ
+  "{{ svc.DECISION_LABELS['mismatch'] }}" ยังไม่ปิดความไม่แน่ใจ · ข้อ "{{ svc.DECISION_LABELS['not_relevant'] }}" ไม่นับในผล
+  และต้องรายงานจำนวนคู่กันเสมอ · ระบบไม่เปลี่ยนคำตัดสินแทนผู้ตรวจ — ทุกแถวใน CSV มีคอลัมน์ "การใช้ผล"</p>
+<div class="actions"><a class="btn" href="/pdfpair/runs/{{ rid }}/export.csv">ดาวน์โหลด CSV</a></div>
+<p class="hint">ไฟล์มีทุกข้อสังเกต ค่าที่พิมพ์ หน่วยและที่มาของหน่วย ผลการตรวจของคน และหมายเหตุ ·
+  ทุกครั้งที่ดาวน์โหลด ระบบบันทึกใน Audit พร้อม SHA-256 ของไบต์ที่ดาวน์โหลดจริง (UTF-8 มี BOM) และจำนวนระเบียนที่นับด้วยตัวอ่าน CSV</p>
+{% else %}
+<div class="note danger"><b>ยังส่งออกไม่ได้</b> — ติด {{ pf.failing|length }} ข้อ:
+  <ul>{% for c in pf.failing %}<li>{{ c.label }} — {{ c.detail }}</li>{% endfor %}</ul>
+  <div class="actions"><a class="btn small" href="/pdfpair/runs/{{ rid }}/preflight">ไปที่ด่านก่อนส่งออก</a></div></div>
+{% endif %}
+<p class="vx-scope">ผลนี้ไม่ใช่การรับรองความถูกต้องของเอกสาร · {{ profile_status }}</p>
+{% endblock %}

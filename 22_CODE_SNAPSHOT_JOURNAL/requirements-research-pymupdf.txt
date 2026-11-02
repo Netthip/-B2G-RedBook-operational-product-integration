@@ -1,0 +1,5 @@
+# EXTRA สำหรับสภาพแวดล้อมพัฒนา/วิจัยเท่านั้น — ไม่ใช่ชุดปริยายของผลิตภัณฑ์
+# PyMuPDF = Dual licensed AGPL-3.0 / Artifex commercial · สถานะ: LICENSE REVIEW REQUIRED (Bo 5597619615 ข้อ 7(ค))
+# ใช้เพื่อ: เทสต์ equivalence กับ backend ปริยาย (tests/test_pdf_backend_equivalence.py) · สร้าง fixture สังเคราะห์
+# ห้ามติดตั้งชุดนี้ในสภาพแวดล้อมที่ใช้ตรึงเวอร์ชันผลิตภัณฑ์ (product freeze) · ห้าม merge/release/deploy พร้อมชุดนี้
+pymupdf==1.27.2.3

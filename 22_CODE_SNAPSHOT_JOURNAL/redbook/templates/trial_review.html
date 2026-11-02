@@ -1,0 +1,99 @@
+{% extends "trial_base.html" %}
+{% block content %}
+{% set b = s.book %}
+<div class="tr-bar">
+  <a class="btn small secondary" href="/trial">← เล่มทั้งหมด</a>
+  <span class="tr-bar-title"><b>{{ b.title }}</b> · {{ b.agency }} · {{ b.pair }}</span>
+  <span class="tr-chip">ตรวจแล้ว {{ pages|length - s.pending_pages|length }}/{{ pages|length }} หน้า</span>
+</div>
+
+{% if s.locked %}
+<div class="note ok" role="status"><b>ส่งผลตรวจแล้ว</b> — หน้านี้ดูได้อย่างเดียว ·
+  <a href="/trial/s/{{ s.sid }}/result">ไปดูว่าระบบเจออะไร</a></div>
+{% else %}
+<details class="tr-brief" {% if i == 0 and not data.marks %}open{% endif %}>
+  <summary>คำชี้แจงก่อนตรวจ</summary>
+  <ul>
+    <li><b>ปีปัจจุบันต้องถูกต้องเป็นหลัก</b> — ตรวจ {{ b.cur.title }} เป็นหลัก · ฉบับก่อน ({{ b.prev.title }}) วางไว้ด้านซ้ายให้เทียบ — ปิดได้ถ้าอยากดูฉบับเดียว</li>
+    <li>รบกวนดู<b>ตัวชี้วัด วิสัยทัศน์ พันธกิจ</b> ด้วยว่าอะไรหายไป เพิ่มเข้ามา หรือไม่ใช้แล้ว</li>
+    <li>เจอจุดที่ไม่ตรง ให้เลือกปากกาแล้วแตะบนภาพตรงจุดนั้น — เลือกหัวข้อและพิมพ์สั้น ๆ ได้ (ไม่บังคับ)</li>
+    <li>ปากกา<b class="tr-red">แดง</b> = สำคัญ · ปากกา<b class="tr-brown">น้ำตาล</b> = สังเกตเห็นแต่สำคัญน้อยกว่า · <b>หมุด</b> = ของที่ควรมีแต่หายไป</li>
+    <li>ดูครบหน้าแล้ว กด "ตรวจหน้านี้แล้ว" · ทุกหน้าของฉบับปัจจุบันต้องกดก่อนส่งผล</li>
+  </ul>
+</details>
+{% endif %}
+
+<div class="tr-tools" role="toolbar" aria-label="ปากกา">
+  {% if not s.locked %}{% for k, label in pens.items() %}
+  <button type="button" class="tr-pen tr-pen-{{ k }}{% if loop.first %} is-on{% endif %}" data-pen="{{ k }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ label }}</button>
+  {% endfor %}{% endif %}
+  <a class="tr-pen" href="/trial/s/{{ s.sid }}?page_no={{ pg }}&amp;prev={{ 0 if prev else 1 }}&amp;pp={{ ppg }}">{{ 'ดูฉบับปัจจุบันอย่างเดียว' if prev else 'วางสองฉบับข้างกัน' }}</a>
+</div>
+<noscript><div class="note warn">ต้องเปิด JavaScript เพื่อวงจุดบนภาพ</div></noscript>
+
+{% macro pager(side, cur, plist, label) %}
+  {% set k = plist.index(cur) %}
+  <span class="tr-pager" data-pager="{{ side }}">
+    {% set q_prev = plist[k - 1] if k else 0 %}{% set q_next = plist[k + 1] if k + 1 < plist|length else 0 %}
+    <a class="tr-pg-btn{% if not q_prev %} is-off{% endif %}" data-go="-1" aria-label="{{ label }} หน้าก่อน"
+       href="/trial/s/{{ s.sid }}?{% if side == 'cur' %}page_no={{ q_prev or cur }}&amp;pp={{ ppg }}{% else %}page_no={{ pg }}&amp;pp={{ q_prev or cur }}{% endif %}&amp;prev={{ 1 if prev else 0 }}">‹</a>
+    <label class="sr-only" for="sel-{{ side }}">{{ label }} หน้า</label>
+    <select id="sel-{{ side }}" data-pick="{{ side }}">{% for p in plist %}<option value="{{ p }}"{% if p == cur %} selected{% endif %}>หน้า {{ p }}{% if side == 'cur' and ('cur', p) in done %} ✓{% endif %}</option>{% endfor %}</select>
+    <a class="tr-pg-btn{% if not q_next %} is-off{% endif %}" data-go="1" aria-label="{{ label }} หน้าถัดไป"
+       href="/trial/s/{{ s.sid }}?{% if side == 'cur' %}page_no={{ q_next or cur }}&amp;pp={{ ppg }}{% else %}page_no={{ pg }}&amp;pp={{ q_next or cur }}{% endif %}&amp;prev={{ 1 if prev else 0 }}">›</a>
+  </span>
+{% endmacro %}
+<div class="tr-pages{% if prev %} is-two{% endif %}">
+  {% if prev %}
+  <figure class="tr-page" data-side="prev" data-page="{{ ppg }}">
+    <figcaption><span class="tr-chip">ฉบับก่อน</span> {{ pager('prev', ppg, ppages, 'ฉบับก่อน') }}</figcaption>
+    <div class="tr-scroll"><div class="tr-canvas"><img src="/trial/s/{{ s.sid }}/page/prev/{{ ppg }}.png" alt="ฉบับก่อน หน้า {{ ppg }}"><div class="tr-marks"></div></div></div>
+  </figure>
+  {% endif %}
+  <figure class="tr-page" data-side="cur" data-page="{{ pg }}">
+    <figcaption><span class="tr-chip tr-chip-main">ฉบับปัจจุบัน</span> {{ pager('cur', pg, pages, 'ฉบับปัจจุบัน') }}
+      <span class="tr-chip tr-chip-ok" data-done-chip{% if ('cur', pg) not in done %} hidden{% endif %}>ตรวจหน้านี้แล้ว ✓</span></figcaption>
+    <div class="tr-scroll"><div class="tr-canvas"><img src="/trial/s/{{ s.sid }}/page/cur/{{ pg }}.png" alt="ฉบับปัจจุบัน หน้า {{ pg }}"><div class="tr-marks"></div></div></div>
+  </figure>
+</div>
+{% if prev %}<p class="hint">สองฝั่งเลื่อนขึ้นลงและเปลี่ยนหน้าได้แยกกัน — เทียบหน้าไหนกับหน้าไหนก็ได้ · ระบบบันทึกคู่หน้าที่เปิดเทียบไว้ใน Audit</p>{% endif %}
+
+<div class="tr-count" aria-live="polite" data-tr-count></div>
+
+<div class="tr-nav">
+  {% if prev_pg %}<a class="btn secondary" href="/trial/s/{{ s.sid }}?page_no={{ prev_pg }}&amp;prev={{ 1 if prev else 0 }}">← หน้าก่อน</a>{% endif %}
+  {% if not s.locked %}
+  <form method="post" action="/trial/s/{{ s.sid }}/done" class="tr-inline">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <input type="hidden" name="side" value="cur"><input type="hidden" name="page_no" value="{{ pg }}">
+    <input type="hidden" name="go" value="{{ next_pg }}"><input type="hidden" name="prev" value="{{ 1 if prev else 0 }}"><input type="hidden" name="pp" value="{{ ppg }}">
+    <button class="btn" type="submit">ตรวจหน้านี้แล้ว{% if next_pg %} → หน้าถัดไป{% endif %}</button>
+  </form>
+  {% elif next_pg %}<a class="btn secondary" href="/trial/s/{{ s.sid }}?page_no={{ next_pg }}">หน้าถัดไป →</a>{% endif %}
+</div>
+
+<nav class="tr-pagelist" aria-label="หน้าในเล่ม">
+  {% for p in pages %}<a href="/trial/s/{{ s.sid }}?page_no={{ p }}&amp;prev={{ 1 if prev else 0 }}" class="{% if p == pg %}is-on{% endif %}{% if ('cur', p) in done %} is-done{% endif %}"{% if p == pg %} aria-current="page"{% endif %}>{{ p }}{% if ('cur', p) in done %}✓{% endif %}</a>{% endfor %}
+</nav>
+
+{% if not s.locked %}
+<form method="post" action="/trial/s/{{ s.sid }}/lock" class="tr-lock">
+  <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+  <p><b>ส่งผลตรวจ</b> — วงไว้ {{ s.marks|length }} จุด · เหลือหน้าที่ยังไม่กด "ตรวจหน้านี้แล้ว" {{ s.pending_pages|length }} หน้า</p>
+  <label class="vx-choice"><input type="checkbox" name="confirm" value="1" required> ฉันตรวจเสร็จแล้ว ส่งแล้วแก้จุดที่วงไม่ได้</label>
+  <div class="actions"><button class="btn" type="submit" data-pp-wait="ระบบกำลังเทียบเล่ม… (ราว ๑๐–๓๐ วินาที)"{% if s.pending_pages %} disabled{% endif %}>ส่งผลตรวจ</button></div>
+</form>
+{% endif %}
+
+<template id="tr-pop">
+  <div class="tr-pop" role="dialog" aria-label="รายละเอียดจุดที่วง">
+    <div class="tr-pop-pens">{% for k, label in pens.items() %}<button type="button" data-set-pen="{{ k }}" class="tr-mini tr-pen-{{ k }}">{{ label.split(' — ')[0] }}</button>{% endfor %}</div>
+    <div class="tr-pop-topics">{% for code, label in topics %}<button type="button" data-topic="{{ code }}" class="tr-mini" title="{{ label }}">{{ code }} {{ label }}</button>{% endfor %}</div>
+    <input type="text" maxlength="200" placeholder="หมายเหตุสั้น ๆ (ไม่บังคับ)" data-note aria-label="หมายเหตุ">
+    <div class="tr-pop-act"><button type="button" class="btn small" data-save>บันทึก</button>
+      <button type="button" class="btn small secondary" data-del>ลบจุดนี้</button></div>
+  </div>
+</template>
+<input type="hidden" id="tr-csrf" value="{{ csrf_token }}">
+<script type="application/json" id="tr-data">{{ data|tojson }}</script>
+{% endblock %}

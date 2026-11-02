@@ -1,0 +1,49 @@
+# requirements.lock.txt -- pinned snapshot for the indicator/evidence FREEZE CANDIDATE (default set, research extra excluded)
+# ASCII-only header on purpose: pip-audit / pip-requirements-parser decode this file with the system codepage (cp874 here)
+# and fail on non-ASCII bytes (see docs/DEPENDENCY_LICENSE_INVENTORY.md). Thai notes live in requirements.txt.
+# Generated from `pip list --format=freeze` of the project .venv minus PyMuPDF (requirements-research-pymupdf.txt).
+# Python 3.12.9 | Windows 10.0.26200 | AMD64 | generated 2026-09-09T07:29:29+00:00
+# Reinstall: pip install -r requirements.lock.txt   (Bo 5597645315 item D: broad version ranges are not acceptable for a frozen evaluation environment)
+# 2026-10-07: +defusedxml==0.7.1 (Security Gate #23 F-06, approved by Gift 6026979007; openpyxl uses it when present)
+annotated-doc==0.0.5
+annotated-types==0.8.0
+anyio==4.14.2
+certifi==2026.7.22
+cffi==2.1.1
+charset-normalizer==3.5.1
+click==8.4.2
+colorama==0.4.6
+cryptography==50.0.1
+defusedxml==0.7.1
+et_xmlfile==2.0.0
+fastapi==0.141.1
+h11==0.16.0
+httpcore==1.0.9
+httptools==0.8.0
+httpx==0.28.1
+idna==3.19
+iniconfig==2.3.0
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+openpyxl==3.1.5
+packaging==26.3
+pdfminer.six==20251230
+pdfplumber==0.11.9
+pillow==12.3.0
+pip==26.2.1
+pluggy==1.6.0
+pycparser==3.0
+pydantic==2.13.4
+pydantic_core==2.46.4
+Pygments==2.21.0
+pypdfium2==5.8.0
+pytest==9.1.1
+python-dotenv==1.2.3
+python-multipart==0.0.32
+PyYAML==6.0.3
+starlette==1.6.0
+typing-inspection==0.4.4
+typing_extensions==4.16.0
+uvicorn==0.52.4
+watchfiles==1.2.0
+websockets==17.0.1

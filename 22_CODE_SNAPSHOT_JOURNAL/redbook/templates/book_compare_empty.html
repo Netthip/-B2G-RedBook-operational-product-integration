@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_book.html" import icon with context %}
+{% block title %}เปรียบเทียบ · {{ app_name }}{% endblock %}
+{% block content %}
+<p class="crumbs"><a href="/books">คลังเล่มงบประมาณ</a> › เปรียบเทียบ</p>
+<div class="page-head">
+  <p class="eyebrow">ทางเข้าการเปรียบเทียบ</p>
+  <h1>เลือกเล่มตั้งต้นก่อนเปรียบเทียบ</h1>
+</div>
+<div class="empty compare-empty">
+  <div class="ce-visual" aria-hidden="true">
+    <span class="ce-slot">ร่าง พ.ร.บ.</span><span class="ce-vs">{{ icon('compare') }}</span><span class="ce-slot">พ.ร.บ.</span>
+  </div>
+  {% if unknown %}
+  <div class="empty-title">ไม่พบเล่มที่ระบุในคลัง</div>
+  <p>ลิงก์อาจมาจากทะเบียนเล่มรุ่นเก่า — เริ่มใหม่จากคลังเล่ม</p>
+  {% else %}
+  <div class="empty-title">ยังไม่ได้เลือกเล่มที่จะเปรียบเทียบ</div>
+  <p>เปิดคลังเล่ม เลือกเล่มที่ต้องการ แล้วกด “เปรียบเทียบ” บนการ์ด — ระบบจะเสนอคู่ ร่าง พ.ร.บ. → พ.ร.บ. หรือปีต่อปี
+    เฉพาะที่ทะเบียนแหล่งทางการยืนยัน</p>
+  {% endif %}
+  <div class="actions mt-m"><a class="btn" href="/books">ไปคลังเล่มงบประมาณ</a></div>
+</div>
+{% endblock %}

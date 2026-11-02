@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}โครงสร้างไฟล์ · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>โครงสร้างไฟล์ Excel</h1>
+<p class="page-sub">{{ file.original_name }} · อ่านอย่างเดียว ไม่มีการแก้ไขไฟล์ต้นฉบับ</p>
+
+<div class="card">
+  <dl class="kv">
+    <dt>ชนิดไฟล์ที่ตรวจได้</dt><dd>{{ file.kind|upper }}</dd>
+    <dt>ขนาด</dt><dd>{{ "{:,}".format(file.size_bytes) }} ไบต์</dd>
+    <dt>SHA-256</dt><dd class="mono tiny">{{ file.sha256 }}</dd>
+    <dt>ตัวอ่านที่ใช้</dt><dd class="mono">{{ structure.parser }}</dd>
+    <dt>ขอบเขตการสแกน</dt><dd>{{ "{:,}".format(scan_rows) }} แถวแรกของแต่ละชีต</dd>
+  </dl>
+</div>
+
+<div class="grid grid-4">
+  <div class="stat"><div class="n">{{ structure.sheet_count }}</div><div class="k">จำนวนชีต</div></div>
+  <div class="stat"><div class="n">{{ "{:,}".format(structure.totals.cells_with_value) }}</div>
+       <div class="k">เซลล์ที่มีค่า</div></div>
+  <div class="stat"><div class="n">{{ "{:,}".format(structure.totals.numeric) }}</div>
+       <div class="k">เซลล์ตัวเลข</div></div>
+  <div class="stat"><div class="n">{{ "{:,}".format(structure.totals.formula) }}</div>
+       <div class="k">เซลล์ที่เป็นสูตร</div></div>
+  <div class="stat"><div class="n">{{ "{:,}".format(structure.totals.text) }}</div>
+       <div class="k">เซลล์ข้อความ</div></div>
+  <div class="stat"><div class="n">{{ "{:,}".format(structure.totals.number_stored_as_text) }}</div>
+       <div class="k">ข้อความที่ดูเหมือนตัวเลข</div></div>
+  <div class="stat"><div class="n">{{ "{:,}".format(structure.totals.percent_format) }}</div>
+       <div class="k">เซลล์รูปแบบร้อยละ</div></div>
+  <div class="stat"><div class="n">{{ "{:,}".format(structure.totals.cached_value_missing) }}</div>
+       <div class="k">สูตรที่ไม่มีค่าที่คำนวณไว้</div></div>
+</div>
+
+{% if structure.totals.cached_value_missing %}
+<div class="note warn">
+  มีสูตร {{ "{:,}".format(structure.totals.cached_value_missing) }} เซลล์ที่ไฟล์ไม่ได้เก็บค่าที่คำนวณไว้
+  ระบบจึงอ่านค่าของเซลล์เหล่านั้นไม่ได้ และ<b>จะไม่คำนวณค่าแทนให้</b>
+  หากต้องการให้ระบบเห็นค่า โปรดเปิดไฟล์ด้วย Excel แล้วบันทึกอีกครั้ง
+</div>
+{% endif %}
+
+<h2>รายชีต</h2>
+<div class="card">
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="num">ลำดับ</th><th>ชื่อชีต</th><th>สถานะ</th><th>ช่วงข้อมูล</th>
+      <th class="num">แถว</th><th class="num">คอลัมน์</th><th class="num">ผสานเซลล์</th>
+      <th class="num">แถวซ่อน</th><th class="num">คอลัมน์ซ่อน</th>
+      <th class="num">มีค่า</th><th class="num">สูตร</th><th class="num">เลขเป็นข้อความ</th>
+      <th>พื้นที่พิมพ์</th>
+    </tr></thead>
+    <tbody>
+    {% for sh in structure.sheets %}
+      <tr>
+        <td class="num">{{ sh.index + 1 }}</td>
+        <td><b>{{ sh.name }}</b></td>
+        <td>{% if sh.state == 'visible' %}<span class="badge green">แสดง</span>
+            {% else %}<span class="badge yellow">{{ sh.state }}</span>{% endif %}</td>
+        <td class="mono">{{ sh.dimension }}</td>
+        <td class="num">{{ "{:,}".format(sh.max_row) }}</td>
+        <td class="num">{{ sh.max_col }} ({{ sh.max_col_letter }})</td>
+        <td class="num">{{ sh.merged_ranges|length }}</td>
+        <td class="num">{{ sh.hidden_rows|length }}</td>
+        <td class="num">{{ sh.hidden_cols|length }}</td>
+        <td class="num">{{ "{:,}".format(sh.counts.cells_with_value) }}</td>
+        <td class="num">{{ "{:,}".format(sh.counts.formula) }}</td>
+        <td class="num">{{ "{:,}".format(sh.counts.number_stored_as_text) }}</td>
+        <td class="mono">{{ sh.print_area or "—" }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<div class="actions">
+  <a class="btn secondary" href="/projects/{{ file.project_id }}">กลับไปหน้างานตรวจ</a>
+</div>
+
+{% endblock %}

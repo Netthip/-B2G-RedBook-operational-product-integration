@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% from "_book.html" import book_card, group_card, stage_chip with context %}
+{% set excel_text = {'ok': 'พบไฟล์', 'unverified': 'ยังไม่ยืนยันไฟล์', 'broken': 'ลิงก์เปิดไม่ได้', 'not_listed': 'ไม่อยู่ในส่วนที่ค้น', 'missing': 'ยังไม่พบจากหน้าที่ตรวจ', 'unchecked': 'ยังไม่ได้ตรวจ'} %}
+{% block title %}คลังเล่มงบประมาณ · {{ app_name }}{% endblock %}
+{% block content %}
+{% set pk = pick_raw %}
+{% set sm = cat.summary %}
+
+{% if pick_for %}
+<div class="note info" role="status">
+  <b>กำลังเลือกฉบับที่สองเพื่อเทียบกับ:</b> {{ pick_for.headline }} · ปีงบ {{ pick_for.fiscal_year }}
+  — กด “เลือกเป็นอีกฉบับ” ที่เล่มที่ต้องการ ·
+  <a href="{{ pick_target }}?a={{ pick_for.id }}">{% if pick_target == '/books/compare' %}กลับไปหน้าเปรียบเทียบ{% else %}กลับไปหน้าเริ่มตรวจ{% endif %}</a>
+</div>
+{% endif %}
+
+{# ── หัวหน้า: ชื่อ + แถบสรุปทั้งคลัง (ไม่ขึ้นกับตัวกรอง) — overview ก่อนรายละเอียด ── #}
+<div class="lib-head">
+  <div>
+    <p class="eyebrow">คลังเล่มงบประมาณ · ปีงบประมาณ {{ cat.years|min }}–{{ cat.years|max }}</p>
+    <h1>คลังเล่มงบประมาณ</h1>
+    <p class="page-sub">รู้ว่าเป็นเล่มอะไร ปีไหน ขั้นไหน มีไฟล์อะไร — ก่อนเปิด PDF</p>
+  </div>
+  <dl class="stat-strip" aria-label="สรุปทั้งคลัง">
+    <div><dt>เล่มทั้งหมด</dt><dd>{{ sm.books }}</dd></div>
+    <div><dt>ร่าง พ.ร.บ.</dt><dd>{{ sm.draft }}</dd></div>
+    <div class="{% if not sm.act %}is-zero{% endif %}"><dt>พ.ร.บ.</dt><dd>{{ sm.act }}</dd></div>
+    <div><dt>มี PDF</dt><dd>{{ sm.pdf }}</dd></div>
+    <div class="{% if not sm.excel %}is-zero{% endif %}"><dt>มี Excel</dt><dd>{{ sm.excel }}
+      {%- if sm.excel_unverified %}<span class="stat-note">ยังไม่ยืนยันไฟล์ {{ sm.excel_unverified }}</span>{% endif %}{%- if sm.excel_unchecked %}<span class="stat-note">ยังไม่ตรวจ {{ sm.excel_unchecked }}</span>{% endif %}</dd></div>
+  </dl>
+</div>
+
+{# ── ขั้นเอกสารเป็นตัวควบคุมแยกจากปี (คำตัดสิน Gift/Bo ข้อ 3) ── #}
+<div class="nav-tabs">
+  <nav class="tabs stage-tabs" aria-label="ขั้นของเอกสาร">
+    <a class="tab {% if not query.stage %}on{% endif %}"
+       href="/books?{{ query.params(stage='', page='', pick=pk)|urlencode }}"
+       {% if not query.stage %}aria-current="page"{% endif %}>ทุกขั้น</a>
+    {% for key, label in stages %}
+    <a class="tab st-{{ key }} {% if query.stage == key %}on{% endif %} {% if not result.stage_counts[key] %}zero{% endif %}"
+       href="/books?{{ query.params(stage=key, page='', pick=pk)|urlencode }}"
+       {% if query.stage == key %}aria-current="page"{% endif %}><span class="dot" aria-hidden="true"></span>{{ label }}
+       <span class="c">{{ result.stage_counts[key] }}</span></a>
+    {% endfor %}
+  </nav>
+</div>
+
+<form class="searchbar" method="get" action="/books" role="search" data-loading>
+  <label class="sr-only" for="q">คำค้น</label>
+  <input type="search" id="q" name="q" value="{{ query.q }}"
+         placeholder="ค้นด้วยคำ เช่น สาธารณสุข · เล่ม 2 · สังเขป" autocomplete="off">
+  {% for k, v in query.params(q='', page='', pick=pk).items() %}
+  <input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+  <button class="btn" type="submit">ค้นหา</button>
+</form>
+
+<div class="discover mt-l">
+  <aside class="facets" aria-label="ตัวกรอง">
+    {# ── ปี = จุดยึดการนำทาง (คำตัดสิน Gift/Bo ข้อ 3): จอกว้าง = แถบแนวตั้งซ้าย · จอแคบ = แท็บแนวนอนด้านบน ── #}
+    <nav class="year-rail" aria-label="ปีงบประมาณ">
+      <span class="rail-label" aria-hidden="true">ปีงบประมาณ</span>
+      <a class="yr {% if not query.year %}on{% endif %}"
+         href="/books?{{ query.params(year='', page='', pick=pk)|urlencode }}"
+         {% if not query.year %}aria-current="page"{% endif %}>ทุกปี <span class="c">{{ result.year_counts.values()|sum }}</span></a>
+      {% for y in cat.years|sort(reverse=true) %}
+      <a class="yr {% if query.year == y %}on{% endif %} {% if not result.year_counts[y] %}zero{% endif %}"
+         href="/books?{{ query.params(year=y, page='', pick=pk)|urlencode }}"
+         {% if query.year == y %}aria-current="page"{% endif %}>{{ y }} <span class="c">{{ result.year_counts[y] }}</span></a>
+      {% endfor %}
+    </nav>
+    <form class="facet" method="get" action="/books" data-loading>
+      <h2 class="facet-title"><label class="mt-0" for="ministry">กระทรวง / หน่วยรับงบ</label></h2>
+      <select id="ministry" name="ministry" data-autosubmit>
+        <option value="">ทุกกระทรวง</option>
+        {% for m in cat.ministries %}
+        <option value="{{ m }}" {% if query.ministry == m %}selected{% endif %}>{{ m }}</option>
+        {% endfor %}
+      </select>
+      {% for k, v in query.params(ministry='', page='', pick=pk).items() %}
+      <input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+      <div class="actions"><button class="btn small secondary" type="submit">ใช้ตัวกรองนี้</button></div>
+    </form>
+
+    <div class="facet">
+      <h2 class="facet-title"><label class="mt-0" for="agency">หน่วยงาน</label></h2>
+      {% if cat.agencies %}
+      <form method="get" action="/books" data-loading>
+        <select id="agency" name="agency" data-autosubmit>
+          <option value="">ทุกหน่วยงาน</option>
+          {% for a in cat.agencies %}<option value="{{ a }}" {% if query.agency == a %}selected{% endif %}>{{ a }}</option>{% endfor %}
+        </select>
+        {% for k, v in query.params(agency='', page='', pick=pk).items() %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+        <div class="actions"><button class="btn small secondary" type="submit">ใช้ตัวกรองนี้</button></div>
+      </form>
+      {% else %}
+      <select id="agency" disabled aria-describedby="agency-note"><option>ยังไม่มีข้อมูลระดับหน่วยงาน</option></select>
+      <p class="facet-note" id="agency-note">ทะเบียนตอนนี้ระบุถึงระดับกระทรวง/หน่วยรับงบ
+        — ตัวกรองระดับกรมจะเปิดเมื่อทะเบียนแหล่งทางการส่งข้อมูลมา</p>
+      {% endif %}
+    </div>
+
+    <div class="facet">
+      <h2 class="facet-title">ประเภทเล่ม</h2>
+      <a class="pill {% if not query.type %}active{% endif %}"
+         href="/books?{{ query.params(type='', page='', pick=pk)|urlencode }}">ทุกประเภท</a>
+      {% for key, label, _ in type_groups %}
+      <a class="pill {% if query.type == key %}active{% endif %} {% if not result.type_counts[key] %}zero{% endif %}"
+         href="/books?{{ query.params(type=key, page='', pick=pk)|urlencode }}">{{ label }}
+         <span class="c">{{ result.type_counts[key] }}</span></a>
+      {% endfor %}
+    </div>
+
+    <div class="facet">
+      <h2 class="facet-title">ไฟล์</h2>
+      <a class="pill {% if not query.file %}active{% endif %}"
+         href="/books?{{ query.params(file='', page='', pick=pk)|urlencode }}">ทุกเล่ม</a>
+      {% for key, label in files %}
+      <a class="pill {% if query.file == key %}active{% endif %} {% if not result.file_counts[key] %}zero{% endif %}"
+         href="/books?{{ query.params(file=key, page='', pick=pk)|urlencode }}">{{ label }}
+         <span class="c">{{ result.file_counts[key] }}</span></a>
+      {% endfor %}
+    </div>
+  </aside>
+
+  <section aria-labelledby="results-title" id="results" aria-busy="false">
+    <div class="results-head">
+      <h2 class="sr-only" id="results-title">ผลการค้นหา</h2>
+      <div class="count" role="status">พบ <b>{{ result.total }}</b> เล่ม{% if query.view == 'grouped' %}
+        · จัดเป็น <b>{{ result.group_total }}</b> ชุด{% endif %}</div>
+      <div class="tools">
+        <span class="seg" aria-label="จัดเรียง">
+          {% for key, label in sorts %}
+          <a class="{% if query.sort == key %}on{% endif %}"
+             href="/books?{{ query.params(sort=('' if key == 'volume' else key), pick=pk)|urlencode }}">{{ label }}</a>
+          {% endfor %}
+        </span>
+        <span class="seg" aria-label="รูปแบบการแสดงผล">
+          {% for key, label in views %}
+          <a class="{% if query.view == key %}on{% endif %}"
+             href="/books?{{ query.params(view=('' if key == 'grouped' else key), pick=pk)|urlencode }}">{{ label }}</a>
+          {% endfor %}
+        </span>
+      </div>
+    </div>
+
+    {% if query.active %}
+    <div class="chips-active" aria-label="ตัวกรองที่ใช้อยู่">
+      {% if query.q %}<a class="chip-x" href="/books?{{ query.params(q='', pick=pk)|urlencode }}">“{{ query.q }}” <span aria-label="เอาออก">×</span></a>{% endif %}
+      {% if query.year %}<a class="chip-x" href="/books?{{ query.params(year='', pick=pk)|urlencode }}">ปี {{ query.year }} <span aria-label="เอาออก">×</span></a>{% endif %}
+      {% if query.stage %}<a class="chip-x" href="/books?{{ query.params(stage='', pick=pk)|urlencode }}">{{ stage_labels[query.stage] }} <span aria-label="เอาออก">×</span></a>{% endif %}
+      {% if query.type %}<a class="chip-x" href="/books?{{ query.params(type='', pick=pk)|urlencode }}">{{ type_labels[query.type] }} <span aria-label="เอาออก">×</span></a>{% endif %}
+      {% if query.ministry %}<a class="chip-x" href="/books?{{ query.params(ministry='', pick=pk)|urlencode }}">{{ query.ministry }} <span aria-label="เอาออก">×</span></a>{% endif %}
+      {% if query.agency %}<a class="chip-x" href="/books?{{ query.params(agency='', pick=pk)|urlencode }}">{{ query.agency }} <span aria-label="เอาออก">×</span></a>{% endif %}
+      {% if query.file %}<a class="chip-x" href="/books?{{ query.params(file='', pick=pk)|urlencode }}">{{ file_labels[query.file] }} <span aria-label="เอาออก">×</span></a>{% endif %}
+      <a class="chip-x" href="/books{% if pk %}?pick={{ pk }}{% endif %}">ล้างทั้งหมด</a>
+    </div>
+    {% endif %}
+
+    {% set nothing = not result.books and not result.groups %}
+    {% if nothing and query.stage == 'act' and not sm.act %}
+    <div class="empty state-missing">
+      <div class="empty-title">ยังไม่มีเล่มขั้น พ.ร.บ. ในทะเบียน</div>
+      <p>ทะเบียนตอนนี้มีเฉพาะเอกสารขั้นร่าง พ.ร.บ. ที่เผยแพร่ต่อสาธารณะ — เล่ม พ.ร.บ.
+        และคู่ ร่าง → พ.ร.บ. จะแสดงเมื่อทะเบียนแหล่งทางการส่งข้อมูลมา ระบบไม่สร้างหรือเดาคู่เอง</p>
+      <div class="actions row end"><a class="btn secondary" href="/books?{{ query.params(stage='draft', pick=pk)|urlencode }}">ดูเล่มร่าง พ.ร.บ.</a></div>
+    </div>
+    {% elif nothing and query.file == 'excel' and not sm.excel %}
+    <div class="empty state-missing">
+      <div class="empty-title">ยังไม่มีเล่มที่ทะเบียนยืนยันว่ามี Excel</div>
+      <p>ทะเบียนเล่มชุดนี้ยังไม่ได้ตรวจหาไฟล์ Excel ({{ sm.excel_unchecked }} เล่ม “ยังไม่ตรวจ”) — ไม่ได้แปลว่าไม่มี
+        · ป้าย “Excel” จะขึ้นเมื่อทะเบียนแหล่งทางการยืนยันไฟล์ของเล่มนั้น</p>
+      <div class="actions row end"><a class="btn secondary" href="/books?{{ query.params(file='', pick=pk)|urlencode }}">ดูทุกเล่ม</a></div>
+    </div>
+    {% elif nothing %}
+    <div class="empty">
+      <div class="empty-title">ไม่พบเล่มที่ตรงกับคำค้นนี้</div>
+      <p>ลองตัดคำค้นให้สั้นลง เช่น พิมพ์เฉพาะชื่อกระทรวง หรือเลือก “ทุกปี”
+        · ปีที่มีในคลังตอนนี้คือ {{ cat.years|sort(reverse=true)|join(', ') }}</p>
+      <div class="actions row end"><a class="btn secondary" href="/books{% if pk %}?pick={{ pk }}{% endif %}">ล้างตัวกรอง</a></div>
+    </div>
+    {% elif query.view == 'list' %}
+    <div class="card flush">
+      <div class="table-wrap">
+      <table class="book-list">
+        <thead><tr><th>ปี</th><th>ขั้น</th><th>เล่ม / หน่วยรับงบ</th><th>ประเภท</th><th>ไฟล์</th><th><span class="sr-only">การทำงาน</span></th></tr></thead>
+        <tbody>
+        {% for b in result.books %}
+          <tr>
+            <td><span class="year-chip">{{ b.fiscal_year }}</span></td>
+            <td>{{ stage_chip(b) }}{% if b.synthetic %} <span class="dev-chip">DEV</span>{% endif %}</td>
+            <td><a class="t" href="/books/{{ b.id }}">{{ b.headline_short }}</a>
+                <div class="k">{{ b.kicker }}</div></td>
+            <td>{{ b.type_short }}</td>
+            <td class="files-cell"><span class="mini {{ 'ok' if b.pdf_status in ('ok','unchecked') else 'bad' }}">PDF</span>
+              <span class="mini {{ {'ok': 'ok', 'broken': 'bad'}.get(b.excel_status, 'none') }}" title="Excel: {{ excel_text[b.excel_status] }}">XLS</span></td>
+            <td class="act">
+              {% if pick_for %}
+                {% if pick_for.id != b.id %}<a class="btn small" href="{{ pick_target }}?a={{ pick_for.id }}&amp;b={{ b.id }}">เลือก</a>{% endif %}
+              {% else %}
+              {% if b.pdf_openable %}<a class="btn small secondary" href="{{ b.pdf_url }}" target="_blank" rel="noopener noreferrer"
+                 aria-label="เปิด PDF {{ b.headline_short }} ปี {{ b.fiscal_year }} (หน้าต่างใหม่)">PDF <span class="ext" aria-hidden="true">↗</span></a>{% endif %}
+              <a class="btn small" href="/books/compare?a={{ b.id }}">เปรียบเทียบ</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    </div>
+    {% elif query.view == 'grouped' %}
+    <p class="hint mt-0 mb-s">มุมมองนี้รวมเล่มข้ามปีเฉพาะ<b>คู่ที่ยืนยันจากข้อมูลเล่ม</b>ในทะเบียนแหล่งทางการ
+      {%- if not cat.pairs %} — ทะเบียนชุดนี้ยังไม่มีคู่ยืนยัน จึงแสดงทีละเล่ม{% else %} · เล่มที่ยังไม่มีคู่ยืนยันแสดงแยก{% endif %}</p>
+    <div class="book-grid">
+      {% for g in result.groups %}{{ group_card(g, pick_for) }}{% endfor %}
+    </div>
+    {% else %}
+    <div class="book-grid">
+      {% for b in result.books %}{{ book_card(b, pick_for) }}{% endfor %}
+    </div>
+    {% endif %}
+
+    {% if result.pages > 1 %}
+    <nav class="pager" aria-label="หน้า">
+      {% for n in range(1, result.pages + 1) %}
+        {% if n == result.page %}<span class="on" aria-current="page">{{ n }}</span>
+        {% else %}<a href="/books?{{ query.params(page=n, pick=pk)|urlencode }}">{{ n }}</a>{% endif %}
+      {% endfor %}
+    </nav>
+    {% endif %}
+
+    <p class="hint mt-l">ที่มา: {{ cat.source }} · ทะเบียนเล่มสร้างเมื่อ {{ cat.generated_at[:10] }}
+      · ระบบเก็บเฉพาะลิงก์ทางการ ไม่เก็บสำเนา PDF · ภาพปกวาดจากหน้าแรกของ PDF ทางการ เก็บในเครื่องนี้เท่านั้น
+      · <a href="/books/states">ดูตัวอย่างสถานะของการ์ด</a></p>
+  </section>
+</div>
+<p class="loading-bar" id="loading" role="status" aria-live="polite" hidden>กำลังโหลดผลลัพธ์…</p>
+<script src="/static/books.js" defer></script>
+{% endblock %}

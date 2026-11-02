@@ -1,0 +1,61 @@
+{% extends "trial_base.html" %}
+{% block content %}
+<h1 class="tr-h1">เลือกเล่มที่จะตรวจ</h1>
+<p class="tr-sub">ตรวจแล้ว {{ status.values()|selectattr('state', 'equalto', 'locked')|list|length }} จาก {{ books|length }} เล่ม
+  · แตะป้ายของใบไหนก็ได้ หรือกด ← →</p>
+
+{% if not books %}
+<div class="note warn"><b>ยังไม่มีเล่มทดสอบในเครื่องนี้</b> — ต้องมีเล่มบนชั้นเล่ม และไฟล์ตั้งค่า
+  <code>trial_books.json</code> ในโฟลเดอร์ชั้นเล่ม ({{ books_file }}) ที่บอกว่าเล่มทดสอบแต่ละเล่มคือหน่วยงานใด
+  ฉบับปัจจุบันและฉบับก่อนเป็นเล่มไหน</div>
+{% else %}
+<form method="post" action="/trial/start" class="tr-start" data-tr-fan>
+  <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+  <div class="tr-fan" role="radiogroup" aria-label="เล่มทดสอบ">
+    {% for b in books %}{% set st = status.get(b.id) %}
+    <button class="tr-card{% if st and st.state == 'locked' %} is-done{% endif %}" type="submit" name="book_id" value="{{ b.id }}"
+            role="radio" aria-checked="false" data-i="{{ loop.index0 }}">
+      <span class="tr-tab">{{ b.title }}{% if st and st.state == 'locked' %} ✓{% endif %}</span>
+      <span class="tr-card-art" aria-hidden="true">{{ loop.index }}</span>
+      <span class="tr-card-name">{{ b.agency }}</span>
+      <span class="tr-card-pair">{{ b.pair }}</span>
+      <span class="tr-chip">{% if st and st.state == 'locked' %}ส่งผลแล้ว{% elif st %}กำลังตรวจ{% else %}ยังไม่เริ่ม{% endif %}</span>
+    </button>
+    {% endfor %}
+  </div>
+  <div class="tr-start-row">
+    <label for="tr-rev">รหัสผู้ตรวจ <span class="hint">(ไม่ต้องใส่ชื่อ — เช่น R1)</span></label>
+    <input id="tr-rev" name="reviewer" maxlength="20" size="8">
+    <button class="btn" type="submit" data-tr-go>เริ่มตรวจเล่มนี้</button>
+  </div>
+  <p class="hint" data-tr-fan-hint>กดเริ่มที่เล่มที่เคยทำไว้ = กลับไปรอบเดิม (งานที่วงไว้ไม่หาย) · ส่งผลแล้ว = ไปหน้าผล</p>
+</form>
+{% if status %}
+<details class="tr-steps"><summary>รอบที่ทำไว้ · เริ่มรอบใหม่</summary>
+  <ul>{% for b in books %}{% set st = status.get(b.id) %}{% if st %}
+    <li>{{ b.title }} · {{ 'ส่งผลแล้ว' if st.state == 'locked' else 'กำลังตรวจ' }} ·
+      <a href="/trial/s/{{ st.sid }}{% if st.state == 'locked' %}/result{% endif %}">เปิดรอบนี้</a>
+      <form method="post" action="/trial/start" class="tr-inline">
+        <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+        <input type="hidden" name="book_id" value="{{ b.id }}"><input type="hidden" name="again" value="1">
+        <button class="btn small secondary" type="submit">เริ่มรอบใหม่ของ{{ b.title }}</button></form>
+      <span class="hint">(รอบเดิมยังเก็บไว้)</span></li>
+  {% endif %}{% endfor %}</ul>
+</details>
+{% endif %}
+{% endif %}
+
+<section class="tr-steps" aria-labelledby="h-steps">
+  <h2 id="h-steps">ขั้นตอน (บอกตามจริง)</h2>
+  <ol>
+    <li><b>เลือกเล่ม</b> — ใช้งานจริงต้อง<b>อัปโหลดไฟล์ PDF</b> สองฉบับเอง (ฉบับปัจจุบัน + ฉบับที่เทียบ) · รอบทดลองนี้เตรียมเล่มไว้ให้แล้ว จะได้ไม่ต้องหาไฟล์</li>
+    <li><b>อ่านคำชี้แจง</b> — ปีปัจจุบันต้องถูกต้องเป็นหลัก · ช่วยดูตัวชี้วัด วิสัยทัศน์ พันธกิจ ว่าอะไรหายไป เพิ่มเข้ามา หรือไม่ใช้แล้ว</li>
+    <li><b>วงจุดบนภาพหน้า</b> เหมือนตรวจบนกระดาษ — ปากกาแดง = สำคัญ · ปากกาน้ำตาล = สังเกตเห็นแต่สำคัญน้อยกว่า · หมุด = ของที่หายไป · เปิดฉบับก่อนวางข้างกันได้ · กด "ตรวจหน้านี้แล้ว" ทีละหน้า</li>
+    <li><b>ส่งผลตรวจ</b> — ล็อกจุดที่วง แก้ไม่ได้อีก · <b>ระบบยังไม่เทียบจนกว่าคุณจะส่ง</b> จะได้ไม่เห็นคำตอบของระบบก่อน</li>
+    <li><b>ดูว่าระบบเจออะไร</b> — ระบบเสนอว่าจุดที่คุณวงตรงกับข้อไหนของระบบ คุณกดยืนยันทีละข้อ แล้วจัดข้อที่ระบบยกเพิ่ม</li>
+    <li><b>แบบสอบถามหน้าเดียว</b> — คลิกเลือก แล้วบันทึกลงเครื่อง</li>
+    <li><b>ดูแดชบอร์ด</b> และดาวน์โหลดสรุปเฉพาะจำนวน ส่งให้ผู้วิจัย (ไม่มีตำแหน่งหรือหมายเหตุของจุดที่วง)</li>
+  </ol>
+  <p class="hint">ใช้เวลาเท่าไรก็ได้ ปิดหน้าแล้วกลับมาทำต่อได้ จุดที่วงบันทึกทันทีทุกครั้ง · ถ้าขั้นไหนยากหรืออยากให้ปรับ บอกได้ในแบบสอบถาม</p>
+</section>
+{% endblock %}

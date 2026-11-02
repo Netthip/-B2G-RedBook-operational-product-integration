@@ -1,0 +1,79 @@
+{% extends "trial_base.html" %}
+{% block content %}
+{% set b = r.s.book %}{% set m = r.metrics %}{% set rid = r.view.rid %}
+<div class="tr-bar">
+  <a class="btn small secondary" href="/trial">← เล่มทั้งหมด</a>
+  <span class="tr-bar-title"><b>{{ b.title }}</b> · ระบบเจออะไร</span>
+  <span class="tr-chip tr-chip-ok">ส่งผลตรวจแล้ว {{ r.s.rec.locked_at[:16]|replace('T', ' ') }}</span>
+</div>
+<p class="tr-sub">จุดที่คุณวงล็อกไว้ก่อนระบบเทียบ · ระบบ<b>เสนอ</b>คู่จากหน้าและตำแหน่ง — คุณเป็นผู้ยืนยันทุกข้อ ·
+  ข้อมูลประกอบของระบบ {{ m.info }} รายการ (เช่น การเปลี่ยนแปลงระหว่างปี) ไม่นับ</p>
+
+<div class="tr-metrics">
+  {% for k, label in pens.items() %}{% set c = m.pens[k] %}
+  <div class="tr-metric tr-metric-{{ k }}"><span>{{ label.split(' — ')[0] }}</span>
+    <b>{{ c.exact }} / {{ c.total }}</b><small>พบตรง · บางส่วน {{ c.partial }} · พลาด {{ c.missed }}{% if c.pending %} · รอยืนยัน {{ c.pending }}{% endif %}</small></div>
+  {% endfor %}
+  <div class="tr-metric"><span>ระบบยกเพิ่ม</span><b>{{ r.unlinked_findings|length }}</b>
+    <small>{% for k, label in tsvc.EXTRA_VERDICTS.items() %}{{ label.split(' ')[0] }} {{ m.extras[k] }} · {% endfor %}รอดู {{ m.extras.pending }}</small></div>
+</div>
+
+<section aria-labelledby="h-marks">
+  <h2 id="h-marks">๑. จุดที่คุณวง ({{ r.s.marks|length }} จุด)</h2>
+  {% if not r.s.marks %}<p class="hint">ไม่ได้วงจุดใดไว้</p>{% endif %}
+  {% for mk in r.s.marks %}{% set ln = r.links.get(mk.id) or {} %}{% set f = r.finding(ln.finding_id) %}
+  <article class="tr-item tr-item-{{ mk.pen }}" id="m-{{ mk.id }}">
+    <header><span class="tr-dot tr-dot-{{ mk.pen }}" aria-hidden="true"></span>
+      <b>{{ pens[mk.pen].split(' — ')[0] }}</b> · {{ tsvc.SIDES[mk.side] }} หน้า {{ mk.page }}
+      {% if mk.topic %} · {{ mk.topic }} {{ tsvc.TOPIC_LABELS[mk.topic] }}{% endif %}
+      {% if mk.note %} · “{{ mk.note }}”{% endif %}
+      · <a href="/trial/s/{{ sid }}?page_no={{ mk.page if mk.side == 'cur' else '' }}{% if mk.side == 'prev' %}&amp;prev=1&amp;pp={{ mk.page }}{% endif %}">ดูจุดบนหน้า</a>
+      {% if ln.verdict %}<span class="tr-chip tr-chip-ok">{{ tsvc.LINK_VERDICTS[ln.verdict] }}</span>{% endif %}</header>
+    {% if error and error_at == 'm-' ~ mk.id %}<div class="note danger" role="alert">{{ error }}</div>{% endif %}
+    {% if f %}
+    <p>ระบบ{% if ln.proposed and not ln.verdict %}เสนอว่าตรงกับ{% else %}จับคู่กับ{% endif %}: <b>{{ f.subject }}</b> · {{ f.kind_label }}{% if f.column %} · {{ f.column }}{% endif %}
+      · <a href="/pdfpair/runs/{{ rid }}/f/{{ f.id }}" target="_blank" rel="noopener">ดูหลักฐาน A | B</a></p>
+    {% else %}
+    <p class="hint">ระบบไม่มีข้อสังเกตบนตำแหน่งนี้ — ถ้าคิดว่าระบบยกไว้ที่อื่น เลือกข้อด้านล่าง ถ้าไม่ใช่ กด "ระบบไม่ได้ยกจุดนี้"</p>
+    {% endif %}
+    <form method="post" action="/trial/s/{{ sid }}/link/{{ mk.id }}" class="tr-verdict">
+      <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+      <label class="sr-only" for="fsel-{{ mk.id }}">ข้อสังเกตของระบบ</label>
+      <select id="fsel-{{ mk.id }}" name="finding_id">
+        <option value="">{% if f %}— ใช้ข้อที่ระบบเสนอ —{% else %}— เลือกข้อสังเกตของระบบ —{% endif %}</option>
+        {% for c in candidates(r, mk) %}<option value="{{ c.id }}" {% if f and c.id == f.id %}selected{% endif %}>หน้า {{ (c.b.page if mk.side == 'cur' else c.a.page) or '—' }} · {{ c.subject[:60] }} · {{ c.kind_label[:40] }}</option>{% endfor %}
+      </select>
+      {% for k, label in tsvc.LINK_VERDICTS.items() %}
+      <button class="btn small{% if k == 'not_same' %} secondary{% endif %}" type="submit" name="verdict" value="{{ k }}"{% if ln.verdict == k %} aria-pressed="true"{% endif %}>{{ label }}</button>
+      {% endfor %}
+    </form>
+  </article>
+  {% endfor %}
+</section>
+
+<section aria-labelledby="h-extra">
+  <h2 id="h-extra">๒. ข้อที่ระบบยกเพิ่ม ({{ r.unlinked_findings|length }} ข้อ)</h2>
+  <p class="hint">ข้อสังเกตที่ไม่มีจุดที่คุณวงคู่ — ดูหลักฐานแล้วเลือกว่าเป็นอย่างไร (ไม่นับเป็นความผิดของคุณ)</p>
+  {% for f in r.unlinked_findings %}{% set v = r.extras.get(f.id) %}
+  <article class="tr-item" id="x-{{ f.id }}">
+    <header><b>{{ f.subject }}</b> · {{ f.kind_label }}{% if f.column %} · {{ f.column }}{% endif %}
+      · หน้า {{ f.b.page or f.a.page or '—' }}{% if f.within %} (ภายในฉบับ {{ f.within }}){% endif %}
+      · <a href="/pdfpair/runs/{{ rid }}/f/{{ f.id }}" target="_blank" rel="noopener">ดูหลักฐาน A | B</a>
+      {% if v %}<span class="tr-chip tr-chip-ok">{{ tsvc.EXTRA_VERDICTS[v] }}</span>{% endif %}</header>
+    {% if f.a.value or f.b.value %}<p class="mono">{{ psvc.amount_text(f.a) }} → {{ psvc.amount_text(f.b) }}</p>{% endif %}
+    {% if error and error_at == 'x-' ~ f.id %}<div class="note danger" role="alert">{{ error }}</div>{% endif %}
+    <form method="post" action="/trial/s/{{ sid }}/extra/{{ f.id }}" class="tr-verdict">
+      <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+      {% for k, label in tsvc.EXTRA_VERDICTS.items() %}
+      <button class="btn small secondary" type="submit" name="verdict" value="{{ k }}"{% if v == k %} aria-pressed="true"{% endif %}>{{ label }}</button>
+      {% endfor %}
+    </form>
+  </article>
+  {% endfor %}
+</section>
+
+<div class="tr-nav">
+  <a class="btn" href="/trial/s/{{ sid }}/survey">ต่อไป: แบบสอบถามหน้าเดียว</a>
+  <a class="btn secondary" href="/trial/s/{{ sid }}/dashboard">ดูแดชบอร์ด</a>
+</div>
+{% endblock %}

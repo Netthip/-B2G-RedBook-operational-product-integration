@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}ส่งออกชุดงาน · {{ app_name }}{% endblock %}
+{% block content %}
+
+<div class="page-head">
+  <h1>ส่งออกรายการที่ผู้ตรวจยืนยัน</h1>
+  <p class="page-sub">รอบตรวจ <span class="mono">{{ s.run_id }}</span> ·
+    <a href="/t1b/runs/{{ s.run_id }}/queue">กลับไปที่คิว</a> ·
+    <a href="/t1b/runs/{{ s.run_id }}/preflight">ดูผลตรวจก่อนส่งออก</a></p>
+</div>
+
+<div class="note warn"><b>{{ ex.EXPORT_DISCLAIMER }}</b> — ไฟล์นี้เป็น
+  “{{ ex.EXPORT_TITLE }}” ไม่ใช่ verified workbook และไม่ใช่หลักฐานว่าระบบผ่านเกณฑ์วิจัย</div>
+
+{% if error %}<div class="note danger">{{ error }}</div>{% endif %}
+
+{% if not pf.ok %}
+<div class="gate-summary stop">
+  <div class="gs-title">ยังส่งออกไม่ได้ — ติดอยู่ {{ pf.blocking_count }} เงื่อนไข</div>
+  <div class="gs-sub">
+    {% for g in pf.blocking %}{{ g.label }}{% if not loop.last %} · {% endif %}{% endfor %}
+  </div>
+  <div class="actions">
+    <a class="btn" href="/t1b/runs/{{ s.run_id }}/preflight">ดูว่าติดอะไรและแก้อย่างไร</a>
+  </div>
+</div>
+{% endif %}
+
+<div class="card">
+  <p class="mt-0">ส่งออกเฉพาะ<b>สถานะล่าสุด</b>ที่เป็น <b>ยืนยันว่าเป็นจุดที่ต้องแก้</b>
+    และ <b>ยืนยันโดยแก้ไขข้อเสนอ</b> · รายการที่เคยยืนยันแต่ล่าสุดเป็น “ไม่ใช่ประเด็น” จะ<b>ไม่ออก</b></p>
+  <dl class="kv">
+    <dt>พร้อมส่งออก</dt><dd><b>{{ bundle.count }}</b> รายการ</dd>
+    <dt>decision cutoff (seq)</dt><dd class="mono">{{ bundle.snapshot.decision_cutoff_seq }}</dd>
+    <dt>ไม่ได้ส่งออก แยกตามสถานะล่าสุด</dt>
+    <dd>{% for k, n in bundle.excluded.by_status.items() %}{{ dec.STATUS_LABELS.get(k, k) }} {{ n }}{% if not loop.last %} · {% endif %}{% endfor %}{% if not bundle.excluded.by_status %}—{% endif %}</dd>
+    <dt>ต้องผูกกลับด้วยมนุษย์</dt><dd>{{ bundle.summary.not_rebindable }}</dd>
+    <dt>OTHER_OR_UNCLASSIFIED ส่งออก / ไม่ส่งออก</dt>
+    <dd>{{ bundle.summary.other_exported }} / {{ bundle.summary.other_not_exported }}</dd>
+    <dt>รายการที่ระบบอ่านไม่ครบในรอบนี้</dt>
+    <dd>{{ pf.unmapped_count }} รายการ{% if pf.ack %} · รับทราบแล้วโดย
+      {{ pf.ack.acknowledged_by }}{% endif %}</dd>
+  </dl>
+  <form method="post" action="/t1b/runs/{{ s.run_id }}/export">
+    <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+    <div class="actions">
+      <button class="btn" type="submit" {% if not pf.ok %}disabled{% endif %}>สร้างไฟล์ .csv และ .xlsx</button>
+      {% if not pf.ok %}<span class="hint">ด่านตรวจก่อนส่งออกยังไม่ผ่าน</span>{% endif %}
+    </div>
+  </form>
+</div>
+
+{% if files %}
+<h2>ไฟล์ที่สร้างแล้ว</h2>
+<div class="card">
+  <dl class="kv">
+    <dt>export_id</dt><dd class="mono">{{ files.export_id }}</dd>
+    <dt>CSV (UTF-8 BOM · กันสูตร)</dt>
+    <dd><a href="/t1b/exports/{{ files.csv_path.name }}">{{ files.csv_path.name }}</a>
+      <div class="hint">{{ files.csv_report.summary }}</div></dd>
+    <dt>XLSX (กันสูตร · มีชีตสรุป)</dt>
+    <dd><a href="/t1b/exports/{{ files.xlsx_path.name }}">{{ files.xlsx_path.name }}</a>
+      <div class="hint">เซลล์ที่กันสูตร {{ files.xlsx_neutralized }} เซลล์</div></dd>
+  </dl>
+  <div class="hint">ไฟล์อยู่ในโฟลเดอร์ส่งออกภายในเครื่อง (นอก git) — ลบทิ้งได้หลังใช้งาน</div>
+</div>
+{% endif %}
+{% endblock %}

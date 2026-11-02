@@ -1,0 +1,16 @@
+{# เนื้อหาหน้าต่างซ้อนหลักฐาน A | B — โหลดเข้า <dialog> จากคิว/Preflight ด้วย verify.js
+   ไม่มีโครงหน้า (base.html) · ฟอร์มตัดสินส่งแบบปกติ แล้วระบบพากลับคิว/Preflight #}
+{% set rid = s.run_id %}
+<div class="vx-panel">
+  <div class="vx-panel-bar">
+    <span class="hint">{% if pos %}รายการที่ {{ pos }} จาก {{ sib_total }}{% endif %}</span>
+    <span class="vx-panel-nav">
+      {% if prev_id %}<a class="vx-go-link" data-panel href="/t1b/runs/{{ rid }}/compare/{{ prev_id }}?back={{ back }}">‹ ก่อนหน้า</a>{% endif %}
+      {% if next_id %}<a class="vx-go-link" data-panel href="/t1b/runs/{{ rid }}/compare/{{ next_id }}?back={{ back }}">ถัดไป ›</a>{% endif %}
+      <a class="vx-small-link" href="/t1b/runs/{{ rid }}/compare/{{ it.id }}?back={{ back }}">เปิดเต็มหน้า</a>
+      <button type="button" class="btn small" data-close>ปิด</button>
+    </span>
+  </div>
+  <h2 class="sr-only" id="vx-panel-h">หลักฐาน A | B — {{ it.title }}</h2>
+  {% include "_evidence_panel.html" %}
+</div>

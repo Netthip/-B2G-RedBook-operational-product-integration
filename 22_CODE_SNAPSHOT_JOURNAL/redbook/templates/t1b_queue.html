@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}คิวพิจารณารายการ · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>พิจารณารายการ</h1>
+<p class="page-sub">
+  รอบตรวจ <a href="/t1b/runs/{{ s.run_id }}"><span class="mono">{{ s.run_id }}</span></a> ·
+  สถานะ <b>{{ s.readiness_label }}</b> ·
+  <a href="/t1b/runs/{{ s.run_id }}/export">ส่งออกรายการที่ยืนยัน</a> ·
+  <a href="/t1b/runs/{{ s.run_id }}/audit">ประวัติคำตัดสิน</a>
+</p>
+
+<div class="note info">
+  <b>ระบบเสนอสิ่งที่ตรวจพบ ผู้ปฏิบัติงานเป็นผู้ตัดสิน</b> · {{ dec.E_BUDGETING_DISCLAIMER }}
+</div>
+
+{# ── ตัวนับแปดตัวตามข้อกำหนด — สถานะสี่ + รอตัดสิน ต้องรวมเท่ากับทั้งหมด ── #}
+<div class="grid grid-4">
+  <div class="stat"><div class="n">{{ counts.total }}</div><div class="k">ข้อสังเกตทั้งหมด</div></div>
+  <div class="stat"><div class="n">{{ counts.change_detected }}</div><div class="k">มีการเปลี่ยนแปลงที่ระบบตรวจพบ</div></div>
+  <div class="stat"><div class="n">{{ counts.requiring_review }}</div><div class="k">ต้องให้คนตรวจ</div></div>
+  <div class="stat"><div class="n">{{ counts.pending }}</div><div class="k">รอการตัดสิน</div></div>
+</div>
+<div class="grid grid-4 mt-s">
+  <div class="stat"><div class="n">{{ counts.confirmed }}</div><div class="k">ยืนยันว่าเป็นจุดที่ต้องแก้</div></div>
+  <div class="stat"><div class="n">{{ counts.confirmed_with_edit }}</div><div class="k">ยืนยันโดยแก้ไขข้อเสนอ</div></div>
+  <div class="stat"><div class="n">{{ counts.unresolved }}</div><div class="k">ยังตัดสินไม่ได้</div></div>
+  <div class="stat"><div class="n">{{ counts.dismissed }}</div><div class="k">ไม่ใช่ประเด็นที่ต้องแก้</div></div>
+</div>
+{% if not counts.balanced %}
+<div class="note warn">🔴 ตัวนับสถานะไม่ลงกับยอดทั้งหมด — ห้ามใช้ตัวเลขชุดนี้จนกว่าจะหาสาเหตุ</div>
+{% endif %}
+
+<form class="filters card" method="get" action="/t1b/runs/{{ s.run_id }}/queue">
+  <label>ค้นหา
+    <input type="search" name="q" value="{{ filters.query }}"
+           placeholder="ชื่อโครงการ กิจกรรม รายการ ชีต หรือเซลล์ · ทุกคำต้องพบครบ">
+  </label>
+  <label>หมวดจุดตรวจสอบ
+    <select name="cat">
+      <option value="">ทุกหมวด</option>
+      {% for code in cats.CATEGORY_ORDER %}
+        <option value="{{ code }}" {% if code in filters.categories_ %}selected{% endif %}>
+          {{ cats.CATEGORY_LABELS[code] }} ({{ counts.by_category.get(code, 0) }})</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>ชนิดข้อสังเกต
+    <select name="ftype">
+      <option value="">ทุกชนิด</option>
+      {% for code, label, n in s.by_type_labelled %}
+        <option value="{{ code }}" {% if code in filters.types %}selected{% endif %}>{{ label }} ({{ n }})</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>สถานะคำตัดสิน
+    <select name="status">
+      <option value="">ทุกสถานะ</option>
+      {% for code in rv.QUEUE_STATUSES %}
+        <option value="{{ code }}" {% if code in filters.statuses %}selected{% endif %}>{{ dec.STATUS_LABELS[code] }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>
+    <input type="checkbox" name="only_review" value="1" {% if filters.only_review %}checked{% endif %}>
+    เฉพาะที่ต้องให้คนตรวจ
+  </label>
+  <button class="btn" type="submit">กรอง</button>
+  <a class="btn small" href="/t1b/runs/{{ s.run_id }}/queue">ล้างตัวกรอง</a>
+</form>
+
+{% if queue.total %}
+<p class="hint">
+  แสดงรายการที่ {{ queue.first_index }}–{{ queue.last_index }}
+  จาก <b>{{ queue.total }}</b> รายการที่ตรงตัวกรอง · หน้า {{ queue.page }}/{{ queue.pages }}
+</p>
+
+<form method="post" action="/t1b/runs/{{ s.run_id }}/bulk/confirm" id="bulk-form">
+  <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
+  <input type="hidden" name="q" value="{{ filters.query }}">
+  {% for x in filters.types %}<input type="hidden" name="ftype" value="{{ x }}">{% endfor %}
+  {% for x in filters.flags %}<input type="hidden" name="flag" value="{{ x }}">{% endfor %}
+  {% for x in filters.categories_ %}<input type="hidden" name="cat" value="{{ x }}">{% endfor %}
+  {% for x in filters.statuses %}<input type="hidden" name="status" value="{{ x }}">{% endfor %}
+  {% if filters.only_review %}<input type="hidden" name="only_review" value="1">{% endif %}
+
+  <div class="card">
+    <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th><span class="sr-only">เลือก</span></th><th>หมวด</th><th>ชนิด</th><th>รายการ</th><th>ปี</th>
+        <th>ฉบับตั้งต้น</th><th>ฉบับปัจจุบัน</th><th>สถานะคำตัดสิน</th><th><span class="sr-only">เปิดรายการ</span></th>
+      </tr></thead>
+      <tbody>
+      {% for f in queue.items %}
+        {% set a = ann[f.finding_id] %}
+        <tr>
+          <td><input type="checkbox" name="fid" value="{{ f.finding_id }}"
+                     aria-label="เลือกรายการ {{ f.row_label or f.type_label }} ({{ f.type_label }})">
+              <input type="hidden" name="expected_{{ f.finding_id }}" value="{{ a.latest_seq }}"></td>
+          <td>{{ a.subject.label }}<div class="hint">{{ a.subject.confidence_label }}</div></td>
+          <td>{{ f.type_label }}
+            {% for fl in f.flag_labels %}<br><span class="badge">{{ fl }}</span>{% endfor %}</td>
+          <td>{{ f.row_label or "—" }}
+            <div class="hint">{{ f.side_label }}{% if f.section_title %} · {{ f.section_title }}{% endif %}</div></td>
+          <td>{{ f.fiscal_year if f.fiscal_year is not none else "—" }}</td>
+          <td class="mono num">{{ f.baseline_value|amount_num(f.declared_unit) or "—" }}</td>
+          <td class="mono num">{{ f.current_value|amount_num(f.declared_unit) or "—" }}</td>
+          <td><span class="badge">{{ a.status_label }}</span>
+            {% if not f.id_is_stable %}<div class="hint">🔴 ผูกกลับอัตโนมัติไม่ได้</div>{% endif %}</td>
+          <td><a class="btn small" href="/t1b/runs/{{ s.run_id }}/findings/{{ f.finding_id }}?{{ qs_here }}">ดู</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <h2>ตัดสินรายการที่เลือกเป็นกลุ่ม</h2>
+  <div class="card">
+    <p class="mt-0">
+      เลือกได้เฉพาะ <b>ยืนยันว่าเป็นจุดที่ต้องแก้</b> หรือ <b>ไม่ใช่ประเด็นที่ต้องแก้</b> —
+      สถานะ “ยืนยันโดยแก้ไขข้อเสนอ” และ “ยังตัดสินไม่ได้” ต้องตัดสินทีละรายการ
+      · ระบบจะพาไปหน้ายืนยันที่แสดงจำนวนและเงื่อนไขก่อนบันทึกเสมอ
+    </p>
+    <label>สถานะที่จะบันทึก
+      <select name="bulk_status">
+        {% for code in rv.BULK_ALLOWED %}<option value="{{ code }}">{{ dec.STATUS_LABELS[code] }}</option>{% endfor %}
+      </select>
+    </label>
+    <div class="actions">
+      <button class="btn" type="submit" name="scope" value="checked">ตัดสินรายการที่ติ๊กในหน้านี้</button>
+      <button class="btn secondary" type="submit" name="scope" value="all_filtered">เลือกทั้งหมดตามตัวกรอง ({{ queue.total }} รายการ) — ไปหน้ายืนยัน</button>
+    </div>
+    <div class="hint mt-s">ทุกรายการในกลุ่มจะได้คำตัดสินและรายการ audit <b>แยกราย finding</b> ตรวจย้อนหลังได้ทีละใบ</div>
+  </div>
+</form>
+
+<div class="actions">
+  {% if queue.has_prev %}<a class="btn" href="/t1b/runs/{{ s.run_id }}/queue?{{ qs_prev }}">‹ หน้าก่อนหน้า</a>{% endif %}
+  {% if queue.has_next %}<a class="btn" href="/t1b/runs/{{ s.run_id }}/queue?{{ qs_next }}">หน้าถัดไป ›</a>{% endif %}
+</div>
+{% else %}
+<div class="empty">
+  ไม่มีรายการที่ตรงกับตัวกรองนี้
+  {% if s.total_findings %} — รอบตรวจนี้มี {{ s.total_findings }} รายการทั้งหมด
+    <a href="/t1b/runs/{{ s.run_id }}/queue">ล้างตัวกรองเพื่อดูทั้งหมด</a>{% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

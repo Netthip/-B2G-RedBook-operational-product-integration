@@ -1,0 +1,66 @@
+{
+  "label": "SYNTHETIC TEST FIXTURE — not real documents, not an evaluation answer key",
+  "font_used": "tahoma.ttf",
+  "files": {
+    "synthetic_clipped_new.pdf": {
+      "sha256": "dd6fc8e3cbf20f9175b5e505a6c735ffd6cf14859509ba94a5f2e9aa784bda9c",
+      "bytes": 49274
+    },
+    "synthetic_clipped_old.pdf": {
+      "sha256": "ba5134780bed5522172f2ad7e17b2576052906879d0c9cdafdef5aa5d40e5d32",
+      "bytes": 49416
+    },
+    "synthetic_new_fy2570.pdf": {
+      "sha256": "511532586fed85698e83d82c4b11fdf482022c0f4c44bbc96fe18c47c2135272",
+      "bytes": 55626
+    },
+    "synthetic_old_fy2569.pdf": {
+      "sha256": "b59b868b63a0ed6e2bddb1a5ef4164b7d84c12f780b305cf86701a024d22e7af",
+      "bytes": 78162
+    }
+  },
+  "expectations_for_unit_tests_only": {
+    "SAME_EXACT": [
+      "ตัวชี้วัดที่ 1"
+    ],
+    "SAME_WORDING_VARIANT": [
+      "ตัวชี้วัดที่ 2"
+    ],
+    "SAME_CONCEPT_REPHRASED": [
+      "ตัวชี้วัดที่ 3"
+    ],
+    "DEFINITION_CHANGED": [
+      "ตัวชี้วัดที่ 4"
+    ],
+    "REMOVED_INDICATOR": [
+      "ตัวชี้วัดที่ 6"
+    ],
+    "NEW_INDICATOR": [
+      "ตัวชี้วัดที่ 8 : ร้อยละของระบบ"
+    ],
+    "AMBIGUOUS_REVIEW_REQUIRED": [
+      "ตัวชี้วัดที่ 7"
+    ],
+    "RELATED_NOT_EQUIVALENT (human option only)": [
+      "ตัวชี้วัดที่ 5"
+    ],
+    "pages_without_text_layer": {
+      "old": [
+        4
+      ],
+      "new": []
+    },
+    "moved": {
+      "ตัวชี้วัดที่ 1": {
+        "old_page": 2,
+        "new_page": 3
+      }
+    }
+  },
+  "clipped_edge_case_expectations": {
+    "note": "บรรทัดตัวชี้วัดที่ 9 ทั้งสองฉบับล้นขอบหน้าโดยเจตนา — ตัวอ่าน PDF ต่างชนิด อ่านได้ไม่เท่ากัน · ระบบต้องติดธง TEXT_CLIPPED_AT_PAGE_EDGE และคู่ของมัน ต้องเป็น AMBIGUOUS_REVIEW_REQUIRED เสมอ ห้ามเสนอสถานะอัตโนมัติ",
+    "clipped_line_contains": "ตัวชี้วัดที่ 9",
+    "unclipped_line_contains": "ตัวชี้วัดที่ 10"
+  },
+  "regeneration_note": "การสร้าง PDF ใหม่ไม่ได้ผลเป็นไบต์เดิมทุกครั้ง (font subsetting) ⇒ แฮชเปลี่ยนได้แม้เนื้อหาเท่าเดิม · fixture หลักสองไฟล์จึงถูกคงไบต์เดิมไว้ตามคำสั่ง Bo (5598957701 P1-2: ไม่ต้องย้อน fixture ใหม่) · ชุดขอบเขต synthetic_clipped_* เป็นไฟล์ที่เพิ่มใหม่"
+}

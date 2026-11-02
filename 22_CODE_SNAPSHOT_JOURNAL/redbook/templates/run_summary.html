@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}ผลการตรวจ · {{ app_name }}{% endblock %}
+{% block content %}
+
+<h1>สรุปผลการตรวจ</h1>
+<p class="page-sub">
+  งานตรวจ: <a href="/projects/{{ project.id }}">{{ project.name }}</a> ·
+  โหมด <b>{{ mode_label }}</b> · รหัสการตรวจ <span class="mono">{{ run.id }}</span>
+</p>
+
+<div class="note warn">
+  <b>ขอบเขตของรอบตรวจนี้:</b> รอบนี้เป็นการ<b>ตรวจ metadata ก่อนเริ่ม</b> (กฎ M01–M05) เท่านั้น
+  ระบบ<b>ยังไม่ได้เปรียบเทียบเนื้อหาภายในไฟล์</b> ทั้งระดับเซลล์ Excel และเนื้อหา PDF
+  ตัวเลขด้านล่างจึงเป็นข้อสังเกตจากข้อมูลที่ท่านระบุตอนอัปโหลด ไม่ใช่ผลเทียบรายการงบประมาณ
+</div>
+
+<div class="grid grid-4">
+  <div class="stat"><div class="n">{{ summary.total }}</div><div class="k">ข้อสังเกตทั้งหมด</div></div>
+  <div class="stat"><div class="n">{{ summary.by_review_status.get('pending', 0) }}</div>
+       <div class="k">รอผู้ตรวจพิจารณา</div></div>
+  <div class="stat"><div class="n">{{ summary.by_review_status.get('confirmed_error', 0) }}</div>
+       <div class="k">ยืนยันว่าเป็นข้อผิดพลาด</div></div>
+  <div class="stat"><div class="n">{{ summary.by_review_status.get('confirmed_valid_change', 0) }}</div>
+       <div class="k">ยืนยันว่าเป็นการเปลี่ยนแปลงที่ถูกต้อง</div></div>
+</div>
+
+<h2>ข้อมูลการตรวจซ้ำ (Reproducibility)</h2>
+<div class="card">
+  <dl class="kv">
+    <dt>engine</dt><dd class="mono">{{ run.engine_version }}</dd>
+    <dt>ชุดกฎ</dt><dd class="mono">{{ run.rule_set_version }}</dd>
+    <dt>โครงสร้างข้อมูลกลาง</dt><dd class="mono">{{ run.canonical_model_version }}</dd>
+    <dt>ตัวอ่านไฟล์</dt><dd class="mono">{{ run.parser_versions_json }}</dd>
+    <dt>ค่าตั้งที่ใช้</dt><dd class="mono">{{ run.config_json }}</dd>
+    <dt>แฮชค่าตั้ง</dt><dd class="mono tiny">{{ run.config_hash }}</dd>
+    <dt>แฮชผลตรวจ</dt><dd class="mono tiny">{{ run.result_hash }}</dd>
+    <dt>เวลาที่ใช้</dt><dd>{{ run.duration_ms }} มิลลิวินาที</dd>
+    <dt>เริ่ม / เสร็จ</dt><dd class="mono">{{ run.started_at }} → {{ run.finished_at }}</dd>
+    {% if file_a %}<dt>ไฟล์ A · SHA-256</dt>
+      <dd>{{ file_a.original_name }}<br><span class="mono tiny">{{ file_a.sha256 }}</span></dd>{% endif %}
+    {% if file_b %}<dt>ไฟล์ B · SHA-256</dt>
+      <dd>{{ file_b.original_name }}<br><span class="mono tiny">{{ file_b.sha256 }}</span></dd>{% endif %}
+  </dl>
+  <div class="hint mt-s">
+    รันไฟล์คู่เดิมด้วย engine และชุดกฎเวอร์ชันเดิม จะได้ <b>แฮชผลตรวจ</b> ค่าเดิมเสมอ
+    ค่านี้ไม่นับรวมคำตัดสินของผู้ตรวจและเวลาที่รัน
+  </div>
+</div>
+
+<div class="actions">
+  <a class="btn" href="/runs/{{ run.id }}/review">คิวรอพิจารณา ({{ summary.by_review_status.get('pending', 0) }})</a>
+  <a class="btn secondary" href="/runs/{{ run.id }}/compare">มุมมองเปรียบเทียบซ้าย–ขวา</a>
+  <a class="btn secondary" href="/audit">Audit Trail</a>
+</div>
+
+<h2>รายการข้อแตกต่าง</h2>
+<form method="get" action="/runs/{{ run.id }}" class="card">
+  <div class="filters">
+    <div class="f">
+      <label for="ms">สถานะจากระบบ</label>
+      <select id="ms" name="machine_status">
+        <option value="">ทั้งหมด</option>
+        {% for s in [MachineStatus.MATCH, MachineStatus.DIFF_FOUND,
+                     MachineStatus.LIKELY_YEAR_CHANGE, MachineStatus.LIKELY_REDUCTION,
+                     MachineStatus.NEEDS_HUMAN] %}
+        <option value="{{ s.value }}" {% if filters.machine_status == s.value %}selected{% endif %}>
+          {{ th_label(s) }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="f">
+      <label for="rs">ผลการพิจารณา</label>
+      <select id="rs" name="review_status">
+        <option value="">ทั้งหมด</option>
+        {% for s in [ReviewStatus.PENDING, ReviewStatus.CONFIRMED_ERROR,
+                     ReviewStatus.CONFIRMED_VALID_CHANGE, ReviewStatus.EXEMPTED] %}
+        <option value="{{ s.value }}" {% if filters.review_status == s.value %}selected{% endif %}>
+          {{ th_label(s) }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="f">
+      <label for="sev">ระดับความสำคัญ</label>
+      <select id="sev" name="severity">
+        <option value="">ทั้งหมด</option>
+        {% for s, lb in [("high","สูง"), ("medium","ปานกลาง"), ("low","ต่ำ"), ("info","ข้อมูล")] %}
+        <option value="{{ s }}" {% if filters.severity == s %}selected{% endif %}>{{ lb }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="f">
+      <label for="rid">กฎที่ใช้</label>
+      <input type="text" id="rid" name="rule_id" value="{{ filters.rule_id }}"
+             placeholder="เช่น M01">
+    </div>
+    <div><button class="btn small" type="submit">กรอง</button></div>
+    <div><a class="btn small secondary" href="/runs/{{ run.id }}">ล้างตัวกรอง</a></div>
+  </div>
+</form>
+
+{% if findings %}
+<div class="card">
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th>รหัส</th><th>กฎ</th><th>ประเภทการตรวจ</th><th>ระดับ</th>
+      <th>ค่าฝั่ง A</th><th>ค่าฝั่ง B</th><th>สถานะ</th><th></th>
+    </tr></thead>
+    <tbody>
+    {% for f in findings %}
+      {% set color = status_color(MachineStatus(f.machine_status), ReviewStatus(f.review_status), f.presentation_only) %}
+      <tr>
+        <td class="mono">{{ f.finding_code }}</td>
+        <td class="mono">{{ f.rule_id }}</td>
+        <td>{{ f.check_type }}<div class="hint">{{ f.reason }}</div></td>
+        <td class="sev-{{ f.severity }}">{{ f.severity }}</td>
+        <td>{{ f.value_a if f.value_a is not none else "—" }}</td>
+        <td>{{ f.value_b if f.value_b is not none else "—" }}</td>
+        <td>
+          <span class="badge {{ color }}">
+            {% if f.review_status == 'pending' %}{{ th_label(MachineStatus(f.machine_status)) }}
+            {% else %}{{ th_label(ReviewStatus(f.review_status)) }}{% endif %}
+          </span>
+        </td>
+        <td><a class="btn small secondary" href="/findings/{{ f.id }}">ดูหลักฐาน</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% else %}
+<div class="empty">
+  ไม่พบข้อสังเกตตามตัวกรองนี้<br>
+  <span class="hint">หากไม่ได้ตั้งตัวกรองไว้ แปลว่ากฎ M01–M05 ไม่พบความไม่สอดคล้องของ metadata</span>
+</div>
+{% endif %}
+
+{% endblock %}

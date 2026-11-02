@@ -1,0 +1,40 @@
+{% extends "trial_base.html" %}
+{% block content %}
+{% set b = r.s.book %}
+<div class="tr-bar"><a class="btn small secondary" href="/trial">← เล่มทั้งหมด</a>
+  <span class="tr-bar-title"><b>แดชบอร์ด</b> · {{ b.title }} · {{ b.agency }}</span>
+  {% if r.complete %}<span class="tr-chip tr-chip-ok">ยืนยันครบ</span>{% else %}<span class="tr-chip">ยังยืนยันไม่ครบ — <a href="/trial/s/{{ sid }}/result">ไปยืนยันต่อ</a></span>{% endif %}</div>
+
+<div class="tr-metrics tr-metrics-big">
+  {% set red = m.pens.red %}
+  <div class="tr-metric tr-metric-red"><span>จุดสำคัญ (แดง) ที่ระบบจับได้</span><b>{{ red.exact }} / {{ red.total }}</b>
+    <small>บางส่วน {{ red.partial }} · พลาด {{ red.missed }}{% if red.pending %} · รอยืนยัน {{ red.pending }}{% endif %}</small>
+    <span class="tr-bar-track"><span class="tr-bar-fill" data-w="{{ (100 * red.exact / red.total)|round|int if red.total else 0 }}"></span></span></div>
+  {% set br = m.pens.brown %}
+  <div class="tr-metric tr-metric-brown"><span>จุดสังเกต (น้ำตาล)</span><b>{{ br.exact }} / {{ br.total }}</b>
+    <small>บางส่วน {{ br.partial }} · พลาด {{ br.missed }}</small></div>
+  {% set pin = m.pens.pin %}
+  <div class="tr-metric"><span>ของที่หายไป (หมุด)</span><b>{{ pin.exact }} / {{ pin.total }}</b>
+    <small>บางส่วน {{ pin.partial }} · พลาด {{ pin.missed }}</small></div>
+  <div class="tr-metric"><span>ระบบพลาด (ทุกปากกา)</span><b>{{ red.missed + br.missed + pin.missed }}</b><small>จุดที่คุณวงแต่ระบบไม่ได้ยก</small></div>
+  <div class="tr-metric"><span>ระบบยกเพิ่ม</span><b>{{ r.unlinked_findings|length }}</b>
+    <small>ต่างจริงแต่ไม่ได้วง {{ m.extras.real_unnoted }} · ไม่ใช่ความต่าง {{ m.extras.not_diff }} · ยังตัดสินไม่ได้ {{ m.extras.undecided }}{% if m.extras.pending %} · รอดู {{ m.extras.pending }}{% endif %}</small></div>
+  <div class="tr-metric"><span>ส่วนที่ระบบอ่านไม่ได้</span><b>{{ m.unread }}</b><small>ประเด็นในส่วนนี้นับเป็นพลาด</small></div>
+</div>
+
+<section class="tr-steps">
+  <h2>อ่านผลนี้อย่างไร</h2>
+  <ul>
+    <li>เป็นผลของเล่มนี้ ผู้ตรวจหนึ่งคน ระบบรุ่น {{ r.view.run.versions.pdfbook }} เท่านั้น — ไม่ใช้กับเอกสารอื่นและไม่ใช่ร้อยละความแม่นยำ</li>
+    <li>"พบตรง" นับเมื่อคุณยืนยันเอง · ข้อที่ยังไม่ยืนยันไม่นับเป็นพบ</li>
+    <li>ข้อมูลประกอบของระบบ ({{ m.info }} รายการ) ไม่นับเป็นยกเพิ่ม</li>
+    <li>ผลนี้ไม่ได้บอกว่าเอกสารถูกต้อง และไม่ได้วัดเวลาที่ใช้</li>
+  </ul>
+  <div class="actions">
+    <a class="btn" href="/trial/s/{{ sid }}/summary.json">ดาวน์โหลดสรุป (เฉพาะจำนวน)</a>
+    <a class="btn secondary" href="/trial/s/{{ sid }}/survey">แก้แบบสอบถาม</a>
+  </div>
+  <p class="hint">ไฟล์สรุปมีเฉพาะจำนวน รุ่นระบบ แฮชของเล่ม และคำตอบแบบสอบถาม — ไม่มีตำแหน่งหรือหมายเหตุของจุดที่วง ·
+    ทุกครั้งที่ดาวน์โหลด ระบบบันทึกแฮชของไฟล์ไว้</p>
+</section>
+{% endblock %}

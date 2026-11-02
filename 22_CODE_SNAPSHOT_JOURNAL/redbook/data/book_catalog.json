@@ -1,0 +1,4317 @@
+{
+ "catalog_version": "book-catalog-0.1.0",
+ "generated_at": "2026-10-06T16:39:48+00:00",
+ "source": "https://www.bb.go.th/ — เมนู เอกสารงบประมาณอิเล็กทรอนิกส์",
+ "years": [
+  2570,
+  2569,
+  2568
+ ],
+ "policy": "เก็บเฉพาะลิงก์ทางการ ไม่เก็บสำเนา PDF",
+ "books": [
+  {
+   "id": "bb-2570-18863",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๑ รายรับรายจ่ายเปรียบเทียบ ประจำปีงบประมาณ พ.ศ. ๒๕๗๐",
+   "doc_type": "revenue_expenditure",
+   "doc_type_label": "รายรับรายจ่ายเปรียบเทียบ (ฉบับที่ 1)",
+   "doc_no": "1",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "ส้ม",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18863&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34177",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34177",
+     "label": "ฉบับที่ ๑ - เล่มคาดส้ม .pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34178",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18864",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๒ ประมาณการรายรับ ประจำปีงบประมาณ พ.ศ. ๒๕๗๐",
+   "doc_type": "revenue_estimate",
+   "doc_type_label": "ประมาณการรายรับ (ฉบับที่ 2)",
+   "doc_no": "2",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "เขียว",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18864&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34179",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34179",
+     "label": "ฉบับที่ ๒ - เล่มคาดเขียว .pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34180",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18865",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ งบกลาง สำนักนายกรัฐมนตรี กระทรวงกลาโหม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "1",
+   "ministries": [
+    "งบกลาง",
+    "สำนักนายกรัฐมนตรี",
+    "กระทรวงกลาโหม"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18865&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34076",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34076",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34077",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18878",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๐ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงศึกษาธิการ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "10",
+   "ministries": [
+    "กระทรวงศึกษาธิการ"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18878&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34109",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34109",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๐.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34110",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18879",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๑ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงสาธารณสุข",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "11",
+   "ministries": [
+    "กระทรวงสาธารณสุข"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18879&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34185",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34185",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๑.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34186",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18880",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๒ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงอุตสาหกรรม ส่วนราชการไม่สังกัดสำนักนายกรัฐมนตรี กระทรวง หรือทบวง และหน่วยงานภายใต้การควบคุมดูแลของนายกรัฐมนตรี",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "12",
+   "ministries": [
+    "กระทรวงอุตสาหกรรม",
+    "ส่วนราชการไม่สังกัดสำนักนายกรัฐมนตรี กระทรวง หรือทบวง"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18880&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34187",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34187",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๒.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34188",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18881",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๓(๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ จังหวัดและกลุ่มจังหวัด (๑)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "13(1)",
+   "ministries": [
+    "จังหวัดและกลุ่มจังหวัด"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18881&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34114",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34114",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๓ (๑).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34115",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18882",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๓(๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ จังหวัดและกลุ่มจังหวัด (๒)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "13(2)",
+   "ministries": [
+    "จังหวัดและกลุ่มจังหวัด"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18882&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34189",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34189",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๓ (๒).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34190",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18883",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๔ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ รัฐวิสาหกิจ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "14",
+   "ministries": [
+    "รัฐวิสาหกิจ"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18883&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34118",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34118",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๔.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34119",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18884",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๕ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ หน่วยงานของรัฐสภา หน่วยงานของศาล หน่วยงานขององค์กรอิสระและองค์กรอัยการ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "15",
+   "ministries": [
+    "หน่วยงานของรัฐสภา",
+    "หน่วยงานของศาล",
+    "หน่วยงานขององค์กรอิสระและองค์กรอัยการ"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18884&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34121",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34121",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๕.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34122",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18885",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖ (๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ องค์กรปกครองส่วนท้องถิ่น (๑)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(1)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18885&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34191",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34191",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๑) .pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34192",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18886",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖ (๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ องค์กรปกครองส่วนท้องถิ่น (๒)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(2)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18886&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34193",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34193",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๒) .pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34194",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18887",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖ (๓) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ องค์กรปกครองส่วนท้องถิ่น (๓)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(3)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18887&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34130",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34130",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๓).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34131",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18888",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖ (๔) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ องค์กรปกครองส่วนท้องถิ่น (๔)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(4)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18888&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34195",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34195",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๔).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34196",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18889",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๗ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ หน่วยงานอื่นของรัฐ สภากาชาดไทย ส่วนราชการในพระองค์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "17",
+   "ministries": [
+    "หน่วยงานอื่นของรัฐ",
+    "สภากาชาดไทย",
+    "ส่วนราชการในพระองค์"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18889&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34134",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34134",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๗.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34135",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18890",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๘ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ แผนงานบูรณาการ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "18",
+   "ministries": [
+    "แผนงานบูรณาการ"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18890&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34207",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34207",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๘.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34208",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18891",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๙ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ แผนงานบุคลากรภาครัฐ ทุนหมุนเวียน แผนงานบริหารจัดการหนี้ภาครัฐ แผนงานรายจ่ายเพื่อชดใช้เงินคงคลัง",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "19",
+   "ministries": [
+    "แผนงานบุคลากรภาครัฐ",
+    "ทุนหมุนเวียน",
+    "แผนงานบริหารจัดการหนี้ภาครัฐ",
+    "แผนงานรายจ่ายเพื่อชดใช้เงินคงคลัง"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18891&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34197",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34197",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๙.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34198",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18866",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๒ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงการคลัง กระทรวงการต่างประเทศ กระทรวงการท่องเที่ยวและกีฬา กระทรวงพัฒนาสังคมและความมั่นคงของมนุษย์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "2",
+   "ministries": [
+    "กระทรวงการคลัง",
+    "กระทรวงการต่างประเทศ",
+    "กระทรวงการท่องเที่ยวและกีฬา",
+    "กระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18866&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34079",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34079",
+     "label": "ฉบับที่ ๓ เล่มที่ ๒.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34080",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18867",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓ (๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(1)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18867&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34082",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34082",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓(๑).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34083",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18868",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓ (๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(2)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18868&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34085",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34085",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓(๒).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34086",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18869",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓ (๓) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(3)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18869&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34181",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34181",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓(๓).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34182",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18870",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓ (๔) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(4)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18870&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34216",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34216",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓(๔).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34217",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18871",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓ (๕) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม (๕)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(5)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18871&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34205",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34205",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓(๕).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34230",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18872",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๔ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงเกษตรและสหกรณ์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "4",
+   "ministries": [
+    "กระทรวงเกษตรและสหกรณ์"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18872&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34224",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34224",
+     "label": "ฉบับที่ ๓ เล่ม ๔ (23-06-69).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34225",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18873",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๕ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงคมนาคม กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "5",
+   "ministries": [
+    "กระทรวงคมนาคม",
+    "กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18873&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34094",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34094",
+     "label": "ฉบับที่ ๓ เล่มที่ ๕.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34095",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18874",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๖ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "6",
+   "ministries": [
+    "กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18874&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34097",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34097",
+     "label": "ฉบับที่ ๓ เล่มที่ ๖.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34098",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18875",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๗ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงพลังงาน กระทรวงพาณิชย์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "7",
+   "ministries": [
+    "กระทรวงพลังงาน",
+    "กระทรวงพาณิชย์"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18875&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34100",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34100",
+     "label": "ฉบับที่ ๓ เล่มที่ ๗.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34101",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18876",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๘ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงมหาดไทย",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "8",
+   "ministries": [
+    "กระทรวงมหาดไทย"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18876&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34103",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34103",
+     "label": "ฉบับที่ ๓ เล่มที่ ๘.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34104",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18877",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๙ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ กระทรวงยุติธรรม กระทรวงแรงงาน กระทรวงวัฒนธรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "9",
+   "ministries": [
+    "กระทรวงยุติธรรม",
+    "กระทรวงแรงงาน",
+    "กระทรวงวัฒนธรรม"
+   ],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18877&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34106",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34106",
+     "label": "ฉบับที่ ๓ เล่มที่ ๙.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34107",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18892",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๔ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ งบประมาณรายจ่ายจำแนกตามโครงสร้างแผนงานตามยุทธศาสตร์",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "4",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "เหลือง",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18892&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34209",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34209",
+     "label": "ฉบับที่ ๔ เล่มคาดเหลือง.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34210",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18893",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๕ รายงานภาวะเศรษฐกิจและการคลัง ประจำปีงบประมาณ พ.ศ. ๒๕๗๐",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "5",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "ม่วง",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18893&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34211",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34211",
+     "label": "ฉบับที่ ๕ เล่มคาดม่วง.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34212",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18894",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๖ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐ ผลการดำเนินงานและการใช้จ่ายงบประมาณของปีงบประมาณ พ.ศ. ๒๕๖๘",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "6",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "น้ำเงิน",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18894&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34141",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34141",
+     "label": "ฉบับที่ ๖ เล่มคาดน้ำเงิน.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34142",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18895",
+   "fiscal_year": 2570,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๗ รายงานสถานะและแผนการใช้จ่ายเงินนอกงบประมาณของหน่วยรับงบประมาณ ประจำปีงบประมาณ พ.ศ. ๒๕๗๐",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "7",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "ชมพู",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18895&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34144",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34144",
+     "label": "ฉบับที่ ๗ เล่มคาดชมพู.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34145",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-19109",
+   "fiscal_year": 2570,
+   "title": "(Draft) ANNUAL BUDGET EXPENDITURES BILL FISCAL YEAR 2027",
+   "doc_type": "english",
+   "doc_type_label": "ฉบับภาษาอังกฤษ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "16 ก.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=19109&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34657",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34657",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-19111",
+   "fiscal_year": 2570,
+   "title": "(Draft) BUDGET IN BRIEF FISCAL YEAR 2027",
+   "doc_type": "english",
+   "doc_type_label": "ฉบับภาษาอังกฤษ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "16 ก.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=19111&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34655",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34655",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-19110",
+   "fiscal_year": 2570,
+   "title": "Budget Statement for Fiscal Year 2027",
+   "doc_type": "english",
+   "doc_type_label": "ฉบับภาษาอังกฤษ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "16 ก.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=19110&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34653",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34653",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18862",
+   "fiscal_year": 2570,
+   "title": "งบประมาณโดยสังเขป ประจำปีงบประมาณ พ.ศ. ๒๕๗๐",
+   "doc_type": "budget_in_brief",
+   "doc_type_label": "งบประมาณโดยสังเขป",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18862&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34068",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34068",
+     "label": "เอกสารงบประมาณโดยสังเขป ๒๕๗๐.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34069",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18861",
+   "fiscal_year": 2570,
+   "title": "บันทึกวิเคราะห์สรุปสาระสำคัญ ร่างพระราชบัญญัติงบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18861&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34199",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34199",
+     "label": "บันทึกวิเคราะห์์สรุปสาระสำคัญ ร่างพระราชบัญญัติงบประมาณรายจ่าย ประจำปีงบประมาณ พ.ศ. ๒๕๗๐.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34200",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18859",
+   "fiscal_year": 2570,
+   "title": "รายงานการวิเคราะห์ผลกระทบที่อาจเกิดขึ้นจากกฏหมาย",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18859&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34201",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34201",
+     "label": "รายงานการวิเคราะห์ผลกระทบที่อาจเกิดขึ้นจากกฏหมาย.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34202",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18860",
+   "fiscal_year": 2570,
+   "title": "รายงานสรุปผลการรับฟังความคิดเห็นการจัดทำร่างพระราชบัญญัติงบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18860&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34203",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34203",
+     "label": "รายงานสรุปผลการรับฟังความคิดเห็น การจัดทำร่างพระราชบัญญัติงบประมาณรายจ่าย ประจำปีงบประมาณ พ.ศ. ๒๕๗๐.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34204",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2570-18858",
+   "fiscal_year": 2570,
+   "title": "ร่างพระราชบัญญัติงบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๗๐",
+   "doc_type": "bill",
+   "doc_type_label": "ร่างพระราชบัญญัติงบประมาณ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "23 มิ.ย. 2569",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=18858&mid=544&catID=1538",
+   "pdf_url": "https://www.bb.go.th/download.php?id=34060",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=34060",
+     "label": "ร่างพระราชบัญญัติ ๒๕๗๐.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=34061",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17708",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๑ รายรับรายจ่ายเปรียบเทียบ ประจำปีงบประมาณ พ.ศ. ๒๕๖๙",
+   "doc_type": "revenue_expenditure",
+   "doc_type_label": "รายรับรายจ่ายเปรียบเทียบ (ฉบับที่ 1)",
+   "doc_no": "1",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17708&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31697",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31697",
+     "label": "ฉบับที่ ๑.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31698",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17709",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๒ ประมาณการรายรับ ประจำปีงบประมาณ พ.ศ. ๒๕๖๙",
+   "doc_type": "revenue_estimate",
+   "doc_type_label": "ประมาณการรายรับ (ฉบับที่ 2)",
+   "doc_no": "2",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17709&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31700",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31700",
+     "label": "ฉบับที่ ๒.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31701",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17710",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ งบกลาง สำนักนายกรัฐมนตรี กระทรวงกลาโหม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "1",
+   "ministries": [
+    "งบกลาง",
+    "สำนักนายกรัฐมนตรี",
+    "กระทรวงกลาโหม"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17710&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31703",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31703",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31704",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17723",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๐ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงศึกษาธิการ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "10",
+   "ministries": [
+    "กระทรวงศึกษาธิการ"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17723&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31742",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31742",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๐.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31743",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17724",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๑ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงสาธารณสุข",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "11",
+   "ministries": [
+    "กระทรวงสาธารณสุข"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17724&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31829",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31829",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๑.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31830",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17725",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๒ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงอุตสาหกรรม ส่วนราชการไม่สังกัดสำนักนายกรัฐมนตรี กระทรวง หรือทบวง และหน่วยงานภายใต้การควบคุมดูแลของนายกรัฐมนตรี",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "12",
+   "ministries": [
+    "กระทรวงอุตสาหกรรม",
+    "ส่วนราชการไม่สังกัดสำนักนายกรัฐมนตรี กระทรวง หรือทบวง"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17725&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31748",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31748",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๒.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31749",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17726",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๓(๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ จังหวัดและกลุ่มจังหวัด (๑)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "13(1)",
+   "ministries": [
+    "จังหวัดและกลุ่มจังหวัด"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17726&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31751",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31751",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๓ (๑).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31752",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17727",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๓(๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ จังหวัดและกลุ่มจังหวัด (๒)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "13(2)",
+   "ministries": [
+    "จังหวัดและกลุ่มจังหวัด"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17727&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31754",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31754",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๓ (๒).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31755",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17728",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๔ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ รัฐวิสาหกิจ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "14",
+   "ministries": [
+    "รัฐวิสาหกิจ"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17728&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31757",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31757",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๔.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31758",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17729",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๕ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ หน่วยงานของรัฐสภา หน่วยงานของศาล หน่วยงานขององค์กรอิสระและองค์กรอัยการ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "15",
+   "ministries": [
+    "หน่วยงานของรัฐสภา",
+    "หน่วยงานของศาล",
+    "หน่วยงานขององค์กรอิสระและองค์กรอัยการ"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17729&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31760",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31760",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๕.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31761",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17730",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖(๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ องค์กรปกครองส่วนท้องถิ่น (๑)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(1)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17730&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31811",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31811",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๑).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31812",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17731",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖(๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ องค์กรปกครองส่วนท้องถิ่น (๒)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(2)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17731&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31766",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31766",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๒).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31767",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17732",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖(๓) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ องค์กรปกครองส่วนท้องถิ่น (๓)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(3)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17732&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31769",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31769",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๓).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31770",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17733",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖(๔) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ องค์กรปกครองส่วนท้องถิ่น (๔)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(4)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17733&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31772",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31772",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๔).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31773",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17734",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๗ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ หน่วยงานอื่นของรัฐ สภากาชาดไทย ส่วนราชการในพระองค์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "17",
+   "ministries": [
+    "หน่วยงานอื่นของรัฐ",
+    "สภากาชาดไทย",
+    "ส่วนราชการในพระองค์"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17734&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31775",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31775",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๗.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31776",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17735",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๘(๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ แผนงานบูรณาการ (๑)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "18(1)",
+   "ministries": [
+    "แผนงานบูรณาการ"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17735&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31778",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31778",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๘ (๑).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31779",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17736",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๘(๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ แผนงานบูรณาการ (๒)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "18(2)",
+   "ministries": [
+    "แผนงานบูรณาการ"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17736&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31781",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31781",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๘ (๒).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31782",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17737",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๙ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ แผนงานบุคลากรภาครัฐ ทุนหมุนเวียน แผนงานบริหารจัดการหนี้ภาครัฐ แผนงานรายจ่ายเพื่อชดใช้เงินคงคลัง",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "19",
+   "ministries": [
+    "แผนงานบุคลากรภาครัฐ",
+    "ทุนหมุนเวียน",
+    "แผนงานบริหารจัดการหนี้ภาครัฐ",
+    "แผนงานรายจ่ายเพื่อชดใช้เงินคงคลัง"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17737&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31818",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31818",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๙.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31819",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17711",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๒ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงการคลัง กระทรวงการต่างประเทศ กระทรวงการท่องเที่ยวและกีฬา กระทรวงพัฒนาสังคมและความมั่นคงของมนุษย์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "2",
+   "ministries": [
+    "กระทรวงการคลัง",
+    "กระทรวงการต่างประเทศ",
+    "กระทรวงการท่องเที่ยวและกีฬา",
+    "กระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17711&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31706",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31706",
+     "label": "ฉบับที่ ๓ เล่มที่ ๒.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31707",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17712",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓(๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(1)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17712&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31709",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31709",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓ (๑).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31710",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17713",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓(๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(2)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17713&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31712",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31712",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓ (๒).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31713",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17714",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓(๓) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(3)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17714&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31809",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31809",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓ (๓).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31810",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17715",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓(๔) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(4)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17715&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31718",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31718",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓ (๔).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31719",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17716",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓(๕) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม (๕)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(5)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17716&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31721",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31721",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓ (๕).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31722",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17717",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๔ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงเกษตรและสหกรณ์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "4",
+   "ministries": [
+    "กระทรวงเกษตรและสหกรณ์"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17717&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31724",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31724",
+     "label": "ฉบับที่ ๓ เล่มที่ ๔.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31725",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17718",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๕ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงคมนาคม กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "5",
+   "ministries": [
+    "กระทรวงคมนาคม",
+    "กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17718&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31826",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31826",
+     "label": "ฉบับที่ ๓ เล่มที่ ๕.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31827",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17719",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๖ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "6",
+   "ministries": [
+    "กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17719&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31730",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31730",
+     "label": "ฉบับที่ ๓ เล่มที่ ๖.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31731",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17720",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๗ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงพลังงาน กระทรวงพาณิชย์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "7",
+   "ministries": [
+    "กระทรวงพลังงาน",
+    "กระทรวงพาณิชย์"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17720&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31733",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31733",
+     "label": "ฉบับที่ ๓ เล่มที่ ๗.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31734",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17721",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๘ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงมหาดไทย",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "8",
+   "ministries": [
+    "กระทรวงมหาดไทย"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17721&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31736",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31736",
+     "label": "ฉบับที่ ๓ เล่มที่ ๘.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31737",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17722",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๙ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ กระทรวงยุติธรรม กระทรวงแรงงาน กระทรวงวัฒนธรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "9",
+   "ministries": [
+    "กระทรวงยุติธรรม",
+    "กระทรวงแรงงาน",
+    "กระทรวงวัฒนธรรม"
+   ],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17722&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31807",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31807",
+     "label": "ฉบับที่ ๓ เล่มที่ ๙.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31808",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17738",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๔ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ งบประมาณรายจ่ายจำแนกตามโครงสร้างแผนงานตามยุทธศาสตร์",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "4",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17738&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31787",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31787",
+     "label": "ฉบับที่ ๔.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31788",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17739",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๕ รายงานภาวะเศรษฐกิจและการคลัง ประจำปีงบประมาณ พ.ศ. ๒๕๖๙",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "5",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17739&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31790",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31790",
+     "label": "ฉบับที่ ๕.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31791",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17740",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๖ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙ ผลการดำเนินงานและการใช้จ่ายงบประมาณของปีงบประมาณ พ.ศ. ๒๕๖๖",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "6",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17740&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31793",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31793",
+     "label": "ฉบับที่ ๖.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31794",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17741",
+   "fiscal_year": 2569,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๗ รายงานสถานะและแผนการใช้จ่ายเงินนอกงบประมาณของหน่วยรับงบประมาณ ประจำปีงบประมาณ พ.ศ. ๒๕๖๙",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "7",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17741&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31796",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31796",
+     "label": "ฉบับที่ ๗.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31797",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17882",
+   "fiscal_year": 2569,
+   "title": "(Draft) ANNUAL BUDGET EXPENDITURES BILL FISCAL YEAR 2026",
+   "doc_type": "english",
+   "doc_type_label": "ฉบับภาษาอังกฤษ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "21 ก.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17882&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=32058",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=32058",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17880",
+   "fiscal_year": 2569,
+   "title": "(Draft) BUDGET IN BRIEF FISCAL YEAR 2026",
+   "doc_type": "english",
+   "doc_type_label": "ฉบับภาษาอังกฤษ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "21 ก.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17880&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=32054",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=32054",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17881",
+   "fiscal_year": 2569,
+   "title": "Budget Statement for Fiscal Year 2026",
+   "doc_type": "english",
+   "doc_type_label": "ฉบับภาษาอังกฤษ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "21 ก.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17881&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=32056",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=32056",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17707",
+   "fiscal_year": 2569,
+   "title": "งบประมาณโดยสังเขป ประจำปีงบประมาณ พ.ศ. ๒๕๖๙",
+   "doc_type": "budget_in_brief",
+   "doc_type_label": "งบประมาณโดยสังเขป",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17707&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31694",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31694",
+     "label": "เอกสารงบประมาณโดยสังเขป ๒๕๖๙.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31695",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17706",
+   "fiscal_year": 2569,
+   "title": "บันทึกวิเคราะห์สรุปสาระสำคัญ ร่างพระราชบัญญัติงบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17706&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31801",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31801",
+     "label": "เอกสารบันทึกวิเคราะห์ฯ.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31802",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17704",
+   "fiscal_year": 2569,
+   "title": "รายงานการวิเคราะห์ผลกระทบที่อาจเกิดขึ้นจากกฏหมาย",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17704&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31799",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31799",
+     "label": "รายงานการวิเคราะห์ผลกระทบที่อาจเกิดขึ้น.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31800",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17705",
+   "fiscal_year": 2569,
+   "title": "รายงานสรุปผลการรับฟังความคิดเห็นการจัดทำร่างพระราชบัญญัติงบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17705&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31690",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31690",
+     "label": "รายงานสรุปผลการรับฟังความคิดเห็นฯ 2569.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31691",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2569-17703",
+   "fiscal_year": 2569,
+   "title": "ร่างพระราชบัญญัติงบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๙",
+   "doc_type": "bill",
+   "doc_type_label": "ร่างพระราชบัญญัติงบประมาณ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "20 พ.ค. 2568",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=17703&mid=544&catID=1511",
+   "pdf_url": "https://www.bb.go.th/download.php?id=31686",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=31686",
+     "label": "ร่างพระราชบัญญัติ ๒๕๖๙.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=31687",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16754",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๑ รายรับรายจ่ายเปรียบเทียบ ประจำปีงบประมาณ พ.ศ. ๒๕๖๘",
+   "doc_type": "revenue_expenditure",
+   "doc_type_label": "รายรับรายจ่ายเปรียบเทียบ (ฉบับที่ 1)",
+   "doc_no": "1",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16754&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29920",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29920",
+     "label": "ฉบับที่ ๑.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=30014",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16755",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๒ ประมาณการรายรับ ประจำปีงบประมาณ พ.ศ. ๒๕๖๘",
+   "doc_type": "revenue_estimate",
+   "doc_type_label": "ประมาณการรายรับ (ฉบับที่ 2)",
+   "doc_no": "2",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16755&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29923",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29923",
+     "label": "ฉบับที่ ๒.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29924",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16756",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ งบกลาง สำนักนายกรัฐมนตรี กระทรวงกลาโหม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "1",
+   "ministries": [
+    "งบกลาง",
+    "สำนักนายกรัฐมนตรี",
+    "กระทรวงกลาโหม"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16756&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29926",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29926",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=30010",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16763",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๐ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงศึกษาธิการ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "10",
+   "ministries": [
+    "กระทรวงศึกษาธิการ"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16763&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29947",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29947",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๐.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29948",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16764",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๑ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงสาธารณสุข",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "11",
+   "ministries": [
+    "กระทรวงสาธารณสุข"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16764&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29950",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29950",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๑.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29951",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16765",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๒ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงอุตสาหกรรม ส่วนราชการไม่สังกัดสำนักนายกรัฐมนตรี กระทรวง หรือทบวง และหน่วยงานภายใต้การควบคุมดูแลของนายกรัฐมนตรี",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "12",
+   "ministries": [
+    "กระทรวงอุตสาหกรรม",
+    "ส่วนราชการไม่สังกัดสำนักนายกรัฐมนตรี กระทรวง หรือทบวง"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16765&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29953",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29953",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๒.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29954",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16766",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๓(๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ จังหวัดและกลุ่มจังหวัด",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "13(1)",
+   "ministries": [
+    "จังหวัดและกลุ่มจังหวัด"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16766&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29956",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29956",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๓ (๑).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29957",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16767",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๓(๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ จังหวัดและกลุ่มจังหวัด",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "13(2)",
+   "ministries": [
+    "จังหวัดและกลุ่มจังหวัด"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16767&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29959",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29959",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๓ (๒).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29960",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16768",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๔ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ รัฐวิสาหกิจ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "14",
+   "ministries": [
+    "รัฐวิสาหกิจ"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16768&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29962",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29962",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๔.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29963",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16769",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๕ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ หน่วยงานของรัฐสภา หน่วยงานของศาล หน่วยงานขององค์กรอิสระและองค์กรอัยการ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "15",
+   "ministries": [
+    "หน่วยงานของรัฐสภา",
+    "หน่วยงานของศาล",
+    "หน่วยงานขององค์กรอิสระและองค์กรอัยการ"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16769&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29965",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29965",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๕.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29966",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16770",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖(๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ องค์กรปกครองส่วนท้องถิ่น (๑)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(1)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16770&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29968",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29968",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๑).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29969",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16771",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖(๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ องค์กรปกครองส่วนท้องถิ่น (๒)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(2)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16771&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29971",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29971",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๒).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=30013",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16772",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๖(๓) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ องค์กรปกครองส่วนท้องถิ่น (๓)",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "16(3)",
+   "ministries": [
+    "องค์กรปกครองส่วนท้องถิ่น"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16772&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29974",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29974",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๖ (๓).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29975",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16773",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๗ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ หน่วยงานอื่นของรัฐ สภากาชาดไทย ส่วนราชการในพระองค์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "17",
+   "ministries": [
+    "หน่วยงานอื่นของรัฐ",
+    "สภากาชาดไทย",
+    "ส่วนราชการในพระองค์"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16773&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29977",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29977",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๗.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29978",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16744",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๘(๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ แผนงานบูรณาการ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "18(1)",
+   "ministries": [
+    "แผนงานบูรณาการ"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16744&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29897",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29897",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๘ (๑).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29898",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16745",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๘(๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ แผนงานบูรณาการ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "18(2)",
+   "ministries": [
+    "แผนงานบูรณาการ"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16745&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29900",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29900",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๘ (๒).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29901",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16775",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๑๙ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ แผนงานบุคลากรภาครัฐ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "19",
+   "ministries": [
+    "แผนงานบุคลากรภาครัฐ"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16775&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29981",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29981",
+     "label": "ฉบับที่ ๓ เล่มที่ ๑๙.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29982",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16757",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๒ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงการคลัง กระทรวงการต่างประเทศ กระทรวงการท่องเที่ยวและกีฬา กระทรวงพัฒนาสังคมและความมั่นคงของมนุษย์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "2",
+   "ministries": [
+    "กระทรวงการคลัง",
+    "กระทรวงการต่างประเทศ",
+    "กระทรวงการท่องเที่ยวและกีฬา",
+    "กระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16757&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29929",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29929",
+     "label": "ฉบับที่ ๓ เล่มที่ ๒.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=30011",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16748",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๒๐ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ ทุนหมุนเวียน แผนงานบริหารจัดการหนี้ภาครัฐ",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "20",
+   "ministries": [
+    "ทุนหมุนเวียน",
+    "แผนงานบริหารจัดการหนี้ภาครัฐ"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16748&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29905",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29905",
+     "label": "ฉบับที่ ๓ เล่มที่ ๒๐.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29906",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16738",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓(๑) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(1)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16738&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29879",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29879",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓(๑).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29880",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16739",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓(๒) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(2)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16739&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29882",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29882",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓(๒).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29883",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16740",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓(๓) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(3)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16740&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29885",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29885",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓(๓).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29886",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16758",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓(๔) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(4)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16758&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29932",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29932",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓ (๔).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=30015",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16759",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๓(๕) งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "3(5)",
+   "ministries": [
+    "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16759&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29935",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29935",
+     "label": "ฉบับที่ ๓ เล่มที่ ๓ (๕).pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29936",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16741",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๔ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงเกษตรและสหกรณ์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "4",
+   "ministries": [
+    "กระทรวงเกษตรและสหกรณ์"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16741&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29888",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29888",
+     "label": "ฉบับที่ ๓ เล่มที่ ๔.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29889",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16742",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๕ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงคมนาคม กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "5",
+   "ministries": [
+    "กระทรวงคมนาคม",
+    "กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16742&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29891",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29891",
+     "label": "ฉบับที่ ๓ เล่มที่ ๕.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29892",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16760",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๖ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "6",
+   "ministries": [
+    "กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16760&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29938",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29938",
+     "label": "ฉบับที่ ๓ เล่มที่ ๖.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29939",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16761",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๗ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงพลังงาน กระทรวงพาณิชย์",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "7",
+   "ministries": [
+    "กระทรวงพลังงาน",
+    "กระทรวงพาณิชย์"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16761&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29941",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29941",
+     "label": "ฉบับที่ ๓ เล่มที่ ๗.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29942",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16743",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๘ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงมหาดไทย",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "8",
+   "ministries": [
+    "กระทรวงมหาดไทย"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16743&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29894",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29894",
+     "label": "ฉบับที่ ๓ เล่มที่ ๘.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29895",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16762",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๓ เล่มที่ ๙ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ กระทรวงยุติธรรม กระทรวงแรงงาน กระทรวงวัฒนธรรม",
+   "doc_type": "expenditure_by_ministry",
+   "doc_type_label": "รายจ่ายจำแนกตามกระทรวง (ฉบับที่ 3)",
+   "doc_no": "3",
+   "volume": "9",
+   "ministries": [
+    "กระทรวงยุติธรรม",
+    "กระทรวงแรงงาน",
+    "กระทรวงวัฒนธรรม"
+   ],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16762&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29944",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29944",
+     "label": "ฉบับที่ ๓ เล่มที่ ๙.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=30012",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16777",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๔ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ งบประมาณรายจ่ายจำแนกตามโครงสร้างแผนงานตามยุทธศาสตร์",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "4",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16777&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29985",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29985",
+     "label": "ฉบับที่ ๔.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29986",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16780",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๕ รายงานภาวะเศรษฐกิจและการคลัง ประจำปีงบประมาณ พ.ศ. ๒๕๖๘",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "5",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16780&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29989",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29989",
+     "label": "ฉบับที่ ๕.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29990",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16781",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๖ งบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘ ผลการดำเนินงานและการใช้จ่ายงบประมาณของปีงบประมาณ พ.ศ. ๒๕๖๖",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "6",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16781&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29992",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29992",
+     "label": "ฉบับที่ ๖.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29993",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16782",
+   "fiscal_year": 2568,
+   "title": "เอกสารงบประมาณ ฉบับที่ ๗ รายงานสถานะและแผนการใช้จ่ายเงินนอกงบประมาณของหน่วยรับงบประมาณ ประจำปีงบประมาณ พ.ศ. ๒๕๖๘",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "7",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16782&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29995",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29995",
+     "label": "ฉบับที่ ๗.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29996",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16942",
+   "fiscal_year": 2568,
+   "title": "(Draft) Annual Budget Expenditures Bill Fiscal Year 2025",
+   "doc_type": "english",
+   "doc_type_label": "ฉบับภาษาอังกฤษ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "16 ส.ค. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16942&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=30314",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=30314",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16940",
+   "fiscal_year": 2568,
+   "title": "(Draft) BUDGET IN BRIEF FISCAL YEAR 2025",
+   "doc_type": "english",
+   "doc_type_label": "ฉบับภาษาอังกฤษ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "16 ส.ค. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16940&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=30310",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=30310",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16941",
+   "fiscal_year": 2568,
+   "title": "Budget Statement for Fiscal Year 2025",
+   "doc_type": "english",
+   "doc_type_label": "ฉบับภาษาอังกฤษ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "16 ส.ค. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16941&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=30326",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=30326",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16734",
+   "fiscal_year": 2568,
+   "title": "งบประมาณโดยสังเขป ประจำปีงบประมาณ พ.ศ. ๒๕๖๘",
+   "doc_type": "budget_in_brief",
+   "doc_type_label": "งบประมาณโดยสังเขป",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16734&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29864",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29864",
+     "label": "งบประมาณโดยสังเขป 68 e-Book.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29865",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16783",
+   "fiscal_year": 2568,
+   "title": "บันทึกวิเคราะห์สรุปสาระสำคัญ ร่างพระราชบัญญัติงบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16783&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29998",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29998",
+     "label": "บันทึกวิเคราะห์สรุปฯ.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29999",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16737",
+   "fiscal_year": 2568,
+   "title": "รายงานการวิเคราะห์ผลกระทบที่อาจเกิดขึ้นจากกฏหมาย",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16737&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29876",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29876",
+     "label": "รายงานการวิเคราะห์ผลกระทบที่อาจเกิดขึ้น.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29877",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16735",
+   "fiscal_year": 2568,
+   "title": "รายงานสรุปผลการรับฟังความคิดเห็นการจัดทำร่างพระราชบัญญัติงบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘",
+   "doc_type": "supporting_report",
+   "doc_type_label": "รายงานประกอบร่าง พ.ร.บ.",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16735&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=29873",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=29873",
+     "label": "รายงานสรุปผลการรับฟังความคิดเห็นฯ 2568.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=29874",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  },
+  {
+   "id": "bb-2568-16784",
+   "fiscal_year": 2568,
+   "title": "ร่างพระราชบัญญัติงบประมาณรายจ่ายประจำปีงบประมาณ พ.ศ. ๒๕๖๘",
+   "doc_type": "bill",
+   "doc_type_label": "ร่างพระราชบัญญัติงบประมาณ",
+   "doc_no": "",
+   "volume": "",
+   "ministries": [],
+   "stripe_color": "",
+   "posted": "11 มิ.ย. 2567",
+   "publisher": "สำนักงบประมาณ",
+   "stage": "ร่าง พ.ร.บ. (เผยแพร่ต่อสาธารณะ)",
+   "source_page": "https://www.bb.go.th/topic-detail.php?id=16784&mid=544&catID=1464",
+   "pdf_url": "https://www.bb.go.th/download.php?id=30001",
+   "files": [
+    {
+     "url": "https://www.bb.go.th/download.php?id=30001",
+     "label": "ร่าง พรบ. ๒๕๖๘.pdf"
+    },
+    {
+     "url": "https://www.bb.go.th/download.php?id=30002",
+     "label": "ดาวน์โหลด"
+    }
+   ],
+   "retrieved_at": "2026-10-06T16:39:48+00:00",
+   "link_check": {
+    "checked_at": "2026-10-06T16:39:48+00:00",
+    "status": 206,
+    "content_type": "application/pdf",
+    "is_pdf": true
+   }
+  }
+ ]
+}

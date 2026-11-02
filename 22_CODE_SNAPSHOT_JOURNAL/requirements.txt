@@ -1,0 +1,22 @@
+# RedBook Verify — dependency inventory (Phase 1)
+# ติดตั้ง: .venv\Scripts\python.exe -m pip install -r requirements.txt
+fastapi>=0.141,<1.0
+uvicorn[standard]>=0.52,<1.0
+jinja2>=3.1,<4.0
+python-multipart>=0.0.32,<1.0
+openpyxl>=3.1,<4.0
+
+# หลักฐาน PDF เก่า/ใหม่ + ทะเบียนตัวชี้วัด (evidence-0.2.0) — backend อ่านชั้นข้อความ/วาดหน้า
+# ค่าปริยาย = สิทธิ์ผ่อนปรน (Bo · 5597645315 ข้อ B): pdfplumber (MIT · พึ่ง pdfminer.six MIT + Pillow MIT-CMU)
+# + pypdfium2 (BSD-3-Clause / Apache-2.0) · ตรึงเวอร์ชันสำหรับสภาพแวดล้อมประเมิน (ดู requirements.lock.txt)
+# PyMuPDF (AGPL/commercial) ไม่อยู่ในชุดปริยาย — ดู requirements-research-pymupdf.txt
+pdfplumber==0.11.9
+pypdfium2==5.8.0
+
+# XML hardening สำหรับ openpyxl (ASVS V1.5.1) — openpyxl ใช้ defusedxml อัตโนมัติเมื่อติดตั้ง
+# 🔴 ประกาศจาก Security Gate #23 (F-06) · การติดตั้งลง .venv ที่ใช้ประเมินต้องได้รับอนุญาตก่อน
+defusedxml>=0.7,<1.0
+
+# ทดสอบ
+pytest>=9.0
+httpx>=0.28
