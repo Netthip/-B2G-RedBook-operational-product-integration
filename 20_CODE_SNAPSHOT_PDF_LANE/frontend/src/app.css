@@ -28,8 +28,9 @@ button { font: inherit; }
 main { max-width: 1680px; margin: 0 auto; padding: 18px 16px 48px; min-height: 70vh; }
 /* หน้าสายเทียบเล่ม: ไม่ยืดเต็มจอกว้าง (กิ๊ฟ 28 ต.ค. "กว้างแล้วดูแน่น") — อ่านง่ายกว่าเมื่อเนื้อหาอยู่กลางจอ */
 main.pair { max-width: 1360px; padding: 24px 24px 56px; }
-/* หน้าหลักฐาน: ภาพหน้า PDF เป็นสิ่งที่ต้องเห็นชัดที่สุด (กิ๊ฟ 28 ต.ค.) — ให้กว้างกว่าหน้าอื่น เพื่อขยายภาพ ไม่ใช่เพิ่มข้อความ */
-main.pair.pairwide { max-width: 1680px; }
+/* หน้าหลักฐาน: ภาพหน้า PDF เป็นสิ่งที่ต้องเห็นชัดที่สุด (กิ๊ฟ 28 ต.ค.) — ให้กว้างกว่าหน้าอื่น เพื่อขยายภาพ ไม่ใช่เพิ่มข้อความ
+   จอ 27" 2560px เคยถูกจำกัดที่ 1680px จนภาพแต่ละฝั่งกว้างไม่ถึงหนึ่งในสี่ของจอ (กิ๊ฟ 2 พ.ย.) */
+main.pair.pairwide { max-width: 2560px; }
 /* แถบเมนูหลักของสายเทียบเล่ม */
 .menu { display: flex; align-items: center; gap: 2px; margin-left: 8px; }
 .menu > a, .menu summary, .menu .soon { padding: 6px 12px; border-radius: 10px; color: #344054; text-decoration: none; font-size: .95em; cursor: pointer; }

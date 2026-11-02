@@ -133,10 +133,14 @@ export const listRuns = () => get<{ runs: PRunRow[] }>("/api/pdfpair/runs").then
 
 /** เตรียมข้อที่น่าจะเปิดต่อไว้ (ข้อมูล + ภาพหลักฐาน) — กดเปลี่ยนข้อแล้วขึ้นทันที
  *  เซิร์ฟเวอร์ตอบทีละคำขอ: เตรียมเฉพาะข้อที่น่าจะไปต่อ หลังข้อปัจจุบันโหลดเสร็จ ไม่ยิงตอนเลื่อนเมาส์ผ่าน */
+/** ภาพหลักฐานที่หน้าตรวจทีละจุดแสดง — มีกรอบ = ทั้งหน้า (เลื่อนไปที่กรอบให้เอง) · ไม่มีกรอบ = ภาพเดิมซึ่งเป็นทั้งหน้าอยู่แล้ว */
+export const fitSrc = (s: { evidence_png: string | null; bbox: number[] | null }) =>
+  s.evidence_png && s.bbox ? `${s.evidence_png}?full=1` : s.evidence_png;
+
 export function prefetch(rid: string, fid: string, images = true) {
   if (!fid) return;
   loadView(rid, fid, 60000)
-    .then((v) => { if (images) preload([v.finding.a.evidence_png, v.finding.b.evidence_png].filter((u): u is string => !!u)); })
+    .then((v) => { if (images) preload([fitSrc(v.finding.a), fitSrc(v.finding.b)].filter((u): u is string => !!u)); })
     .catch(() => {});
 }
 

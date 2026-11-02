@@ -12,7 +12,7 @@
   import { toast } from "../lib/notify.svelte";
   import PagePeek from "./PagePeek.svelte";
   import DevBadge from "../lib/DevBadge.svelte";
-  import { TREND_MARK, TREND_SAY, absDelta, trend, backTo, clip, decide, hasValues, loadList, loadRun, loadView, offsetsOf, pageFull, printedOf, peekList, peekRun, peekView, prefetch,
+  import { TREND_MARK, TREND_SAY, absDelta, trend, backTo, clip, decide, fitSrc, hasValues, loadList, loadRun, loadView, offsetsOf, pageFull, printedOf, peekList, peekRun, peekView, prefetch,
            type AB, type PFinding, type PRun, type PView } from "../lib/pair";
 
   let { rid, fid }: { rid: string; fid: string } = $props();
@@ -67,6 +67,22 @@
   };
   const pageSrc = (s: AB, n: number) => `/pdfpair/runs/${encodeURIComponent(rid)}/page/${s}/${n}.png`;
   function step(s: AB, n: number, rs: { first: number; last: number }) { at[s] = Math.min(rs.last, Math.max(rs.first, n)); }
+  // ภาพ A|B สูงเต็มพื้นที่ที่เหลือของจอ แทนแถบตัดสั้นที่เหลือที่ว่างครึ่งล่าง (กิ๊ฟ 2 พ.ย. · จอ 14" 1366×768 และ 27" 2560×1440)
+  // ภาพทั้งหน้าเลื่อนให้กรอบเน้นอยู่ราวหนึ่งในสามจากบน — เห็นบรรทัดก่อน/หลังเป็นบริบท · ต่ำสุด 280px
+  let evsEl = $state<HTMLDivElement>();
+  let evh = $state(0);
+  function fit() {
+    const shot = evsEl?.querySelector<HTMLElement>(".shot");
+    if (!shot) return;
+    const foot = document.querySelector<HTMLElement>(".foot-s")?.offsetHeight ?? 0;
+    evh = Math.max(280, Math.floor(innerHeight - (shot.getBoundingClientRect().top + scrollY) - foot - 16));
+  }
+  function toBox(img: HTMLImageElement, bbox: number[] | null) {
+    fit();
+    const box = img.closest<HTMLElement>(".shot");
+    if (!box || !bbox || !img.naturalWidth) return;
+    requestAnimationFrame(() => { box.scrollTop = Math.max(0, bbox[1] * EV_ZOOM * (img.clientWidth / img.naturalWidth) - box.clientHeight * 0.35); });
+  }
   let noteEl = $state<HTMLTextAreaElement>();
   let touched = false;
 
@@ -165,7 +181,7 @@
   }
 </script>
 
-<svelte:window onkeydown={onkey} />
+<svelte:window onkeydown={onkey} onresize={fit} />
 
 {#if err}
   <div class="card msg">{err} · <a href="/r/p/{rid}" onclick={link}>กลับไปภาพรวม</a></div>
@@ -234,7 +250,7 @@
       </header>
       {#if f.caveats.length}<p class="note warn" role="alert"><b>ต้องให้คนยืนยันก่อนใช้:</b> {f.caveats.join(" · ")}</p>{/if}
 
-      <div class="evs">
+      <div class="evs" bind:this={evsEl}>
         {#each ["A", "B"] as const as s, si (s)}
           {@const sd = s === "A" ? f.a : f.b}
           {@const o = s === "A" ? "B" : "A"}
@@ -257,13 +273,14 @@
               </div>
               <figure>
                 <!-- ไม่มีคำอธิบายใต้ภาพ: กรอบเน้นบอกเองว่าเทียบตรงไหน (กิ๊ฟ 28 ต.ค.) · กดภาพ = เปิดภาพใหญ่ -->
-                <button class="shot" class:full={at[s] !== null} title="ขยายภาพสองฉบับ" onclick={() => zoom?.showModal()}>
-                  <img src={at[s] === null ? sd.evidence_png : at[s] === sd.page ? `${sd.evidence_png}?full=1` : pageSrc(s, at[s])}
+                <button class="shot" class:full={at[s] !== null} style:height={at[s] === null && evh ? `${evh}px` : undefined}
+                        title="ขยายภาพสองฉบับ" onclick={() => zoom?.showModal()}>
+                  <img src={at[s] === null ? fitSrc(sd) : at[s] === sd.page ? `${sd.evidence_png}?full=1` : pageSrc(s, at[s])}
                        style:width={tr?.width} style:max-width={tr ? "none" : undefined} style:margin-left={tr?.ml}
-                       onload={(e) => { if (at[s] === null) natW[s] = (e.currentTarget as HTMLImageElement).naturalWidth; }}
+                       onload={(e) => { const im = e.currentTarget as HTMLImageElement; if (at[s] === null) { natW[s] = im.naturalWidth; toBox(im, sd.bbox); } }}
                        alt="ภาพจาก {short(s)} {pageFull(cur, rs?.printed_offset)}{at[s] === null || cur === sd.page ? ' — กรอบเน้น = บรรทัดที่ระบบอ่านค่านี้' : ''}" />
-                  <span class="zhint" aria-hidden="true">⤢ กดเพื่อขยาย</span>
                 </button>
+                {#if at[s] === null}<span class="zhint" aria-hidden="true">⤢ กดเพื่อขยาย</span>{/if}
               </figure>
             {:else if f.within && f.within !== s}
               <p class="empty-ev">จุดนี้อยู่ใน{short(f.within)}เท่านั้น</p>
@@ -399,6 +416,8 @@
   .grow { flex: 1; }
 
   .layout { display: grid; grid-template-columns: 208px minmax(0, 1fr) 248px; gap: 16px; align-items: start; }
+  /* จอ 27" (กว้าง ≥ 2000px): รายการจุดกว้างขึ้น ชื่อจุดไม่ตกบรรทัดถี่ (กิ๊ฟ 2 พ.ย.) */
+  @media (min-width: 2000px) { .layout { grid-template-columns: 320px minmax(0, 1fr) 300px; } }
 
   .plist { position: sticky; top: 64px; max-height: calc(100vh - 80px); overflow: auto; background: #fff; border: 1px solid var(--line);
     border-radius: var(--radius); padding: 10px 8px; }
@@ -459,11 +478,11 @@
   .ev-a h2 { color: var(--a); } .ev-b h2 { color: var(--b); }
   .evbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 6px; color: #344054; }
   figure { margin: 0; }
-  .shot { position: relative; display: block; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fafbfc; cursor: zoom-in; }
+  figure { position: relative; }
+  .shot { position: relative; display: block; border: 1px solid var(--line); border-radius: 12px; overflow: hidden auto; background: #fafbfc; cursor: zoom-in; }
   .shot.full { max-height: 75vh; overflow: auto; }
-  .zhint { position: absolute; right: 8px; bottom: 8px; padding: 2px 8px; border-radius: 999px; font-size: .78em;
+  .zhint { position: absolute; right: 18px; bottom: 8px; padding: 2px 8px; border-radius: 999px; font-size: .78em;
     background: rgba(16, 42, 84, .82); color: #fff; pointer-events: none; }
-  .shot.full .zhint { display: none; }
   .shot img { display: block; width: 100%; height: auto; }
   .absent { margin: 0; padding: 10px 12px; border-radius: 12px; background: var(--warn-bg); border: 1px solid var(--warn-line); }
   .empty-ev { color: var(--muted); }
@@ -520,7 +539,7 @@
   .err { margin: 0; color: var(--danger); font-weight: 600; }
   /* แถบล่างจอแบบแอปธนาคาร — เห็นเสมอว่าเลือกอะไร บันทึกแล้วเป็นอย่างไร และปุ่มบันทึก */
   .foot-s { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; display: flex; align-items: center; justify-content: flex-end;
-    gap: 14px; padding: 10px max(24px, calc((100vw - 1680px) / 2 + 24px)); background: #fff; border-top: 1px solid var(--line);
+    gap: 14px; padding: 10px max(24px, calc((100vw - 2560px) / 2 + 24px)); background: #fff; border-top: 1px solid var(--line);
     box-shadow: 0 -8px 24px rgba(16, 24, 40, .08); font-size: 1rem; }
   .foot-s .after { flex: 0 1 auto; max-width: 60ch; background: transparent; border: 0; padding: 0; text-align: right; }
   .foot-s .save { min-width: 220px; min-height: 48px; font-size: 1.02em; }
