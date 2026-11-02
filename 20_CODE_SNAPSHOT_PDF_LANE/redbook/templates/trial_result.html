@@ -83,14 +83,15 @@
     <form method="post" action="/trial/s/{{ sid }}/issue/{{ mk.id }}" class="tr-decide">
       <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token }}">
       <fieldset><legend>ข้อสังเกตที่ตรงกับประเด็นนี้ <span class="hint">(พบตรง/บางส่วน · หลายข้อได้)</span></legend>
+        {% macro fpage(f, mk) %}{{ (f.b.page if mk.side == 'cur' else f.a.page) or f.b.page or f.a.page or '—' }}{% endmacro %}
         {% set shown = [] %}
         {% for fid in lk %}{% set f = r.finding(fid) %}{% if f %}{% set _ = shown.append(fid) %}
-        <label class="tr-cand"><input type="checkbox" name="finding_ids" value="{{ fid }}" checked> {{ f.subject[:80] }} · {{ f.kind_label[:40] }} · <span class="tr-chip">{{ tsvc.FINDING_LEVELS[r.level[fid]] }}</span>
+        <label class="tr-cand"><input type="checkbox" name="finding_ids" value="{{ fid }}" checked> หน้า {{ fpage(f, mk) }} · {{ f.subject[:80] }} · {{ f.kind_label[:40] }} · <span class="tr-chip">{{ tsvc.FINDING_LEVELS[r.level[fid]] }}</span>
           <a href="/pdfpair/runs/{{ rid }}/f/{{ fid }}" target="_blank" rel="noopener">หลักฐาน</a></label>{% endif %}{% endfor %}
         {% if prop and prop not in lk %}{% set _ = shown.append(prop) %}{% set pf = r.finding(prop) %}
-        <label class="tr-cand"><input type="checkbox" name="finding_ids" value="{{ prop }}"{% if not d %} checked{% endif %}> ข้อที่ระบบเสนอ: {{ pf.subject[:80] }}</label>{% endif %}
+        <label class="tr-cand"><input type="checkbox" name="finding_ids" value="{{ prop }}"{% if not d %} checked{% endif %}> ข้อที่ระบบเสนอ: หน้า {{ fpage(pf, mk) }} · {{ pf.subject[:80] }}</label>{% endif %}
         {% for f in r.candidates(mk)[:6] %}{% if f.id not in shown %}
-        <label class="tr-cand"><input type="checkbox" name="finding_ids" value="{{ f.id }}"> หน้า {{ (f.b.page if mk.side == 'cur' else f.a.page) or f.b.page or f.a.page or '—' }} · {{ f.subject[:70] }} · {{ f.kind_label[:36] }} · <span class="tr-chip">{{ tsvc.FINDING_LEVELS[r.level[f.id]] }}</span>
+        <label class="tr-cand"><input type="checkbox" name="finding_ids" value="{{ f.id }}"> หน้า {{ fpage(f, mk) }} · {{ f.subject[:70] }} · {{ f.kind_label[:36] }} · <span class="tr-chip">{{ tsvc.FINDING_LEVELS[r.level[f.id]] }}</span>
           <a href="/pdfpair/runs/{{ rid }}/f/{{ f.id }}" target="_blank" rel="noopener">หลักฐาน</a></label>{% endif %}{% endfor %}
         <label>ข้ออื่น (รหัสข้อสังเกต — พิมพ์ค้นจากหน้า/ชื่อรายการ) <input name="finding_ids" list="dl-findings" size="16"></label>
       </fieldset>

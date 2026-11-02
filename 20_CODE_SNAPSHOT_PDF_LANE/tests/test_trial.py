@@ -1479,6 +1479,42 @@ def test_web_forms_record_v03_location_and_a3(client):
     assert r.status_code == 303 and trial.result(sid).obs_eval[fid]["assertion"] == "full"
 
 
+
+def test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary(client):
+    """Bo #43 6540982695: รอบ 0.3 ใช้ H2 · ซ่อนการ์ด A2 เดิม · อัตราการพบเดิม = ผลเสริม ไม่แข่ง H1 ·
+    ข้อสังเกตที่จับคู่แล้วยังบอกเลขหน้า · รอบ 0.2 ยังแสดงการ์ดเดิม (ไม่ลบผลย้อนหลัง)"""
+    tok = _token(client)
+    must, _unread = _same_year_targets()
+    sid = start("t1", "W4", path="r2", again=True)
+    m = _mark_on(sid, must[0])
+    trial.lock(sid, decl("r2"))
+    plain = lambda html: re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
+    pending = plain(client.get(f"/trial/s/{sid}/dashboard").text)                 # ตัดสินไม่ครบ
+    assert "H2 ตำแหน่งถูกทุกฝั่ง" in pending and "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" not in pending
+    assert "ผลเสริม — อัตราการพบแบบเข้ม (พบตรง ÷ N)" in pending and "ยังไม่ครบ" in pending
+    assert "0.0%" not in pending
+    dash = client.get(f"/trial/s/{sid}/dashboard").text
+    strict = dash[:dash.index("ผลเสริม — อัตราการพบแบบเข้ม")]
+    assert strict.rsplit('class="tr-metric', 1)[1].startswith('"') and "tr-bar-fill" not in dash.split("ผลเสริม —")[1][:600]
+    r = client.post(f"/trial/s/{sid}/issue/{m['id']}", data={CSRF_FIELD: tok, "verdict": "exact", "finding_ids": must[0].id,
+                                                            "basis": "enough", "location": "all_sides",
+                                                            "relevant_side": ["A", "B"]}, follow_redirects=False)
+    assert r.status_code == 303
+    page = client.get(f"/trial/s/{sid}/result").text
+    linked = re.search(rf'value="{must[0].id}" checked>([^<]*)', page).group(1)
+    assert linked.strip().startswith(f"หน้า {must[0].b.page} ·")
+    done = plain(client.get(f"/trial/s/{sid}/dashboard").text)
+    assert "H2 ตำแหน่งถูกทุกฝั่ง ในประเด็นที่พบและตัดสินตำแหน่งได้ 1/1" in done
+    assert "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" not in done
+    old = start("t1", "W5", path="r2", again=True)                                 # รอบตามวิธีวัดผลเดิม
+    trial.lock(old, decl("r2"))
+    with connect() as conn:
+        conn.execute("UPDATE trial_sessions SET protocol = ? WHERE id = ?", ("pdfpair-protocol-0.2.2", old))
+    assert not trial.session(old).v03
+    od = plain(client.get(f"/trial/s/{old}/dashboard").text)
+    assert "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" in od and "ผลเสริม —" not in od and "H2 ตำแหน่ง" not in od
+
+
 # ── #23 dynamic SQL: ชั้นที่เก็บของหน้าผู้ตรวจใช้ SQL คงที่ (Bo #42 6433564226 ข้อ 4) ─────────────────────
 _TRIAL_FILES = ("redbook/storage/trial_repo.py", "redbook/services/trial.py", "redbook/services/trial_aggregate.py",
                 "redbook/web/trial_routes.py")

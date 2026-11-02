@@ -20,12 +20,13 @@
   <div class="tr-metric"><span>A3-อ ความตรงของสิ่งที่อ่านได้ · A3-ข ความถูกของข้อสรุป</span><b>{{ (v.obs.A3_fidelity.text ~ ' · ' ~ v.obs.A3_assertion.text) if v.obs else 'ยังไม่ครบ ' ~ v.pending.obs }}</b>
     {% if v.obs %}<small>ตัดสินไม่ได้ A3-อ {{ v.obs.fidelity.undecidable }} · A3-ข {{ v.obs.assertion.undecidable }} · อ่านตรงครบแต่ข้อสรุปไม่ถูก {{ v.obs.read_ok_assertion_wrong }} · แจ้งเกิน ส3 ÷ (F − ส4) {{ v.obs.overflag.text }} (ไม่ใช่ precision)</small>{% endif %}</div>
 </div>
+<p class="hint">ผลเสริมด้านล่างนับแยกจาก H1 — ไม่ใช่ตัววัดหลัก · ตัวหาร N = ประเด็นที่ตัดสินได้ (ไม่รวมตัดสินไม่ได้)</p>
 {% endif %}
-<div class="tr-metrics tr-metrics-big">
-  <div class="tr-metric tr-metric-red"><span>อัตราการพบแบบเข้ม (พบตรง ÷ N)</span><b>{{ a1.strict.text }}</b>
+<div class="tr-metrics{{ '' if m.v03 else ' tr-metrics-big' }}">
+  <div class="tr-metric{{ '' if m.v03 else ' tr-metric-red' }}"><span>{{ 'ผลเสริม — ' if m.v03 }}อัตราการพบแบบเข้ม (พบตรง ÷ N)</span><b>{{ a1.strict.text }}</b>
     <small>N0 = {{ a1.N0 }} ที่ล็อกในขอบเขต · N = {{ a1.N }}{% if a1.pending %} · ยังไม่ครบ {{ a1.pending }}{% endif %}</small>
-    <span class="tr-bar-track"><span class="tr-bar-fill" data-w="{{ (100 * a1.exact / a1.N)|round|int if a1.N else 0 }}"></span></span></div>
-  <div class="tr-metric"><span>อัตราการพบรวมพบบางส่วน</span><b>{{ a1.with_partial.text }}</b>
+    {% if not m.v03 %}<span class="tr-bar-track"><span class="tr-bar-fill" data-w="{{ (100 * a1.exact / a1.N)|round|int if a1.N else 0 }}"></span></span>{% endif %}</div>
+  <div class="tr-metric"><span>{{ 'ผลเสริม — ' if m.v03 }}อัตราการพบรวมพบบางส่วน (พบตรง + บางส่วน ÷ N)</span><b>{{ a1.with_partial.text }}</b>
     <small>พบบางส่วนนับแยก ไม่นับเป็นครึ่ง</small></div>
   <div class="tr-metric"><span>พลาด</span><b>{{ a1.missed }}</b>
     <small>{% for k, label in tsvc.MISS_REASONS.items() %}{{ label.split(' ')[0] }} {{ a1.missed_reasons[k] }}{% if not loop.last %} · {% endif %}{% endfor %}</small></div>
@@ -58,8 +59,8 @@
 <p class="hint">ประเด็นนอกส่วนที่ตรวจครบ (ไม่นับในตัวหาร): {{ a1.out_of_scope.issues }} · พบตรง {{ a1.out_of_scope.exact }} · บางส่วน {{ a1.out_of_scope.partial }} · พลาด {{ a1.out_of_scope.missed }}</p>
 
 <div class="tr-metrics">
-  <div class="tr-metric"><span>หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)</span><b>{{ m.A2.rate.text }}</b>
-    <small>ถูกบางฉบับ {{ m.A2.some }} · ไม่ถูก {{ m.A2.none }}</small></div>
+  {% if not m.v03 %}<div class="tr-metric"><span>หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)</span><b>{{ m.A2.rate.text }}</b>
+    <small>ถูกบางฉบับ {{ m.A2.some }} · ไม่ถูก {{ m.A2.none }}</small></div>{% endif %}
   <div class="tr-metric"><span>ข้อสังเกตต้องตรวจในส่วนที่ตรวจครบ (F)</span><b>{{ led.F }}</b>
     <small>จับคู่ {{ led.matched }} · ส1 {{ led.s1 }} · ส2 {{ led.s2 }} · ส3 {{ led.s3 }} · ส4 {{ led.s4 }} ·
       บัญชี{{ 'ปิดแล้ว' if led.closed else 'ยังไม่ปิด (รอจัด ' ~ led.pending ~ ')' }}</small></div>
