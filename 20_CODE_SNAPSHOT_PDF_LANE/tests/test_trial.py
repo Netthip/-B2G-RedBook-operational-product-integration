@@ -1491,11 +1491,11 @@ def test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary(cl
     plain = lambda html: re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
     pending = plain(client.get(f"/trial/s/{sid}/dashboard").text)                 # ตัดสินไม่ครบ
     assert "H2 ตำแหน่งถูกทุกฝั่ง" in pending and "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" not in pending
-    assert "ผลเสริม — อัตราการพบแบบเข้ม (พบตรง ÷ N)" in pending and "ยังไม่ครบ" in pending
+    assert "ผลเสริม · อัตราการพบแบบเข้ม (พบตรง ÷ N)" in pending and "ยังไม่ครบ" in pending
     assert "0.0%" not in pending
     dash = client.get(f"/trial/s/{sid}/dashboard").text
-    strict = dash[:dash.index("ผลเสริม — อัตราการพบแบบเข้ม")]
-    assert strict.rsplit('class="tr-metric', 1)[1].startswith('"') and "tr-bar-fill" not in dash.split("ผลเสริม —")[1][:600]
+    strict = dash[:dash.index("ผลเสริม · อัตราการพบแบบเข้ม")]
+    assert strict.rsplit('class="tr-metric', 1)[1].startswith('"') and "tr-bar-fill" not in dash.split("ผลเสริม ·")[1][:600]
     r = client.post(f"/trial/s/{sid}/issue/{m['id']}", data={CSRF_FIELD: tok, "verdict": "exact", "finding_ids": must[0].id,
                                                             "basis": "enough", "location": "all_sides",
                                                             "relevant_side": ["A", "B"]}, follow_redirects=False)
@@ -1512,7 +1512,7 @@ def test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary(cl
         conn.execute("UPDATE trial_sessions SET protocol = ? WHERE id = ?", ("pdfpair-protocol-0.2.2", old))
     assert not trial.session(old).v03
     od = plain(client.get(f"/trial/s/{old}/dashboard").text)
-    assert "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" in od and "ผลเสริม —" not in od and "H2 ตำแหน่ง" not in od
+    assert "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" in od and "ผลเสริม ·" not in od and "H2 ตำแหน่ง" not in od
 
 
 # ── #23 dynamic SQL: ชั้นที่เก็บของหน้าผู้ตรวจใช้ SQL คงที่ (Bo #42 6433564226 ข้อ 4) ─────────────────────

@@ -23,10 +23,10 @@
 <p class="hint">ผลเสริมด้านล่างนับแยกจาก H1 — ไม่ใช่ตัววัดหลัก · ตัวหาร N = ประเด็นที่ตัดสินได้ (ไม่รวมตัดสินไม่ได้)</p>
 {% endif %}
 <div class="tr-metrics{{ '' if m.v03 else ' tr-metrics-big' }}">
-  <div class="tr-metric{{ '' if m.v03 else ' tr-metric-red' }}"><span>{{ 'ผลเสริม — ' if m.v03 }}อัตราการพบแบบเข้ม (พบตรง ÷ N)</span><b>{{ a1.strict.text }}</b>
+  <div class="tr-metric{{ '' if m.v03 else ' tr-metric-red' }}"><span>{{ 'ผลเสริม · ' if m.v03 }}อัตราการพบแบบเข้ม (พบตรง ÷ N)</span><b>{{ a1.strict.text }}</b>
     <small>N0 = {{ a1.N0 }} ที่ล็อกในขอบเขต · N = {{ a1.N }}{% if a1.pending %} · ยังไม่ครบ {{ a1.pending }}{% endif %}</small>
     {% if not m.v03 %}<span class="tr-bar-track"><span class="tr-bar-fill" data-w="{{ (100 * a1.exact / a1.N)|round|int if a1.N else 0 }}"></span></span>{% endif %}</div>
-  <div class="tr-metric"><span>{{ 'ผลเสริม — ' if m.v03 }}อัตราการพบรวมพบบางส่วน (พบตรง + บางส่วน ÷ N)</span><b>{{ a1.with_partial.text }}</b>
+  <div class="tr-metric"><span>{{ 'ผลเสริม · ' if m.v03 }}อัตราการพบรวมพบบางส่วน ((พบตรง + บางส่วน) ÷ N)</span><b>{{ a1.with_partial.text }}</b>
     <small>พบบางส่วนนับแยก ไม่นับเป็นครึ่ง</small></div>
   <div class="tr-metric"><span>พลาด</span><b>{{ a1.missed }}</b>
     <small>{% for k, label in tsvc.MISS_REASONS.items() %}{{ label.split(' ')[0] }} {{ a1.missed_reasons[k] }}{% if not loop.last %} · {% endif %}{% endfor %}</small></div>
