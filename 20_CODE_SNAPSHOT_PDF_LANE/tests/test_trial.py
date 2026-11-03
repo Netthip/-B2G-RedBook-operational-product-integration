@@ -1494,6 +1494,10 @@ def test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary(cl
     assert "ผลเสริม · อัตราการพบแบบเข้ม (พบตรง ÷ N)" in pending and "ยังไม่ครบ" in pending
     assert "0.0%" not in pending
     assert "ยังตัดสินไม่ครบ 1 ข้อ" in pending and "ผลเสริม · รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N" in pending
+    wait_h2 = "H2 ตำแหน่งถูกทุกฝั่ง ในประเด็นที่พบและตัดสินตำแหน่งได้ รอจัดประเภทผลการพบให้ครบก่อนคำนวณ H2"   # Bo 6568104909
+    pending_res = plain(client.get(f"/trial/s/{sid}/result").text)
+    assert wait_h2 in pending and wait_h2 in pending_res
+    assert "ยังไม่ครบ 0 ข้อ" not in pending and "ยังไม่ครบ 0 ข้อ" not in pending_res
     dash = client.get(f"/trial/s/{sid}/dashboard").text
     strict = dash[:dash.index("ผลเสริม · อัตราการพบแบบเข้ม")]
     assert strict.rsplit('class="tr-metric', 1)[1].startswith('"') and "tr-bar-fill" not in dash.split("ผลเสริม ·")[1][:600]
