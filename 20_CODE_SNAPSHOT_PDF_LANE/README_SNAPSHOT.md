@@ -5,6 +5,7 @@
 
 - รุ่นต้นทาง: `28b7d5b` (= `d578663` + lock `287a2fe` · pdfbook-0.5.3)
 - แก้หลังภาพนิ่ง (2 พ.ย. 2569 · Bo #43 6540982695 · แสดงผลเท่านั้น ไม่แตะการคำนวณ): แดชบอร์ดหน้าผู้ตรวจรอบวิธีวัดผล 0.3 ซ่อนการ์ด A2 เดิม (ใช้ H2) และแสดงอัตราการพบเดิมเป็นผลเสริม · ข้อสังเกตที่จับคู่แล้วบอกเลขหน้า — `redbook/templates/trial_dashboard.html` · `trial_result.html` · `tests/test_trial.py` · หน้าบ้าน (WS3) `frontend/src/lib/Metrics.svelte` + ไฟล์ build ใน `redbook/static/app/`
+- แก้หลังภาพนิ่ง (3 พ.ย. 2569 · Bo #43 6568104909 · แสดงผลเท่านั้น ไม่แก้สูตรหรือด่าน): การ์ด H2 ขณะ H1 ยังตัดสินไม่ครบแสดง "รอจัดประเภทผลการพบให้ครบก่อนคำนวณ H2" แทน "ยังไม่ครบ 0 ข้อ" — `redbook/templates/trial_dashboard.html` · `trial_result.html` · `tests/test_trial.py` · หน้าบ้าน (WS3) `frontend/src/lib/Metrics.svelte` + ไฟล์ build ใน `redbook/static/app/`
 - เฉพาะไฟล์ที่สาย PDF↔PDF ใช้ (`redbook/pdf_lane_app.py` และไฟล์ที่ import ต่อกัน) + หน้าเว็บ + เทสต์ของสายนี้ + เอกสารสัญญา API
 - ไม่รวม: สาย Excel/T1B ฉบับเอกสาร · ชุดตรวจ reviewpack · บันทึกการรันกับข้อมูลจริง · รูปบุคคล · ไฟล์ PDF จริง
 - ไฟล์ PDF ใน `tests/fixtures/synthetic_pdf` เป็นข้อมูลสังเคราะห์ทั้งหมด
