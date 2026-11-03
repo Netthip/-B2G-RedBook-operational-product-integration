@@ -29,7 +29,8 @@
     </div>
     <div class="card metric">
       <span class="lbl">H2 ตำแหน่งถูกทุกฝั่ง ในประเด็นที่พบและตัดสินตำแหน่งได้</span>
-      <b>{v.location ? v.location.H2.text : `ยังไม่ครบ ${v.pending.location} ข้อ`}</b>
+      <!-- Bo #43 6568104909: H2 รอ H1 ครบก่อน — ข้อความตรงกับฝั่งเซิร์ฟเวอร์ -->
+      <b>{v.location ? v.location.H2.text : !v.issues ? "รอจัดประเภทผลการพบให้ครบก่อนคำนวณ H2" : `ยังไม่ครบ ${v.pending.location} ข้อ`}</b>
       {#if v.location}<small>P {v.location.P} · ตัดสินไม่ได้ {v.location.undecidable} · ถูกทุกฝั่ง ÷ P {v.location.all_over_P.text}</small>{/if}
     </div>
     <div class="card metric">
