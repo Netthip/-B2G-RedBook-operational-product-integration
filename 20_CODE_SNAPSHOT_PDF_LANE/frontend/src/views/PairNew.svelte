@@ -38,8 +38,11 @@
       if (kind === "cross" && v.stage === "draft") continue;    // ข้ามปี: เทียบเล่ม พ.ร.บ.
       m.set(v.fiscal_year, [...(m.get(v.fiscal_year) ?? []), v]);
     }
-    return [...m.entries()].sort((x, y) => y[0] - x[0]);
+    // ข้ามปี: ฉบับตั้งต้นคือปีก่อน ⇒ ปีเก่าขึ้นก่อน (ทดลองคณะทำงาน 4 พ.ย.: ผลค้นแรกเป็นเล่มปีล่าสุด เลือกแล้วไม่มีเล่มให้เทียบ)
+    return [...m.entries()].sort((x, y) => (kind === "cross" ? x[0] - y[0] : y[0] - x[0]));
   });
+  // ข้ามปี: เล่มปีล่าสุดบนชั้นไม่มีเล่มปีใหม่กว่าให้เทียบ — ยังแสดง (ไม่ซ่อนเล่ม) แต่บอกไว้ก่อนเลือก
+  const latest = (v: PVolume) => kind === "cross" && !byYear.some(([fy]) => fy > v.fiscal_year);
   // คณะทำงาน 29 ต.ค.: บอกว่าในระบบมีกี่เล่ม — ไม่ให้คนตรวจคิดว่าระบบมีแค่กระทรวงที่เห็น · ไม่เจอ → ไฟล์ในเครื่อง
   const nVol = $derived(byYear.reduce((n, [, vs]) => n + vs.length, 0));
   const vol = (k: string) => shelf?.volumes.find((v) => v.key === k);
@@ -68,9 +71,10 @@
     return byYear.flatMap(([, vs]) => vs.flatMap((v) => (ags[v.key] ?? []).filter((g) => flat(g).includes(w)).map((g) => [v, g] as const)));
   });
 
-  async function pickAgency(k: string, g: string) {
+  async function pickAgency(k: string, g: string, preferB = "") {
     if (a !== k || !pick) await chooseA(k);
     agency = g; q = "";
+    if (preferB && pick && fitB([...pick.suggest.map((x) => x.key), ...pick.others]).includes(preferB)) b = preferB;
     await tick();
     document.getElementById("step2")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -92,6 +96,18 @@
       b = fitB(pick.suggest.map((s) => s.key))[0] ?? fitB(pick.others)[0] ?? "";
     } catch (e) { toast((e as Error).message, true); }
   }
+
+  // ไม่มีเล่มให้เทียบ: หาหน่วยงานชื่อเดียวกันในเล่มปีก่อน แล้วเสนอให้สลับ (เล่มที่เลือกอยู่กลายเป็นฉบับปีใหม่)
+  const swap = $derived.by(() => {
+    const av = vol(a);
+    if (kind !== "cross" || !av || !agency) return null;
+    for (const [fy, vs] of byYear) {
+      if (fy >= av.fiscal_year) continue;
+      const v = vs.find((x) => (ags[x.key] ?? []).includes(agency));
+      if (v) return v;
+    }
+    return null;
+  });
 
   // ขั้นปัจจุบันของแถบ 1-2-3 (อัปโหลดรายงานขั้นของตัวเองผ่าน onstep)
   let upStep = $state(1);
@@ -137,7 +153,7 @@
     <code>python scripts/shelf_add.py --book &lt;รหัสเล่มในคลังเล่ม&gt;</code> · ชั้นเล่ม: {shelf.shelf_label}</div>
 {:else}
   <section class="card step">
-    <h2>หน่วยงานของคุณ</h2>
+    <h2>หน่วยงานของคุณ{#if kind === "cross"} <small class="hint">เลือกจากเล่มปีก่อน</small>{/if}</h2>
     <input class="search big" type="search" placeholder="พิมพ์ชื่อหน่วยงาน เช่น กรมการแพทย์" bind:value={q} aria-label="ค้นชื่อหน่วยงาน" />
     <p class="have"><span>ตอนนี้มีในระบบ <b>{nVol}</b> เล่ม</span><span class="hint">ไม่เจอหน่วยงานของคุณ?</span>
       <button class="btn small ghost" onclick={() => (mode = "upload")}>ใช้ไฟล์ในเครื่อง →</button></p>
@@ -145,14 +161,15 @@
       <div class="hits" role="list">
         {#each hits as [v, g] (v.key + g)}
           <button class="hit" class:on={a === v.key && agency === g} onclick={() => pickAgency(v.key, g)}>
-            <b>{g}</b><span class="hint">{head(v) || nice(v.key)}{head(v) ? ` · ${nice(v.key)}` : ""}</span></button>
+            <b>{g}</b><span class="hint">{head(v) || nice(v.key)}{head(v) ? ` · ${nice(v.key)}` : ""}</span>
+            {#if latest(v)}<span class="hint late">เล่มปีล่าสุดในระบบ — ยังไม่มีเล่มปีใหม่กว่าให้เทียบ</span>{/if}</button>
         {/each}
         {#if !hits.length}<p class="hint">ไม่พบชื่อนี้ในเล่มที่มีในระบบ — ลองพิมพ์สั้นลง หรือกด "ใช้ไฟล์ในเครื่อง" ด้านบน</p>{/if}
       </div>
     {:else}
       <p class="hint or">หรือเลือกจากกระทรวง</p>
       {#each byYear as [fy, vs] (fy)}
-        <p class="fy">ปีงบประมาณ {fy}</p>
+        <p class="fy">ปีงบประมาณ {fy}{#if kind === "cross" && byYear.every(([y]) => y <= fy)}<span class="hint"> · ปีล่าสุดในระบบ ยังไม่มีเล่มปีใหม่กว่าให้เทียบ</span>{/if}</p>
         <div class="mins">
           {#each vs as v (v.key)}
             <details class="min" open={a === v.key}>
@@ -179,6 +196,22 @@
         <div class="skeleton sk2"></div>
       {:else}
         {#if pick.agency_error}<p class="note danger">{pick.agency_error}</p>{/if}
+        {#if !pick.suggest.some((x) => fitB([x.key]).length) && !fitB(pick.others).length}
+          <div class="note warn none" role="status">
+            {#if kind === "cross"}
+              <b>ยังไม่มีเล่มที่ใหม่กว่า {nice(a)} ในระบบ</b> — การตรวจข้ามปีต้องเริ่มจากเล่มปีก่อน แล้วเทียบกับเล่มปีใหม่
+              {#if swap}
+                <p><button class="btn small" onclick={() => pickAgency(swap!.key, agency, a)}>ใช้ {agency} จาก {nice(swap.key)} เป็นปีก่อน →</button>
+                  <span class="hint">เล่มที่เลือกอยู่จะเป็นฉบับปีใหม่</span></p>
+              {:else}
+                <p class="hint">ไม่พบหน่วยงานนี้ในเล่มปีก่อนที่มีในระบบ — <button class="btn small ghost" onclick={() => (mode = "upload")}>ใช้ไฟล์ในเครื่อง →</button></p>
+              {/if}
+            {:else}
+              <b>ยังไม่มีเล่มที่เทียบกับ {nice(a)} ได้ในระบบ</b> —
+              <button class="btn small ghost" onclick={() => (mode = "upload")}>ใช้ไฟล์ในเครื่อง →</button>
+            {/if}
+          </div>
+        {/if}
         <div class="bs" role="radiogroup" aria-label="เล่มที่จะเทียบ">
           {#each pick.suggest.filter((x) => fitB([x.key]).length) as x (x.key)}
             <button role="radio" aria-checked={b === x.key} class="vol" class:on={b === x.key} onclick={() => (b = x.key)}>
@@ -258,4 +291,6 @@
   .go { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin: 14px 0 6px;
     padding-top: 12px; border-top: 1px dashed var(--line); }
   .sum { margin: 0; }
+  .late { color: var(--warn, #b54708); }
+  .none { max-width: 640px; } .none p { margin: 8px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
 </style>

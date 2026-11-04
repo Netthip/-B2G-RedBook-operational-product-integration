@@ -82,14 +82,15 @@
 
   <section class="card status" class:ok={pf.ok} id="export">
     {#if pf.ok}
-      <h2>✓ ผ่านครบ {pf.checks.length} ข้อ — ส่งออกผลการตรวจได้</h2>
+      <h2>✓ ส่งออกไฟล์ได้ — ผ่านครบ {pf.checks.length} ข้อ</h2>
     {:else}
       <h2>ยังส่งออกไม่ได้ — ติด {pf.failing.length} ข้อ</h2>
     {/if}
-    <p class="use"><span class="chip use use-{pf.use_status}">{pf.use_status_label}</span> <span>{pf.use_breakdown}</span></p>
+    <!-- "ส่งออกได้" กับ "การใช้ผล" เป็นคนละเรื่อง — แยกป้ายให้เห็น (ทดลองคณะทำงาน 4 พ.ย.: หัวว่าส่งออกได้ แต่หัวข้อย่อยว่าส่งออกไม่ได้) -->
+    <p class="use"><span class="k">การใช้ผล</span><span class="chip use use-{pf.use_status}">{pf.use_status_label}</span> <span>{pf.use_breakdown}</span></p>
     {#if pf.use_reasons.length}<ul class="reasons">{#each pf.use_reasons as x, i (i)}<li>{x}</li>{/each}</ul>{/if}
-    {#if label("needs_more") && label("mismatch") && label("not_relevant")}
-      <details class="why"><summary>ทำไมตรวจครบแล้วยังส่งออกไม่ได้</summary><p class="hint">{pf.use_status_scope}</p><p class="hint">"ตรวจครบ" ≠ "ผ่านเงื่อนไขการใช้ผล": ข้อที่ตัดสินว่า "{label("needs_more")}" หรือ "{label("mismatch")}"
+    {#if pf.use_status !== "validated" && label("needs_more") && label("mismatch") && label("not_relevant")}
+      <details class="why"><summary>ส่งออกได้ กับ ใช้ผลได้ ต่างกันอย่างไร</summary><p class="hint">{pf.use_status_scope}</p><p class="hint">"ตรวจครบ" ≠ "ผ่านเงื่อนไขการใช้ผล": ข้อที่ตัดสินว่า "{label("needs_more")}" หรือ "{label("mismatch")}"
         ยังไม่ปิดความไม่แน่ใจ · ข้อ "{label("not_relevant")}" ไม่นับในผล และต้องรายงานจำนวนคู่กันเสมอ ·
         ระบบไม่เปลี่ยนคำตัดสินแทนผู้ตรวจ — ทุกแถวใน CSV มีคอลัมน์ "การใช้ผล"</p></details>
     {/if}
@@ -209,6 +210,7 @@
   .status p { margin: 6px 0; }
   .use { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .chip.use { font-weight: 600; }
+  .use .k { color: var(--muted); font-size: .92em; }
   .use-validated { background: var(--ok-bg); color: var(--ok); }
   .use-review_complete { background: var(--warn-bg); color: var(--warn); }
   .use-blocked { background: var(--danger-bg); color: var(--danger); }

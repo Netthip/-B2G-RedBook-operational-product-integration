@@ -54,12 +54,13 @@
   let at = $state<Record<AB, number | null>>({ A: null, B: null });
   // ภาพตัดจากหลังบ้านกว้างเต็มหน้ากระดาษ (zoom 1.6) — ตัดขอบกระดาษว่างซ้ายขวาออกให้ตัวเลขใหญ่ขึ้นเมื่อวาง A|B คู่กัน
   // เก็บช่วงกว้างอย่างน้อย 60% ของหน้า (บรรทัดสั้นไม่ซูมจนเสียบริบท) · ไม่รู้ขนาดภาพ/ไม่มีกรอบ = แสดงเต็มกว้างเหมือนเดิม
+  // ขอบขวาเก็บถึงสุดหน้าเสมอ — กรอบบางจุดครอบแค่ชื่อรายการ ส่วนจำนวนเงินอยู่คอลัมน์ขวา (ทดลองคณะทำงาน 4 พ.ย.: เห็นชื่อแต่ไม่เห็นเลข)
   const EV_ZOOM = 1.6, PAD = 24, MIN_SPAN = 0.6;
   let natW = $state<Record<AB, number>>({ A: 0, B: 0 });
   const trim = (b: number[] | null, w: number) => {
     const page = w / EV_ZOOM;
     if (!b || !page) return null;
-    let l = Math.max(0, b[0] - PAD), r = Math.min(page, b[2] + PAD);
+    let l = Math.max(0, b[0] - PAD), r = page;
     const need = page * MIN_SPAN - (r - l);
     if (need > 0) { l = Math.max(0, l - need / 2); r = Math.min(page, l + page * MIN_SPAN); l = Math.max(0, r - page * MIN_SPAN); }
     const span = r - l;
@@ -120,6 +121,27 @@
   const short = (s: AB) => r?.run.sides[s].label.replace(/^ฉบับ [AB] · /, "") ?? `ฉบับ ${s}`;
 
   const dirty = $derived(!!v && (choice !== saved.choice || note !== saved.note));
+  // การปรับลดครั้งเดียวไหลไปทุกตารางรวม ⇒ หลายจุดยอดต่างเท่ากัน (ทดลองคณะทำงาน 4 พ.ย.: 25 จาก 28 จุด · กิ๊ฟให้แก้ · แจ้ง Bo #44)
+  // เสนอจุดที่ยังไม่ได้ตัดสินและยอดต่าง+หน่วยเท่ากัน ให้ผู้ตรวจเลือกเอง · ระบบบันทึกแยกทีละจุดพร้อมหมายเหตุ ไม่รวมจุด ไม่เปลี่ยนตัวนับ
+  // ใช้ได้เฉพาะความเห็นครั้งแรกของข้อนี้ — แก้ความเห็นเดิมยังต้องใส่เหตุผลทีละจุดตามเดิม
+  // ยอดเดียวกันพิมพ์ต่างหน่วยได้ (ตารางรวมเป็นล้านบาท ทศนิยม 4 ตำแหน่ง) ⇒ เทียบเป็นบาท โดยยอมคลาดไม่เกินครึ่งหลักสุดท้ายที่พิมพ์
+  const PER: Record<string, number> = { "บาท": 1, "พันบาท": 1e3, "ล้านบาท": 1e6 };
+  const baht = (x: PFinding) => {
+    const n = parseFloat(x.delta), k = PER[x.unit];
+    if (!Number.isFinite(n) || !n || !k) return null;
+    return { v: n * k, tol: 0.5 * 10 ** -((x.delta.split(".")[1] ?? "").length) * k };
+  };
+  const same = (x: PFinding, y: PFinding) => {
+    const p = baht(x), q = baht(y);
+    if (p && q) return Math.abs(p.v - q.v) <= Math.max(p.tol, q.tol);
+    return !p && !q && !!(parseFloat(x.delta) || 0) && x.delta === y.delta && x.unit === y.unit;
+  };
+  const twins = $derived(!v || v.finding.info || saved.choice ? []
+    : todo.filter((x) => x.id !== fid && !x.decision && same(x, v!.finding)));
+  let alsoOn = $state(false);
+  let also = $state<Record<string, boolean>>({});
+  $effect(() => { for (const x of twins) if (!(x.id in also)) also[x.id] = true; });
+  const alsoIds = $derived(alsoOn ? twins.filter((x) => also[x.id]).map((x) => x.id) : []);
   const picked = $derived(r?.decisions.find((d) => d.key === choice));
   const backUrl = $derived(`${backTo.get(rid) ?? `/r/p/${rid}`}#f-${fid}`);
 
@@ -140,6 +162,7 @@
   async function save() {
     if (!v || busy || !writable || v.finding.info || !choice || !dirty) return;
     busy = true; formErr = "";
+    const ids = alsoIds;   // จับไว้ก่อน — บันทึกข้อนี้แล้ว twins ว่าง (saved.choice มีค่า)
     try {
       const res = await decide(rid, fid, choice, note);
       const d = res.finding.decision;
@@ -148,8 +171,21 @@
       drafts.delete(key);
       restored = false;
       v = { ...v, finding: res.finding, next_pending_id: res.next_pending_id };
-      toast(`บันทึกความเห็นข้อนี้แล้ว (${d?.choice_label ?? ""}) — ไปจุดถัดไปได้`);
-      goNext(res.next_pending_id);
+      let next = res.next_pending_id, ok = 0;
+      const fail: string[] = [];
+      const with_ = `บันทึกพร้อมกับจุด “${clip(v.finding.subject, 60)}${v.finding.column ? ` · ${v.finding.column}` : ""}” (ยอดต่างเท่ากัน)`;
+      for (const id of ids) {
+        try {
+          const x = await decide(rid, id, choice, note.trim() ? `${note.trim()} · ${with_}` : with_);
+          next = x.next_pending_id; ok++;
+        } catch (e) {
+          fail.push((e as Error).message);
+          if (e instanceof ApiError && e.code === "superseded") break;
+        }
+      }
+      if (fail.length) toast(`บันทึกข้อนี้ + อีก ${ok} จุดแล้ว · อีก ${fail.length} จุดบันทึกไม่ได้ (${clip(fail[0], 60)}) — เปิดจุดนั้นแล้วบันทึกเอง`, true);
+      else toast(`บันทึกความเห็นข้อนี้แล้ว (${d?.choice_label ?? ""})${ok ? ` พร้อมอีก ${ok} จุดที่ยอดต่างเท่ากัน` : ""} — ไปจุดถัดไปได้`);
+      goNext(next);
     } catch (e) {
       if (e instanceof ApiError && e.code === "superseded") { writable = false; formErr = e.message; }
       else if (e instanceof ApiError && e.code === "invalid") { formErr = e.message; noteEl?.focus(); }
@@ -395,13 +431,29 @@
         {:else}
           <button class="linkish" onclick={() => { noteOpen = true; queueMicrotask(() => noteEl?.focus()); }}>＋ เพิ่มหมายเหตุ</button>
         {/if}
+        {#if twins.length && writable}
+          <div class="twins">
+            <label class="tw-on"><input type="checkbox" bind:checked={alsoOn} disabled={busy} />
+              <span>ใช้ความเห็นนี้กับอีก <b>{twins.length}</b> จุดที่ยอดต่างเท่ากัน ({f.delta_text})</span></label>
+            {#if alsoOn}
+              <p class="hint">ระบบบันทึกแยกทีละจุด พร้อมหมายเหตุว่าบันทึกพร้อมกับจุดนี้ · เอาเครื่องหมายออกได้ถ้าจุดไหนไม่ใช่เรื่องเดียวกัน</p>
+              <ul class="tw-list">
+                {#each twins as x (x.id)}
+                  <li><label><input type="checkbox" bind:checked={also[x.id]} disabled={busy} />
+                    <span>{clip(x.subject, 70)}<small class="hint">{x.column ? ` · ${x.column}` : ""} · {x.delta_text}</small></span></label>
+                    <a href="/r/p/{rid}/f/{x.id}" onclick={link} title="เปิดดูหลักฐานของจุดนี้">ดู</a></li>
+                {/each}
+              </ul>
+            {/if}
+          </div>
+        {/if}
         {#if formErr}<p class="err" role="alert">{formErr}</p>{/if}
         <div class="foot-s">
           <p class="after" role="status">{#if picked && dirty}<small>{picked.label}</small>{picked.after || picked.use_label}
             {:else if f.decision && !dirty}<small>บันทึกแล้ว</small>{f.decision.choice_label}{:else}<small>ยังไม่ได้เลือก</small>เลือกความเห็นด้านขวา{/if}</p>
           <button class="btn save" disabled={!writable || busy || !choice || !dirty} onclick={save}>
             {!writable ? "บันทึกไม่ได้ — รอบนี้อ่านอย่างเดียว" : busy ? "กำลังบันทึก…" : !choice ? "เลือกความเห็นก่อน"
-              : dirty ? "บันทึก แล้วไปต่อ" : "บันทึกแล้ว"}</button>
+              : dirty ? (alsoIds.length ? `บันทึก ${alsoIds.length + 1} จุด แล้วไปต่อ` : "บันทึก แล้วไปต่อ") : "บันทึกแล้ว"}</button>
         </div>
       {/if}
     </aside>
@@ -537,6 +589,15 @@
   textarea { width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid #cfd4dc; font: inherit; resize: vertical; }
   .linkish { align-self: flex-start; border: 0; background: none; padding: 0; color: #2950c8; cursor: pointer; font: inherit; font-size: .92em; }
   .err { margin: 0; color: var(--danger); font-weight: 600; }
+  .twins { padding: 8px 10px; border-radius: 10px; border: 1px solid #d5dae1; background: #fff; }
+  .twins .hint { margin: 6px 0 4px; font-size: .88em; }
+  .tw-on { display: flex; gap: 8px; align-items: flex-start; cursor: pointer; }
+  .tw-on input { margin-top: 4px; }
+  .tw-list { list-style: none; margin: 0; padding: 0; max-height: 220px; overflow: auto; display: flex; flex-direction: column; gap: 2px; }
+  .tw-list li { display: flex; gap: 6px; align-items: flex-start; justify-content: space-between; font-size: .88em; }
+  .tw-list label { display: flex; gap: 6px; align-items: flex-start; cursor: pointer; min-width: 0; }
+  .tw-list input { margin-top: 3px; }
+  .tw-list a { flex: none; color: #2950c8; }
   /* แถบล่างจอแบบแอปธนาคาร — เห็นเสมอว่าเลือกอะไร บันทึกแล้วเป็นอย่างไร และปุ่มบันทึก */
   .foot-s { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; display: flex; align-items: center; justify-content: flex-end;
     gap: 14px; padding: 10px max(24px, calc((100vw - 2560px) / 2 + 24px)); background: #fff; border-top: 1px solid var(--line);
