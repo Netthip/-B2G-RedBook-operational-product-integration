@@ -141,21 +141,27 @@
     : todo.filter((x) => x.id !== fid && !x.decision && same(x, v!.finding)));
   let alsoOn = $state(false);
   // ยืนยันได้เฉพาะจุดที่เปิดหลักฐานครบสองฝั่งในกล่องทวนแล้ว (ภาพโหลดขึ้นจริง) · ฝั่งที่ไม่มีหลักฐาน = ยืนยันไม่ได้ ต้องเปิดจุดนั้นตรวจเอง
-  let also = $state<Record<string, boolean>>({});
+  // ยืนยันผูกกับความเห็น+หมายเหตุที่เห็นตอนกด (Bo #44 6654357940) — เปลี่ยนความเห็นหรือหมายเหตุหลังยืนยัน = การยืนยันเดิมหมดผล ต้องทวนใหม่
+  //   ค่า: ลายมือของความเห็นที่ยืนยัน · false = ผู้ตรวจบอกไม่ใช้ความเห็นนี้ (ตรวจแยก)
+  let also = $state<Record<string, string | false>>({});
+  const sig = $derived(`${choice}\u0001${note.trim()}`);
   let seen = $state<Record<string, { A: boolean; B: boolean }>>({});
   let twEl = $state<HTMLDialogElement>();
   let twAt = $state(-1);
   const twX = $derived(twAt >= 0 ? twins[twAt] : undefined);
   const hasEv = (x: PFinding) => !!(x.a.page && x.a.evidence_png && x.b.page && x.b.evidence_png);
   const seenAll = (id: string) => !!(seen[id]?.A && seen[id]?.B);
-  const okOf = (x: PFinding) => !!also[x.id] && seenAll(x.id);
+  const okOf = (x: PFinding) => also[x.id] === sig && seenAll(x.id);
+  const staleOf = (x: PFinding) => typeof also[x.id] === "string" && also[x.id] !== sig;
+  const todoOf = (x: PFinding) => !(x.id in also) || staleOf(x);
+  const nStale = $derived(twins.filter(staleOf).length);
   function onSeen(id: string, s: AB) { seen[id] = { ...(seen[id] ?? { A: false, B: false }), [s]: true }; }
   function review(i: number) { twAt = i; twEl?.showModal(); }
   function verdict(ok: boolean) {
     const x = twX;
     if (!x) return;
-    also[x.id] = ok && hasEv(x) && seenAll(x.id);
-    const j = twins.findIndex((y, k) => k > twAt && !(y.id in also));
+    also[x.id] = ok && hasEv(x) && seenAll(x.id) ? sig : false;
+    const j = twins.findIndex((y, k) => k > twAt && todoOf(y));
     if (j >= 0) twAt = j; else twEl?.close();
   }
   const alsoIds = $derived(alsoOn ? twins.filter(okOf).map((x) => x.id) : []);
@@ -458,11 +464,13 @@
             {#if alsoOn}
               <p class="hint">ยอดเท่ากันไม่ได้แปลว่าเป็นเรื่องเดียวกัน · เปิดหลักฐาน A/B ทีละจุด แล้วยืนยันเฉพาะจุดที่ความเห็นนี้ใช้ได้จริง · จุดที่ไม่ยืนยันยังรอตรวจตามปกติ</p>
               <p class="tw-sum">ยืนยันแล้ว <b>{alsoIds.length}</b> / {twins.length} จุด
-                <button class="btn small" disabled={busy} onclick={() => review(Math.max(0, twins.findIndex((x) => !(x.id in also))))}>ทวนหลักฐาน →</button></p>
+                <button class="btn small" disabled={busy} onclick={() => review(Math.max(0, twins.findIndex(todoOf)))}>ทวนหลักฐาน →</button></p>
+              {#if nStale}<p class="note warn tw-stale" role="status">ความเห็นหรือหมายเหตุเปลี่ยนหลังยืนยัน — <b>{nStale}</b> จุดต้องทวนใหม่ก่อนใช้ความเห็นนี้</p>{/if}
               <ul class="tw-list">
                 {#each twins as x, i (x.id)}
-                  <li><span class="tw-st" class:ok={okOf(x)} class:no={x.id in also && !okOf(x)}
-                        title={okOf(x) ? "ยืนยันแล้ว" : x.id in also ? "ไม่ใช้ความเห็นนี้ — ตรวจแยก" : "ยังไม่ทวน"}>{okOf(x) ? "✓" : x.id in also ? "✕" : "○"}</span>
+                  <li><span class="tw-st" class:ok={okOf(x)} class:no={also[x.id] === false} class:stale={staleOf(x)}
+                        title={okOf(x) ? "ยืนยันแล้ว" : staleOf(x) ? "ความเห็นเปลี่ยนหลังยืนยัน — ต้องทวนใหม่" : also[x.id] === false ? "ไม่ใช้ความเห็นนี้ — ตรวจแยก" : "ยังไม่ทวน"}
+                        >{okOf(x) ? "✓" : staleOf(x) ? "!" : also[x.id] === false ? "✕" : "○"}</span>
                     <span class="tw-t">{clip(x.subject, 70)}<small class="hint">{x.column ? ` · ${x.column}` : ""} · {x.delta_text}</small></span>
                     <button class="linkish" disabled={busy} onclick={() => review(i)}>ทวน</button></li>
                 {/each}
@@ -650,7 +658,8 @@
   .tw-list .linkish { flex: none; }
   .tw-sum { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 4px 0 6px; font-size: .9em; }
   .tw-st { flex: none; width: 1.2em; text-align: center; color: var(--muted); }
-  .tw-st.ok { color: var(--ok); font-weight: 700; } .tw-st.no { color: var(--danger); }
+  .tw-st.ok { color: var(--ok); font-weight: 700; } .tw-st.no { color: var(--danger); } .tw-st.stale { color: var(--warn); font-weight: 700; }
+  .tw-stale { margin: 0 0 6px; font-size: .88em; }
   .tw-t { flex: 1 1 auto; min-width: 0; }
   .twbar { position: sticky; bottom: 0; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 14px;
     border-top: 1px solid var(--line); background: #fff; box-shadow: 0 -6px 16px rgba(16, 24, 40, .08); }
