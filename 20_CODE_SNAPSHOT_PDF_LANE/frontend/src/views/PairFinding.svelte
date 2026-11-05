@@ -121,8 +121,9 @@
   const short = (s: AB) => r?.run.sides[s].label.replace(/^ฉบับ [AB] · /, "") ?? `ฉบับ ${s}`;
 
   const dirty = $derived(!!v && (choice !== saved.choice || note !== saved.note));
-  // การปรับลดครั้งเดียวไหลไปทุกตารางรวม ⇒ หลายจุดยอดต่างเท่ากัน (ทดลองคณะทำงาน 4 พ.ย.: 25 จาก 28 จุด · กิ๊ฟให้แก้ · แจ้ง Bo #44)
-  // เสนอจุดที่ยังไม่ได้ตัดสินและยอดต่าง+หน่วยเท่ากัน ให้ผู้ตรวจเลือกเอง · ระบบบันทึกแยกทีละจุดพร้อมหมายเหตุ ไม่รวมจุด ไม่เปลี่ยนตัวนับ
+  // ลดการพิมพ์ความเห็นซ้ำ (ทดลองคณะทำงาน 4 พ.ย.: 22/28 จุดยอดต่างเท่ากันเมื่อแปลงหน่วย · กิ๊ฟให้แก้) — ตามแบบ REVISE ของ Bo (#44 6644601213):
+  //   ยอดเท่ากันเป็นแค่ "ผู้สมัครให้ทวน" ไม่ได้บอกว่าเหตุเดียวกัน · ไม่เลือกให้เอง · ผู้ตรวจเปิดหลักฐาน A/B ทีละจุดแล้วกดยืนยันเอง
+  //   บันทึกแยกรายจุด พร้อมรหัสชุดเดียวกัน (เวลาและรุ่นตัวสกัดเซิร์ฟเวอร์จดเองต่อคำตัดสิน/รอบ) · ไม่รวมจุด ไม่เปลี่ยนตัวนับ
   // ใช้ได้เฉพาะความเห็นครั้งแรกของข้อนี้ — แก้ความเห็นเดิมยังต้องใส่เหตุผลทีละจุดตามเดิม
   // ยอดเดียวกันพิมพ์ต่างหน่วยได้ (ตารางรวมเป็นล้านบาท ทศนิยม 4 ตำแหน่ง) ⇒ เทียบเป็นบาท โดยยอมคลาดไม่เกินครึ่งหลักสุดท้ายที่พิมพ์
   const PER: Record<string, number> = { "บาท": 1, "พันบาท": 1e3, "ล้านบาท": 1e6 };
@@ -139,9 +140,25 @@
   const twins = $derived(!v || v.finding.info || saved.choice ? []
     : todo.filter((x) => x.id !== fid && !x.decision && same(x, v!.finding)));
   let alsoOn = $state(false);
+  // ยืนยันได้เฉพาะจุดที่เปิดหลักฐานครบสองฝั่งในกล่องทวนแล้ว (ภาพโหลดขึ้นจริง) · ฝั่งที่ไม่มีหลักฐาน = ยืนยันไม่ได้ ต้องเปิดจุดนั้นตรวจเอง
   let also = $state<Record<string, boolean>>({});
-  $effect(() => { for (const x of twins) if (!(x.id in also)) also[x.id] = true; });
-  const alsoIds = $derived(alsoOn ? twins.filter((x) => also[x.id]).map((x) => x.id) : []);
+  let seen = $state<Record<string, { A: boolean; B: boolean }>>({});
+  let twEl = $state<HTMLDialogElement>();
+  let twAt = $state(-1);
+  const twX = $derived(twAt >= 0 ? twins[twAt] : undefined);
+  const hasEv = (x: PFinding) => !!(x.a.page && x.a.evidence_png && x.b.page && x.b.evidence_png);
+  const seenAll = (id: string) => !!(seen[id]?.A && seen[id]?.B);
+  const okOf = (x: PFinding) => !!also[x.id] && seenAll(x.id);
+  function onSeen(id: string, s: AB) { seen[id] = { ...(seen[id] ?? { A: false, B: false }), [s]: true }; }
+  function review(i: number) { twAt = i; twEl?.showModal(); }
+  function verdict(ok: boolean) {
+    const x = twX;
+    if (!x) return;
+    also[x.id] = ok && hasEv(x) && seenAll(x.id);
+    const j = twins.findIndex((y, k) => k > twAt && !(y.id in also));
+    if (j >= 0) twAt = j; else twEl?.close();
+  }
+  const alsoIds = $derived(alsoOn ? twins.filter(okOf).map((x) => x.id) : []);
   const picked = $derived(r?.decisions.find((d) => d.key === choice));
   const backUrl = $derived(`${backTo.get(rid) ?? `/r/p/${rid}`}#f-${fid}`);
 
@@ -163,8 +180,11 @@
     if (!v || busy || !writable || v.finding.info || !choice || !dirty) return;
     busy = true; formErr = "";
     const ids = alsoIds;   // จับไว้ก่อน — บันทึกข้อนี้แล้ว twins ว่าง (saved.choice มีค่า)
+    // รหัสชุด: ทุกจุดที่ยืนยันพร้อมกันมีรหัสเดียวกันในหมายเหตุ รวมจุดตั้งต้น — ย้อนดูในประวัติได้ว่าบันทึกพร้อมกัน
+    const batch = ids.length ? `b-${Date.now().toString(36)}` : "";
+    const own = batch ? [note.trim(), `ชุด ${batch} (จุดตั้งต้น)`].filter(Boolean).join(" · ") : note;
     try {
-      const res = await decide(rid, fid, choice, note);
+      const res = await decide(rid, fid, choice, own);
       const d = res.finding.decision;
       saved = { choice: d?.choice ?? choice, note: d?.note ?? note };
       ({ choice, note } = saved);
@@ -173,10 +193,10 @@
       v = { ...v, finding: res.finding, next_pending_id: res.next_pending_id };
       let next = res.next_pending_id, ok = 0;
       const fail: string[] = [];
-      const with_ = `บันทึกพร้อมกับจุด “${clip(v.finding.subject, 60)}${v.finding.column ? ` · ${v.finding.column}` : ""}” (ยอดต่างเท่ากัน)`;
+      const with_ = `ชุด ${batch} · บันทึกพร้อมกับจุด “${clip(v.finding.subject, 60)}${v.finding.column ? ` · ${v.finding.column}` : ""}” หลังทวนหลักฐาน A/B ของจุดนี้`;
       for (const id of ids) {
         try {
-          const x = await decide(rid, id, choice, note.trim() ? `${note.trim()} · ${with_}` : with_);
+          const x = await decide(rid, id, choice, [note.trim().replace(/ · ชุด b-\w+ \(จุดตั้งต้น\)$/, ""), with_].filter(Boolean).join(" · "));
           next = x.next_pending_id; ok++;
         } catch (e) {
           fail.push((e as Error).message);
@@ -184,7 +204,7 @@
         }
       }
       if (fail.length) toast(`บันทึกข้อนี้ + อีก ${ok} จุดแล้ว · อีก ${fail.length} จุดบันทึกไม่ได้ (${clip(fail[0], 60)}) — เปิดจุดนั้นแล้วบันทึกเอง`, true);
-      else toast(`บันทึกความเห็นข้อนี้แล้ว (${d?.choice_label ?? ""})${ok ? ` พร้อมอีก ${ok} จุดที่ยอดต่างเท่ากัน` : ""} — ไปจุดถัดไปได้`);
+      else toast(`บันทึกความเห็นข้อนี้แล้ว (${d?.choice_label ?? ""})${ok ? ` พร้อมอีก ${ok} จุดที่ทวนหลักฐานแล้ว` : ""} — ไปจุดถัดไปได้`);
       goNext(next);
     } catch (e) {
       if (e instanceof ApiError && e.code === "superseded") { writable = false; formErr = e.message; }
@@ -434,18 +454,48 @@
         {#if twins.length && writable}
           <div class="twins">
             <label class="tw-on"><input type="checkbox" bind:checked={alsoOn} disabled={busy} />
-              <span>ใช้ความเห็นนี้กับอีก <b>{twins.length}</b> จุดที่ยอดต่างเท่ากัน ({f.delta_text})</span></label>
+              <span>มีอีก <b>{twins.length}</b> จุดที่ยอดต่างเท่ากัน ({f.delta_text}) — ทวนหลักฐานแล้วใช้ความเห็นเดียวกันได้</span></label>
             {#if alsoOn}
-              <p class="hint">ระบบบันทึกแยกทีละจุด พร้อมหมายเหตุว่าบันทึกพร้อมกับจุดนี้ · เอาเครื่องหมายออกได้ถ้าจุดไหนไม่ใช่เรื่องเดียวกัน</p>
+              <p class="hint">ยอดเท่ากันไม่ได้แปลว่าเป็นเรื่องเดียวกัน · เปิดหลักฐาน A/B ทีละจุด แล้วยืนยันเฉพาะจุดที่ความเห็นนี้ใช้ได้จริง · จุดที่ไม่ยืนยันยังรอตรวจตามปกติ</p>
+              <p class="tw-sum">ยืนยันแล้ว <b>{alsoIds.length}</b> / {twins.length} จุด
+                <button class="btn small" disabled={busy} onclick={() => review(Math.max(0, twins.findIndex((x) => !(x.id in also))))}>ทวนหลักฐาน →</button></p>
               <ul class="tw-list">
-                {#each twins as x (x.id)}
-                  <li><label><input type="checkbox" bind:checked={also[x.id]} disabled={busy} />
-                    <span>{clip(x.subject, 70)}<small class="hint">{x.column ? ` · ${x.column}` : ""} · {x.delta_text}</small></span></label>
-                    <a href="/r/p/{rid}/f/{x.id}" onclick={link} title="เปิดดูหลักฐานของจุดนี้">ดู</a></li>
+                {#each twins as x, i (x.id)}
+                  <li><span class="tw-st" class:ok={okOf(x)} class:no={x.id in also && !okOf(x)}
+                        title={okOf(x) ? "ยืนยันแล้ว" : x.id in also ? "ไม่ใช้ความเห็นนี้ — ตรวจแยก" : "ยังไม่ทวน"}>{okOf(x) ? "✓" : x.id in also ? "✕" : "○"}</span>
+                    <span class="tw-t">{clip(x.subject, 70)}<small class="hint">{x.column ? ` · ${x.column}` : ""} · {x.delta_text}</small></span>
+                    <button class="linkish" disabled={busy} onclick={() => review(i)}>ทวน</button></li>
                 {/each}
               </ul>
             {/if}
           </div>
+          <dialog class="zoom twd" bind:this={twEl} onclose={() => (twAt = -1)}>
+            {#if twX}
+              {@const tx = twX}
+              <div class="zhead"><b>ทวนจุดที่ {twAt + 1}/{twins.length}: {clip(tx.subject, 90)}{tx.column ? ` · ${tx.column}` : ""}</b>
+                <span class="hint">{tx.delta_text}</span><span class="grow"></span>
+                <button class="btn small ghost" onclick={() => twEl?.close()}>ปิด (Esc)</button></div>
+              <div class="zgrid">
+                {#each ["A", "B"] as const as s, si (s)}
+                  {@const sd = s === "A" ? tx.a : tx.b}
+                  <section class="zcol ev-{s.toLowerCase()}">
+                    <h2>{#if si}<span class="arr" aria-hidden="true">→</span>{/if}{short(s)} <small class="code">{sd.amount_text || "—"}</small></h2>
+                    {#if sd.page && sd.evidence_png}
+                      {#key tx.id}<img src={sd.evidence_png} alt="หลักฐานจาก {short(s)} — กรอบเน้น = บรรทัดที่ระบบอ่านค่านี้" onload={() => onSeen(tx.id, s)} />{/key}
+                      <a class="hint" href={`${sd.evidence_png}?full=1`} target="_blank" rel="noopener">ดูทั้งหน้า ↗</a>
+                    {:else}<p class="note warn">ไม่มีหลักฐานฝั่งนี้ — ยืนยันในชุดไม่ได้ ให้เปิดจุดนี้ตรวจเอง</p>{/if}
+                  </section>
+                {/each}
+              </div>
+              <div class="twbar">
+                <span class="hint">ความเห็นที่จะใช้: <b>{picked?.label ?? "—"}</b>{note.trim() ? ` · ${clip(note.trim(), 60)}` : ""}</span>
+                <span class="grow"></span>
+                <button class="btn small ghost" onclick={() => verdict(false)}>ไม่ใช้ความเห็นนี้ (ตรวจแยก)</button>
+                <button class="btn small" disabled={!hasEv(tx) || !seenAll(tx.id)} onclick={() => verdict(true)}>
+                  {!hasEv(tx) ? "ยืนยันไม่ได้ — หลักฐานไม่ครบ" : seenAll(tx.id) ? "ทวนแล้ว ใช้ความเห็นเดียวกัน ✓" : "รอภาพหลักฐานขึ้นครบ…"}</button>
+              </div>
+            {/if}
+          </dialog>
         {/if}
         {#if formErr}<p class="err" role="alert">{formErr}</p>{/if}
         <div class="foot-s">
@@ -597,7 +647,13 @@
   .tw-list li { display: flex; gap: 6px; align-items: flex-start; justify-content: space-between; font-size: .88em; }
   .tw-list label { display: flex; gap: 6px; align-items: flex-start; cursor: pointer; min-width: 0; }
   .tw-list input { margin-top: 3px; }
-  .tw-list a { flex: none; color: #2950c8; }
+  .tw-list .linkish { flex: none; }
+  .tw-sum { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 4px 0 6px; font-size: .9em; }
+  .tw-st { flex: none; width: 1.2em; text-align: center; color: var(--muted); }
+  .tw-st.ok { color: var(--ok); font-weight: 700; } .tw-st.no { color: var(--danger); }
+  .tw-t { flex: 1 1 auto; min-width: 0; }
+  .twbar { position: sticky; bottom: 0; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 14px;
+    border-top: 1px solid var(--line); background: #fff; box-shadow: 0 -6px 16px rgba(16, 24, 40, .08); }
   /* แถบล่างจอแบบแอปธนาคาร — เห็นเสมอว่าเลือกอะไร บันทึกแล้วเป็นอย่างไร และปุ่มบันทึก */
   .foot-s { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; display: flex; align-items: center; justify-content: flex-end;
     gap: 14px; padding: 10px max(24px, calc((100vw - 2560px) / 2 + 24px)); background: #fff; border-top: 1px solid var(--line);
