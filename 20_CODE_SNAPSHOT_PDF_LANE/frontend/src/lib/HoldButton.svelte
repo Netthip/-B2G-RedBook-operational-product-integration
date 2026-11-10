@@ -23,8 +23,17 @@
   }
   function stop() { clearTimeout(timer); anim?.cancel(); anim = undefined; holding = false; }
   function click() { if (!hold && !disabled) onfire(); }
+  // คีย์ที่มี Ctrl/Alt/Shift/⌘ ห้ามเริ่มจับเวลา (Bo REVISE #44 6757098966) — Ctrl+Enter เป็นทางลัดพาโฟกัสเท่านั้น
+  // กดค้างไว้แล้วเหลือบกด modifier ระหว่างทาง = ยกเลิกด้วย · ไม่ stopPropagation เพื่อให้ทางลัดของหน้ายังทำงาน
+  const mod = (e: KeyboardEvent | PointerEvent) => e.ctrlKey || e.metaKey || e.altKey || e.shiftKey;
   function down(e: KeyboardEvent) {
-    if (!hold || (e.key !== "Enter" && e.key !== " ")) return;
+    if (!hold) return;
+    if (mod(e) || ["Control", "Meta", "Alt", "Shift"].includes(e.key)) {
+      if (holding) stop();
+      if (e.key === "Enter" || e.key === " ") e.preventDefault();
+      return;
+    }
+    if (e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();            // ไม่ให้ Enter/Space กลายเป็นคลิก (คลิกเดียวต้องไม่บันทึกทั้งชุด)
     if (!e.repeat) begin();
   }
@@ -35,7 +44,7 @@
 
 <span class="hold-w">
 <button class="btn hold {cls}" class:armed={hold} class:holding {disabled} aria-describedby={hold ? id : undefined}
-        onclick={click} onpointerdown={(e) => { if (e.button === 0) begin(); }} onpointerup={stop} onpointerleave={stop} onpointercancel={stop}
+        onclick={click} onpointerdown={(e) => { if (e.button === 0 && !mod(e)) begin(); }} onpointerup={stop} onpointerleave={stop} onpointercancel={stop}
         onkeydown={down} onkeyup={up} onblur={stop} oncontextmenu={(e) => { if (hold) e.preventDefault(); }}>
   {#if hold}<span class="fill" aria-hidden="true" bind:this={fill}></span>{/if}
   <span class="lbl">{@render children()}</span>
