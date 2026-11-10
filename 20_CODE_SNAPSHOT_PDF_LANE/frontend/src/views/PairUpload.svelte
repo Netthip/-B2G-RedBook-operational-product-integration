@@ -3,6 +3,7 @@
   // ตรวจชนิดไฟล์/ไฟล์เสีย/รหัสผ่าน/จำนวนหน้าที่เซิร์ฟเวอร์ · หน้าบ้านเช็กแค่นามสกุลและขนาดเพื่อบอกเร็ว · หน่วยงานที่กันไว้ไม่อยู่ในรายชื่อ
   import { go } from "../lib/router.svelte";
   import { toast } from "../lib/notify.svelte";
+  import StatusMark from "../lib/StatusMark.svelte";
   import { startUploaded, uploadPdf, type AB, type PUpload } from "../lib/pair";
 
   const MAX_MB = 80;                 // เท่ากับ REDBOOK_MAX_UPLOAD_MB ค่าเริ่มของเซิร์ฟเวอร์ — เซิร์ฟเวอร์ตัดสินจริง
@@ -23,6 +24,7 @@
   let agency = $state("");
   let q = $state("");
   let starting = $state(false);
+  let read = $state(false);
   let secs = $state(0);
 
   // อัปโหลดทีละไฟล์ — ไฟล์แรกได้ project_id แล้วไฟล์ต่อไปใช้งานตรวจเดียวกัน (กันได้สองงานตรวจเมื่อเลือกพร้อมกัน)
@@ -62,10 +64,13 @@
 
   async function start() {
     if (!pid || !both || !agency || starting || working) return;
-    starting = true; secs = 0;
+    starting = true; secs = 0; read = false;
     const t = setInterval(() => secs++, 1000);
     try {
       const r = await startUploaded(pid, agency);
+      // อ่านเล่มเสร็จ → วงปิดค้างไว้สั้น ๆ ให้เห็นก่อนเปลี่ยนหน้า (ใบงาน #44 Status Mark)
+      read = true;
+      await new Promise((ok) => setTimeout(ok, 600));
       toast("เทียบเสร็จแล้ว");
       go(`/r/p/${r.rid}`);
     } catch (e) {
@@ -87,7 +92,7 @@
                  onchange={(e) => { const el = e.currentTarget; send(s, el.files?.[0]); el.value = ""; }} />
           <b class="t">{title}</b>
           {#if busy[s]}
-            <span class="spin" aria-hidden="true"></span><span>กำลังอัปโหลดและตรวจไฟล์…</span><small class="hint">{busy[s]}</small>
+            <StatusMark state="wait" /><span>กำลังอัปโหลดและตรวจไฟล์…</span><small class="hint">{busy[s]}</small>
           {:else if got[s]}
             <span class="okmark" aria-hidden="true">✓</span><span class="fn">{got[s]!.file}</span>
             <small class="hint">{got[s]!.pages.toLocaleString("th-TH")} หน้า</small>
@@ -123,6 +128,7 @@
     {/if}
     <div class="go">
       <p class="sum">{#if agency}<b>{agency}</b>{` · ${got.A!.file} → ${got.B!.file}`}{:else}<span class="hint">เลือกหน่วยงาน</span>{/if}</p>
+      {#if starting}<StatusMark state={read ? "done" : "wait"} label={read ? "อ่านเล่มเสร็จ" : ""} />{/if}
       <button class="btn" disabled={!agency || starting || working} onclick={start}>
         {starting ? `กำลังเทียบ… ${secs} วินาที` : "เทียบ →"}</button>
     </div>
@@ -146,8 +152,6 @@
   .plus { font-size: 1.6em; line-height: 1; color: var(--muted); }
   .okmark { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ok); color: #fff; }
   .fn { font-weight: 600; overflow-wrap: anywhere; }
-  .spin { width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--ink); animation: spin 1s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
   .err { margin: 6px 0 0; color: var(--danger); font-weight: 600; }
   .src { margin-top: 6px; font-size: .9em; }
   .src summary { cursor: pointer; color: #344054; }

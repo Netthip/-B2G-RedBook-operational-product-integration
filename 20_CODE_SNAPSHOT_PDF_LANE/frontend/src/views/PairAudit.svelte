@@ -2,6 +2,7 @@
   // Audit ของรอบเทียบเล่ม — ทุกเหตุการณ์ของรอบนี้ + สถานะสายโซ่แฮชของทั้งระบบ (อ่านอย่างเดียว)
   import { link } from "../lib/router.svelte";
   import { lane } from "../lib/lane.svelte";
+  import { slide, fadeOn } from "../lib/motion";
   import { loadAudit, loadRun, peekRun, type PAudit, type PRun } from "../lib/pair";
 
   let { rid }: { rid: string } = $props();
@@ -48,7 +49,7 @@
   {/if}
 
   <div class="tools">
-    <div class="seg" role="tablist" aria-label="ชนิดเหตุการณ์">
+    <div class="seg" role="tablist" aria-label="ชนิดเหตุการณ์" use:slide>
       <button role="tab" aria-selected={!kind} class:on={!kind} onclick={() => (kind = "")}>ทั้งหมด <span class="chip">{a.entries.length}</span></button>
       {#each kinds as [k, v] (k)}
         <button role="tab" aria-selected={kind === k} class:on={kind === k} onclick={() => (kind = k)}>{v.label} <span class="chip">{v.n}</span></button>
@@ -60,7 +61,7 @@
   {#if !rows.length}
     <p class="empty">ยังไม่มีเหตุการณ์ของรอบนี้</p>
   {:else}
-    <ol class="timeline">
+    <ol class="timeline" use:fadeOn={kind}>
       {#each rows as e (e.seq)}
         {@const fid = fidOf(e.object_id)}
         <li class="card ev">

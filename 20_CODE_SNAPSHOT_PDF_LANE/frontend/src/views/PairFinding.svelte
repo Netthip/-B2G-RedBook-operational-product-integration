@@ -12,6 +12,9 @@
   import { toast } from "../lib/notify.svelte";
   import PagePeek from "./PagePeek.svelte";
   import DevBadge from "../lib/DevBadge.svelte";
+  import Tip from "../lib/Tip.svelte";
+  import { TERM } from "../lib/terms";
+  import HoldButton from "../lib/HoldButton.svelte";
   import { TREND_MARK, TREND_SAY, absDelta, trend, backTo, clip, decide, fitSrc, hasValues, loadList, loadRun, loadView, offsetsOf, pageFull, printedOf, peekList, peekRun, peekView, prefetch,
            type AB, type PFinding, type PRun, type PView } from "../lib/pair";
 
@@ -231,7 +234,12 @@
 
   function onkey(e: KeyboardEvent) {
     if (e.altKey || e.metaKey || !v) return;
-    if (e.key === "Enter" && e.ctrlKey) { e.preventDefault(); save(); return; }
+    // Ctrl+Enter บันทึกจุดเดียวได้ตามเดิม · ทั้งชุดต้องกดค้างที่ปุ่ม — พาโฟกัสไปที่ปุ่มแทน (ใบงาน #44 Hold Button)
+    if (e.key === "Enter" && e.ctrlKey) {
+      e.preventDefault();
+      if (alsoIds.length) document.querySelector<HTMLButtonElement>(".foot-s .save")?.focus(); else save();
+      return;
+    }
     const t = e.target;
     if (e.ctrlKey || (t instanceof Element && t.closest("input, textarea, select"))) return;
     if (e.key === "ArrowLeft" && v.prev_id) { e.preventDefault(); go(`/r/p/${rid}/f/${v.prev_id}`); }
@@ -267,10 +275,11 @@
 
   <div class="layout" class:folded={!listOpen}>
     <nav class="plist" aria-label="รายการจุด">
-      <button class="ptoggle" aria-expanded={listOpen} onclick={() => (listOpen = !listOpen)} title={listOpen ? "พับรายการจุด" : "เปิดรายการจุด"}>
+      <Tip text={listOpen ? "พับรายการจุด" : "เปิดรายการจุด"}>
+      <button class="ptoggle" aria-expanded={listOpen} onclick={() => (listOpen = !listOpen)}>
         <span class="pt-t">{listOpen ? "รายการจุด" : "☰"}</span>
         <span class="pt-n">{`✓ ${doneN}/${todo.length}`}</span><span class="pt-c" aria-hidden="true">{listOpen ? "‹" : "›"}</span>
-      </button>
+      </button></Tip>
       {#if listOpen}
       <div class="sorter" role="radiogroup" aria-label="เรียงรายการ">
         <button role="radio" aria-checked={order === "book"} class:on={order === "book"} onclick={() => (order = "book")}>ตามลำดับในเล่ม</button>
@@ -298,7 +307,7 @@
       <header class="head">
         <div class="hrow"><h1>{f.subject}</h1>
           {#if pos >= 0}<span class="pos" aria-label="จุดที่ {pos + 1} จาก {todo.length} · บันทึกแล้ว {doneN}">{pos + 1}/{todo.length}</span>{/if}</div>
-        <p class="what">{f.info ? "ข้อมูลเพิ่มเติม (ไม่ต้องตอบ)" : f.kind_label}{#if f.column}{` · ช่อง ${f.column}`}{/if}
+        <p class="what">{#if f.info}<Tip term text={TERM.info}>ข้อมูลเพิ่มเติม (ไม่ต้องตอบ)</Tip>{:else}{f.kind_label}{/if}{#if f.column}{` · ช่อง ${f.column}`}{/if}
           {#if f.within}{` · ภายใน${short(f.within)}`}{/if}</p>
         {#if hasValues(f)}
           <p class="vline">
@@ -324,14 +333,14 @@
               {@const cur = at[s] ?? sd.page}
               {@const tr = at[s] === null ? trim(sd.bbox, natW[s]) : null}
               <div class="evbar">
-                <span title="หน้าพิมพ์ = เลขบนหัวกระดาษของเล่ม">หน้าพิมพ์ {printedOf(cur, rs?.printed_offset)}<small class="pdfno" title="ลำดับหน้าในไฟล์ PDF (นับปกและสารบัญด้วย)"> · หน้า PDF {cur}</small></span>
+                <span><Tip term text="หน้าพิมพ์ = เลขบนหัวกระดาษของเล่ม">หน้าพิมพ์ {printedOf(cur, rs?.printed_offset)}</Tip><small class="pdfno"> · <Tip term text="ลำดับหน้าในไฟล์ PDF (นับปกและสารบัญด้วย)">หน้า PDF {cur}</Tip></small></span>
                 <span class="grow"></span>
                 {#if at[s] === null}<button class="btn small ghost" onclick={() => (at[s] = sd.page)}>ดูทั้งหน้า</button>{/if}
                 {#if rs}
-                  <button class="btn small ghost" disabled={cur <= rs.first} onclick={() => step(s, cur - 1, rs)} aria-label="หน้าก่อน">‹</button>
-                  <button class="btn small ghost" disabled={cur >= rs.last} onclick={() => step(s, cur + 1, rs)} aria-label="หน้าถัดไป">›</button>
+                  <Tip text="หน้าก่อน"><button class="btn small ghost" disabled={cur <= rs.first} onclick={() => step(s, cur - 1, rs)} aria-label="หน้าก่อน">‹</button></Tip>
+                  <Tip text="หน้าถัดไป"><button class="btn small ghost" disabled={cur >= rs.last} onclick={() => step(s, cur + 1, rs)} aria-label="หน้าถัดไป">›</button></Tip>
                 {/if}
-                {#if at[s] !== null}<button class="btn small" onclick={() => (at[s] = null)} title="กลับไปจุดที่ระบบชี้">↺ กลับ</button>{/if}
+                {#if at[s] !== null}<Tip text="กลับไปจุดที่ระบบชี้"><button class="btn small" onclick={() => (at[s] = null)}>↺ กลับ</button></Tip>{/if}
               </div>
               <figure>
                 <!-- ไม่มีคำอธิบายใต้ภาพ: กรอบเน้นบอกเองว่าเทียบตรงไหน (กิ๊ฟ 28 ต.ค.) · กดภาพ = เปิดภาพใหญ่ -->
@@ -444,8 +453,8 @@
                       class:was={saved.choice === d.key && choice !== d.key} disabled={!writable || busy} onclick={() => pick(d.key)}>
                 <span class="radio" aria-hidden="true"></span>
                 <span class="cl">{d.label}{#if cond}<small class="cond">{cond}</small>{/if}</span></button>
-              {#if d.when}<button class="mean" aria-expanded={open} aria-label="ความหมายของ {d.label}"
-                      onclick={() => (peek = peek === d.key ? "" : d.key)}>ⓘ</button>{/if}
+              {#if d.when}<Tip text="ความหมายของ {d.label}"><button class="mean" aria-expanded={open} aria-label="ความหมายของ {d.label}"
+                      onclick={() => (peek = peek === d.key ? "" : d.key)}>ⓘ</button></Tip>{/if}
               {#if open}<p class="when">{d.when}</p>{/if}
             </div>
           {/each}
@@ -509,9 +518,11 @@
         <div class="foot-s">
           <p class="after" role="status">{#if picked && dirty}<small>{picked.label}</small>{picked.after || picked.use_label}
             {:else if f.decision && !dirty}<small>บันทึกแล้ว</small>{f.decision.choice_label}{:else}<small>ยังไม่ได้เลือก</small>เลือกความเห็นด้านขวา{/if}</p>
-          <button class="btn save" disabled={!writable || busy || !choice || !dirty} onclick={save}>
+          <!-- บันทึกทั้งชุด (มีจุดที่ทวนแล้ว) = กดค้าง ~1 วิ กันกดพลาด (ใบงาน #44 Hold Button) · จุดเดียว = กดครั้งเดียวตามเดิม -->
+          <HoldButton cls="save" hold={alsoIds.length > 0} disabled={!writable || busy || !choice || !dirty} onfire={save}
+                      hint="บันทึกทั้งชุด: กดค้างไว้ราว 1 วินาที (แป้นพิมพ์: กด Enter ค้างไว้)">
             {!writable ? "บันทึกไม่ได้ — รอบนี้อ่านอย่างเดียว" : busy ? "กำลังบันทึก…" : !choice ? "เลือกความเห็นก่อน"
-              : dirty ? (alsoIds.length ? `บันทึก ${alsoIds.length + 1} จุด แล้วไปต่อ` : "บันทึก แล้วไปต่อ") : "บันทึกแล้ว"}</button>
+              : dirty ? (alsoIds.length ? `บันทึก ${alsoIds.length + 1} จุด แล้วไปต่อ` : "บันทึก แล้วไปต่อ") : "บันทึกแล้ว"}</HoldButton>
         </div>
       {/if}
     </aside>
@@ -668,9 +679,9 @@
     gap: 14px; padding: 10px max(24px, calc((100vw - 2560px) / 2 + 24px)); background: #fff; border-top: 1px solid var(--line);
     box-shadow: 0 -8px 24px rgba(16, 24, 40, .08); font-size: 1rem; }
   .foot-s .after { flex: 0 1 auto; max-width: 60ch; background: transparent; border: 0; padding: 0; text-align: right; }
-  .foot-s .save { min-width: 220px; min-height: 48px; font-size: 1.02em; }
+  .foot-s :global(.save) { min-width: 220px; min-height: 48px; font-size: 1.02em; }
   .layout { padding-bottom: 84px; }
-  .save { justify-content: center; padding: 9px 14px; }
+  :global(.btn.save) { justify-content: center; padding: 9px 14px; }
   .after { margin: 0; padding: 8px 12px; border-radius: 10px; background: #f2f4f7; border: 1px solid var(--line); font-weight: 600; }
   .after small { display: block; color: var(--muted); font-weight: 400; }
   .after-s { flex-basis: 100%; font-size: .88em; color: #344054; }

@@ -7,6 +7,9 @@
   import Count from "../lib/Count.svelte";
   import PairRow from "./PairRow.svelte";
   import DevBadge from "../lib/DevBadge.svelte";
+  import { slide, fadeOn } from "../lib/motion";
+  import Tip from "../lib/Tip.svelte";
+  import { TERM } from "../lib/terms";
   import { backTo, loadList, loadRun, offsetsOf, peekList, peekRun, prefetch, rangeFull, type PFinding, type PRun } from "../lib/pair";
 
   let { rid }: { rid: string } = $props();
@@ -135,7 +138,7 @@
         <span class="hint">{run.mode_label} · สร้างเมื่อ {when(run.created_at)}</span>
       </p>
     </div>
-    <nav class="tabs" aria-label="มุมมองของรอบ">
+    <nav class="tabs" aria-label="มุมมองของรอบ" use:slide>
       <span class="tab on" aria-current="page">ภาพรวม</span>
       <!-- ด่านก่อนส่งออก/ประวัติไม่ใช่งานระหว่างทวน (กิ๊ฟ 28 ต.ค. "คนไม่เข้าใจว่าคืออะไร") — ย้ายไปหน้าสรุปผลและรายละเอียดของรอบ -->
       {#if r.next_pending_id}<a class="tab" href="/r/p/{rid}/f/{r.next_pending_id}" onclick={link}>ตรวจทีละจุด</a>{/if}
@@ -201,7 +204,7 @@
 
       <div class="results">
         <div class="tools">
-          <div class="seg" role="tablist" aria-label="แสดงจุดที่ต่าง">
+          <div class="seg" role="tablist" aria-label="แสดงจุดที่ต่าง" use:slide>
             {#each SHOWS as [k, label] (k)}
               <button role="tab" aria-selected={show === k} class:on={show === k} onclick={() => (show = k)}>
                 {label} <span class="chip">{tally[k]}</span></button>
@@ -214,6 +217,7 @@
           <input class="search" type="search" placeholder="ค้นหา" bind:value={q}
                  aria-label="ค้นในจุดที่ต่าง" />
         </div>
+        <div use:fadeOn={`${show}|${topic}`}>
         {#if !list}
           <div class="card skeleton sk-list"></div>
         {:else if !sections.length}
@@ -221,11 +225,12 @@
         {:else}
           {#each sections as s (s.g.key)}
             <section class="card grp">
-              <h2>{s.g.label} <span class="hint">{s.g.total ? `${s.g.decided}/${s.g.total}` : ""}{#if s.g.info}{` · ข้อมูลเพิ่มเติม ${s.g.info}`}{/if}</span></h2>
+              <h2>{s.g.label} <span class="hint">{s.g.total ? `${s.g.decided}/${s.g.total}` : ""}{#if s.g.info}{" · "}<Tip term text={TERM.info}>{`ข้อมูลเพิ่มเติม ${s.g.info}`}</Tip>{/if}</span></h2>
               {#each s.rows as f (f.id)}<PairRow {rid} {f} off={offsetsOf(r)} flash={f.id === flashId} />{/each}
             </section>
           {/each}
         {/if}
+        </div>
       </div>
     </div>
   {/if}
@@ -272,7 +277,7 @@
     </section>
     </div>
   <section class="card usebar" aria-label="การใช้ผล">
-    <div class="ub-h"><b>การใช้ผล · {r.preflight.actionable} ข้อที่ต้องตรวจ</b>
+    <div class="ub-h"><b>การใช้ผล · {r.preflight.actionable} <Tip term text={TERM.actionable}>ข้อที่ต้องตรวจ</Tip></b>
       <span class="chip use use-{r.preflight.use_status}">{r.preflight.use_status_label}</span></div>
     <div class="ub" role="img" aria-label={r.preflight.use_breakdown}>
       {#each USE_PARTS as [k] (k)}

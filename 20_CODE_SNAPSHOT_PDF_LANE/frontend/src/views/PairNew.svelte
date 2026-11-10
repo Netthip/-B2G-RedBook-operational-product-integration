@@ -4,6 +4,8 @@
   // อัปโหลด PDF จากเครื่องเป็นอีกทางหนึ่ง (?src=upload) — แยกไว้ใน PairUpload
   import { go, link, nav } from "../lib/router.svelte";
   import PairUpload from "./PairUpload.svelte";
+  import { slide, fadeOn, reduced } from "../lib/motion";
+  import StatusMark from "../lib/StatusMark.svelte";
   let { kind = "" }: { kind?: string } = $props();
   // ข้ามปี: เล่ม พ.ร.บ. ปีก่อน → ปีใหม่ (ปีใหม่มักยังไม่อยู่บนชั้น ⇒ เริ่มที่อัปโหลด) · ปีเดียวกัน: ร่าง พ.ร.บ. → พ.ร.บ. ปีเดียวกัน
   const TITLE: Record<string, string> = { cross: "ตรวจเล่มงบประมาณข้ามปี", same: "ตรวจเล่มงบประมาณในปีเดียวกัน" };
@@ -28,6 +30,7 @@
   let b = $state("");
   let busy = $state(false);
   let secs = $state(0);
+  let read = $state(false);
 
   loadShelf().then((x) => (shelf = x)).catch((e) => (err = (e as Error).message));
 
@@ -114,12 +117,23 @@
   const step = $derived(mode === "upload" ? upStep : busy ? 3 : a && agency ? (b ? 3 : 2) : 1);
   const STEPS = $derived(mode === "upload" ? ["เลือกไฟล์", "เลือกหน่วยงาน", "เทียบ"] : ["เลือกหน่วยงาน", "เลือกเล่มที่จะเทียบ", "เทียบ"]);
 
+  // กดขั้นที่ผ่านแล้ว = เลื่อนกลับไปส่วนนั้น ค่าที่เลือกไว้ยังอยู่ (ใบงาน #44 Stepper · ไม่เปลี่ยนลำดับ/เงื่อนไขของขั้น)
+  function back(i: number) {
+    const el = document.querySelectorAll<HTMLElement>("section.step")[i];
+    if (!el) return;
+    el.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
+    el.querySelector<HTMLElement>("input, button")?.focus({ preventScroll: true });
+  }
+
   async function start() {
     if (!a || !b || !agency || busy) return;
-    busy = true; secs = 0;
+    busy = true; secs = 0; read = false;
     const t = setInterval(() => secs++, 1000);
     try {
       const r = await startRun(a, b, agency);
+      // อ่านเล่มเสร็จ → วงปิดค้างไว้สั้น ๆ ให้เห็นก่อนเปลี่ยนหน้า (ใบงาน #44 Status Mark)
+      read = true;
+      await new Promise((ok) => setTimeout(ok, 600));
       toast("เทียบเสร็จแล้ว");
       go(`/r/p/${r.rid}`);
     } catch (e) {
@@ -134,14 +148,17 @@
 </div>
 <ol class="stepper" aria-label="ขั้นตอน">
   {#each STEPS as t, i (t)}
-    <li class:on={step === i + 1} class:done={step > i + 1}><span>{step > i + 1 ? "✓" : i + 1}</span>{t}</li>
+    <li class:on={step === i + 1} class:done={step > i + 1} aria-current={step === i + 1 ? "step" : undefined}>
+      {#if step > i + 1 && !busy}<button class="sb" onclick={() => back(i)}><span>✓</span>{t}</button>
+      {:else}<span class="sb"><span>{step > i + 1 ? "✓" : i + 1}</span>{t}</span>{/if}</li>
   {/each}
 </ol>
-<div class="modes" role="tablist" aria-label="ที่มาของเอกสาร">
+<div class="modes" role="tablist" aria-label="ที่มาของเอกสาร" use:slide>
   <button role="tab" aria-selected={mode === "shelf"} class:on={mode === "shelf"} onclick={() => (mode = "shelf")}>เล่มที่มีในระบบ</button>
   <button role="tab" aria-selected={mode === "upload"} class:on={mode === "upload"} onclick={() => (mode = "upload")}>ไฟล์ในเครื่อง</button>
 </div>
 
+<div use:fadeOn={mode}>
 {#if mode === "upload"}
   <PairUpload {kind} onstep={(n: number) => (upStep = n)} />
 {:else if err}
@@ -232,23 +249,31 @@
         </div>
         <div class="go">
           <p class="sum">{#if b}{nice(a)} เทียบกับ {nice(b)}{:else}<span class="hint">เลือกเล่มที่จะเทียบ</span>{/if}</p>
+          {#if busy}<StatusMark state={read ? "done" : "wait"} label={read ? "อ่านเล่มเสร็จ" : ""} />{/if}
           <button class="btn" disabled={!b || busy} onclick={start}>{busy ? `กำลังเทียบ… ${secs} วินาที` : "เริ่มเทียบ →"}</button>
         </div>
       {/if}
     </section>
   {/if}
 {/if}
+</div>
 
 <style>
   .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 4px; }
   .bar h1 { margin: 0; font-size: 1.5em; }
   .lead { margin: 0 0 12px; }
-  .stepper { list-style: none; display: flex; gap: 6px; padding: 0; margin: 4px 0 12px; flex-wrap: wrap; }
-  .stepper li { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; background: #eef0f3;
-    color: var(--muted); font-weight: 600; }
-  .stepper li span { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #fff; color: var(--muted); }
-  .stepper li.on { background: var(--accent); color: #fff; } .stepper li.on span { color: var(--accent); }
-  .stepper li.done { background: var(--ok-bg); color: var(--ok); } .stepper li.done span { background: var(--ok); color: #fff; }
+  /* แถบขั้นตอน (ใบงาน #44 Stepper): ขั้นปัจจุบัน = น้ำเงินเข้ม · ที่ผ่านแล้ว = ฟ้าอ่อน กดย้อนได้ · ที่เหลือ = เทา มีเส้นต่อระหว่างขั้น
+     สีน้ำเงิน–ขาว–เงิน ไม่ใช้เขียว (การผ่านขั้นเป็นการเลือกของผู้ตรวจ ไม่ใช่ผลของระบบ) */
+  .stepper { list-style: none; display: flex; align-items: center; gap: 6px; padding: 0; margin: 4px 0 12px; flex-wrap: wrap; }
+  .stepper li { display: inline-flex; align-items: center; gap: 6px; }
+  .stepper li + li::before { content: ""; width: 18px; height: 2px; border-radius: 2px; background: #cfd4dc; }
+  .stepper li.on::before, .stepper li.done::before { background: var(--accent); }
+  .sb { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; background: #eef0f3;
+    color: var(--muted); font: inherit; font-weight: 600; border: 0; }
+  .sb > span { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #fff; color: var(--muted); }
+  .on .sb { background: var(--accent); color: #fff; } .on .sb > span { color: var(--accent); }
+  .done .sb { background: var(--accent-bg); color: var(--accent); } .done .sb > span { background: var(--accent); color: #fff; }
+  button.sb { cursor: pointer; transition: background .15s; } button.sb:hover { background: #d9e3f5; }
   .modes { display: inline-flex; gap: 4px; padding: 4px; margin: 8px 0 8px; border-radius: 14px; background: #e9ecf1; }
   .modes button { border: 0; background: transparent; border-radius: 10px; padding: 7px 16px; cursor: pointer; color: #344054; }
   .modes button.on { background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 1px 4px rgba(16, 24, 40, .12); }

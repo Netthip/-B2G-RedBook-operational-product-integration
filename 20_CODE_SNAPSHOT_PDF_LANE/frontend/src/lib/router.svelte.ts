@@ -54,7 +54,9 @@ export function go(path: string, replace = false) {
     window.scrollTo({ top: 0 });
   };
   const doc = document as Document & { startViewTransition?: (cb: () => void) => Record<"finished" | "ready" | "updateCallbackDone", Promise<void>> };
-  if (!doc.startViewTransition || reduce || document.hidden) { apply(); return; }
+  // เลื่อนจุดในหน้าหลักฐาน (ก่อน/ถัดไป/รายการจุด) ไม่จางภาพหลักฐาน (ใบงาน #44 Fade Content)
+  const between = nav.route.name === "pairFinding" && parse(new URL(path, location.origin).pathname).name === "pairFinding";
+  if (!doc.startViewTransition || reduce || document.hidden || between) { apply(); return; }
   // ภาพเคลื่อนไหวรอให้จอวาดก่อน — ถ้าไม่เริ่มใน 300 ms (หน้าต่างถูกซ่อน/เครื่องช้า) เปลี่ยนหน้าเลย ไม่ค้าง
   let done = false;
   const once = () => { if (!done) { done = true; apply(); } };

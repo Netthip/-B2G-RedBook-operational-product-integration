@@ -82,8 +82,21 @@ main.pair.pairwide { max-width: 2560px; }
 .skeleton { background: linear-gradient(90deg, #eef0f3 25%, #f7f8fa 50%, #eef0f3 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
 @keyframes shimmer { to { background-position: -200% 0; } }
 
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: .22s; }
+/* เปลี่ยนหน้า = จางเข้า-ออก ~0.15 วิ (ใบงาน #44 Fade Content) · เลื่อนจุดในหน้าหลักฐานไม่จาง (router ข้ามให้) */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .15s; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* แถบเลื่อนตามแท็บ (ใบงาน #44 9 พ.ย.) — ใช้กับ use:slide ใน lib/motion.ts
+   แผ่นขาว + ขีดน้ำเงินด้านล่างเลื่อนไปแท็บที่เลือก ~0.2 วิ · ไม่เบลอ ไม่ย่อขยาย · แผ่นเดิมของปุ่ม .on ซ่อนเมื่อแถบพร้อม */
+.slide { position: relative; isolation: isolate; }
+.slide::before { content: ""; position: absolute; left: 0; top: 0; z-index: -1; pointer-events: none; border-radius: 10px;
+  width: var(--sl-w, 0); height: var(--sl-h, 0); transform: translate(var(--sl-x, 0), var(--sl-y, 0)); opacity: var(--sl-o, 0);
+  background: linear-gradient(var(--accent), var(--accent)) center bottom 3px / calc(100% - 20px) 3px no-repeat, #fff;
+  box-shadow: 0 1px 4px rgba(16, 24, 40, .12); }
+.slide.slide-ready::before { transition: transform .2s ease, width .2s ease, height .2s ease; }
+.slide.slide-on > .on { background: transparent !important; box-shadow: none !important; }
+@media (prefers-reduced-motion: reduce) { .slide.slide-ready::before { transition: none !important; } }
+@media print { .slide::before { display: none; } }
 
 /* pair — สายเทียบเล่ม PDF ↔ PDF
    สีเอกสาร (กิ๊ฟ 28 ต.ค. "น้ำเงิน–เหลืองคู่กันดูยาก"): ฉบับตั้งต้น A = เทาอมน้ำเงิน (เป็นฐาน ไม่ต้องเด่น) · ฉบับที่นำมาเทียบ B = เขียวน้ำทะเล

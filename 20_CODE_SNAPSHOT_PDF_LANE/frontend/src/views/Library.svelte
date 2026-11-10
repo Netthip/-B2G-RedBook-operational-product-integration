@@ -3,6 +3,7 @@
   // ลิงก์ออกไปหน้าเผยแพร่ของสำนักงบประมาณ/ไฟล์ PDF ตามทะเบียน · ทางเข้างานตรวจสองแบบอยู่ด้านบน
   import { link, nav } from "../lib/router.svelte";
   import { get } from "../lib/api";
+  import { slide, fadeOn } from "../lib/motion";
 
   interface LBook { id: string; fiscal_year: number; headline: string; kicker: string; stage: string; stage_label: string;
     type_group: string; type_group_label: string; stripe_color: string; source_page: string; pdf_url: string; synthetic: boolean }
@@ -44,7 +45,7 @@
 <div class="head">
   <h1>คลังเล่มงบประมาณ</h1>
   {#if cat}
-    <div class="tabs" role="tablist" aria-label="ปีงบประมาณ">
+    <div class="tabs" role="tablist" aria-label="ปีงบประมาณ" use:slide>
       {#each [...cat.years].sort((a, b) => b - a) as y (y)}
         <button role="tab" aria-selected={year === y} class:on={year === y} onclick={() => (year = y)}>{y}</button>
       {/each}
@@ -58,7 +59,7 @@
   <div class="grid">{#each Array(8) as _, i (i)}<div class="card skeleton sk"></div>{/each}</div>
 {:else}
   <div class="tools">
-    <div class="seg" role="radiogroup" aria-label="ขั้นเอกสาร">
+    <div class="seg" role="radiogroup" aria-label="ขั้นเอกสาร" use:slide>
       {#each [["act", "พ.ร.บ."], ["draft", "ร่าง พ.ร.บ."], ["", "ทั้งหมด"]] as [k, l] (k)}
         <button role="radio" aria-checked={stage === k} class:on={stage === k} onclick={() => (stage = k)}>{l}</button>
       {/each}
@@ -74,7 +75,7 @@
   {#if !shown.length}
     <p class="empty">ไม่มีเล่มที่ตรงเงื่อนไข</p>
   {:else}
-    <div class="grid">
+    <div class="grid" use:fadeOn={`${year}|${stage}`}>
       {#each shown as b (b.id)}
         <article class="card book">
           <div class="cover s-{STRIPE[b.stripe_color] ?? "red"}">
