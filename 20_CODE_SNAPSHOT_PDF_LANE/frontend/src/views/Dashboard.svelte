@@ -14,6 +14,8 @@
     .then(([a, b]) => { res = a; meta = b; }).catch((e) => (err = e.message));
 
   const r = $derived(res && !res.legacy ? (res as Result) : null);
+  // รอบ 0.3 ขึ้นไป: ชื่อและผลเสริมตามวิธีวัดผล 0.4 ร่าง ๒ (Bo #36 6905793269) — รายกลุ่มเป็นจำนวนเท่านั้น · รอบ 0.2 แบบเดิม
+  const sup = $derived(!!r?.metrics.v03);
   const rows = $derived.by(() => {
     if (!r) return [] as [string, A1][];
     const a = r.metrics.A1;
@@ -42,26 +44,27 @@
   {#if st.flags.length}<p class="flags">{#each st.flags as f (f)}<span class="chip">{meta.status_text.flags[f]}</span>{/each}</p>{/if}
 
   <h2>ด้าน A — ความถูกต้องและความครบถ้วนในการหาจุดต่าง</h2>
-  <p class="hint">อัตราการพบเทียบรายการอ้างอิงของผู้ตรวจ ภายในหัวข้อและส่วนของเล่มที่ผู้ตรวจประกาศว่าตรวจครบ</p>
+  {#if sup}<p class="hint">อัตราการตรวจพบเทียบรายการอ้างอิงของผู้ตรวจในชุดประเมิน ภายในหัวข้อและส่วนของเล่มที่ผู้ตรวจประกาศว่าตรวจครบ (ตัวหาร N₀ รวมประเด็นที่ตัดสินไม่ได้)</p>
+  {:else}<p class="hint">อัตราการพบเทียบรายการอ้างอิงของผู้ตรวจ ภายในหัวข้อและส่วนของเล่มที่ผู้ตรวจประกาศว่าตรวจครบ</p>{/if}
   <Metrics m={r.metrics} {meta} big />
   {#if Object.values(r.metrics.A1.post_result).some(Boolean)}
     {@const pr = r.metrics.A1.post_result}
     <div class="card note">ร1 จัดใหม่หลังเห็นผล (ตัวประเด็นยังมาจากรายการที่ล็อก จึงอยู่ในผลรวมหลัก): ส่วนของเล่ม {pr.part} · ต/ล {pr.cause}
-      (ไม่อยู่ในแถวต้นเหตุ/ผลที่ตามมา) · ระดับ {pr.level} (ไม่อยู่ในแถวแดง/น้ำตาล) · ขอบเขตตามส่วนที่ไม่ได้จัดใหม่: แบบเข้ม
-      {r.metrics.A1.scope_locked_only.strict.text} · รวมบางส่วน {r.metrics.A1.scope_locked_only.with_partial.text}</div>
+      (ไม่อยู่ในแถวต้นเหตุ/ผลที่ตามมา) · ระดับ {pr.level} (ไม่อยู่ในแถวแดง/น้ำตาล){#if !sup} · ขอบเขตตามส่วนที่ไม่ได้จัดใหม่: แบบเข้ม
+      {r.metrics.A1.scope_locked_only.strict.text} · รวมบางส่วน {r.metrics.A1.scope_locked_only.with_partial.text}{/if}</div>
   {/if}
   <table>
-    <caption>แยกกลุ่ม (สูตรเดียวกัน)</caption>
+    <caption>{sup ? "แยกกลุ่ม (จำนวนเท่านั้น)" : "แยกกลุ่ม (สูตรเดียวกัน)"}</caption>
     <thead><tr><th scope="col">กลุ่ม</th><th scope="col">ประเด็น (N0)</th><th scope="col">พบตรง</th><th scope="col">บางส่วน</th>
-      <th scope="col">พลาด</th><th scope="col">ตัดสินไม่ได้</th><th scope="col">แบบเข้ม</th><th scope="col">รวมบางส่วน</th></tr></thead>
+      <th scope="col">{sup ? "ไม่พบ" : "พลาด"}</th><th scope="col">ตัดสินไม่ได้</th>{#if !sup}<th scope="col">แบบเข้ม</th><th scope="col">รวมบางส่วน</th>{/if}</tr></thead>
     <tbody>
       {#each rows as [label, c] (label)}
         <tr><th scope="row">{label}</th><td>{c.issues}</td><td>{c.exact}</td><td>{c.partial}</td><td>{c.missed}</td>
-          <td>{c.undecidable}</td><td>{c.strict.text}</td><td>{c.with_partial.text}</td></tr>
+          <td>{c.undecidable}</td>{#if !sup}<td>{c.strict.text}</td><td>{c.with_partial.text}</td>{/if}</tr>
       {/each}
     </tbody>
   </table>
-  <p class="hint">พลาดตามรหัสเหตุ: {Object.entries(meta.miss_reasons).map(([k, l]) => `${l.split(" ")[0]} ${r!.metrics.A1.missed_reasons[k] ?? 0}`).join(" · ")} ·
+  <p class="hint">{sup ? "ไม่พบ" : "พลาด"}ตามรหัสเหตุ: {Object.entries(meta.miss_reasons).map(([k, l]) => `${l.split(" ")[0]} ${r!.metrics.A1.missed_reasons[k] ?? 0}`).join(" · ")} ·
     พบบางส่วนตามรหัสเหตุ: {Object.entries(meta.partial_reasons).map(([k, l]) => `${l.split(" ")[0]} ${r!.metrics.A1.partial_reasons[k] ?? 0}`).join(" · ")} ·
     จับคู่ผ่าน{meta.finding_levels.info} {r.metrics.A1.matched_level.info} · ประเด็นนอกส่วนที่ตรวจครบ {r.metrics.A1.out_of_scope.issues}</p>
   <p class="hint">ความครอบคลุม: ตรวจครบ {r.metrics.A4.parts.full} ส่วน · บางส่วน {r.metrics.A4.parts.partial} · ไม่ได้ตรวจ {r.metrics.A4.parts.none} ·
