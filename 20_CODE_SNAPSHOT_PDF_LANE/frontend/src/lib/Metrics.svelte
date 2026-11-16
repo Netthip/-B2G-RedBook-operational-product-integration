@@ -1,15 +1,14 @@
 <script lang="ts">
-  // ตัวนับตามวิธีวัดผลฉบับ 0.2 — แสดงตัวตั้ง/ตัวหารเสมอ (ร้อยละเฉพาะตัวหาร ≥ 10 ตามที่เซิร์ฟเวอร์คำนวณ)
+  // ตัวนับตามวิธีวัดผล 0.4 ร่าง ๒ (Bo ACCEPT #36 6905793269) — ฟิลด์จากเซิร์ฟเวอร์ trial_aggregate 0.4.0 (หลังบ้าน deca724)
+  //   ไม่มีสมมติฐาน/เกณฑ์ผ่าน · ชื่อตามเล่มข้อ 3.5.1–3.5.3 · ผลเสริม 5 ตัวที่ตัด (O-1..O-5) เหลือเป็นจำนวน
+  //   คงผลเสริม "ถูกทุกฝั่ง ÷ P" (เล่มข้อ 3.5.2) · รอบก่อน 0.3 ใช้ A1.detection แบบเดียวกับเทมเพลตเซิร์ฟเวอร์
   import type { Meta, Metrics, Rate3 } from "./api";
   import Count from "./Count.svelte";
 
   let { m, meta, big = false }: { m: Metrics; meta: Meta; big?: boolean } = $props();
   const a1 = $derived(m.A1);
   const led = $derived(m.A3);
-  const fill = $derived(a1.N ? (100 * a1.exact) / a1.N : 0);
-  // รอบ 0.3 ขึ้นไป แสดงตามวิธีวัดผล 0.4 ร่าง ๒ (Bo ACCEPT #36 6905793269): ไม่มีสมมติฐาน/เกณฑ์ผ่าน (ไม่ใช้ชื่อ H1 H2)
-  //   ชื่อตามเล่มข้อ 3.5.1–3.5.3 · ตัดผลเสริม 5 ตัว (พบตรง ÷ N · รวมพบบางส่วน · ร้อยละรายกลุ่ม · สัดส่วนแจ้งเกิน · สัดส่วน A3-อ/A3-ข) เหลือจำนวน
-  //   คงผลเสริม "ถูกทุกฝั่ง ÷ P" (เล่มข้อ 3.5.2) · รอบ 0.2 แสดงแบบเดิม ไม่ลบไม่แก้ (forward-only)
+  const fill = $derived(a1.N0 ? (100 * a1.exact) / a1.N0 : 0);
   const sup = $derived(!!m.v03);
   // ตัวตั้ง/ตัวหารเสมอ · ตัวหาร 0 = คำนวณไม่ได้ (ร้อยละเมื่อตัวหาร ≥ 10 เซิร์ฟเวอร์คำนวณ)
   const rt = (x: Rate3) => (x.den ? x.text : `${x.num}/0 · คำนวณไม่ได้`);
@@ -30,12 +29,13 @@
   {@const v = m.v03}
   <div class="metrics v03" class:big>
     <div class="card metric m-red">
-      <span class="lbl">อัตราการตรวจพบ (พบตรง ÷ N₀ · ตัวหารรวมประเด็นที่ตัดสินไม่ได้)</span><b>{v.issues ? rt(v.issues.H1) : `ยังตัดสินไม่ครบ ${v.pending.issues} ข้อ`}</b>
+      <span class="lbl">อัตราการตรวจพบ (พบตรง ÷ N₀)</span><b>{v.issues ? rt(v.issues.detection) : `ยังตัดสินไม่ครบ ${v.pending.issues} ข้อ`}</b>
       {#if v.issues}<small>N₀ {v.issues.N0} · พบตรง {v.issues.exact} · พบบางส่วน {v.issues.partial} · ไม่พบ {v.issues.miss} · ตัดสินไม่ได้ {v.issues.undecidable}</small>{/if}
     </div>
     <div class="card metric">
-      <span class="lbl">สัดส่วนตำแหน่งถูก (ถูกทุกฝั่ง ในประเด็นที่พบและตัดสินตำแหน่งได้)</span>
-      <b>{v.location ? rt(v.location.H2) : `ยังไม่ครบ ${v.pending.location} ข้อ`}</b>
+      <span class="lbl">สัดส่วนตำแหน่งถูก (ถูกทุกฝั่ง ÷ (P − ตัดสินไม่ได้))</span>
+      <!-- Bo #43 6568104909: รอผลการพบครบก่อน — ข้อความตรงกับฝั่งเซิร์ฟเวอร์ -->
+      <b>{v.location ? rt(v.location.location_correct) : !v.issues ? "รอจัดประเภทผลการพบให้ครบก่อนคำนวณ" : `ยังไม่ครบ ${v.pending.location} ข้อ`}</b>
       {#if v.location}<small>P {v.location.P} · ตัดสินไม่ได้ {v.location.undecidable} · ผลเสริม ถูกทุกฝั่ง ÷ P {rt(v.location.all_over_P)}</small>{/if}
     </div>
     <div class="card metric">
@@ -49,14 +49,10 @@
 <div class="metrics" class:big>
   {#if !sup}
   <div class="card metric m-red">
-    <span class="lbl">อัตราการพบแบบเข้ม (พบตรง ÷ N)</span>
-    <b>{a1.strict.text}</b>
-    <small>N0 = {a1.N0} ที่ล็อกในขอบเขต · N = {a1.N} (ไม่รวมตัดสินไม่ได้){a1.pending ? ` · ยังไม่ครบ ${a1.pending}` : ""}</small>
+    <span class="lbl">อัตราการตรวจพบ (พบตรง ÷ N₀)</span>
+    <b>{a1.detection.text}</b>
+    <small>N₀ {a1.N0} · พบตรง {a1.exact} · พบบางส่วน {a1.partial} · ไม่พบ {a1.missed} · ตัดสินไม่ได้ {a1.undecidable}{a1.pending ? ` · ยังไม่ครบ ${a1.pending}` : ""}</small>
     <span class="track"><span class="fill" style:width="{fill}%"></span></span>
-  </div>
-  <div class="card metric">
-    <span class="lbl">รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N</span><b>{a1.with_partial.text}</b>
-    <small>พบตรง {a1.exact} · บางส่วน {a1.partial} · พลาด {a1.missed} · ตัดสินไม่ได้ {a1.undecidable}</small>
   </div>
   {/if}
   <div class="card metric">
@@ -75,8 +71,7 @@
       </div>
     {/if}
     <div class="card metric">
-      {#if sup}<span class="lbl">ส3 แจ้งเกิน (จำนวน แยกตามเหตุ)</span><b>{led.s3} ข้อ</b>
-      {:else}<span class="lbl">สัดส่วนแจ้งเกิน ส3 ÷ (F − ส4)</span><b>{led.false_alarm.text}</b>{/if}
+      <span class="lbl">แจ้งเกิน (ส3) แยกเหตุ</span><b>{led.s3} ข้อ</b>
       <small>{Object.entries(meta.s3_reasons).map(([k, l]) => `${l} ${led.s3_reasons[k] ?? 0}`).join(" · ")}</small>
     </div>
     <div class="card metric">

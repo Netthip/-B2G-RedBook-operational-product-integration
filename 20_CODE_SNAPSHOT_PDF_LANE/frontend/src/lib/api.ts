@@ -43,10 +43,10 @@ export interface V03 {
             obs: { F: number; groups: Record<string, number> } };
   pending: { issues: number; location: number; obs: number };
   issues: { N0: number; N: number; undecidable: number; exact: number; partial: number; miss: number;
-            H1: Rate3; supplement: Rate3; incl_partial: Rate3; P: number } | null;
-  location: { P: number; undecidable: number; H2: Rate3; all_over_P: Rate3; H2_exact: Rate3; H2_partial: Rate3;
+            detection: Rate3; P: number } | null;
+  location: { P: number; undecidable: number; location_correct: Rate3; all_over_P: Rate3;
               grid: Record<string, { exact: number; partial: number }> } | null;
-  obs: { F: number; overflag: Rate3; A3_fidelity: Rate3; A3_assertion: Rate3; read_ok_assertion_wrong: number;
+  obs: { F: number; groups: Record<string, number>; s3_reasons: Record<string, number>; read_ok_assertion_wrong: number;
          fidelity: Record<string, number>; assertion: Record<string, number>;
          crosstab: Record<string, Record<string, number>> } | null;
 }
@@ -57,16 +57,16 @@ export interface Group { grp: string; s3_reason: string; basis: string; issue_re
   decided_at: string }
 export interface Rate { num: number; den: number; pct: number | null; text: string }
 export interface A1 { issues: number; exact: number; partial: number; missed: number; undecidable: number; pending: number;
-  N0: number; N: number; strict: Rate; with_partial: Rate }
+  N0: number; N: number }
 export interface Metrics {
-  A1: A1 & { partial_reasons: Record<string, number>; missed_reasons: Record<string, number>;
+  A1: A1 & { detection: Rate; partial_reasons: Record<string, number>; missed_reasons: Record<string, number>;
              matched_level: { must: number; info: number }; by_cause: Record<string, A1>; by_level: Record<string, A1>;
-             by_topic: Record<string, A1>; out_of_scope: Omit<A1, "strict" | "with_partial">;
+             by_topic: Record<string, A1>; out_of_scope: A1;
              post_result: Record<string, number>; scope_locked_only: A1 };
   A2: { all: number; some: number; none: number; found: number; rate: Rate };
   A3: { F: number; matched: number; s1: number; s2: number; s3: number; s4: number; s3_reasons: Record<string, number>;
         pending: number; closed: boolean; outside: number; outside_linked: number; must_total: number;
-        superseded_groups: number; false_alarm: Rate; real_difference: null; system_extra_confirmed: number };
+        superseded_groups: number; real_difference: null; system_extra_confirmed: number };
   A4: { parts: Record<string, number>; topics_covered: string[]; unread_pages: Record<Side, number[]>;
         unread_findings: number; read_problems: Record<string, number>; missed_unread: number; info_findings: number; info_matched: number; must_outside: number };
   B1_basis: Record<string, number> & { total: number };
