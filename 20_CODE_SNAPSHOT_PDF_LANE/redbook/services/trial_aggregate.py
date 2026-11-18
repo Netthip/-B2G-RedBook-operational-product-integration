@@ -1,14 +1,15 @@
-"""ตัวรวมผลตามวิธีวัดผลฉบับ 0.3 ร่าง ๒ (``05_experiment_design/RESULT_SCHEMA_R3_0.3.md``)
+"""ตัวรวมผลตามวิธีวัดผลฉบับ 0.4 ร่าง ๒ (#36 6905586902 · Bo ACCEPT 6905793269) — ต่อจาก 0.3 ร่าง ๒
 
 รับ**จำนวน**จากแต่ละรอบ (สรุปจำนวนของหน้าผู้ตรวจ) แล้วคำนวณค่าที่ประกาศล่วงหน้า — สัดส่วนคำนวณทีหลังเสมอ ·
 ตัวหาร 0 = ``None`` + ``denominator_zero`` (ห้ามเป็น 0) · ตัวหาร < 10 = ไม่ส่งร้อยละ (``denominator_lt_10``) ·
-ห้ามรวมข้ามชนิดคู่หรือข้ามชุด (พัฒนา/ประเมิน) · บัญชี F ไม่ปิด = :class:`AggregateError` (ห้ามรายงานสัดส่วนใด)
+ห้ามรวมข้ามชนิดคู่หรือข้ามชุด (พัฒนา/ประเมิน) · บัญชี F ไม่ปิด = :class:`AggregateError` (ห้ามรายงานสัดส่วนใด) ·
+0.4: ไม่มีสมมติฐาน H/เกณฑ์ X · ผลเสริมทาง ข (O-1–O-5) ส่งเป็นจำนวนเท่านั้น ไม่คิดสัดส่วน
 """
 from __future__ import annotations
 
 import math
 
-AGG_VERSION = "trial-aggregate-0.3.1"
+AGG_VERSION = "trial-aggregate-0.4.0"
 MISS_CODES = ("p1", "p2", "p3", "p4", "p5")
 LOCATION_STATUSES = ("undecidable", "no_box", "all_sides", "some_sides", "adjacent", "wrong")
 GROUPS = ("matched", "s1", "s2", "s3", "s4")
@@ -34,7 +35,8 @@ def rate(num: int, den: int) -> dict:
 
 
 def issues(c: dict) -> dict:
-    """ฝั่งรายการอ้างอิง (A1 · H1) — ``c`` = {N0, undecidable, exact, partial, miss: {p1..p5}}"""
+    """ฝั่งรายการอ้างอิง (A1 · ข้อ 3.5.1) — ``c`` = {N0, undecidable, exact, partial, miss: {p1..p5}} ·
+    อัตราการตรวจพบ = พบตรง ÷ N₀ (ตัวหารรวมประเด็นที่ตัดสินไม่ได้) · ไม่มีผลเสริม (O-1 · O-2)"""
     miss = sum(int(c.get("miss", {}).get(k, 0)) for k in MISS_CODES)
     n0, und, exact, partial = (int(c[k]) for k in ("N0", "undecidable", "exact", "partial"))
     if exact + partial + miss + und != n0:
@@ -42,22 +44,21 @@ def issues(c: dict) -> dict:
     n = n0 - und
     return {"N0": n0, "undecidable": und, "N": n, "exact": exact, "partial": partial, "miss": miss,
             "miss_codes": {k: int(c.get("miss", {}).get(k, 0)) for k in MISS_CODES},
-            "H1": rate(exact, n0), "supplement": rate(exact, n), "incl_partial": rate(exact + partial, n0),
+            "detection": rate(exact, n0),
             "P": exact + partial}
 
 
 def location(loc: dict, P: int | None = None) -> dict:
-    """หลักฐานตำแหน่ง (A2 · H2) — ``loc`` = {สถานะ: {exact: n, partial: n}} ครบ 6 × 2"""
+    """หลักฐานตำแหน่ง (A2 · ข้อ 3.5.2) — ``loc`` = {สถานะ: {exact: n, partial: n}} ครบ 6 × 2 ·
+    สัดส่วนตำแหน่งถูก = ถูกทุกฝั่ง ÷ (P − ตัดสินไม่ได้) · ผลเสริม ถูกทุกฝั่ง ÷ P (คงไว้ตามข้อ 3.5.2) ·
+    แยกพบตรง/พบบางส่วนเป็นจำนวนใน ``grid`` เท่านั้น ไม่คิดสัดส่วนรายกลุ่ม"""
     grid = {s: {g: int(loc.get(s, {}).get(g, 0)) for g in ("exact", "partial")} for s in LOCATION_STATUSES}
     tot = {s: grid[s]["exact"] + grid[s]["partial"] for s in LOCATION_STATUSES}
     p = sum(tot.values())
     if P is not None and P != p:
         raise AggregateError(f"สถานะตำแหน่งรวม ({p}) ≠ P ({P})")
     out = {"grid": grid, "P": p, "undecidable": tot["undecidable"],
-           "H2": rate(tot["all_sides"], p - tot["undecidable"]), "all_over_P": rate(tot["all_sides"], p)}
-    for g in ("exact", "partial"):
-        gp = sum(grid[s][g] for s in LOCATION_STATUSES)
-        out[f"H2_{g}"] = rate(grid["all_sides"][g], gp - grid["undecidable"][g])
+           "location_correct": rate(tot["all_sides"], p - tot["undecidable"]), "all_over_P": rate(tot["all_sides"], p)}
     return out
 
 
@@ -88,10 +89,7 @@ def observations(c: dict) -> dict:
     fid = {a: sum(ct[a].values()) for a in JUDGE4}
     ass = {b: sum(ct[a][b] for a in JUDGE4) for b in JUDGE4}
     return {"F": f, "groups": g, "s3_reasons": dict(c.get("s3_reasons", {})),
-            "overflag": rate(g["s3"], f - g["s4"]),
             "fidelity": fid, "assertion": ass, "crosstab": ct, "crosstab_by_group": by_group,
-            "A3_fidelity": rate(fid["full"], f - fid["undecidable"]),
-            "A3_assertion": rate(ass["full"], f - ass["undecidable"]),
             "read_ok_assertion_wrong": ct["full"]["none"]}
 
 
@@ -123,7 +121,7 @@ def aspect(rows: list) -> dict:
     person = [sum(r) / len(r) for r in rows if len(r) == k and all(x is not None for x in r)]
     mean = (sum(person) / len(person)) if person else None
     return {"items": items, "respondent_means": person, "n": len(person), "missing": len(rows) - len(person),
-            "mean": mean, "sd": _sd(person), "level": b2_level(mean), "meets_H3": mean is not None and mean > 3.50}
+            "mean": mean, "sd": _sd(person), "level": b2_level(mean), "over_3_50": mean is not None and mean > 3.50}
 
 
 def assertion_from_dims(dims: dict, undecidable: bool = False) -> str:

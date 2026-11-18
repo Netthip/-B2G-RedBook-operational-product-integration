@@ -1240,11 +1240,8 @@ class Result:
         for m in issues:
             c[self.verdict_of(m)] += 1
         n = c["issues"] - c["undecidable"]
-        ready = c["pending"] == 0
         c["N0"] = c["issues"]            # ประเด็นที่ล็อกทั้งหมดในขอบเขต = พบตรง + บางส่วน + พลาด + ตัดสินไม่ได้ (+ ยังไม่ครบ)
         c["N"] = n
-        c["strict"] = _rate(c["exact"], n, ready)
-        c["with_partial"] = _rate(c["exact"] + c["partial"], n, ready)
         return c
 
     def buckets(self) -> dict:
@@ -1303,7 +1300,6 @@ class Result:
                 "s3_reasons": {k: s3.get(k, 0) for k in S3_REASONS}, "pending": n["pending"], "closed": closed,
                 "outside": n["outside"] + n["outside_linked"], "outside_linked": n["outside_linked"],
                 "must_total": len(must), "superseded_groups": sum(1 for fid in self.groups if fid in fl),
-                "false_alarm": _rate(n["s3"], f_total - n["s4"], closed),
                 # สัดส่วน "ความต่างจริง" ระงับไว้ — สูตรเดิมนับข้อที่จับคู่แบบบางส่วน/จับคู่ผิดเป็นถูก
                 # รอนิยามแยกความถูกของข้อสังเกตจากการจับคู่ (รีวิวโบ 6409928179 ข้อ 2 · 6417479593) — แสดงเฉพาะบัญชีจำนวน
                 "real_difference": None,
@@ -1323,6 +1319,8 @@ class Result:
         a1 = self._a1(scope)
         reasons_b = Counter(self.decisions[m["id"]]["reason"] for m in scope if self.verdict_of(m) == "partial")
         reasons_p = Counter(self.decisions[m["id"]]["reason"] for m in scope if self.verdict_of(m) == "missed")
+        # อัตราการตรวจพบ (0.4 ข้อ 3.5.1) เฉพาะผลรวม — แถวแยกต้นเหตุ/ระดับ/หัวข้อเป็นจำนวนเท่านั้น (O-3)
+        a1["detection"] = _rate(a1["exact"], a1["N0"], a1["pending"] == 0)
         a1["partial_reasons"] = {k: reasons_b.get(k, 0) for k in PARTIAL_REASONS}
         a1["missed_reasons"] = {k: reasons_p.get(k, 0) for k in MISS_REASONS}
         found = [m for m in scope if self.verdict_of(m) in ("exact", "partial")]
@@ -1351,7 +1349,7 @@ class Result:
                                 for k in LEVELS},
                    "by_topic": {k: self._a1([m for m in scope if m.get("topic") == k])
                                 for k, _l in topic_codes(self.s.xkind) if k in self.covered},
-                   "out_of_scope": {k: v for k, v in self._a1(out_scope).items() if k not in ("strict", "with_partial")},
+                   "out_of_scope": self._a1(out_scope),
                    # ร1: ตัวประเด็นมาจากรายการที่ล็อก จึงอยู่ในผลรวมหลักเสมอ · มิติที่จัดใหม่หลังเห็นผลแยกออกเฉพาะมิตินั้น
                    # (ต/ล → ไม่อยู่ใน by_cause · ระดับ → ไม่อยู่ใน by_level · ส่วน → ขอบเขตอิงการจัดหลังเห็นผล รายงานแยก)
                    "post_result": {d: sum(1 for m in scope if d in post_dims(m)) for d in POST_DIMS},

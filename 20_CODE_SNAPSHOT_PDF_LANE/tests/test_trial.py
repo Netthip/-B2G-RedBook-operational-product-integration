@@ -681,8 +681,8 @@ def test_v03_location_is_a_separate_step_and_b4_is_gone():
     assert (d["location"], d["relevant_sides"], d["evidence"]) == ("adjacent", "A,B", "")
     v = trial.result(sid).metrics["v03"]
     assert v["counts"]["location"]["adjacent"]["exact"] == 1                  # ใกล้เคียง = บ4 เดิม อยู่ที่ตำแหน่ง
-    assert v["issues"]["H1"]["num"] == 1 and v["issues"]["H1"]["den"] == 1    # พบตรง แม้ตำแหน่งไม่ถูกทุกฝั่ง
-    assert v["location"]["H2"]["num"] == 0 and v["location"]["all_over_P"]["den"] == 1
+    assert v["issues"]["detection"]["num"] == 1 and v["issues"]["detection"]["den"] == 1    # พบตรง แม้ตำแหน่งไม่ถูกทุกฝั่ง
+    assert v["location"]["location_correct"]["num"] == 0 and v["location"]["all_over_P"]["den"] == 1
 
 
 def test_v03_h1_uses_n0_and_a3_has_fidelity_and_assertion_for_every_finding_in_u():
@@ -723,11 +723,12 @@ def test_v03_h1_uses_n0_and_a3_has_fidelity_and_assertion_for_every_finding_in_u
     assert r.complete and set(r.obs_eval) == set(r.u_ids)
     v = r.metrics["v03"]
     assert (v["issues"]["N0"], v["issues"]["N"], v["issues"]["exact"]) == (3, 2, 1)
-    assert v["issues"]["H1"]["text"] == "1/3" and v["issues"]["supplement"]["text"] == "1/2"   # H1 ÷ N₀
+    assert v["issues"]["detection"]["text"] == "1/3" and "supplement" not in v["issues"]   # ÷ N₀ · O-1
     assert v["obs"]["F"] == len(r.u_ids) and v["obs"]["crosstab"]["full"]["none"] == 1
     assert v["obs"]["read_ok_assertion_wrong"] == 1
     assert v["obs"]["crosstab_by_group"]["matched"]["full"]["full"] == 1
-    assert v["obs"]["A3_fidelity"]["den"] == 2 and v["obs"]["A3_assertion"]["num"] == 1
+    fid = v["obs"]["fidelity"]                                                  # จำนวนเท่านั้น (O-5)
+    assert fid["full"] + fid["partial"] + fid["none"] == 2 and v["obs"]["assertion"]["full"] == 1 and "A3_fidelity" not in v["obs"]
     assert "trial_obs_evaluated" in _audit_actions(f"{sid}/{f1.id}")
 
 
@@ -784,7 +785,7 @@ def test_worked_example_counts():
     a1, led = m["A1"], m["A3"]
     assert (a1["N0"], a1["undecidable"], a1["N"]) == (5, 1, 4)                # N = N0 − ตัดสินไม่ได้
     assert (a1["exact"], a1["partial"], a1["missed"]) == (2, 1, 1)
-    assert a1["strict"]["text"] == "2 จาก 4" and a1["with_partial"]["text"] == "3 จาก 4"
+    assert a1["detection"]["text"] == "2 จาก 5" and not {"strict", "with_partial"} & set(a1)   # ÷ N₀ (O-1 · O-2)
     assert a1["post_result"] == {"part": 0, "cause": 1, "level": 0, "xtype": 0}           # แถว 4 ยังนับใน N0/N หลัก
     assert a1["scope_locked_only"]["N0"] == 5
     assert a1["by_cause"]["t"]["N0"] == 3 and a1["by_cause"]["l"]["N0"] == 1  # แถว 4 (ล) ไม่อยู่ใน by_cause
@@ -881,7 +882,7 @@ def test_unmatched_groups_and_ledger_closes_only_when_all_placed():
         trial.decide_finding(sid, um[0].id, "s1")
     led = r.metrics["A3"]
     assert not led["closed"] and led["pending"] == len(um)
-    assert led["false_alarm"]["text"] == "ยังตัดสินไม่ครบ"                       # บัญชียังไม่ปิด = ไม่รายงานสัดส่วน
+    assert "false_alarm" not in led                                             # 0.4 O-4: ไม่มีสัดส่วนแจ้งเกิน
     trial.decide_finding(sid, um[0].id, "s1", basis="enough")
     trial.decide_finding(sid, um[1].id, "s2", basis="opened", issue_ref=m1["id"])
     trial.decide_finding(sid, um[2].id, "s3", s3_reason="rounding", basis="opened")
@@ -902,7 +903,7 @@ def test_unmatched_groups_and_ledger_closes_only_when_all_placed():
     assert led["F"] == led["matched"] + led["s1"] + led["s2"] + led["s3"] + led["s4"] == 5
     assert led["outside"] == len(um) - 4 and led["s3_reasons"]["rounding"] == 1
     assert led["outside_by_part"] == {"๘": len(um) - 4}
-    assert led["false_alarm"]["text"] == "1 จาก 4"                                # F − ส4 = 4
+    assert led["s3"] == 1 and "false_alarm" not in led                          # 0.4 O-4: จำนวน ส3 แยกเหตุเท่านั้น
     assert led["real_difference"] is None          # ระงับจนกว่าจะนิยามความถูกของข้อสังเกต (รีวิวโบ 6417479593 ข้อ 1)
     assert led["system_extra_confirmed"] == 2
     with pytest.raises(trial.TrialError, match="ต้องระบุเหตุผล"):
@@ -1005,7 +1006,7 @@ def test_denominator_scope_rows_and_declaration_check():
     assert a1["N0"] == 3                                                       # N0 = ที่ล็อกในขอบเขตทั้งหมด (รีวิว 6409928179 ข้อ 3)
     # ตัวประเด็นมาจากรายการที่ล็อก → อยู่ในผลรวมหลัก · แยกเฉพาะมิติที่จัดใหม่ (รีวิวโบ 6417479593 ข้อ 3)
     assert a1["post_result"] == {"part": 1, "cause": 1, "level": 0, "xtype": 0} and a1["scope_locked_only"]["N0"] == 2
-    assert a1["strict"]["text"] == "1 จาก 2" and a1["out_of_scope"]["issues"] == 1
+    assert a1["detection"]["text"] == "1 จาก 3" and a1["out_of_scope"]["issues"] == 1
     assert a1["by_cause"]["t"]["N"] == 1                                       # gb จัด ต/ล หลังเห็นผล → ไม่อยู่ในแถวต้นเหตุ
     assert a1["by_level"]["red"]["N"] == 2 and a1["by_level"]["red"]["exact"] == 1 and set(a1["by_topic"]) == {"ก", "ช"}
     assert r.metrics["A4"]["missed_unread"] == 1 and r.metrics["A4"]["parts"] == {"full": 1, "partial": 7, "none": 0}
@@ -1318,7 +1319,7 @@ def test_web_flow_neutral_text_csrf_and_forms(client):
                     follow_redirects=False)
     assert r.status_code == 303 and trial_repo.answers(sid)["q2_9"] == "5"
     dash = client.get(f"/trial/s/{sid}/dashboard").text
-    assert "อัตราการพบแบบเข้ม" in dash and "ด้าน B" in dash and "ไม่ใช่ความแม่นยำของระบบ" in dash and "N0 = " in dash
+    assert "อัตราการตรวจพบ (พบตรง ÷ N₀)" in dash and "อัตราการพบแบบเข้ม" not in dash and "ด้าน B" in dash and "ไม่ใช่ความแม่นยำของระบบ" in dash and "N₀" in dash
     plain = re.sub(r"<[^>]+>", " ", dash)
     for word in ("ประหยัดเวลา", "แม่นยำ 100", "ผิด", "100%", "recall", "Accuracy"):
         assert word not in plain
@@ -1471,7 +1472,7 @@ def test_web_forms_record_v03_location_and_a3(client):
                      follow_redirects=False)
     assert ok.status_code == 303 and trial.result(sid).decisions[m["id"]]["location"] == "wrong"
     page = client.get(f"/trial/s/{sid}/result").text
-    assert f'id="o-{must[0].id}"' in page and "A3-อ" in page and "H1 อัตราการพบหลัก" in page
+    assert f'id="o-{must[0].id}"' in page and "A3-อ" in page and "อัตราการตรวจพบ (พบตรง ÷ N₀)" in page and "H1" not in page
     fid = must[0].id
     dims = {f"dim_{d}": "ok" for d in trial.DIMS_BY_OBS_KIND[trial.obs_kind(must[0])]}
     r = client.post(f"/trial/s/{sid}/obs/{fid}", data={CSRF_FIELD: tok, "fidelity": "full", "basis": "enough", **dims},
@@ -1481,8 +1482,8 @@ def test_web_forms_record_v03_location_and_a3(client):
 
 
 def test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary(client):
-    """Bo #43 6540982695: รอบ 0.3 ใช้ H2 · ซ่อนการ์ด A2 เดิม · อัตราการพบเดิม = ผลเสริม ไม่แข่ง H1 ·
-    ข้อสังเกตที่จับคู่แล้วยังบอกเลขหน้า · รอบ 0.2 ยังแสดงการ์ดเดิม (ไม่ลบผลย้อนหลัง)"""
+    """Bo #43 6540982695 + 0.4 ร่าง ๒ (#36 6905586902): รอบ 0.3 ใช้สัดส่วนตำแหน่งถูก · ซ่อนการ์ด A2 เดิม ·
+    ไม่มีป้าย H1/H2 และผลเสริมที่ตัด (O-1 · O-2) · ข้อสังเกตที่จับคู่แล้วยังบอกเลขหน้า · รอบ 0.2 ยังแสดงการ์ดเดิม"""
     tok = _token(client)
     must, _unread = _same_year_targets()
     sid = start("t1", "W4", path="r2", again=True)
@@ -1490,24 +1491,27 @@ def test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary(cl
     trial.lock(sid, decl("r2"))
     plain = lambda html: re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
     pending = plain(client.get(f"/trial/s/{sid}/dashboard").text)                 # ตัดสินไม่ครบ
-    assert "H2 ตำแหน่งถูกทุกฝั่ง" in pending and "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" not in pending
-    assert "ผลเสริม · อัตราการพบแบบเข้ม (พบตรง ÷ N)" in pending and "ยังไม่ครบ" in pending
+    assert "สัดส่วนตำแหน่งถูก" in pending and "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" not in pending
+    for gone in ("H1", "H2", "ผลเสริม", "แบบเข้ม", "÷ N)", "รวมพบบางส่วน ÷", "แจ้งเกิน ส3 ÷"):          # 0.4 ทาง ข
+        assert gone not in pending
     assert "0.0%" not in pending
-    assert "ยังตัดสินไม่ครบ 1 ข้อ" in pending and "ผลเสริม · รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N" in pending
-    dash = client.get(f"/trial/s/{sid}/dashboard").text
-    strict = dash[:dash.index("ผลเสริม · อัตราการพบแบบเข้ม")]
-    assert strict.rsplit('class="tr-metric', 1)[1].startswith('"') and "tr-bar-fill" not in dash.split("ผลเสริม ·")[1][:600]
+    assert "ยังตัดสินไม่ครบ 1 ข้อ" in pending
+    wait_h2 = "สัดส่วนตำแหน่งถูก (ถูกทุกฝั่ง ÷ (P − ตัดสินไม่ได้)) รอจัดประเภทผลการพบให้ครบก่อนคำนวณ"   # Bo 6568104909
+    pending_res = plain(client.get(f"/trial/s/{sid}/result").text)
+    assert wait_h2 in pending and wait_h2 in pending_res
+    assert "ยังไม่ครบ 0 ข้อ" not in pending and "ยังไม่ครบ 0 ข้อ" not in pending_res
+    assert "tr-bar-fill" not in client.get(f"/trial/s/{sid}/dashboard").text      # แถบร้อยละเดิมเฉพาะรอบ 0.2
     r = client.post(f"/trial/s/{sid}/issue/{m['id']}", data={CSRF_FIELD: tok, "verdict": "exact", "finding_ids": must[0].id,
                                                             "basis": "enough", "location": "all_sides",
                                                             "relevant_side": ["A", "B"]}, follow_redirects=False)
     assert r.status_code == 303
     page = client.get(f"/trial/s/{sid}/result").text
     res = plain(client.get(f"/trial/s/{sid}/result").text)
-    assert "ผลเสริม · อัตราการพบแบบเข้ม (พบตรง ÷ N)" in res and "ผลเสริม · รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N" in res
+    assert "อัตราการตรวจพบ (พบตรง ÷ N₀)" in res and "ผลเสริม" not in res and "H1" not in res
     linked = re.search(rf'value="{must[0].id}" checked>([^<]*)', page).group(1)
     assert linked.strip().startswith(f"หน้า {must[0].b.page} ·")
     done = plain(client.get(f"/trial/s/{sid}/dashboard").text)
-    assert "H2 ตำแหน่งถูกทุกฝั่ง ในประเด็นที่พบและตัดสินตำแหน่งได้ 1/1" in done
+    assert "สัดส่วนตำแหน่งถูก (ถูกทุกฝั่ง ÷ (P − ตัดสินไม่ได้)) 1/1" in done
     assert "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" not in done
     old = start("t1", "W5", path="r2", again=True)                                 # รอบตามวิธีวัดผลเดิม
     trial.lock(old, decl("r2"))
@@ -1515,7 +1519,9 @@ def test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary(cl
         conn.execute("UPDATE trial_sessions SET protocol = ? WHERE id = ?", ("pdfpair-protocol-0.2.2", old))
     assert not trial.session(old).v03
     od = plain(client.get(f"/trial/s/{old}/dashboard").text)
-    assert "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" in od and "ผลเสริม ·" not in od and "H2 ตำแหน่ง" not in od
+    assert "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" in od and "ผลเสริม" not in od and "สัดส่วนตำแหน่งถูก" not in od
+    assert "อัตราการตรวจพบ (พบตรง ÷ N₀)" in od and "แบบเข้ม" not in od
+    assert "tr-bar-fill" in client.get(f"/trial/s/{old}/dashboard").text
 
 
 # ── #23 dynamic SQL: ชั้นที่เก็บของหน้าผู้ตรวจใช้ SQL คงที่ (Bo #42 6433564226 ข้อ 4) ─────────────────────
