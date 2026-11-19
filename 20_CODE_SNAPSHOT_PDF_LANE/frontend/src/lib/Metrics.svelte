@@ -1,14 +1,14 @@
 <script lang="ts">
-  // ตัวนับตามวิธีวัดผล 0.4 ร่าง ๒ (Bo ACCEPT #36 6905793269) — ฟิลด์จากเซิร์ฟเวอร์ trial_aggregate 0.4.0 (หลังบ้าน deca724)
-  //   ไม่มีสมมติฐาน/เกณฑ์ผ่าน · ชื่อตามเล่มข้อ 3.5.1–3.5.3 · ผลเสริม 5 ตัวที่ตัด (O-1..O-5) เหลือเป็นจำนวน
-  //   คงผลเสริม "ถูกทุกฝั่ง ÷ P" (เล่มข้อ 3.5.2) · รอบก่อน 0.3 ใช้ A1.detection แบบเดียวกับเทมเพลตเซิร์ฟเวอร์
+  // รอบ 0.3+ (มี v03): วิธีวัดผล 0.4 ร่าง ๒ (Bo ACCEPT #36 6905793269) · ไม่มีสมมติฐาน/เกณฑ์ผ่าน · ชื่อตามเล่มข้อ 3.5.1–3.5.3
+  //   ผลเสริม 5 ตัวที่ตัด (O-1..O-5) เหลือเป็นจำนวน · คงผลเสริม "ถูกทุกฝั่ง ÷ P" (เล่มข้อ 3.5.2)
+  // รอบ 0.2 (ไม่มี v03): แสดงตามรุ่นเดิมทุกตัว (แบบเข้ม/รวมบางส่วน ÷ N · A2 · สัดส่วนแจ้งเกิน) — forward-only (Bo REVISE #44 6968338871)
   import type { Meta, Metrics, Rate3 } from "./api";
   import Count from "./Count.svelte";
 
   let { m, meta, big = false }: { m: Metrics; meta: Meta; big?: boolean } = $props();
   const a1 = $derived(m.A1);
   const led = $derived(m.A3);
-  const fill = $derived(a1.N0 ? (100 * a1.exact) / a1.N0 : 0);
+  const fill = $derived(a1.N ? (100 * a1.exact) / a1.N : 0);
   const sup = $derived(!!m.v03);
   // ตัวตั้ง/ตัวหารเสมอ · ตัวหาร 0 = คำนวณไม่ได้ (ร้อยละเมื่อตัวหาร ≥ 10 เซิร์ฟเวอร์คำนวณ)
   const rt = (x: Rate3) => (x.den ? x.text : `${x.num}/0 · คำนวณไม่ได้`);
@@ -49,10 +49,14 @@
 <div class="metrics" class:big>
   {#if !sup}
   <div class="card metric m-red">
-    <span class="lbl">อัตราการตรวจพบ (พบตรง ÷ N₀)</span>
-    <b>{a1.detection.text}</b>
-    <small>N₀ {a1.N0} · พบตรง {a1.exact} · พบบางส่วน {a1.partial} · ไม่พบ {a1.missed} · ตัดสินไม่ได้ {a1.undecidable}{a1.pending ? ` · ยังไม่ครบ ${a1.pending}` : ""}</small>
+    <span class="lbl">อัตราการพบแบบเข้ม (พบตรง ÷ N)</span>
+    <b>{a1.strict?.text ?? "—"}</b>
+    <small>N0 = {a1.N0} ที่ล็อกในขอบเขต · N = {a1.N} (ไม่รวมตัดสินไม่ได้){a1.pending ? ` · ยังไม่ครบ ${a1.pending}` : ""}</small>
     <span class="track"><span class="fill" style:width="{fill}%"></span></span>
+  </div>
+  <div class="card metric">
+    <span class="lbl">รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N</span><b>{a1.with_partial?.text ?? "—"}</b>
+    <small>พบตรง {a1.exact} · บางส่วน {a1.partial} · พลาด {a1.missed} · ตัดสินไม่ได้ {a1.undecidable}</small>
   </div>
   {/if}
   <div class="card metric">
@@ -71,7 +75,8 @@
       </div>
     {/if}
     <div class="card metric">
-      <span class="lbl">แจ้งเกิน (ส3) แยกเหตุ</span><b>{led.s3} ข้อ</b>
+      {#if sup}<span class="lbl">แจ้งเกิน (ส3) แยกเหตุ</span><b>{led.s3} ข้อ</b>
+      {:else}<span class="lbl">สัดส่วนแจ้งเกิน ส3 ÷ (F − ส4)</span><b>{led.false_alarm?.text ?? "—"}</b>{/if}
       <small>{Object.entries(meta.s3_reasons).map(([k, l]) => `${l} ${led.s3_reasons[k] ?? 0}`).join(" · ")}</small>
     </div>
     <div class="card metric">

@@ -57,16 +57,16 @@ export interface Group { grp: string; s3_reason: string; basis: string; issue_re
   decided_at: string }
 export interface Rate { num: number; den: number; pct: number | null; text: string }
 export interface A1 { issues: number; exact: number; partial: number; missed: number; undecidable: number; pending: number;
-  N0: number; N: number }
+  N0: number; N: number; strict?: Rate; with_partial?: Rate }   // strict/with_partial = รอบ 0.2 เท่านั้น (Bo #44 6968338871)
 export interface Metrics {
-  A1: A1 & { detection: Rate; partial_reasons: Record<string, number>; missed_reasons: Record<string, number>;
+  A1: A1 & { detection?: Rate; partial_reasons: Record<string, number>; missed_reasons: Record<string, number>;
              matched_level: { must: number; info: number }; by_cause: Record<string, A1>; by_level: Record<string, A1>;
              by_topic: Record<string, A1>; out_of_scope: A1;
              post_result: Record<string, number>; scope_locked_only: A1 };
   A2: { all: number; some: number; none: number; found: number; rate: Rate };
   A3: { F: number; matched: number; s1: number; s2: number; s3: number; s4: number; s3_reasons: Record<string, number>;
         pending: number; closed: boolean; outside: number; outside_linked: number; must_total: number;
-        superseded_groups: number; real_difference: null; system_extra_confirmed: number };
+        superseded_groups: number; false_alarm?: Rate; real_difference: null; system_extra_confirmed: number };
   A4: { parts: Record<string, number>; topics_covered: string[]; unread_pages: Record<Side, number[]>;
         unread_findings: number; read_problems: Record<string, number>; missed_unread: number; info_findings: number; info_matched: number; must_outside: number };
   B1_basis: Record<string, number> & { total: number };
