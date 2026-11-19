@@ -1,18 +1,18 @@
 <script lang="ts">
-  // ผู้พัฒนา — โพลารอยด์ป๊อปอัป (รูปตั้งใน ../content: MAKER_PHOTO · ยังไม่มีรูปใช้อักษรย่อแทน ไม่มีคำขอรูปที่ไม่มีอยู่จริง)
+  // ผู้ศึกษา — โพลารอยด์ป๊อปอัป · คำกลาง ไม่ใช้ชื่อหรือรูปบุคคล (กิ๊ฟ 19 พ.ย.) · MAKER_PHOTO = null จึงแสดงตัวย่อ IS
   import { ABOUT, MAKER_PHOTO } from "../content";
 </script>
 
 <div class="jr-pg">
-  <h2>ผู้พัฒนา</h2>
+  <h2>ผู้ศึกษา</h2>
   <div class="scene">
     <span class="jr-ground"></span>
     <figure class="jr-pol jr-pop pol">
       <span class="jr-tape pink t"></span>
       {#if MAKER_PHOTO}
-        <img src={MAKER_PHOTO} alt={`รูปผู้พัฒนา ${ABOUT.maker}`} />
+        <img src={MAKER_PHOTO} alt="" />
       {:else}
-        <span class="initial" aria-hidden="true">น</span>
+        <span class="initial" aria-hidden="true">IS</span>
       {/if}
       <figcaption>{ABOUT.maker}</figcaption>
     </figure>
