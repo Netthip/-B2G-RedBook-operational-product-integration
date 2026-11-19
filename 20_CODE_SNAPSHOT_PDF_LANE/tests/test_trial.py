@@ -793,6 +793,75 @@ def test_worked_example_counts():
     assert led["matched"] == 2                                                # fA นับครั้งเดียว + fB
 
 
+
+def _as_v022(sid):
+    with connect() as conn:
+        conn.execute("UPDATE trial_sessions SET protocol = ? WHERE id = ?", ("pdfpair-protocol-0.2.2 (ร่าง)", sid))
+    assert not trial.session(sid).v03
+
+
+def test_worked_example_v02_round_keeps_old_denominator(client):
+    """Bo #44 6968338871: รอบ 0.2 ที่มีตัดสินไม่ได้ — ตัวหารเดิม N = N0 − ตัดสินไม่ได้ · รวมพบบางส่วนยังอยู่ ·
+    ตัวอย่างของโบ พบตรง 2 · บางส่วน 1 · พลาด 1 · ตัดสินไม่ได้ 1 → 2 จาก 4 และ 3 จาก 4 (ไม่ใช่ 2 จาก 5)"""
+    must, _unread = _same_year_targets()
+    fa, fb = must[0], must[1]
+    sid = start("t1", "W1L", path="r1", again=True)
+    _as_v022(sid)
+    trial.lock(sid, decl(t_ก_total="4", t_ก_root="2", t_ก_red="2"))
+    rows = trial.result(sid).issues
+    for i, m in enumerate(rows):
+        trial.update_row(sid, m["id"], part="๗", cause="t" if i % 2 == 0 else "l", level="red" if i < 2 else "brown",
+                         ref=str(i + 1), row_source="transcribed")
+    r1, r2, r3, r4, r5 = rows
+    plain = lambda html: re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
+    trial.decide_issue(sid, r1["id"], "exact", [fa.id], evidence="all", basis="enough")
+    a1 = trial.result(sid).metrics["A1"]                                          # ยังตัดสินไม่ครบ 4 ข้อ
+    assert a1["pending"] == 4 and a1["strict"]["text"] == a1["with_partial"]["text"] == "ยังตัดสินไม่ครบ"
+    assert "detection" not in a1 and trial.result(sid).metrics["A3"]["false_alarm"]["text"] == "ยังตัดสินไม่ครบ"
+    pend = plain(client.get(f"/trial/s/{sid}/dashboard").text)
+    assert "อัตราการพบแบบเข้ม (พบตรง ÷ N) ยังตัดสินไม่ครบ" in pend and "อัตราการตรวจพบ" not in pend
+    trial.decide_issue(sid, r2["id"], "exact", [fa.id], evidence="all", basis="enough")
+    trial.decide_issue(sid, r3["id"], "partial", [fb.id], reason="b3", evidence="all", basis="enough")
+    trial.decide_issue(sid, r4["id"], "missed", reason="p1", basis="cannot")
+    trial.decide_issue(sid, r5["id"], "undecidable", basis="cannot")
+    a1 = trial.result(sid).metrics["A1"]
+    assert (a1["N0"], a1["undecidable"], a1["N"], a1["exact"], a1["partial"], a1["missed"]) == (5, 1, 4, 2, 1, 1)
+    assert a1["strict"]["text"] == "2 จาก 4" and a1["with_partial"]["text"] == "3 จาก 4" and "detection" not in a1
+    assert "strict" in a1["by_level"]["red"] and "strict" not in a1["out_of_scope"]
+    dash = plain(client.get(f"/trial/s/{sid}/dashboard").text)
+    res = plain(client.get(f"/trial/s/{sid}/result").text)
+    for page in (dash, res):
+        assert "อัตราการพบแบบเข้ม (พบตรง ÷ N) 2 จาก 4" in page
+        assert "รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N 3 จาก 4" in page
+        assert "อัตราการตรวจพบ" not in page and "2 จาก 5" not in page
+    assert "ตัดสินไม่ได้ (ไม่นับในตัวหาร)" in dash and "แบบเข้ม รวมบางส่วน" in dash   # หัวตารางแยกกลุ่มเดิม
+    assert "สัดส่วนแจ้งเกิน ส3 ÷ (F − ส4)" in dash
+    api = client.get(f"/api/trial/s/{sid}/result").json()
+    assert api["metrics"]["A1"]["strict"]["text"] == "2 จาก 4"
+
+
+def test_v02_zero_denominator_stays_old_text(client):
+    """รอบ 0.2 ตัวหารศูนย์ = "คำนวณไม่ได้" ตามรุ่นเดิม · รอบ 0.3 ขึ้นไปบนหน้า server แสดง 0/0 · คำนวณไม่ได้"""
+    must, _unread = _same_year_targets()
+    sid = start("t1", "Z2", path="r1", again=True)
+    _as_v022(sid)
+    trial.lock(sid, decl(t_ก_total="4", t_ก_root="2", t_ก_red="2"))
+    for m in trial.result(sid).issues:
+        trial.update_row(sid, m["id"], part="๗", cause="t", level="red", ref="1", row_source="transcribed")
+        trial.decide_issue(sid, m["id"], "undecidable", basis="cannot")
+    a1 = trial.result(sid).metrics["A1"]
+    assert a1["N"] == 0 and a1["strict"]["text"] == a1["with_partial"]["text"] == "คำนวณไม่ได้"
+    sid3 = start("t1", "Z3", path="r1", again=True)
+    trial.lock(sid3, decl(t_ก_total="4", t_ก_root="2", t_ก_red="2"))
+    for m in trial.result(sid3).issues:
+        trial.update_row(sid3, m["id"], part="๗", cause="t", level="red", ref="1", row_source="transcribed")
+        trial.decide_issue(sid3, m["id"], "undecidable", basis="cannot")
+    plain = lambda html: re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
+    for path in ("dashboard", "result"):
+        page = plain(client.get(f"/trial/s/{sid3}/{path}").text)
+        assert "รอจัดประเภทผลการพบให้ครบก่อนคำนวณ" not in page or "0/0 · คำนวณไม่ได้" in page
+        assert "สัดส่วนตำแหน่งถูก (ถูกทุกฝั่ง ÷ (P − ตัดสินไม่ได้)) 0/0 · คำนวณไม่ได้" in page
+
 def test_list_integrity_without_own_copy():
     sid = start("t1", "I1", path="r1", again=True)
     trial.lock(sid, decl())
@@ -1520,7 +1589,7 @@ def test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary(cl
     assert not trial.session(old).v03
     od = plain(client.get(f"/trial/s/{old}/dashboard").text)
     assert "หลักฐานชี้ตำแหน่งถูกทุกฉบับ (A2)" in od and "ผลเสริม" not in od and "สัดส่วนตำแหน่งถูก" not in od
-    assert "อัตราการตรวจพบ (พบตรง ÷ N₀)" in od and "แบบเข้ม" not in od
+    assert "อัตราการพบแบบเข้ม (พบตรง ÷ N)" in od and "อัตราการตรวจพบ" not in od   # รอบเดิมคงสูตรเดิม (Bo #44 6968338871)
     assert "tr-bar-fill" in client.get(f"/trial/s/{old}/dashboard").text
 
 

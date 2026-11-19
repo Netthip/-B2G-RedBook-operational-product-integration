@@ -16,20 +16,22 @@
   <span class="hint">· กติกา {{ m.scope.rule }}</span></div>{% endif %}
 {% if st.flags %}<p class="tr-flags">{% for f in st.flags %}<span class="tr-chip">{{ tsvc.STATUS_TEXT.flags[f] }}</span> {% endfor %}</p>{% endif %}
 
+{% macro rt(r) %}{{ (r.num ~ '/' ~ r.den ~ ' · คำนวณไม่ได้') if r.den == 0 else r.text }}{% endmacro %}{# 0.4: ตัวหารศูนย์ยังแสดงตัวเศษ/ตัวหาร (Bo #44 6968338871) #}
 {% if m.v03 %}{% set v = m.v03 %}
 <div class="tr-metrics tr-metrics-big">
-  <div class="tr-metric tr-metric-red"><span>อัตราการตรวจพบ (พบตรง ÷ N₀)</span><b>{{ v.issues.detection.text if v.issues else 'ยังตัดสินไม่ครบ ' ~ v.pending.issues ~ ' ข้อ' }}</b>
+  <div class="tr-metric tr-metric-red"><span>อัตราการตรวจพบ (พบตรง ÷ N₀)</span><b>{{ rt(v.issues.detection) if v.issues else 'ยังตัดสินไม่ครบ ' ~ v.pending.issues ~ ' ข้อ' }}</b>
     {% if v.issues %}<small>N₀ {{ v.issues.N0 }} · พบตรง {{ v.issues.exact }} · พบบางส่วน {{ v.issues.partial }} · ไม่พบ {{ v.issues.miss }} · ตัดสินไม่ได้ {{ v.issues.undecidable }}</small>{% endif %}</div>
-  <div class="tr-metric"><span>สัดส่วนตำแหน่งถูก (ถูกทุกฝั่ง ÷ (P − ตัดสินไม่ได้))</span><b>{{ v.location.location_correct.text if v.location else ('รอจัดประเภทผลการพบให้ครบก่อนคำนวณ' if not v.issues else 'ยังไม่ครบ ' ~ v.pending.location ~ ' ข้อ') }}</b>
-    {% if v.location %}<small>P {{ v.location.P }} · ตัดสินไม่ได้ {{ v.location.undecidable }} · ถูกทุกฝั่ง ÷ P {{ v.location.all_over_P.text }}</small>{% endif %}</div>
+  <div class="tr-metric"><span>สัดส่วนตำแหน่งถูก (ถูกทุกฝั่ง ÷ (P − ตัดสินไม่ได้))</span><b>{{ rt(v.location.location_correct) if v.location else ('รอจัดประเภทผลการพบให้ครบก่อนคำนวณ' if not v.issues else 'ยังไม่ครบ ' ~ v.pending.location ~ ' ข้อ') }}</b>
+    {% if v.location %}<small>P {{ v.location.P }} · ตัดสินไม่ได้ {{ v.location.undecidable }} · ถูกทุกฝั่ง ÷ P {{ rt(v.location.all_over_P) }}</small>{% endif %}</div>
   <div class="tr-metric"><span>A3-อ ความตรงของสิ่งที่อ่านได้ · A3-ข ความถูกของข้อสรุป (จำนวน)</span><b>{{ ('ตรงครบ ' ~ v.obs.fidelity.full ~ ' · ถูกครบ ' ~ v.obs.assertion.full ~ ' จาก F ' ~ v.obs.F) if v.obs else 'ยังไม่ครบ ' ~ v.pending.obs ~ ' ข้อ' }}</b>
     {% if v.obs %}<small>ตัดสินไม่ได้ A3-อ {{ v.obs.fidelity.undecidable }} · A3-ข {{ v.obs.assertion.undecidable }} · อ่านตรงครบแต่ข้อสรุปไม่ถูก {{ v.obs.read_ok_assertion_wrong }} · แจ้งเกิน ส3 {{ v.obs.groups.s3 }} ข้อ</small>{% endif %}</div>
 </div>
 {% endif %}
 <div class="tr-metrics">
-  {% if not m.v03 %}<div class="tr-metric"><span>อัตราการตรวจพบ (พบตรง ÷ N₀)</span><b>{{ a1.detection.text }}</b>
-    <small>N₀ = {{ a1.N0 }} ประเด็นที่ล็อกในขอบเขต รวมตัดสินไม่ได้{% if a1.pending %} · ยังไม่ครบ {{ a1.pending }}{% endif %} ·
-      พบตรง {{ a1.exact }} · บางส่วน {{ a1.partial }} · พลาด {{ a1.missed }} · ตัดสินไม่ได้ {{ a1.undecidable }}</small></div>{% endif %}
+  {% if not m.v03 %}<div class="tr-metric"><span>{{ 'ผลเสริม · ' if m.v03 }}อัตราการพบแบบเข้ม (พบตรง ÷ N)</span><b>{{ a1.strict.text }}</b>
+    <small>N0 = {{ a1.N0 }} ประเด็นที่ล็อกในขอบเขต · N = {{ a1.N }} (ไม่รวมตัดสินไม่ได้){% if a1.pending %} · ยังไม่ครบ {{ a1.pending }}{% endif %}</small></div>
+  <div class="tr-metric"><span>{{ 'ผลเสริม · ' if m.v03 }}รวมพบบางส่วน · (พบตรง + บางส่วน) ÷ N</span><b>{{ a1.with_partial.text }}</b>
+    <small>พบตรง {{ a1.exact }} · บางส่วน {{ a1.partial }} · พลาด {{ a1.missed }} · ตัดสินไม่ได้ {{ a1.undecidable }}</small></div>{% endif %}
   <div class="tr-metric"><span>ข้อสังเกตต้องตรวจในส่วนที่ตรวจครบ (F){% if m.scope.pair_kind == 'cross_year' %} — {{ m.scope.label }}{% endif %}</span><b>{{ led.F }}</b>
     <small>จับคู่ {{ led.matched }} · ส1 {{ led.s1 }} · ส2 {{ led.s2 }} · ส3 {{ led.s3 }} · ส4 {{ led.s4 }}{% if led.pending %} · รอจัด {{ led.pending }}{% endif %}</small></div>
   <div class="tr-metric"><span>บัญชี F = จ + ส1 + ส2 + ส3 + ส4</span><b>{{ 'ปิดแล้ว' if led.closed else 'ยังไม่ปิด' }}</b>

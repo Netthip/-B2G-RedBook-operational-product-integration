@@ -3,7 +3,8 @@
 ข้อมูลสมมติทั้งหมด ไม่เปิดชุดประเมิน:
 1) ตัวหาร 0 / 1–9 / ≥ 10 ทั้งตัวรวมผล (trial_aggregate.rate) และค่าบนหน้าผู้ตรวจ (trial._rate)
 2) สถานะยังตัดสินไม่ครบ = ไม่แสดงสัดส่วน
-3) รอบเก่า 0.2 — ดู test_trial.py::test_v02_rounds_keep_0_2_rules_after_upgrade และ
+3) รอบเก่า 0.2 คงสูตรเดิม — ดู test_trial.py::test_worked_example_v02_round_keeps_old_denominator ·
+   ::test_v02_zero_denominator_stays_old_text · test_trial.py::test_v02_rounds_keep_0_2_rules_after_upgrade และ
    ::test_v03_dashboard_hides_old_a2_card_and_marks_old_rates_as_supplementary (รันพร้อมไฟล์นี้)
 4) รุ่นที่จะนำเข้าระบบ: ไฟล์หน้าจอที่ build แล้วไม่อ่านชื่อค่าที่ตัดไปแล้ว
 """
@@ -56,12 +57,13 @@ def test_pending_shows_no_rate(num, den):
 
 
 def test_shipped_build_reads_no_cut_fields():
-    """ไฟล์หน้าจอที่ build แล้ว (รุ่นที่จะนำเข้าระบบ) ไม่อ่านชื่อค่าที่ 0.4 ตัดไป"""
+    """ไฟล์หน้าจอที่ build แล้ว (รุ่นที่จะนำเข้าระบบ) ไม่อ่านชื่อค่าของ 0.3 ที่ 0.4 ตัดไป ·
+    strict / with_partial / false_alarm ยังอยู่ได้ เพราะรอบก่อน 0.3 คงสูตรเดิม (Bo #44 6968338871)"""
     assets = Path(trial.__file__).resolve().parents[1] / "static" / "app" / "assets"
     js = "".join(p.read_text(encoding="utf-8") for p in assets.glob("index-*.js"))
     assert js
     for gone in (".H1.", ".H2.", "H2_exact", "H2_partial", ".supplement", "incl_partial", "A3_fidelity",
-                 "A3_assertion", ".overflag", "false_alarm", ".strict.", ".with_partial", "meets_H3"):
+                 "A3_assertion", ".overflag", "meets_H3"):
         assert gone not in js, gone
     for kept in ("detection", "location_correct", "all_over_P"):
         assert kept in js, kept
