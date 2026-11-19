@@ -2,7 +2,7 @@ bb6b80b89debd96fd3b4eada55c0d963eca07ab994fd77d1700c43ee29eab56c *./.claude/laun
 e97f4747f97cc278acad1eba802096a3f988709ccca87d7f85e11637896f70ab *./.gitignore
 d831865cf0f9d19df2b70d82b4d7d58c493d919a41c342803e0472263e40cb08 *./CURRENT_PROJECT_STATUS.md
 0cccad3e887130b8b37475ca593668293cba22be59bc306f7fc1b6963219cdc8 *./README.md
-e0b89a62b62916521f5e0331af78bf1fe4eaf8a7f050950a8ff131f8b3fbc0ca *./README_SNAPSHOT.md
+cbf1daae7aea7078e7c4c6bacd9b8969287bcfee21cb226cacd055bfed37bc25 *./README_SNAPSHOT.md
 8dd274e06d5b7f2ea1663e60ff90a715811703eb879e214ab28f4b584fd9c409 *./docs/API_CONTRACT_R.md
 e65ea03fa70c2ffd55efed285ac08e3549db8edded94f44512920ba3a83cb9e9 *./docs/ARCHITECTURE.md
 2aee0153b64e0419e809e5bbb9ad200805ef573d9b7a4f3f2f922ff41c24739d *./docs/CROSS_REPO_DECISION_REGISTER_POINTER.md
@@ -47,14 +47,14 @@ eb706ad6d9389a3071d2db637272fa8a1e52b6fa0b739169d73b7caad26fbcfa *./frontend/src
 11bb290f9357af33dcefcadfcd35450713a1679b009ea4d343767ec86eb1f540 *./frontend/src/app.css
 3ff7b35c18dbe9ce1076f2c51b458f28c0c5bac66bbb3f2346f6ad1e87bd6807 *./frontend/src/journal/Journal.svelte
 9ab36f10894c978e5956db3252004367012c0c44074d0a842c9c934fccbbd4b5 *./frontend/src/journal/Th.svelte
-d0bf6f973a297a8f61f6b30bb8df0947fcafa76e6e369a002294966a534d5d61 *./frontend/src/journal/content.ts
+da50e090ae5994f2b600d9440df9677ef3f93abb423c1737063d4f1f101edd55 *./frontend/src/journal/content.ts
 8791e489448911500ba215940f97143cdfc4cd0cf1bd9920c1709aa692030ad3 *./frontend/src/journal/journal.css
 7ac0110a2f0d4527b435fb975e4181d2cc2d4b6f80806838252beaa2718a8770 *./frontend/src/journal/pages/Compare.svelte
 59970169e4693507f5738ae7d6445eca89b499f23101a11ffb03ff93e9cb1e14 *./frontend/src/journal/pages/Cover.svelte
 bc4fe483c519bf95eb1ba087b642dbc182dfb25f5f2ff2e240933bcff78a1d5a *./frontend/src/journal/pages/End.svelte
 38dee87c19804375ff43d1316b362fc0f4bf88e06df9d86851718984664ceeb9 *./frontend/src/journal/pages/Intro.svelte
 718bd7300fa688fc1964073c92175cbb1c4d107e9568f2e89a8f22e554c1bd1b *./frontend/src/journal/pages/Limits.svelte
-f8048da0b3039ad09669316d2dac48bab0874084acef66c2d3d04b6bedef6495 *./frontend/src/journal/pages/Maker.svelte
+31a64fb99ab86c79081311244b638bb9663e0587295f613701601f6e8dcfc405 *./frontend/src/journal/pages/Maker.svelte
 edcef31e63ee94ccee0eccfb64c2d13cb5391e99d661dfe0deacf5dd3560ea7d *./frontend/src/journal/pages/Source.svelte
 8f6dc4ae8e62ad69fbe648ee30ab17e5dd2bbf8f8eb20ff9cbe12873cae46b90 *./frontend/src/journal/pages/Steps.svelte
 a784aeef4315d24a79bdecf347053283d35d73c7892c95e19f25f59630138423 *./frontend/src/journal/pages/Why.svelte
