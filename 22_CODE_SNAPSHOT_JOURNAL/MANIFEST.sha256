@@ -20,7 +20,7 @@ fa6293b3d7dc3ff74b5e2fb582d2d4bb7bef2d4ae8874bbdbc0a902971fe36b2 *./docs/MSET_CO
 d48548b2a1d5301719eba4149b0a145ea2bca0f9261d6bcb4adbd6a5e2cb18c8 *./docs/PDFPAIR_CONTRACT_AND_CAPABILITY.md
 20edcf3e775417142a3f0e4eeb6868278c6fa07f79c822f6035fb53932437ae6 *./docs/PDFPAIR_PDF_TO_PDF.md
 46c88cd2da803ecf5da426a7dafb7d91b39955119739bfaeea6150a4e126560c *./docs/PDFPAIR_SAMPLE_COVERAGE.md
-c9ad7a4c4ad8256983a55d2d93d334d12e6e549c0abf89e51cad514a0ea7bd00 *./docs/PHASE0_DISCOVERY.md
+930d98ffacbccac356620fb1dc9a1dc6d42a8553c6d796fbc1da05cb491d8435 *./docs/PHASE0_DISCOVERY.md
 fffc949577d1bb0b924e4ce557c530131cdea43a4d75f5514489f337e4bead9d *./docs/PHASE1_FOUNDATION.md
 4b16115c26419d0aa4574b7a36b287cb1cd8d209518f51bf8ca86615c89d18b8 *./docs/PHASE2C_RESULTS.md
 708605efff780b5839e4f65ae1652fac2b974584e001d4fdceae738cee797c9f *./docs/PHASE2_PLAN.md
@@ -48,7 +48,7 @@ eb706ad6d9389a3071d2db637272fa8a1e52b6fa0b739169d73b7caad26fbcfa *./frontend/src
 11bb290f9357af33dcefcadfcd35450713a1679b009ea4d343767ec86eb1f540 *./frontend/src/app.css
 d92748edde9fd55b6747223f2fed623be1cd040b5a259ffddea8bd0cd1a4c614 *./frontend/src/journal/Journal.svelte
 9ab36f10894c978e5956db3252004367012c0c44074d0a842c9c934fccbbd4b5 *./frontend/src/journal/Th.svelte
-5a0bc2ebd68d0b60dd1c1ea65d7c52996114a03ca8ce29c6b9143f2c51e6d87a *./frontend/src/journal/content.ts
+19d22f9717bc8ab8d1825b4f636a0eb42233a841a3b93dfa2172516e923eb956 *./frontend/src/journal/content.ts
 8791e489448911500ba215940f97143cdfc4cd0cf1bd9920c1709aa692030ad3 *./frontend/src/journal/journal.css
 7ac0110a2f0d4527b435fb975e4181d2cc2d4b6f80806838252beaa2718a8770 *./frontend/src/journal/pages/Compare.svelte
 59970169e4693507f5738ae7d6445eca89b499f23101a11ffb03ff93e9cb1e14 *./frontend/src/journal/pages/Cover.svelte
@@ -70,7 +70,7 @@ cb2ae4343b6cb555fa87e17f72fc9b3e7a56af6305fe389989b82b4ec4dc9101 *./frontend/src
 9d058e0e7ab4f1c873741c919c73f4ebc8087d7080e679887ee0244f0e7cf378 *./frontend/src/lib/pair.ts
 c97f6bfddff947ca8d54f19bf4bb87930a10e3b3b8312e90f1c3f5953ce3a50e *./frontend/src/lib/router.svelte.ts
 7c327557794ad09e3be681b28840b793c8cc5b507365bfce162ca0d211dc258c *./frontend/src/main.ts
-f64575a8aee66aa0aa7a50a7bd69e31dbe9ad6060e0eae097f028550300013bf *./frontend/src/views/About.svelte
+466b02985ea12762a6f8bfef5066585e65dffe384fcf6411da9b3d8103aed26b *./frontend/src/views/About.svelte
 549d914c1a341afa2df35a7acf933dc7bf03ce8161cf0e515219fb613bcb6a91 *./frontend/src/views/Dashboard.svelte
 630e1d171d316b962bc68f4fc2c371aee773172d5cd19bc382215b6757e8c4a7 *./frontend/src/views/Dev.svelte
 002a54aeeef46787e3578854790b057e0f7221ed0edcabd2ae1affd0807c4174 *./frontend/src/views/Home.svelte
@@ -171,9 +171,9 @@ fb90eba7e9a2081891608a168bb8e2c6183083ffe6133bf769ba0cc731987494 *./redbook/serv
 b1d1d101048cfc7444fd6406477540fadb6b99759e319a3ce5679b23001fa6dc *./redbook/services/verify_view.py
 1179626a68f949b23f16b4e55612739d521cc4cc68c4dab70a68c098fccb4382 *./redbook/services/workflow.py
 02afd08d0f14a2cb338b8cdc987e3cae84f522f5073bdb266fc61f8225a894a4 *./redbook/static/app.css
-f01233dd0806bbc5dc6afa1c863aa38e2eb975e0e47354c22347309696e603b3 *./redbook/static/app/assets/index-BgIthrJV.js
+d8b4a8752d7e32de4e746a6235d5522b8728d6a37c93ce78d51d945fa87b2849 *./redbook/static/app/assets/index-B0iojNRL.js
 5b112fee72493e1e542775003983be4b4372212083322da9b49d9bbe06e2410b *./redbook/static/app/assets/index-EzI7PI9j.css
-b0a9af7b838f2a45b5223833f9b0fa1044241a20748fc13b9aff109986c8a3ef *./redbook/static/app/index.html
+2e4ac58a8ba1f1a9efb516cad3e3a5ea334b7c668f4023b28df70107b77181a8 *./redbook/static/app/index.html
 f3b4617691075a95a1941e61f36cd8953ed1f593fb4009a0fa8eb8dddd135c73 *./redbook/static/app/journal/maker.jpg
 a3a817273387c6054538ab563b54b40b69d7af691cdcfa412ae6d6fa93e49791 *./redbook/static/books.js
 cd10b41711f607f23773c463886461e0f964237d0388c18ce2a2643bd84a6995 *./redbook/static/favicon.svg
